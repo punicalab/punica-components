@@ -1,0 +1,183 @@
+:host {
+  outline: none;
+  border-radius: var(--spacing-8);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  box-sizing: border-box;
+  font-weight: 400;
+  user-select: none;
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+:host([size='small']) {
+  padding: var(--spacing-6) var(--spacing-12);
+  height: 32px;
+}
+
+:host([size='medium']) {
+  padding: var(--spacing-8) var(--spacing-16);
+  height: 40px;
+}
+
+:host([size='large']) {
+  padding: var(--spacing-12) var(--spacing-28);
+  height: 48px;
+}
+
+:host([color='primary']):host([variant='filled']) {
+  color: var(--white);
+  background-color: var(--primary-main);
+}
+
+:host([color='primary']):host([variant='filled']):host(:hover) {
+  color: var(--white);
+  background-color: var(--primary-dark);
+}
+
+:host([color='secondary']):host([variant='filled']) {
+  color: var(--white);
+  background-color: var(--secondary-main);
+}
+
+:host([color='secondary']):host([variant='filled']):host(:hover) {
+  color: var(--white);
+  background-color: var(--secondary-dark);
+}
+
+:host([color='error']):host([variant='filled']) {
+  color: var(--white);
+  background-color: var(--error-main);
+}
+
+:host([color='error']):host([variant='filled']):host(:hover) {
+  color: var(--white);
+  background-color: var(--error-dark);
+}
+
+:host([color='warning']):host([variant='filled']) {
+  color: var(--white);
+  background-color: var(--warning-main);
+}
+
+:host([color='warning']):host([variant='filled']):host(:hover) {
+  color: var(--white);
+  background-color: var(--warning-dark);
+}
+
+:host([color='info']):host([variant='filled']) {
+  color: var(--white);
+  background-color: var(--info-main);
+}
+
+:host([color='info']):host([variant='filled']):host(:hover) {
+  color: var(--white);
+  background-color: var(--info-dark);
+}
+
+:host([color='success']):host([variant='filled']) {
+  color: var(--white);
+  background-color: var(--success-main);
+}
+
+:host([color='success']):host([variant='filled']):host(:hover) {
+  color: var(--white);
+  background-color: var(--success-dark);
+}
+
+:host([color='ghost']):host([variant='filled']) {
+  background-color: transparent;
+  color: var(--secondary-main);
+}
+
+:host([color='ghost']):host([variant='filled']):host(:hover) {
+  text-decoration: underline;
+}
+
+:host([color='primary']):host([variant='outlined']) {
+  background-color: transparent;
+  color: var(--primary-main);
+  border: 1px solid var(--primary-main);
+}
+
+:host([color='primary']):host([variant='outlined']):host(:hover) {
+  background-color: var(--primary-light);
+  border: 1px solid var(--primary-main);
+  color: var(--white);
+}
+
+:host([color='secondary']):host([variant='outlined']) {
+  padding: var(--spacing-12);
+  background-color: transparent;
+  color: var(--secondary-main);
+  border: 1px solid var(--secondary-main);
+}
+
+:host([color='secondary']):host([variant='outlined']):host(:hover) {
+  background-color: var(--secondary-dark);
+}
+
+:host([color='error']):host([variant='outlined']) {
+  padding: var(--spacing-12);
+  background-color: transparent;
+  color: var(--error-main);
+  border: 1px solid var(--error-main);
+}
+
+:host([color='error']):host([variant='outlined']):host(:hover) {
+  background-color: var(--error-dark);
+}
+
+:host([color='warning']):host([variant='outlined']) {
+  padding: var(--spacing-12);
+  background-color: transparent;
+  color: var(--warning-main);
+  border: 1px solid var(--warning-main);
+}
+
+:host([color='warning']):host([variant='outlined']):host(:hover) {
+  background-color: var(--warning-dark);
+}
+
+:host([color='info']):host([variant='outlined']) {
+  padding: var(--spacing-12);
+  background-color: transparent;
+  color: var(--info-main);
+  border: 1px solid var(--info-main);
+}
+
+:host([color='info']):host([variant='outlined']):host(:hover) {
+  background-color: var(--info-dark);
+}
+
+:host([color='success']):host([variant='outlined']) {
+  padding: var(--spacing-12);
+  background-color: transparent;
+  color: var(--success-main);
+  border: 1px solid var(--success-main);
+}
+
+:host([color='success']):host([variant='outlined']):host(:hover) {
+  background-color: var(--success-dark);
+}
+
+:host([fullWidth]) {
+  width: 100%;
+}
+
+:host([disabled]) {
+  background: var(--disabled);
+  cursor: default;
+}
+
+:host([disabled]):host(:hover) {
+  background: var(--disabled);
+}
+
+:host([loading]) {
+  pointer-events: none !important;
+  cursor: default;
+}

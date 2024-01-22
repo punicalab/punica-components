@@ -1,0 +1,44 @@
+:host {
+  width: 100%;
+  margin-left: auto;
+  box-sizing: border-box;
+  margin-right: auto;
+  display: block;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+:host([disablegutters]) {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (min-width: 0) {
+  :host([maxwidth='xs']) {
+    max-width: 444px;
+  }
+}
+
+@media (min-width: 600px) {
+  :host([maxwidth='sm']) {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 900px) {
+  :host([maxwidth='md']) {
+    max-width: 900px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :host([maxwidth='lg']) {
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 1536px) {
+  :host([maxwidth='xl']) {
+    max-width: 1536px;
+  }
+}

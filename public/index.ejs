@@ -1,0 +1,104 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.png" />
+    <title>COMPONENTS</title>
+    <script
+      src="https://kit.fontawesome.com/4d6884ae01.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      window.API_BUCKET = '<%= htmlWebpackPlugin.options.API_BUCKET %>';
+      ('<%= htmlWebpackPlugin.options.API_BUCKET %>');
+    </script>
+    <script>
+      var hasOwn = {}.hasOwnProperty;
+
+      /**
+       *
+       * @returns
+       */
+      function generateClassNames() {
+        var classes = [];
+
+        for (var i = 0; i < arguments.length; i++) {
+          var arg = arguments[i];
+          if (!arg) continue;
+
+          var argType = typeof arg;
+
+          if (argType === 'string' || argType === 'number') {
+            classes.push(arg);
+          } else if (Array.isArray(arg)) {
+            if (arg.length) {
+              var inner = classNames.apply(null, arg);
+              if (inner) {
+                classes.push(inner);
+              }
+            }
+          } else if (argType === 'object') {
+            if (
+              arg.toString !== Object.prototype.toString &&
+              !arg.toString.toString().includes('[native code]')
+            ) {
+              classes.push(arg.toString());
+              continue;
+            }
+
+            for (var key in arg) {
+              if (hasOwn.call(arg, key) && arg[key]) {
+                classes.push(key);
+              }
+            }
+          }
+        }
+
+        return classes.join(' ');
+      }
+    </script>
+
+    <script src="assets/popover/popover.js"></script>
+    <script src="assets/menu/menu.js"></script>
+    <script src="assets/menu/menuItem.js"></script>
+    <script src="assets/multiSelectList/multiSelectList.js"></script>
+    <script src="assets/multiSelectList/multiSelectListItem.js"></script>
+    <script src="assets/singleSelectList/singleSelectList.js"></script>
+    <script src="assets/singleSelectList/singleSelectListItem.js"></script>
+    <script src="assets/pagination/pagination.js"></script>
+    <script src="assets/select/select.js"></script>
+    <script src="assets/select/selectItem.js"></script>
+    <script src="assets/grid/gridCol.js"></script>
+    <script src="assets/grid/gridRow.js"></script>
+    <script src="assets/drawer/drawer.js"></script>
+    <script src="assets/dialog/variant/yesOrNo.js"></script>
+    <script src="assets/dialog/variant/delete.js"></script>
+    <script src="assets/dialog/variant/ok.js"></script>
+    <script src="assets/dialog/dialog.js"></script>
+    <script src="assets/modal/modal.js"></script>
+    <script src="assets/switch/switch.js"></script>
+    <script src="assets/hidden/hidden.js"></script>
+    <script src="assets/card/card.js"></script>
+    <script src="assets/container/container.js"></script>
+    <script src="assets/box/box.js"></script>
+    <script src="assets/textarea/textarea.js"></script>
+    <script src="assets/input/input.js"></script>
+    <script src="assets/icon/icon.js"></script>
+    <script src="assets/iconButton/iconButton.js"></script>
+    <script src="assets/divider/divider.js"></script>
+    <script src="assets/chip/chip.js"></script>
+    <script src="assets/badge/badge.js"></script>
+    <script src="assets/avatar/avatar.js"></script>
+    <script src="assets/alert/alert.js"></script>
+    <script src="assets/button/button.js"></script>
+    <script src="assets/paper/paper.js"></script>
+    <script src="assets/skeleton/skeleton.js"></script>
+    <script src="assets/typography/typography.js"></script>
+    <script src="assets/checkbox/checkbox.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

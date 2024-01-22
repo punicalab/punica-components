@@ -1,0 +1,17 @@
+.menu-item {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid transparent;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-item:hover {
+  background-color: #5560a936;
+}
+
+.menu-item.active {
+  border-right-color: var(--text-primary);
+  background-color: #5560a936;
+}

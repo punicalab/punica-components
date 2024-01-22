@@ -1,0 +1,11 @@
+:host {
+  padding: var(--spacing-16);
+  box-sizing: border-box;
+  user-select: none;
+  display: block;
+  background-color: var(--background-paper);
+}
+
+:host([rounded]) {
+  border-radius: var(--spacing-8);
+}

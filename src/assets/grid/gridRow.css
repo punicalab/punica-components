@@ -1,0 +1,20 @@
+:host {
+  box-sizing: border-box;
+  display: flex;
+  gap: calc(var(--gap) * 1px);
+  min-width: 0px;
+  align-items: var(--align-items);
+  align-content: var(--align-content);
+  justify-items: var(--justify-items);
+  justify-content: var(--justify-content);
+  flex-wrap: var(--wrap);
+  flex-direction: var(--direction);
+}
+
+:host([spacing]) {
+  margin: calc(var(--spacing) / -2) calc(var(--spacing) / -2);
+}
+
+:host([fullHeight]) {
+  height: 100%;
+}

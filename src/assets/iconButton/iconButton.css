@@ -1,0 +1,95 @@
+:host {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  text-align: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  overflow: visible;
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 12px;
+}
+
+:host([size='small']) {
+  width: 30px;
+  height: 30px;
+  font-size: medium;
+}
+
+:host([size='medium']) {
+  width: 48px;
+  height: 48px;
+  font-size: large;
+}
+
+:host([size='large']) {
+  width: 52px;
+  height: 52px;
+  font-size: xx-large;
+}
+
+:host(:hover) {
+  background-color: rgb(from var(--text-primary) r g b / 6%);
+}
+
+:host([color='primary']) {
+  color: var(--primary-main);
+}
+
+:host([color='primary']):host(:hover) {
+  background-color: rgb(from var(--primary-main) r g b / 6%);
+}
+
+:host([color='secondary']) {
+  color: var(--secondary-main);
+}
+
+:host([color='secondary']):host(:hover) {
+  background-color: rgb(from var(--secondary-main) r g b / 6%);
+}
+
+:host([color='error']) {
+  color: var(--error-main);
+}
+
+:host([color='error']):host(:hover) {
+  background-color: rgb(from var(--error-main) r g b / 6%);
+}
+
+:host([color='warning']) {
+  color: var(--warning-main);
+}
+
+:host([color='warning']):host(:hover) {
+  background-color: rgb(from var(--warning-main) r g b / 6%);
+}
+
+:host([color='info']) {
+  color: var(--info-main);
+}
+
+:host([color='info']):host(:hover) {
+  background-color: rgb(from var(--info-main) r g b / 6%);
+}
+
+:host([color='success']) {
+  color: var(--success-main);
+}
+
+:host([color='success']):host(:hover) {
+  background-color: rgb(from var(--success-main) r g b / 6%);
+}

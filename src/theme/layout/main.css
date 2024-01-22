@@ -1,0 +1,38 @@
+.main-layout {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 'extension content';
+}
+
+.main-layout > .navigation {
+  background-color: var(--background-paper);
+  height: 100vh;
+  padding: 0;
+  grid-area: extension;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100px 1fr auto;
+  grid-template-areas: 'logo' 'menu' 'setting';
+}
+
+.main-layout > .navigation > .logo {
+  grid-area: logo;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.main-layout > .navigation > .menu {
+  grid-area: menu;
+  overflow-x: hidden;
+}
+
+.main-layout > .navigation > .setting {
+  grid-area: setting;
+}
+
+.main-layout > .content {
+  grid-area: content;
+}

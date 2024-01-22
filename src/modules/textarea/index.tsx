@@ -1,0 +1,37 @@
+import { Module as Layout } from '@/layouts/module';
+import { useTranslation } from 'react-i18next';
+
+const Module = () => {
+  const { t } = useTranslation();
+
+  return (
+    <Layout.Main>
+      <Layout.Header title={t('component.textarea')} />
+      <Layout.Content>
+        <punica-row gap={16}>
+          <punica-col xs={12}>
+            <punica-row gap={16}>
+              <punica-col>
+                <punica-textarea placeholder="Lorem Ipsum..."></punica-textarea>
+              </punica-col>
+              <punica-col>
+                <punica-textarea
+                  placeholder="Lorem Ipsum..."
+                  error
+                ></punica-textarea>
+              </punica-col>
+              <punica-col xs={12}>
+                <punica-textarea
+                  placeholder="Lorem Ipsum..."
+                  fullWidth
+                ></punica-textarea>
+              </punica-col>
+            </punica-row>
+          </punica-col>
+        </punica-row>
+      </Layout.Content>
+    </Layout.Main>
+  );
+};
+
+export default Module;

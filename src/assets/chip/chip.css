@@ -1,0 +1,93 @@
+:host {
+  position: relative;
+  user-select: none;
+  appearance: none;
+  max-width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  cursor: unset;
+  vertical-align: middle;
+  box-sizing: border-box;
+  gap: var(--spacing-4);
+}
+
+:host([size='medium']) {
+  padding-left: 12px;
+  padding-right: 12px;
+  height: 32px;
+  border-radius: 16px;
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+:host([size='small']) {
+  padding-right: 8px;
+  padding-left: 8px;
+  height: 24px;
+  border-radius: 16px;
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+:host([variant='outlined']):host([color='default']) {
+  color: rgb(140, 140, 140);
+  border: 1px solid rgba(125, 125, 125, 0.29);
+}
+
+:host([variant='outlined']):host([color='primary']) {
+  border: 1px solid rgba(125, 125, 125, 0.29);
+  color: var(--primary-main);
+}
+:host([variant='outlined']):host([color='error']) {
+  border: 1px solid rgba(125, 125, 125, 0.29);
+  color: var(--error-main);
+}
+
+:host([variant='outlined']):host([color='info']) {
+  border: 1px solid rgba(125, 125, 125, 0.29);
+  color: var(--info-main);
+}
+
+:host([variant='outlined']):host([color='success']) {
+  border: 1px solid rgba(125, 125, 125, 0.29);
+  color: var(--success-main);
+}
+
+:host([variant='outlined']):host([color='warning']) {
+  border: 1px solid rgba(125, 125, 125, 0.29);
+  color: var(--warning-main);
+}
+
+:host([variant='filled']):host([color='default']) {
+  color: rgb(140, 140, 140);
+  background-color: rgba(125, 125, 125, 0.29);
+}
+
+:host([variant='filled']):host([color='primary']) {
+  color: var(--white);
+  background-color: var(--primary-main);
+}
+
+:host([variant='filled']):host([color='error']) {
+  color: var(--white);
+  background-color: var(--error-main);
+}
+
+:host([variant='filled']):host([color='info']) {
+  color: var(--white);
+  background-color: var(--info-main);
+}
+
+:host([variant='filled']):host([color='success']) {
+  color: var(--white);
+  background-color: var(--success-main);
+}
+
+:host([variant='filled']):host([color='warning']) {
+  color: var(--white);
+  background-color: var(--warning-main);
+}

@@ -1,0 +1,31 @@
+:host {
+  background: rgba(125, 125, 125, 0.15);
+  display: block;
+  -webkit-animation: wave 2s ease-in-out 0.5s infinite;
+  animation: wave 2s ease-in-out 0.5s infinite;
+}
+
+:host([variant='text']) {
+  height: 24px;
+  border-radius: 16px;
+}
+
+:host([variant='circular']) {
+  border-radius: 50%;
+}
+
+:host([variant='rectangular']) {
+  height: 24px;
+}
+
+@keyframes wave {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}

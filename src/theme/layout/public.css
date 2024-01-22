@@ -1,0 +1,18 @@
+.public-layout {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 60px 1fr;
+  grid-template-areas: 'header' 'content';
+}
+
+.public-layout > .header {
+  grid-area: header;
+  box-sizing: border-box;
+  padding: var(--spacing-12);
+  background-color: var(--background-paper);
+}
+
+.public-layout > .content {
+  grid-area: content;
+}

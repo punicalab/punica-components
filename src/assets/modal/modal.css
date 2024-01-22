@@ -1,0 +1,51 @@
+dialog {
+  border: none;
+  outline: none;
+  opacity: 0;
+  max-width: 600px;
+  border-radius: var(--spacing-8);
+  overflow: hidden;
+}
+
+dialog[open] {
+  animation: fade-in 0.5s cubic-bezier(0.25, 0, 0.3, 1) forwards;
+  animation-timing-function: cubic-bezier(0.5, -0.5, 0.1, 1.5);
+}
+
+dialog[open]::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-layout-main {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    'header'
+    'content'
+    'footer';
+}
+
+.modal-layout-header {
+  grid-area: header;
+}
+
+.modal-layout-content {
+  grid-area: content;
+  padding: var(--spacing-16) 0;
+}
+
+.modal-layout-footer {
+  grid-area: footer;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--spacing-8);
+  justify-content: flex-end;
+}
+
+/* Animation keyframes */
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}

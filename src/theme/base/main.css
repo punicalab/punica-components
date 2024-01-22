@@ -1,0 +1,9 @@
+html {
+  font-size: 100%;
+  background-color: var(--background-main);
+}
+
+body {
+  font-family: var(--fontFamily);
+  color: var(--text-primary);
+}

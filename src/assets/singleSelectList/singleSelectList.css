@@ -1,0 +1,6 @@
+:host {
+  padding: var(--spacing-8) 0;
+  box-sizing: border-box;
+  background-color: var(--background-paper);
+  display: block;
+}

@@ -1,0 +1,58 @@
+.badge {
+  display: inline-flex;
+  position: relative;
+  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.badge .content {
+  user-select: none;
+  display: flex;
+  flex-flow: wrap;
+  -webkit-box-pack: center;
+  place-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 1;
+  color: var(--white);
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.badge-is-color-primary {
+  background-color: var(--primary-main);
+}
+.badge-is-color-error {
+  background-color: var(--error-main);
+}
+.badge-is-color-info {
+  background-color: var(--info-main);
+}
+.badge-is-color-warning {
+  background-color: var(--warning-main);
+}
+.badge-is-color-success {
+  background-color: var(--success-main);
+}
+
+.badge-is-size-small {
+  width: 6px;
+  height: 6px;
+  transform-origin: 100% 0%;
+  transform: scale(1) translate(50%, 0);
+  border-radius: 6px;
+}
+
+.badge-is-size-large {
+  transform-origin: 100% 0%;
+  transform: scale(1) translate(50%, -50%);
+  height: 20px;
+  min-width: 20px;
+  line-height: 1;
+  padding: 0px 6px;
+  font-weight: 500;
+  font-size: 0.75rem;
+  border-radius: 10px;
+}
