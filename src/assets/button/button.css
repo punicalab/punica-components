@@ -177,7 +177,7 @@
   background: var(--disabled);
 }
 
-:host([loading]) {
+:host([loading='true']) {
   pointer-events: none !important;
   cursor: default;
 }

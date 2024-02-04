@@ -33,8 +33,15 @@
     /**
      *
      */
+    get rounded() {
+      return this.getAttribute('rounded');
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
-      return ['variant', 'width', 'height'];
+      return ['variant', 'width', 'height', 'rounded'];
     }
 
     /**

@@ -32,6 +32,27 @@
     /**
      *
      */
+    set open(val) {
+      this.setAttribute('open', val);
+    }
+
+    /**
+     *
+     */
+    get width() {
+      return this.getAttribute('width');
+    }
+
+    /**
+     *
+     */
+    get height() {
+      return this.getAttribute('height');
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
       return ['open'];
     }
@@ -43,7 +64,6 @@
       super();
 
       this.#shadow.appendChild(template.content.cloneNode(true));
-
       this.#dialog = this.#shadow.querySelector('dialog');
     }
 
@@ -57,6 +77,9 @@
       switch (name) {
         case 'open':
           if (newValue == 'true') {
+            this.#dialog.style.width = this.width;
+            this.#dialog.style.height = this.height;
+
             this.#dialog.showModal();
           } else {
             this.#dialog.close();

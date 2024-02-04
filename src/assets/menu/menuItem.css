@@ -4,6 +4,8 @@
   user-select: none;
   display: block;
   cursor: pointer;
+  pointer-events: all;
+  text-align: left;
 }
 
 :host(:hover) {

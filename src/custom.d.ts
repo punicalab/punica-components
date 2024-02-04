@@ -27,16 +27,26 @@ declare global {
 declare global {
   namespace JSX {
     interface IntrinsicElements {
+      'punica-accordion': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        expanded: boolean;
+      };
+      'punica-accordion-summary': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      >;
+      'punica-accordion-details': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      >;
       'punica-select': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
         value: string | number | Date;
       };
-      'wc-monaco-editor': React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      >;
       'punica-select-item': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
@@ -145,6 +155,29 @@ declare global {
         startAdornment?: HTMLElement;
         endAdornment?: HTMLElement;
         value?: string;
+        type?:
+          | 'button'
+          | 'checkbox'
+          | 'color'
+          | 'date'
+          | 'datetime-local'
+          | 'email'
+          | 'file'
+          | 'hidden'
+          | 'image'
+          | 'month'
+          | 'number'
+          | 'password'
+          | 'radio'
+          | 'range'
+          | 'reset'
+          | 'search'
+          | 'submit'
+          | 'tel'
+          | 'text'
+          | 'time'
+          | 'url'
+          | 'week';
       };
       'punica-textarea': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -220,7 +253,7 @@ declare global {
       'punica-modal': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
-      > & { open: boolean };
+      > & { open: boolean; width: number; height: number };
       'punica-dialog': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
@@ -244,6 +277,7 @@ declare global {
         variant: 'text' | 'circular' | 'rectangular';
         width: string;
         height: string;
+        rounded?: boolean;
       };
       'punica-checkbox': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -258,11 +292,38 @@ declare global {
         HTMLElement
       > & {
         open: boolean;
+        left: number;
+        top: number;
+        bottom: number;
+        width: number;
+        height: number;
+        placement: 'top' | 'left' | 'right' | 'bottom';
       };
       'punica-menu-item': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       >;
+      'punica-tab': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        fullWidth?: boolean;
+        disabled?: boolean;
+        value?: string;
+      };
+      'punica-tab-item': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        value: string | number;
+      };
+      'punica-tab-panel': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        value: string | number;
+        selectedValue: string | number;
+      };
       'punica-single-select-list': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
@@ -291,6 +352,18 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
+        gutterBottom?: boolean;
+        textAlign?: 'left' | 'right' | 'center' | 'justify';
+        fontWeight?:
+          | 'thin'
+          | 'regular'
+          | 'medium'
+          | 'semi-bold'
+          | 'bold'
+          | 'extra-bold';
+        color?:
+          | ('primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success')
+          | string;
         variant?:
           | 'headline1'
           | 'headline2'
@@ -310,6 +383,7 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
+        flexGrow?: number;
         xs?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
         sm?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
         md?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
@@ -320,6 +394,7 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
+        fullHeight?: boolean;
         wrap?: 'nowrap' | 'wrap-reverse' | 'wrap';
         direction?: 'column-reverse' | 'column' | 'row-reverse' | 'row';
         spacing?: 2 | 4 | 8 | 12 | 16 | 20 | 24 | 32 | 36 | 48 | 96;

@@ -3,15 +3,23 @@
 
   template.innerHTML = `
     <div class="backdrop"></div>
-    <punica-paper>
-      <slot></slot>
-    </punica-paper>
+    <div class="drawer-layout-main">
+      <div class="drawer-layout-header">
+        <slot name="header"></slot>
+      </div>
+      <div class="drawer-layout-content">
+        <slot name="content"></slot>
+      </div>
+      <div class="drawer-layout-footer">
+        <slot name="footer"></slot>
+      </div>
+    </div>
     <style>@import "http://localhost:5008/assets/drawer/drawer.css";</style>
   `;
 
   class Drawer extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
-    #paper = null;
+    #content = null;
 
     /**
      *
@@ -48,7 +56,7 @@
       super();
 
       this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#paper = this.#shadow.querySelector('punica-paper');
+      this.#content = this.#shadow.querySelector('.drawer-layout-main');
     }
 
     /**
@@ -63,42 +71,42 @@
           switch (this.direction) {
             case 'left':
               if (newValue == 'true') {
-                this.#paper.style.visibility = 'visible';
-                this.#paper.style.pointerEvents = 'all';
-                this.#paper.style.transform = 'translateX(0)';
+                this.#content.style.visibility = 'visible';
+                this.#content.style.pointerEvents = 'all';
+                this.#content.style.transform = 'translateX(0)';
               } else {
-                this.#paper.style.pointerEvents = 'none';
-                this.#paper.style.transform = 'translateX(-369px)';
+                this.#content.style.pointerEvents = 'none';
+                this.#content.style.transform = 'translateX(-369px)';
               }
               break;
             case 'right':
               if (newValue == 'true') {
-                this.#paper.style.visibility = 'visible';
-                this.#paper.style.pointerEvents = 'all';
-                this.#paper.style.transform = 'translateX(0)';
+                this.#content.style.visibility = 'visible';
+                this.#content.style.pointerEvents = 'all';
+                this.#content.style.transform = 'translateX(0)';
               } else {
-                this.#paper.style.pointerEvents = 'none';
-                this.#paper.style.transform = 'translateX(369px)';
+                this.#content.style.pointerEvents = 'none';
+                this.#content.style.transform = 'translateX(369px)';
               }
               break;
             case 'top':
               if (newValue == 'true') {
-                this.#paper.style.visibility = 'visible';
-                this.#paper.style.pointerEvents = 'all';
-                this.#paper.style.transform = 'translateY(0)';
+                this.#content.style.visibility = 'visible';
+                this.#content.style.pointerEvents = 'all';
+                this.#content.style.transform = 'translateY(0)';
               } else {
-                this.#paper.style.pointerEvents = 'none';
-                this.#paper.style.transform = 'translateY(-369px)';
+                this.#content.style.pointerEvents = 'none';
+                this.#content.style.transform = 'translateY(-369px)';
               }
               break;
             case 'bottom':
               if (newValue == 'true') {
-                this.#paper.style.visibility = 'visible';
-                this.#paper.style.pointerEvents = 'all';
-                this.#paper.style.transform = 'translateY(0)';
+                this.#content.style.visibility = 'visible';
+                this.#content.style.pointerEvents = 'all';
+                this.#content.style.transform = 'translateY(0)';
               } else {
-                this.#paper.style.pointerEvents = 'none';
-                this.#paper.style.transform = 'translateY(369px)';
+                this.#content.style.pointerEvents = 'none';
+                this.#content.style.transform = 'translateY(369px)';
               }
               break;
           }

@@ -27,7 +27,7 @@ const Module = () => {
         <punica-row gap={16}>
           <punica-col xs={12}>
             <punica-button onClick={handleClick}>Show Modal</punica-button>
-            <punica-modal open={open}>
+            <punica-modal open={open} width={600} height={500}>
               <punica-typography slot="header" variant="headline6">
                 Header
               </punica-typography>
@@ -43,7 +43,12 @@ const Module = () => {
                 publishing software like Aldus PageMaker including versions of
                 Lorem Ipsum.
               </punica-typography>
-              <punica-button slot="footer" onClick={handleClose}>
+              <punica-button
+                style={{ width: '100px' }}
+                slot="footer"
+                variant="outlined"
+                onClick={handleClose}
+              >
                 Action 1
               </punica-button>
               <punica-button slot="footer" onClick={handleClose}>

@@ -92,13 +92,13 @@
     static get observedAttributes() {
       return [
         'placeholder',
+        'error',
         'fullWidth',
         'disabled',
-        'error',
         'adornment',
-        'value',
         'clearButton',
-        'loading'
+        'loading',
+        'value'
       ];
     }
 
@@ -127,10 +127,12 @@
      *
      */
     hide() {
+      this.removeAttribute('focus');
       this.#backdrop.style.display = 'none';
       this.#popover.removeAttribute('open');
       this.#backdrop.removeEventListener('click', this.backdropClick);
       this.addEventListener('click', this.click);
+      document.removeEventListener('keydown', this.hosContainerKeyDown);
     }
 
     /**
@@ -156,6 +158,17 @@
      */
     click = () => {
       this.show();
+
+      document.addEventListener('keydown', this.hosContainerKeyDown);
+    };
+
+    /**
+     *
+     */
+    hosContainerKeyDown = (event) => {
+      if (event.key == 'Escape') {
+        this.hide();
+      }
     };
 
     /**
@@ -210,7 +223,7 @@
      *
      * @param {*} item
      */
-    itemAdded(item) {
+    itemAdd(item) {
       item.addEventListener('click', this.onClickItemHandler);
     }
 
@@ -218,7 +231,7 @@
      *
      * @param {*} item
      */
-    itemRemoved(item) {
+    itemRemove(item) {
       item.removeEventListener('click', this.onClickItemHandler);
     }
 

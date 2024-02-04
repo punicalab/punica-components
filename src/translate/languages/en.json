@@ -1,4 +1,5 @@
 {
+  "component.accordion": "Accordion",
   "component.alert": "Alert",
   "component.avatar": "Avatar",
   "component.badge": "Badge",
@@ -26,6 +27,7 @@
   "component.singleSelectList": "SingleSelectList",
   "component.skeleton": "Skeleton",
   "component.switch": "Switch",
+  "component.tab": "Tab",
   "component.textarea": "Textarea",
   "component.typography": "Typography"
 }

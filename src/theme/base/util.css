@@ -110,50 +110,6 @@
   gap: 160px;
 }
 
-.font-weight-regular {
-  font-weight: var(--weight-regular);
-}
-
-.font-weight-medium {
-  font-weight: var(--weight-medium);
-}
-
-.font-weight-semiBold {
-  font-weight: var(--weight-semi-bold);
-}
-
-.font-weight-bold {
-  font-weight: var(--weight-bold);
-}
-
-.font-weight-extraBold {
-  font-weight: var(--weight-extra-bold);
-}
-
-.text-align-left {
-  text-align: left;
-}
-
-.text-align-right {
-  text-align: right;
-}
-
-.text-align-center {
-  text-align: center;
-}
-
-.text-align-justify {
-  text-align: justify;
-}
-
-.text-align-initial {
-  text-align: initial;
-}
-
-.text-align-inherit {
-  text-align: inherit;
-}
-
 .br-0 {
   border-radius: 0px;
 }

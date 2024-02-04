@@ -6,16 +6,15 @@
 }
 
 :host([variant='text']) {
-  height: 24px;
-  border-radius: 16px;
+  border-radius: var(--spacing-16);
 }
 
 :host([variant='circular']) {
   border-radius: 50%;
 }
 
-:host([variant='rectangular']) {
-  height: 24px;
+:host([rounded]) {
+  border-radius: var(--spacing-8);
 }
 
 @keyframes wave {

@@ -15,6 +15,15 @@
     headline6: '6'
   };
 
+  const defaultColorMapping = {
+    primary: 'var(--primary-main)',
+    secondary: 'var(--secondary-main)',
+    error: 'var(--error-main)',
+    warning: 'var(--warning-main)',
+    info: 'var(--info-main)',
+    success: 'var(--success-main)'
+  };
+
   class Typography extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
 
@@ -28,15 +37,36 @@
     /**
      *
      */
-    get variant() {
-      return this.getAttribute('variant') || 'body1';
+    set variant(val) {
+      this.setAttribute('variant', val);
+    }
+
+    /**
+     *
+     */
+    get fontWeight() {
+      return this.getAttribute('fontWeight');
+    }
+
+    /**
+     *
+     */
+    get textAlign() {
+      return this.getAttribute('textAlign');
+    }
+
+    /**
+     *
+     */
+    get color() {
+      return this.getAttribute('color');
     }
 
     /**
      *
      */
     static get observedAttributes() {
-      return ['variant'];
+      return ['variant', 'fontWeight', 'textAlign', 'color'];
     }
 
     /**
@@ -54,12 +84,36 @@
     connectedCallback() {
       const areaLevel = defaultVariantLevelMapping[this.variant];
 
+      if (this.variant == null) {
+        this.variant = 'body1';
+      }
+
       if (areaLevel) {
         this.setAttribute('role', 'heading');
         this.setAttribute(
           'aria-level',
           defaultVariantLevelMapping[this.variant]
         );
+      }
+    }
+
+    /**
+     *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case 'color':
+          if (newValue) {
+            const isDefinedColor = defaultColorMapping[newValue];
+
+            if (!isDefinedColor) {
+              this.style.color = newValue;
+            }
+          }
+          break;
       }
     }
   }

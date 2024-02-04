@@ -3,10 +3,10 @@
 
   template.innerHTML = `
     <slot></slot>
-    <style>@import "http://localhost:5008/assets/menu/menuItem.css";</style>
+    <style>@import "http://localhost:5008/assets/accordion/accordionDetails.css";</style>
   `;
 
-  class MenuItem extends HTMLElement {
+  class AccordionDetails extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -19,5 +19,5 @@
     }
   }
 
-  customElements.define('punica-menu-item', MenuItem);
+  customElements.define('punica-accordion-details', AccordionDetails);
 })();

@@ -10,6 +10,8 @@ const useEventListener = (
   const savedHandler = useRef();
   const { capture, passive, once } = options;
 
+  console.log('element', element);
+
   /**
    *
    */

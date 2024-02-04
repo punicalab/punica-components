@@ -13,9 +13,14 @@ export const SiteMap: Array<CustomRouteObject> = [
     ),
     children: [
       {
-        translateKey: 'component.alert',
+        translateKey: 'component.accordion',
         index: true,
         path: '/',
+        element: <ModuleLoader module="accordion" />
+      },
+      {
+        translateKey: 'component.alert',
+        path: '/alert',
         element: <ModuleLoader module="alert" />
       },
       {
@@ -147,6 +152,11 @@ export const SiteMap: Array<CustomRouteObject> = [
         translateKey: 'component.switch',
         path: '/switch',
         element: <ModuleLoader module="switch" />
+      },
+      {
+        translateKey: 'component.tab',
+        path: '/tab',
+        element: <ModuleLoader module="tab" />
       },
       {
         translateKey: 'component.textarea',

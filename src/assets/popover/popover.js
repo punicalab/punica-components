@@ -1,6 +1,13 @@
 (function () {
   const template = document.createElement('template');
-  template.innerHTML = `<slot></slot>`;
+  template.innerHTML = `
+    <slot></slot>
+    <style>
+      :host{
+        position: fixed;
+      }
+    </style>
+  `;
 
   const oppositePlacements = {
     top: 'bottom',
@@ -269,7 +276,6 @@
             this.getPopoverPosition();
           } else {
             this.style.display = 'none';
-            this.style.position = 'fixed';
           }
           break;
       }

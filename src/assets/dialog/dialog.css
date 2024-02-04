@@ -28,7 +28,8 @@ dialog[open]::backdrop {
 
 .dialog-layout-content {
   grid-area: content;
-  padding: var(--spacing-16) 0;
+  padding: var(--spacing-36) var(--spacing-36) var(--spacing-80)
+    var(--spacing-36);
 }
 
 .dialog-layout-footer {

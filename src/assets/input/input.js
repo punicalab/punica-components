@@ -29,6 +29,13 @@
     /**
      *
      */
+    get type() {
+      return this.getAttribute('type') || 'text';
+    }
+
+    /**
+     *
+     */
     get fullWidth() {
       return this.getAttribute('fullWidth');
     }
@@ -80,6 +87,29 @@
     /**
      *
      */
+    inputChange = () => {
+      this.fireOnChange();
+    };
+
+    /**
+     *
+     */
+    fireOnChange() {
+      this.dispatchEvent(
+        new CustomEvent('onChange', {
+          detail: {
+            value: this.#input.value
+          },
+          bubbles: true,
+          cancelable: false,
+          composed: true
+        })
+      );
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
       return [
         'placeholder',
@@ -88,7 +118,8 @@
         'error',
         'startAdornment',
         'endAdornment',
-        'value'
+        'value',
+        'type'
       ];
     }
 
@@ -108,6 +139,10 @@
     connectedCallback() {
       this.#input.addEventListener('focus', this.inputFocus);
       this.#input.addEventListener('blur', this.inputBlur);
+      this.#input.addEventListener('input', this.inputChange);
+
+      this.#input.setAttribute('type', this.type);
+      this.#input.value = this.value;
 
       if (this.placeholder) {
         this.#input.placeholder = this.placeholder;
@@ -120,6 +155,7 @@
     disconnectedCallback() {
       this.#input.removeEventListener('focus', this.inputFocus);
       this.#input.removeEventListener('blur', this.inputBlur);
+      this.#input.removeEventListener('input', this.inputChange);
     }
   }
 

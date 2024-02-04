@@ -1,12 +1,12 @@
 import useEventListener from '@/hooks/useEventListener';
 import { Module as Layout } from '@/layouts/module';
-import { useRef, useState } from 'react';
+import { useRef, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Module = () => {
   const { t } = useTranslation();
   const ref = useRef(null);
-  const [open, setOpen] = useState(null);
+  const [position, setPosition] = useState(null);
 
   /**
    *
@@ -14,7 +14,7 @@ const Module = () => {
   useEventListener(
     'onClose',
     () => {
-      setOpen(false);
+      setPosition(false);
     },
     ref.current
   );
@@ -22,15 +22,15 @@ const Module = () => {
   /**
    *
    */
-  const handleClick = () => {
-    setOpen(true);
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    setPosition(event.currentTarget.getBoundingClientRect());
   };
 
   /**
    *
    */
   const hanldeMenuClick = () => {
-    setOpen(false);
+    setPosition(null);
   };
 
   return (
@@ -44,7 +44,16 @@ const Module = () => {
                 <i className="fa-solid fa-ellipsis-vertical"></i>
               </punica-icon>
             </punica-icon-button>
-            <punica-menu open={open} ref={ref}>
+            <punica-menu
+              top={position?.top}
+              left={position?.left}
+              width={position?.width}
+              height={position?.height}
+              bottom={position?.bottom}
+              placement="bottom"
+              open={Boolean(position)}
+              ref={ref}
+            >
               <punica-menu-item onClick={hanldeMenuClick}>
                 Menu Item 1
               </punica-menu-item>

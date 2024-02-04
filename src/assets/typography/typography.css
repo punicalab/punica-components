@@ -1,5 +1,4 @@
 :host {
-  display: inline-block;
   padding: 0;
   margin: 0;
   color: var(--text-primary);
@@ -79,4 +78,74 @@
   font-size: 0.75rem;
   line-height: 2.66;
   text-transform: uppercase;
+}
+
+:host([aria-level]),
+:host([variant='body1']),
+:host([variant='body2']) {
+  display: block;
+}
+
+:host([textAlign='left']) {
+  text-align: left;
+}
+
+:host([textAlign='right']) {
+  text-align: right;
+}
+
+:host([textAlign='center']) {
+  text-align: center;
+}
+
+:host([textAlign='justify']) {
+  text-align: justify;
+}
+
+:host([fontWeight='thin']) {
+  font-weight: var(--weight-thin);
+}
+
+:host([fontWeight='regular']) {
+  font-weight: var(--weight-regular);
+}
+
+:host([fontWeight='medium']) {
+  font-weight: var(--weight-medium);
+}
+
+:host([fontWeight='semi-bold']) {
+  font-weight: var(--weight-semi-bold);
+}
+
+:host([fontWeight='bold']) {
+  font-weight: var(--weight-bold);
+}
+
+:host([fontWeight='extra-bold']) {
+  font-weight: var(--weight-extra-bold);
+}
+
+:host([color='primary']) {
+  color: var(--primary-main);
+}
+
+:host([color='secondary']) {
+  color: var(--secondary-main);
+}
+
+:host([color='error']) {
+  color: var(--error-main);
+}
+
+:host([color='warning']) {
+  color: var(--warning-main);
+}
+
+:host([color='info']) {
+  color: var(--info-main);
+}
+
+:host([color='success']) {
+  color: var(--success-main);
 }

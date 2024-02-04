@@ -3,10 +3,10 @@
 
   template.innerHTML = `
     <slot></slot>
-    <style>@import "http://localhost:5008/assets/select/selectItem.css";</style>
+    <style>@import "http://localhost:5008/assets/tab/tabItem.css";</style>
   `;
 
-  class SelectItem extends HTMLElement {
+  class TabItem extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
     #parent = null;
 
@@ -14,7 +14,7 @@
      *
      */
     get value() {
-      return this.getAttribute('value') || '';
+      return this.getAttribute('value');
     }
 
     /**
@@ -51,7 +51,7 @@
      *
      */
     connectedCallback() {
-      if (this.parentElement.localName == 'punica-select') {
+      if (this.parentElement.localName == 'punica-tab') {
         this.#parent = this.parentElement;
         this.#parent.itemAdd(this);
       }
@@ -68,5 +68,5 @@
     }
   }
 
-  customElements.define('punica-select-item', SelectItem);
+  customElements.define('punica-tab-item', TabItem);
 })();

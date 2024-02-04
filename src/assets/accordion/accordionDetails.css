@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  padding: var(--spacing-16);
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+:host-context(punica-accordion[expanded='true']) {
+  display: block;
+}
+
+:host-context(punica-accordion[expanded='false']) {
+  display: none;
+}

@@ -10,15 +10,15 @@
   border-color: var(--neutral-main);
 }
 
-:host([fullWidth]) {
+:host([fullWidth='true']) {
   width: 100%;
 }
 
-:host([error]) {
+:host([error='true']) {
   border-color: var(--error-main);
 }
 
-:host([focus]) {
+:host([focus='true']) {
   border-color: var(--primary-main);
 }
 

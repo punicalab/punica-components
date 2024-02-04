@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--spacing-8);
+  align-items: center;
+  margin: var(--spacing-16);
+  width: 100%;
+  cursor: pointer;
+}
+
+slot[name='content'] {
+  display: block;
+  flex-grow: 1;
+}
+
+slot[name='expandIcon'] {
+  display: block;
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+:host-context(punica-accordion[expanded='true']) > slot[name='expandIcon'] {
+  transform: rotate(180deg);
+}
+
+:host-context(punica-accordion[expanded='false']) > slot[name='expandIcon'] {
+  transform: rotate(0deg);
+}

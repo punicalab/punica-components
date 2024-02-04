@@ -3,8 +3,9 @@ dialog {
   outline: none;
   opacity: 0;
   max-width: 600px;
-  border-radius: var(--spacing-8);
   overflow: hidden;
+  border-radius: var(--spacing-8);
+  padding: var(--spacing-16) 0;
 }
 
 dialog[open] {
@@ -18,8 +19,10 @@ dialog[open]::backdrop {
 
 .modal-layout-main {
   display: grid;
+  height: 100%;
   grid-template-columns: auto;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto 1fr auto;
+  row-gap: 16px;
   grid-template-areas:
     'header'
     'content'
@@ -28,14 +31,18 @@ dialog[open]::backdrop {
 
 .modal-layout-header {
   grid-area: header;
+  padding: 0 var(--spacing-16);
 }
 
 .modal-layout-content {
+  margin: 0 var(--spacing-2);
+  padding: 0 var(--spacing-12);
   grid-area: content;
-  padding: var(--spacing-16) 0;
+  overflow-x: hidden;
 }
 
 .modal-layout-footer {
+  padding: 0 var(--spacing-16);
   grid-area: footer;
   display: flex;
   flex-wrap: nowrap;

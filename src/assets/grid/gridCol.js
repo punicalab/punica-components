@@ -43,11 +43,19 @@
     get xl() {
       return this.getAttribute('xl');
     }
+
+    /**
+     *
+     */
+    get flexGrow() {
+      return this.getAttribute('flexGrow');
+    }
+
     /**
      *
      */
     static get observedAttributes() {
-      return [];
+      return ['xs', 'sm', 'md', 'lg', 'xl', 'flexGrow'];
     }
 
     /**

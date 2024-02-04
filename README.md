@@ -25,14 +25,14 @@
 //SingleSelectListBox
 //MultiSelectListBox
 //Popover
-
 //Select
 //Menu
+//Accordion
+//Tab
 
 //___multiselect
-//___accordion
+
 //___collapse
-//___tab
 //___snackbar
 //___tooltip
 //___switch
