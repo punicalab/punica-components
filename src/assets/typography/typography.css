@@ -60,7 +60,7 @@
 }
 
 :host([variant='body2']) {
-  font-size: 0.875rem;
+  font-size: 0.857142857rem;
   line-height: 1.43;
 }
 

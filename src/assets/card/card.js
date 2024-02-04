@@ -14,20 +14,6 @@
     /**
      *
      */
-    get indeterminate() {
-      return this.getAttribute('indeterminate');
-    }
-
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return ['indeterminate'];
-    }
-
-    /**
-     *
-     */
     constructor() {
       super();
 

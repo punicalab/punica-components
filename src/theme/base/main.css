@@ -1,9 +1,12 @@
 html {
-  font-size: 100%;
+  font-size: 87.5%;
   background-color: var(--background-main);
 }
 
 body {
+  font-size: 14px;
+  font-size: 1rem;
+  line-height: 1;
   font-family: var(--fontFamily);
   color: var(--text-primary);
 }

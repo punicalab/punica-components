@@ -8,7 +8,7 @@
 
   class SingleSelectList extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
-    #selected = null;
+    #selectedItem = null;
 
     /**
      *
@@ -34,15 +34,7 @@
     /**
      *
      */
-    onClickItemHandler = (event) => {
-      if (this.#selected) {
-        this.#selected.selected = false;
-      }
-
-      this.#selected = event.target;
-      this.#selected.selected = true;
-      this.value = this.#selected.value;
-
+    fireOnChange() {
       this.dispatchEvent(
         new CustomEvent('change', {
           detail: {
@@ -53,6 +45,21 @@
           composed: true
         })
       );
+    }
+
+    /**
+     *
+     */
+    onClickItemHandler = (event) => {
+      if (this.#selectedItem) {
+        this.#selectedItem.selected = false;
+      }
+
+      this.#selectedItem = event.target;
+      this.#selectedItem.selected = true;
+      this.value = this.#selectedItem.value;
+
+      this.fireOnChange();
     };
 
     /**
