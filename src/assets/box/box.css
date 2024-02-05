@@ -17,3 +17,11 @@
 :host([error='true']) {
   border: 1px solid var(--error-main);
 }
+
+:host([fullWidth]) {
+  width: 100%;
+}
+
+:host([fullHeight]) {
+  height: 100%;
+}

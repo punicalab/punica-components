@@ -241,6 +241,8 @@ declare global {
         rounded?: boolean;
         error?: boolean;
         border?: boolean;
+        fullWidth?: boolean;
+        fullHeight?: boolean;
       };
       'punica-divider': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

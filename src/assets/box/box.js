@@ -19,6 +19,20 @@
     /**
      *
      */
+    get fullWidth() {
+      return this.getAttribute('fullWidth');
+    }
+
+    /**
+     *
+     */
+    get fullHeight() {
+      return this.getAttribute('fullHeight');
+    }
+
+    /**
+     *
+     */
     get border() {
       return this.getAttribute('border');
     }
@@ -36,7 +50,7 @@
      *
      */
     static get observedAttributes() {
-      return ['error', 'rounded', 'border'];
+      return ['error', 'rounded', 'border', 'fullHeight', 'fullWidth'];
     }
 
     /**
