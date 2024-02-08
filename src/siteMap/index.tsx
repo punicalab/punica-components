@@ -149,6 +149,11 @@ export const SiteMap: Array<CustomRouteObject> = [
         element: <ModuleLoader module="skeleton" />
       },
       {
+        translateKey: 'component.splitButton',
+        path: '/splitButton',
+        element: <ModuleLoader module="splitButton" />
+      },
+      {
         translateKey: 'component.switch',
         path: '/switch',
         element: <ModuleLoader module="switch" />

@@ -29,5 +29,6 @@
   "component.switch": "Switch",
   "component.tab": "Tab",
   "component.textarea": "Textarea",
-  "component.typography": "Typography"
+  "component.typography": "Typography",
+  "component.splitButton": "SplitButton"
 }

@@ -36,6 +36,7 @@
 //___splitButton
 
 //___collapse
+//___inputRange
 
 //___snackbar
 

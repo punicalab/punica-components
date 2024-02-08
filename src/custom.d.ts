@@ -230,6 +230,10 @@ declare global {
       > & {
         rounded?: boolean;
       };
+      'punica-split-button': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      >;
       'punica-card': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
