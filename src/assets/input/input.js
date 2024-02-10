@@ -79,6 +79,19 @@
 
     /**
      *
+     * @param {*} e
+     */
+    inputMouseDown = (e) => {
+      e.target.focus();
+      e.stopPropagation();
+
+      if (!this.error) {
+        this.setAttribute('focus', true);
+      }
+    };
+
+    /**
+     *
      */
     inputBlur = () => {
       this.removeAttribute('focus');
@@ -87,8 +100,17 @@
     /**
      *
      */
-    inputChange = () => {
+    inputChange = (e) => {
       this.fireOnChange();
+
+      e.stopPropagation();
+    };
+
+    /**
+     *
+     */
+    inputOnKeyDown = (e) => {
+      e.stopImmediatePropagation();
     };
 
     /**
@@ -131,15 +153,19 @@
 
       this.#shadow.appendChild(template.content.cloneNode(true));
       this.#input = this.#shadow.querySelector('input');
+
+      this.#input.focus();
     }
 
     /**
      *
      */
     connectedCallback() {
-      this.#input.addEventListener('focus', this.inputFocus);
+      this.#input.addEventListener('mousedown', this.inputMouseDown);
+      this.#input.addEventListener('focus', this.inputMouseDown);
       this.#input.addEventListener('blur', this.inputBlur);
       this.#input.addEventListener('input', this.inputChange);
+      this.#input.addEventListener('keydown', this.inputOnKeyDown);
 
       this.#input.setAttribute('type', this.type);
       this.#input.value = this.value;
@@ -153,9 +179,11 @@
      *
      */
     disconnectedCallback() {
-      this.#input.removeEventListener('focus', this.inputFocus);
+      this.#input.removeEventListener('mousedown', this.inputMouseDown);
+      this.#input.removeEventListener('focus', this.inputMouseDown);
       this.#input.removeEventListener('blur', this.inputBlur);
       this.#input.removeEventListener('input', this.inputChange);
+      this.#input.removeEventListener('keydown', this.inputOnKeyDown);
     }
   }
 

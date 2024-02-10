@@ -21,7 +21,7 @@
      *
      */
     set expanded(value) {
-      return this.setAttribute('expanded', value);
+      this.setAttribute('expanded', value);
     }
 
     /**
@@ -36,7 +36,7 @@
      */
     fireOnChange() {
       this.dispatchEvent(
-        new CustomEvent('change', {
+        new CustomEvent('changeExpanded', {
           detail: {
             expanded: this.expanded
           },
