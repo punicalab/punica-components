@@ -126,6 +126,22 @@
   font-weight: var(--weight-extra-bold);
 }
 
+:host([whiteSpace='nowrap']) {
+  white-space: nowrap;
+}
+
+:host([whiteSpace='normal']) {
+  white-space: normal;
+}
+
+:host([whiteSpace='pre-line']) {
+  white-space: pre-line;
+}
+
+:host([whiteSpace='pre-wrap']) {
+  white-space: pre-wrap;
+}
+
 :host([color='primary']) {
   color: var(--primary-main);
 }
@@ -148,4 +164,16 @@
 
 :host([color='success']) {
   color: var(--success-main);
+}
+
+:host([color='white']) {
+  color: var(--white);
+}
+
+:host([truncate]) {
+  -webkit-line-clamp: var(--typography-truncate);
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
 }

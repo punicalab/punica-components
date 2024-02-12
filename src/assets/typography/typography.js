@@ -65,8 +65,15 @@
     /**
      *
      */
+    get truncate() {
+      return this.getAttribute('truncate');
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
-      return ['variant', 'fontWeight', 'textAlign', 'color'];
+      return ['variant', 'fontWeight', 'textAlign', 'color', 'truncate'];
     }
 
     /**
@@ -90,10 +97,19 @@
 
       if (areaLevel) {
         this.setAttribute('role', 'heading');
-        this.setAttribute(
-          'aria-level',
-          defaultVariantLevelMapping[this.variant]
-        );
+        this.setAttribute('aria-level', areaLevel);
+      }
+
+      if (this.truncate) {
+        const style = document.createElement('style');
+
+        style.innerHTML = `
+          :host{
+            --typography-truncate: ${this.truncate};
+          }
+        `;
+
+        this.#shadow.appendChild(style);
       }
     }
 

@@ -2,8 +2,8 @@
   box-sizing: border-box;
   user-select: none;
   overflow: hidden;
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   position: relative;
   display: inline-flex;
   -webkit-box-align: center;
@@ -26,17 +26,14 @@
 }
 
 :host([color='info']) {
-  color: var(--white);
   background-color: var(--info-main);
 }
 
 :host([color='success']) {
-  color: var(--white);
   background-color: var(--success-main);
 }
 
 :host([color='warning']) {
-  color: var(--white);
   background-color: var(--warning-main);
 }
 

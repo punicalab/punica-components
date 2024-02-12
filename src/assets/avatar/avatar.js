@@ -2,7 +2,9 @@
   const template = document.createElement('template');
 
   template.innerHTML = `
-    <slot></slot>
+    <punica-typography color="white">
+      <slot></slot>
+    </punica-typography>
     <style>@import "http://localhost:5008/assets/avatar/avatar.css";</style>
   `;
 

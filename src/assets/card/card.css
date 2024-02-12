@@ -32,7 +32,10 @@ slot[name='actions'] {
   flex-wrap: nowrap;
   gap: var(--spacing-4);
   justify-content: flex-end;
-  padding: var(--spacing-8);
+}
+
+slot[name='actions']:not(:empty) {
+  padding: 0 var(--spacing-8);
 }
 
 ::slotted(img) {
