@@ -12,6 +12,20 @@
     /**
      *
      */
+    get disabled() {
+      return this.getAttribute('disabled');
+    }
+
+    /**
+     *
+     */
+    static get observedAttributes() {
+      return ['disabled'];
+    }
+
+    /**
+     *
+     */
     constructor() {
       super();
 

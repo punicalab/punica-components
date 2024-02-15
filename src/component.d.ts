@@ -282,7 +282,7 @@ declare global {
       'punica-menu-item': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
-      >;
+      > & { disabled?: boolean };
       'punica-tab': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
