@@ -122,11 +122,6 @@
 
       this.#shadow.appendChild(style);
     }
-
-    /**
-     *
-     */
-    disconnectedCallback() {}
   }
 
   customElements.define('punica-row', GridRow);

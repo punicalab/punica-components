@@ -13,6 +13,11 @@
   transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
+:host([disabled='true']) {
+  pointer-events: none;
+  opacity: var(--disabled-opacity);
+}
+
 :host([size='small']) {
   padding: var(--spacing-6) var(--spacing-12);
   height: 32px;

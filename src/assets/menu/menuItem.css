@@ -15,5 +15,5 @@
 :host([disabled='true']) {
   pointer-events: none;
   background-color: rgba(0, 0, 0, 0.04);
-  opacity: 0.4;
+  opacity: var(--disabled-opacity);
 }

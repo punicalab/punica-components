@@ -47,15 +47,8 @@
     /**
      *
      */
-    get flexGrow() {
-      return this.getAttribute('flexGrow');
-    }
-
-    /**
-     *
-     */
     static get observedAttributes() {
-      return ['xs', 'sm', 'md', 'lg', 'xl', 'flexGrow'];
+      return ['xs', 'sm', 'md', 'lg', 'xl'];
     }
 
     /**
@@ -130,11 +123,6 @@
 
       this.#shadow.appendChild(style);
     }
-
-    /**
-     *
-     */
-    disconnectedCallback() {}
   }
 
   customElements.define('punica-col', GridCol);
