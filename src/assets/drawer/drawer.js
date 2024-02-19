@@ -3,19 +3,18 @@
 
   template.innerHTML = `
     <div class="backdrop"></div>
-    <div class="drawer-layout-main">
-      <div class="drawer-layout-header">
-        <slot name="header"></slot>
-      </div>
-      <div class="drawer-layout-content">
-        <slot name="content"></slot>
-      </div>
-      <div class="drawer-layout-footer">
-        <slot name="footer"></slot>
-      </div>
-    </div>
+    <punica-paper>
+      <slot></slot>
+    </punica-paper>
     <style>@import "http://localhost:5008/assets/drawer/drawer.css";</style>
   `;
+
+  const SIZES = {
+    small: '400px',
+    medium: '650px',
+    large: '900px',
+    xlarge: '100%'
+  };
 
   class Drawer extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
@@ -56,7 +55,7 @@
       super();
 
       this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#content = this.#shadow.querySelector('.drawer-layout-main');
+      this.#content = this.#shadow.querySelector('punica-paper');
     }
 
     /**
@@ -68,45 +67,51 @@
     attributeChangedCallback(name, oldValue, newValue) {
       switch (name) {
         case 'open':
+          const size = SIZES[this.size];
+
           switch (this.direction) {
             case 'left':
               if (newValue == 'true') {
+                this.#content.style.width = size;
                 this.#content.style.visibility = 'visible';
                 this.#content.style.pointerEvents = 'all';
-                this.#content.style.transform = 'translateX(0)';
+                this.#content.style.transform = `translateX(${0})`;
               } else {
                 this.#content.style.pointerEvents = 'none';
-                this.#content.style.transform = 'translateX(-369px)';
+                this.#content.style.transform = `translateX(-${size})`;
               }
               break;
             case 'right':
               if (newValue == 'true') {
+                this.#content.style.width = size;
                 this.#content.style.visibility = 'visible';
                 this.#content.style.pointerEvents = 'all';
-                this.#content.style.transform = 'translateX(0)';
+                this.#content.style.transform = `translateX(${0})`;
               } else {
                 this.#content.style.pointerEvents = 'none';
-                this.#content.style.transform = 'translateX(369px)';
+                this.#content.style.transform = `translateX(${size})`;
               }
               break;
             case 'top':
               if (newValue == 'true') {
+                this.#content.style.height = size;
                 this.#content.style.visibility = 'visible';
                 this.#content.style.pointerEvents = 'all';
-                this.#content.style.transform = 'translateY(0)';
+                this.#content.style.transform = `translateY(${0})`;
               } else {
                 this.#content.style.pointerEvents = 'none';
-                this.#content.style.transform = 'translateY(-369px)';
+                this.#content.style.transform = `translateY(-${size})`;
               }
               break;
             case 'bottom':
               if (newValue == 'true') {
+                this.#content.style.height = size;
                 this.#content.style.visibility = 'visible';
                 this.#content.style.pointerEvents = 'all';
-                this.#content.style.transform = 'translateY(0)';
+                this.#content.style.transform = `translateY(${0})`;
               } else {
                 this.#content.style.pointerEvents = 'none';
-                this.#content.style.transform = 'translateY(369px)';
+                this.#content.style.transform = `translateY(${size})`;
               }
               break;
           }
@@ -118,6 +123,28 @@
         this.style.visibility = 'visible';
       } else {
         this.style.visibility = 'hidden';
+      }
+    }
+
+    /**
+     *
+     */
+    connectedCallback() {
+      const size = SIZES[this.size];
+
+      switch (this.direction) {
+        case 'left':
+          this.#content.style.transform = `translateX(-${size})`;
+          break;
+        case 'right':
+          this.#content.style.transform = `translateX(${size})`;
+          break;
+        case 'top':
+          this.#content.style.transform = `translateY(-${size})`;
+          break;
+        case 'bottom':
+          this.#content.style.transform = `translateY(${size})`;
+          break;
       }
     }
   }

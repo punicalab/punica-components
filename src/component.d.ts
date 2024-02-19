@@ -194,7 +194,7 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
-        size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge';
+        size: 'small' | 'medium' | 'large' | 'xlarge';
         direction?: 'top' | 'left' | 'bottom' | 'right';
         open?: boolean;
       };

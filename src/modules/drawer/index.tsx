@@ -24,8 +24,8 @@ const Module = () => {
                 >
                   Left
                 </punica-button>
-                <punica-drawer open={openLeft} direction="left">
-                  <punica-box style={{ width: '250px' }}>
+                <punica-drawer open={openLeft} direction="left" size="small">
+                  <punica-box>
                     <punica-row>
                       <punica-col>
                         <punica-icon-button
@@ -64,7 +64,11 @@ const Module = () => {
                 >
                   Bottom
                 </punica-button>
-                <punica-drawer open={openBottom} direction="bottom">
+                <punica-drawer
+                  open={openBottom}
+                  direction="bottom"
+                  size="medium"
+                >
                   <punica-box>
                     <punica-row>
                       <punica-col>
@@ -104,8 +108,8 @@ const Module = () => {
                 >
                   Right
                 </punica-button>
-                <punica-drawer open={openRight} direction="right">
-                  <punica-box style={{ width: '250px' }}>
+                <punica-drawer open={openRight} direction="right" size="large">
+                  <punica-box>
                     <punica-row>
                       <punica-col>
                         <punica-icon-button
@@ -144,7 +148,7 @@ const Module = () => {
                 >
                   Top
                 </punica-button>
-                <punica-drawer open={openTop} direction="top">
+                <punica-drawer open={openTop} direction="top" size="xlarge">
                   <punica-box>
                     <punica-row>
                       <punica-col>
