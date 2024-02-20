@@ -287,6 +287,7 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
+        orientation: 'horizontal' | 'vertical';
         fullWidth?: boolean;
         disabled?: boolean;
         value?: string;

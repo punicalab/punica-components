@@ -13,6 +13,13 @@
     /**
      *
      */
+    get orientation() {
+      return this.getAttribute('orientation');
+    }
+
+    /**
+     *
+     */
     get fullWidth() {
       return this.getAttribute('fullWidth');
     }
@@ -42,7 +49,7 @@
      *
      */
     static get observedAttributes() {
-      return ['fullWidth', 'disabled', 'value'];
+      return ['fullWidth', 'disabled', 'value', 'orientation'];
     }
 
     /**

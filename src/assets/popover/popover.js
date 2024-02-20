@@ -2,11 +2,7 @@
   const template = document.createElement('template');
   template.innerHTML = `
     <slot></slot>
-    <style>
-      :host{
-        position: fixed;
-      }
-    </style>
+    <style>@import "http://localhost:5008/assets/popover/popover.css";</style>
   `;
 
   const oppositePlacements = {
