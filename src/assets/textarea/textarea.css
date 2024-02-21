@@ -23,6 +23,7 @@
 }
 
 textarea {
+  color: var(--text-primary);
   flex-grow: 1;
   outline: none;
   border: 0;

@@ -2,14 +2,13 @@
   padding: var(--spacing-8) var(--spacing-16);
   box-sizing: border-box;
   user-select: none;
-  display: flex;
-  align-items: center;
+  display: inline-flex;
   cursor: pointer;
   pointer-events: all;
   flex-grow: 1;
   justify-content: center;
-  height: 100%;
-  border-bottom: 1px solid transparent;
+  height: 50px;
+  opacity: 0.6;
   transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
@@ -21,6 +20,21 @@
   background-color: rgb(from var(--primary-light) r g b / 20%);
 }
 
+:host-context(punica-tab[orientation='horizontal']) {
+  border-bottom: 1px solid transparent;
+  align-items: center;
+}
+
+:host-context(punica-tab[orientation='vertical']) {
+  border-right: 1px solid transparent;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
 :host([selected='true']) {
-  border-bottom-color: var(--primary-main);
+  border-bottom-color: var(--primary-main) !important;
+  border-right-color: var(--primary-main) !important;
+  opacity: 1;
+  font-weight: var(--weight-semi-bold);
 }

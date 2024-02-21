@@ -1,11 +1,17 @@
 :host {
   display: flex;
-  height: 50px;
-  flex-direction: row;
   align-items: stretch;
   width: fit-content;
 }
 
 :host([fullWidth]) {
   width: 100%;
+}
+
+:host([orientation='horizontal']) {
+  flex-direction: row;
+}
+
+:host([orientation='vertical']) {
+  flex-direction: column;
 }

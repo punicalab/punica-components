@@ -40,7 +40,7 @@ function main() {
   });
 
   setTimeout(() => {
-    fs.writeFile('build.min.js', minify, function (err) {
+    fs.writeFile('./src/assets/build.min.js', minify, function (err) {
       if (err) {
         console.log(err);
       } else {

@@ -30,115 +30,126 @@ const Module = () => {
       <Layout.Header title={t('component.tab')} />
       <Layout.Content>
         <punica-row gap={16}>
-          <punica-col xs={12}>
-            <punica-tab orientation="horizontal" value={selected} ref={ref}>
-              <punica-tab-item value="tab1">sdfsd</punica-tab-item>
-              <punica-tab-item value="tab2">sdfsd</punica-tab-item>
-              <punica-tab-item value="tab3">sdfsd</punica-tab-item>
-            </punica-tab>
-          </punica-col>
-          <punica-col xs={12}>
-            <punica-tab-panel value="tab1" selectedValue={selected}>
-              <punica-typography variant="headline5">
-                {selected.toUpperCase()}
-              </punica-typography>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </punica-tab-panel>
-            <punica-tab-panel value="tab2" selectedValue={selected}>
-              <punica-typography variant="headline5">
-                {selected.toUpperCase()}
-              </punica-typography>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </punica-tab-panel>
-            <punica-tab-panel value="tab3" selectedValue={selected}>
-              <punica-typography variant="headline5">
-                {selected.toUpperCase()}
-              </punica-typography>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </punica-tab-panel>
-          </punica-col>
-        </punica-row>
-        <punica-row gap={16} wrap="nowrap">
           <punica-col>
-            <punica-tab orientation="vertical" value={selected} ref={ref}>
-              <punica-tab-item value="tab1">sdfsd</punica-tab-item>
-              <punica-tab-item value="tab2">sdfsd</punica-tab-item>
-              <punica-tab-item value="tab3">sdfsd</punica-tab-item>
-            </punica-tab>
+            <punica-row gap={16}>
+              <punica-col xs={12}>
+                <punica-tab orientation="horizontal" value={selected} ref={ref}>
+                  <punica-tab-item value="tab1">sdfsd</punica-tab-item>
+                  <punica-tab-item value="tab2">sdfsd</punica-tab-item>
+                  <punica-tab-item value="tab3">sdfsd</punica-tab-item>
+                </punica-tab>
+              </punica-col>
+              <punica-col xs={12}>
+                <punica-tab-panel value="tab1" selectedValue={selected}>
+                  <punica-typography variant="headline5">
+                    {selected.toUpperCase()}
+                  </punica-typography>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type
+                  specimen book. It has survived not only five centuries, but
+                  also the leap into electronic typesetting, remaining
+                  essentially unchanged. It was popularised in the 1960s with
+                  the release of Letraset sheets containing Lorem Ipsum
+                  passages, and more recently with desktop publishing software
+                  like Aldus PageMaker including versions of Lorem Ipsum.
+                </punica-tab-panel>
+                <punica-tab-panel value="tab2" selectedValue={selected}>
+                  <punica-typography variant="headline5">
+                    {selected.toUpperCase()}
+                  </punica-typography>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type
+                  specimen book. It has survived not only five centuries, but
+                  also the leap into electronic typesetting, remaining
+                  essentially unchanged. It was popularised in the 1960s with
+                  the release of Letraset sheets containing Lorem Ipsum
+                  passages, and more recently with desktop publishing software
+                  like Aldus PageMaker including versions of Lorem Ipsum.
+                </punica-tab-panel>
+                <punica-tab-panel value="tab3" selectedValue={selected}>
+                  <punica-typography variant="headline5">
+                    {selected.toUpperCase()}
+                  </punica-typography>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type
+                  specimen book. It has survived not only five centuries, but
+                  also the leap into electronic typesetting, remaining
+                  essentially unchanged. It was popularised in the 1960s with
+                  the release of Letraset sheets containing Lorem Ipsum
+                  passages, and more recently with desktop publishing software
+                  like Aldus PageMaker including versions of Lorem Ipsum.
+                </punica-tab-panel>
+              </punica-col>
+            </punica-row>
           </punica-col>
           <punica-col>
-            <punica-tab-panel value="tab1" selectedValue={selected}>
-              <punica-typography variant="headline5">
-                {selected.toUpperCase()}
-              </punica-typography>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </punica-tab-panel>
-            <punica-tab-panel value="tab2" selectedValue={selected}>
-              <punica-typography variant="headline5">
-                {selected.toUpperCase()}
-              </punica-typography>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </punica-tab-panel>
-            <punica-tab-panel value="tab3" selectedValue={selected}>
-              <punica-typography variant="headline5">
-                {selected.toUpperCase()}
-              </punica-typography>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </punica-tab-panel>
+            <punica-row gap={16} wrap="nowrap">
+              <punica-col xs={2}>
+                <punica-tab
+                  orientation="vertical"
+                  value={selected}
+                  ref={ref}
+                  fullWidth
+                >
+                  <punica-tab-item value="tab1">sdfsd</punica-tab-item>
+                  <punica-tab-item value="tab2">sdfsd</punica-tab-item>
+                  <punica-tab-item value="tab3">sdfsd</punica-tab-item>
+                </punica-tab>
+              </punica-col>
+              <punica-col xs={10}>
+                <punica-tab-panel value="tab1" selectedValue={selected}>
+                  <punica-typography variant="headline5">
+                    {selected.toUpperCase()}
+                  </punica-typography>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type
+                  specimen book. It has survived not only five centuries, but
+                  also the leap into electronic typesetting, remaining
+                  essentially unchanged. It was popularised in the 1960s with
+                  the release of Letraset sheets containing Lorem Ipsum
+                  passages, and more recently with desktop publishing software
+                  like Aldus PageMaker including versions of Lorem Ipsum.
+                </punica-tab-panel>
+                <punica-tab-panel value="tab2" selectedValue={selected}>
+                  <punica-typography variant="headline5">
+                    {selected.toUpperCase()}
+                  </punica-typography>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type
+                  specimen book. It has survived not only five centuries, but
+                  also the leap into electronic typesetting, remaining
+                  essentially unchanged. It was popularised in the 1960s with
+                  the release of Letraset sheets containing Lorem Ipsum
+                  passages, and more recently with desktop publishing software
+                  like Aldus PageMaker including versions of Lorem Ipsum.
+                </punica-tab-panel>
+                <punica-tab-panel value="tab3" selectedValue={selected}>
+                  <punica-typography variant="headline5">
+                    {selected.toUpperCase()}
+                  </punica-typography>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type
+                  specimen book. It has survived not only five centuries, but
+                  also the leap into electronic typesetting, remaining
+                  essentially unchanged. It was popularised in the 1960s with
+                  the release of Letraset sheets containing Lorem Ipsum
+                  passages, and more recently with desktop publishing software
+                  like Aldus PageMaker including versions of Lorem Ipsum.
+                </punica-tab-panel>
+              </punica-col>
+            </punica-row>
           </punica-col>
         </punica-row>
       </Layout.Content>
