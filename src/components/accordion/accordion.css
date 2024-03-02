@@ -1,8 +1,8 @@
 :host {
   display: flex;
-  flex-wrap: wrap;
   box-sizing: border-box;
   user-select: none;
+  flex-wrap: wrap;
   background-color: var(--background-paper);
 }
 
