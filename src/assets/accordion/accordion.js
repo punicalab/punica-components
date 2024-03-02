@@ -13,6 +13,13 @@
     /**
      *
      */
+    get rounded() {
+      return this.getAttribute('rounded') == 'true';
+    }
+
+    /**
+     *
+     */
     get expanded() {
       return this.getAttribute('expanded') == 'true';
     }
@@ -28,7 +35,7 @@
      *
      */
     static get observedAttributes() {
-      return ['expanded'];
+      return ['expanded', 'rounded'];
     }
 
     /**

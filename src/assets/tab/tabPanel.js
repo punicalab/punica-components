@@ -1,9 +1,7 @@
 (function () {
   const template = document.createElement('template');
 
-  template.innerHTML = `
-    <style>@import "http://localhost:5008/assets/tab/tabPanel.css";</style>
-  `;
+  template.innerHTML = ``;
 
   class TabPanel extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
@@ -60,12 +58,25 @@
               this.#slot = document.createElement('slot');
 
               this.#shadow.appendChild(this.#slot);
+              this.style.display = 'block';
             }
           } else if (this.#slot) {
             this.#shadow.removeChild(this.#slot);
             this.#slot = null;
+            this.style.display = 'none';
           }
           break;
+      }
+    }
+
+    /**
+     *
+     */
+    connectedCallback() {
+      if (this.selectedvalue == this.value) {
+        this.style.display = 'block!important';
+      } else {
+        this.style.display = 'none!important';
       }
     }
   }

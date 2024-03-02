@@ -1,6 +1,8 @@
 const { readdir } = require('fs/promises');
 const fs = require('fs');
 
+fs.watch('./src/assets/', main);
+
 /**
  *
  * @returns
@@ -40,7 +42,7 @@ function main() {
   });
 
   setTimeout(() => {
-    fs.writeFile('./src/assets/build.min.js', minify, function (err) {
+    fs.writeFile('./public/build.min.js', minify, function (err) {
       if (err) {
         console.log(err);
       } else {

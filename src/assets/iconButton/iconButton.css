@@ -1,4 +1,5 @@
 :host {
+  pointer-events: all;
   display: inline-flex;
   -webkit-box-align: center;
   align-items: center;

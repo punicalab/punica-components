@@ -6,6 +6,7 @@ declare global {
         HTMLElement
       > & {
         expanded: boolean;
+        rounded?: boolean;
       };
       'punica-accordion-summary': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
