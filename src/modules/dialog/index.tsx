@@ -5,9 +5,6 @@ import { useTranslation } from 'react-i18next';
 const Module = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [openOK, setOpenOK] = useState(false);
-  const [openYesOrNo, setOpenYesOrNo] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
 
   return (
     <Layout.Main>
@@ -25,6 +22,9 @@ const Module = () => {
                   Show Dialog
                 </punica-button>
                 <punica-dialog open={open}>
+                  <punica-typography variant="headline6" slot="title">
+                    Lorem Ipsum.
+                  </punica-typography>
                   <punica-typography slot="content">
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry. Lorem Ipsum has been the industry's
@@ -54,54 +54,6 @@ const Module = () => {
                     Action 2
                   </punica-button>
                 </punica-dialog>
-              </punica-col>
-              <punica-col>
-                <punica-button
-                  onClick={() => {
-                    setOpenOK(true);
-                  }}
-                >
-                  Show Dialog OK
-                </punica-button>
-                <punica-dialog-ok open={openOK}>
-                  <punica-typography slot="text">
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s
-                  </punica-typography>
-                </punica-dialog-ok>
-              </punica-col>
-              <punica-col>
-                <punica-button
-                  onClick={() => {
-                    setOpenYesOrNo(true);
-                  }}
-                >
-                  Show Dialog Yes Or No
-                </punica-button>
-                <punica-dialog-yes-or-no open={openYesOrNo}>
-                  <punica-typography slot="text">
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s
-                  </punica-typography>
-                </punica-dialog-yes-or-no>
-              </punica-col>
-              <punica-col>
-                <punica-button
-                  onClick={() => {
-                    setOpenDelete(true);
-                  }}
-                >
-                  Show Dialog Delete
-                </punica-button>
-                <punica-dialog-delete open={openDelete}>
-                  <punica-typography slot="text">
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s
-                  </punica-typography>
-                </punica-dialog-delete>
               </punica-col>
             </punica-row>
           </punica-col>

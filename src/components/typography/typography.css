@@ -2,7 +2,6 @@
   padding: 0;
   margin: 0;
   color: var(--text-primary);
-  user-select: none;
 }
 
 :host([variant='headline1']) {
@@ -57,11 +56,13 @@
 :host([variant='body1']) {
   font-size: 1rem;
   line-height: 1.5;
+  font-weight: 300;
 }
 
 :host([variant='body2']) {
   font-size: 0.857142857rem;
   line-height: 1.43;
+  font-weight: 300;
 }
 
 :host([variant='button']) {
@@ -72,12 +73,14 @@
 :host([variant='caption']) {
   font-size: 0.75rem;
   line-height: 1.66;
+  font-weight: 300;
 }
 
 :host([variant='overline']) {
   font-size: 0.75rem;
   line-height: 2.66;
   text-transform: uppercase;
+  font-weight: 300;
 }
 
 :host([aria-level]),

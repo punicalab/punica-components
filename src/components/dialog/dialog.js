@@ -4,6 +4,9 @@
   template.innerHTML = `
     <dialog>
       <div class="dialog-layout-main">
+        <div class="dialog-layout-title">
+          <slot name="title"></slot>
+        </div>
         <div class="dialog-layout-content">
           <slot name="content"></slot>
         </div>

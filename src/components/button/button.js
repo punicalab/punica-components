@@ -68,17 +68,6 @@
     /**
      *
      */
-    set disabled(val) {
-      if (val) {
-        this.setAttribute('disabled', val);
-      } else {
-        this.removeAttribute('disabled');
-      }
-    }
-
-    /**
-     *
-     */
     get loading() {
       return this.getAttribute('loading');
     }
@@ -131,20 +120,6 @@
       }
 
       this.setAttribute('role', 'button');
-    }
-
-    /**
-     *
-     * @param {*} name
-     * @param {*} oldValue
-     * @param {*} newValue
-     */
-    attributeChangedCallback(name, oldValue, newValue) {
-      switch (name) {
-        case 'disabled':
-          this.disabled = newValue;
-          break;
-      }
     }
   }
 

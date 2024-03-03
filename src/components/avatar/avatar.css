@@ -1,6 +1,5 @@
 :host {
   box-sizing: border-box;
-  user-select: none;
   overflow: hidden;
   width: 30px;
   height: 30px;

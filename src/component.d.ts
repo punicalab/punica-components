@@ -239,18 +239,6 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & { open: boolean };
-      'punica-dialog-ok': React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      > & { open: boolean };
-      'punica-dialog-yes-or-no': React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      > & { open: boolean };
-      'punica-dialog-delete': React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      > & { open: boolean };
       'punica-skeleton': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement

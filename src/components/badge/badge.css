@@ -5,7 +5,6 @@
 }
 
 .badge .content {
-  user-select: none;
   display: flex;
   flex-flow: wrap;
   -webkit-box-pack: center;

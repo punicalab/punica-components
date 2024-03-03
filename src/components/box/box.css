@@ -1,9 +1,7 @@
 :host {
   box-sizing: border-box;
-  user-select: none;
   display: block;
   transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  user-select: none;
 }
 
 :host([rounded='true']) {

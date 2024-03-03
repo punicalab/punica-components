@@ -1,6 +1,5 @@
 :host {
   position: relative;
-  user-select: none;
   appearance: none;
   max-width: 100%;
   display: inline-flex;

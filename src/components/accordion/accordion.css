@@ -1,7 +1,6 @@
 :host {
   display: flex;
   box-sizing: border-box;
-  user-select: none;
   flex-wrap: wrap;
   background-color: var(--background-paper);
 }

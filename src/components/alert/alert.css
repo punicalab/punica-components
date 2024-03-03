@@ -3,7 +3,6 @@
   width: fit-content;
   box-sizing: border-box;
   border-radius: var(--spacing-8);
-  user-select: none;
 }
 
 .alert-layout-main {
