@@ -29,6 +29,12 @@
   opacity: var(--disabled-opacity);
 }
 
+:host([size='xsmall']) {
+  width: 24px;
+  height: 24px;
+  font-size: medium;
+}
+
 :host([size='small']) {
   width: 30px;
   height: 30px;

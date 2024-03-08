@@ -71,7 +71,7 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
-        size?: 'small' | 'medium' | 'large';
+        size?: 'xsmall' | 'small' | 'medium' | 'large';
         loading?: boolean;
         disabled?: boolean;
         color?:
