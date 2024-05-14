@@ -9,6 +9,7 @@
   background-color: transparent;
   display: none;
   pointer-events: all;
+  z-index: 9;
 }
 
 #optionWrapper {

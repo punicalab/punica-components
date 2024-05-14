@@ -19,6 +19,7 @@
   class Drawer extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
     #content = null;
+    #backdrop = null;
 
     /**
      *
@@ -51,11 +52,42 @@
     /**
      *
      */
+    fireOnClose() {
+      this.dispatchEvent(
+        new CustomEvent('onClose', {
+          bubbles: true,
+          cancelable: false,
+          composed: true
+        })
+      );
+    }
+
+    /**
+     *
+     * @param {*} e
+     */
+    handleBackdropClick = (e) => {
+      this.fireOnClose();
+    };
+
+    /**
+     *
+     */
+    hosContainerKeyDown = (event) => {
+      if (event.key == 'Escape') {
+        this.fireOnClose();
+      }
+    };
+
+    /**
+     *
+     */
     constructor() {
       super();
 
       this.#shadow.appendChild(template.content.cloneNode(true));
       this.#content = this.#shadow.querySelector('punica-paper');
+      this.#backdrop = this.#shadow.querySelector('.backdrop');
     }
 
     /**
@@ -146,6 +178,9 @@
           this.#content.style.transform = `translateY(${size})`;
           break;
       }
+
+      this.#backdrop.addEventListener('click', this.handleBackdropClick);
+      document.addEventListener('keydown', this.hosContainerKeyDown);
     }
   }
 

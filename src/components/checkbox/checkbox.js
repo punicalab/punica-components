@@ -14,7 +14,7 @@
      *
      */
     get checked() {
-      return this.getAttribute('checked');
+      return this.getAttribute('checked') == 'true';
     }
 
     /**
@@ -49,9 +49,9 @@
     /**
      *
      */
-    onClickHandler() {
+    handleClick = () => {
       this.checked = !this.checked;
-    }
+    };
 
     /**
      *
@@ -64,20 +64,14 @@
      *
      */
     update() {
-      const wrapper = this.#shadow.querySelector('div');
       const input = this.#shadow.querySelector('input');
       const label = this.#shadow.querySelector('label');
-
-      const classNames = generateClassNames('checkbox', {
-        'checkbox-is-indeterminate': this.indeterminate
-      });
-
-      wrapper.setAttribute('class', classNames);
 
       input.setAttribute('indeterminate', this.indeterminate);
 
       if (this.checked) {
         input.setAttribute('checked', '');
+        input.removeAttribute('indeterminate');
       } else {
         input.removeAttribute('checked');
       }
@@ -91,17 +85,14 @@
     constructor() {
       super();
 
-      this.addEventListener('click', this.onClickHandler.bind(this));
+      this.addEventListener('click', this.handleClick);
     }
 
     /**
      *
      */
     connectedCallback() {
-      const wrapper = document.createElement('div');
-      wrapper.appendChild(template.content.cloneNode(true));
-
-      this.#shadow.appendChild(wrapper);
+      this.#shadow.appendChild(template.content.cloneNode(true));
 
       this.update();
     }

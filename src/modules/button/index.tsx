@@ -12,6 +12,11 @@ const Module = () => {
           <punica-col xs={12}>
             <punica-row gap={16}>
               <punica-col>
+                <punica-button variant="text">
+                  Text Button Primary
+                </punica-button>
+              </punica-col>
+              <punica-col>
                 <punica-button>Button Primary</punica-button>
               </punica-col>
               <punica-col>

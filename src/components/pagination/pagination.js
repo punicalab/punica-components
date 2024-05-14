@@ -4,13 +4,13 @@
   template.innerHTML = `
     <punica-row wrap="nowrap" alignItems="center" gap="4">
       <punica-col>
-        <punica-button variant="outlined" size="small" id="prevPage">
+        <punica-button variant="text" size="small" id="prevPage">
           <slot name="prevPage"></slot>
         </punica-icon-button>
       </punica-col>
       <punica-col id="pages"></punica-col>
       <punica-col>
-        <punica-button variant="outlined" size="small" id="nextPage">
+        <punica-button variant="text" size="small" id="nextPage">
           <slot name="nextPage"></slot>
         </punica-icon-button>
       </punica-col>
@@ -165,7 +165,7 @@
           if (page == item) {
             element.setAttribute('color', 'primary');
           } else {
-            element.setAttribute('variant', 'outlined');
+            element.setAttribute('variant', 'text');
           }
         } else {
           element = document.createElement('punica-typography');

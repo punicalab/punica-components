@@ -224,7 +224,17 @@
      * @param {*} item
      */
     itemAdd(item) {
+      const itemValue = item.getAttribute('value');
+
       item.addEventListener('click', this.onClickItemHandler);
+
+      if (itemValue == this.value) {
+        this.#selected = item;
+        this.#selected.selected = true;
+        this.value = this.#selected.value;
+
+        this.#content.innerHTML = this.#selected.innerHTML;
+      }
     }
 
     /**

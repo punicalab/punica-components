@@ -53,7 +53,7 @@ declare global {
         HTMLElement
       > & {
         size?: 'small' | 'medium' | 'large';
-        variant?: 'filled' | 'outlined';
+        variant?: 'text' | 'filled' | 'outlined';
         fullWidth?: boolean;
         loading?: boolean;
         underline?: boolean;

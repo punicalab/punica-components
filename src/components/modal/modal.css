@@ -2,11 +2,11 @@ dialog {
   border: none;
   outline: none;
   opacity: 0;
-  max-width: 600px;
   overflow: hidden;
   border-radius: var(--spacing-8);
   padding: var(--spacing-24);
   background-color: var(--background-paper);
+  border: 1px solid var(--neutral-main);
 }
 
 dialog[open] {
@@ -35,7 +35,7 @@ dialog[open]::backdrop {
 
 .modal-layout-content {
   grid-area: content;
-  padding: var(--spacing-32) 0;
+  margin: var(--spacing-16) 0;
   overflow-x: hidden;
 }
 
