@@ -2,7 +2,9 @@
   const template = document.createElement('template');
 
   template.innerHTML = `
+    <slot name="startIcon"></slot>
     <slot></slot>
+    <slot name="endIcon"></slot>
     <style>@import "http://localhost:5008/assets/button/button.css";</style>
   `;
 

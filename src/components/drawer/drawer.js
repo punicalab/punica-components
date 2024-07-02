@@ -13,7 +13,7 @@
     small: '400px',
     medium: '650px',
     large: '900px',
-    xlarge: '100%'
+    xlarge: '90%'
   };
 
   class Drawer extends HTMLElement {

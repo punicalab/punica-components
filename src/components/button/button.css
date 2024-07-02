@@ -2,6 +2,7 @@
   outline: none;
   border-radius: var(--spacing-8);
   border: none;
+  flex-wrap: nowrap;
   cursor: pointer;
   display: inline-flex;
   align-items: center;

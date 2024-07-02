@@ -8,6 +8,7 @@
 
   class GridRow extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
+    #style = null;
 
     /**
      *
@@ -92,21 +93,8 @@
     /**
      *
      */
-    constructor() {
-      super();
-
-      const clone = template.content.cloneNode(true);
-
-      this.#shadow.appendChild(clone);
-    }
-
-    /**
-     *
-     */
-    connectedCallback() {
-      const style = document.createElement('style');
-
-      style.innerHTML = `
+    update() {
+      this.#style.innerHTML = `
         :host{
           --gap: ${this.gap};
           --spacing: ${this.spacing ? this.spacing + 'px' : 0};
@@ -119,8 +107,34 @@
           --columns: 12;
         }
       `;
+    }
 
-      this.#shadow.appendChild(style);
+    /**
+     *
+     */
+    constructor() {
+      super();
+
+      const clone = template.content.cloneNode(true);
+
+      this.#shadow.appendChild(clone);
+      this.#style = document.createElement('style');
+
+      this.#shadow.appendChild(this.#style);
+    }
+
+    /**
+     *
+     */
+    connectedCallback() {
+      this.update();
+    }
+
+    /**
+     *
+     */
+    attributeChangedCallback() {
+      this.update();
     }
   }
 

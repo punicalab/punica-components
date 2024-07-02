@@ -19,8 +19,15 @@
     /**
      *
      */
+    get class() {
+      return this.getAttribute('class');
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
-      return ['rounded'];
+      return ['rounded', 'class'];
     }
 
     /**
@@ -35,6 +42,22 @@
      */
     connectedCallback() {
       this.#shadow.appendChild(template.content.cloneNode(true));
+    }
+
+    /**
+     *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case 'class':
+          if (oldValue != newValue) {
+            this.className = newValue;
+          }
+          break;
+      }
     }
   }
 

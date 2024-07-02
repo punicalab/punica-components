@@ -44,13 +44,13 @@
           window.innerWidth -
           contentRect.width -
           (window.innerWidth - targetRect.right),
-        top: targetRect.top + targetRect.height + window.scrollY
+        top: targetRect.top + targetRect.height
       };
     }
 
     return {
       left: targetRect.left,
-      top: targetRect.top + targetRect.height + window.scrollY
+      top: targetRect.top + targetRect.height
     };
   };
 
@@ -245,7 +245,7 @@
       };
 
       for (const key in position) {
-        this.style[key] = position[key];
+        this.style[key] = position[key] + 'px';
       }
     }
 
