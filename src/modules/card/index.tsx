@@ -11,16 +11,36 @@ const Module = () => {
         <punica-row gap={16}>
           <punica-col xs={12}>
             <punica-card>
-              <img
-                slot="media"
-                src="https://mui.com/static/images/cards/contemplative-reptile.jpg"
-              />
-              <div slot="content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.
-              </div>
-              <punica-button slot="actions">Action 1</punica-button>
-              <punica-button slot="actions">Action 2</punica-button>
+              <punica-card-media>
+                <img src="https://mui.com/static/images/cards/contemplative-reptile.jpg" />
+              </punica-card-media>
+              <punica-card-content>
+                <div>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry.
+                </div>
+              </punica-card-content>
+              <punica-card-actions>
+                <punica-button>Action 1</punica-button>
+                <punica-button>Action 2</punica-button>
+              </punica-card-actions>
+            </punica-card>
+          </punica-col>
+          <punica-col xs={12}>
+            <punica-card rounded>
+              <punica-card-media>
+                <img src="https://mui.com/static/images/cards/contemplative-reptile.jpg" />
+              </punica-card-media>
+              <punica-card-content>
+                <div>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry.
+                </div>
+              </punica-card-content>
+              <punica-card-actions>
+                <punica-button>Action 1</punica-button>
+                <punica-button>Action 2</punica-button>
+              </punica-card-actions>
             </punica-card>
           </punica-col>
         </punica-row>

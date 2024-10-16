@@ -99,7 +99,7 @@ declare global {
       > & {
         class?: string;
         variant?: 'circular' | 'rounded' | 'square';
-        color?: 'error' | 'info' | 'warning' | 'success';
+        color?: ('error' | 'info' | 'warning' | 'success') | string;
       };
       'punica-alert': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -235,6 +235,26 @@ declare global {
         class?: string;
       };
       'punica-card': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+        rounded?: boolean;
+        fullWidth?: boolean;
+      };
+      'punica-card-media': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+      };
+      'punica-card-content': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+      };
+      'punica-card-actions': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {

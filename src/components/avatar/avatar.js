@@ -8,6 +8,13 @@
     <style>@import "http://localhost:5008/assets/avatar/avatar.css";</style>
   `;
 
+  const defaultColorMapping = {
+    error: 'var(--error-main)',
+    warning: 'var(--warning-main)',
+    info: 'var(--info-main)',
+    success: 'var(--success-main)'
+  };
+
   class Avatar extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
 
@@ -39,6 +46,26 @@
       super();
 
       this.#shadow.appendChild(template.content.cloneNode(true));
+    }
+
+    /**
+     *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case 'color':
+          if (newValue) {
+            const isDefinedColor = defaultColorMapping[newValue];
+
+            if (!isDefinedColor) {
+              this.style.backgroundColor = newValue;
+            }
+          }
+          break;
+      }
     }
   }
 

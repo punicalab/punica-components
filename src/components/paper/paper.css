@@ -1,4 +1,8 @@
 :host {
+  --paper-border-radius: var(--spacing-16);
+}
+
+:host {
   box-sizing: border-box;
   display: block;
   background-color: var(--background-paper);
@@ -6,5 +10,5 @@
 }
 
 :host([rounded]) {
-  border-radius: var(--spacing-8);
+  border-radius: var(--paper-border-radius);
 }

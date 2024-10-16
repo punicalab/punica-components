@@ -1,47 +1,18 @@
 :host {
-  display: inline-grid;
+  --card-border-radius: var(--spacing-16);
+}
+
+:host {
+  display: inline-block;
   background-color: var(--background-paper);
-  border-radius: var(--spacing-4);
   box-sizing: border-box;
-  align-items: center;
-  grid-template-columns: auto;
-  grid-template-rows: auto auto auto;
   overflow: hidden;
-  row-gap: var(--spacing-8);
-  grid-template-areas:
-    'media'
-    'content'
-    'actions';
 }
 
-slot[name='media'] {
-  grid-area: media;
+:host([rounded]) {
+  border-radius: var(--card-border-radius);
 }
 
-slot[name='content'] {
-  width: 100%;
-  box-sizing: border-box;
-  display: block;
-  grid-area: content;
-  padding: 0 var(--spacing-8);
-}
-
-slot[name='actions'] {
-  grid-area: actions;
-  display: flex;
-  flex-wrap: nowrap;
-  gap: var(--spacing-4);
-  justify-content: flex-end;
-}
-
-slot[name='actions']:not(:empty) {
-  padding: 0 var(--spacing-8);
-}
-
-::slotted(img) {
-  display: block;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+:host([fullWidth]) {
   width: 100%;
 }

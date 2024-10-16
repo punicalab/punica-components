@@ -73,6 +73,7 @@
     lg: 1200,
     xl: 1536
   };
+
   const BreakPointRelativeToDirection = {
     up: (breakPoint) => `(min-width:${BreakPointSize[breakPoint] + 1}px)`,
     down: (breakPoint) => `(max-width:${BreakPointSize[breakPoint]}px)`

@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.config.common');
 const path = require('path');
-const port = 5008;
+const port = 5009;
 const mode = 'development';
 
 module.exports = (env, options) => {

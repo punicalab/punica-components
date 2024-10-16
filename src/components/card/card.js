@@ -2,14 +2,28 @@
   const template = document.createElement('template');
 
   template.innerHTML = `
-    <slot name="media"></slot>
-    <slot name="content"></slot>
-    <slot name="actions"></slot>
+    <slot></slot>
     <style>@import "http://localhost:5008/assets/card/card.css";</style>
   `;
 
   class Card extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
+
+    /**
+     *
+     */
+    get fullWidth() {
+      return this.getAttribute('fullWidth');
+    }
+
+    /**
+     *
+     */
+    get rounded() {
+      const value = this.getAttribute('rounded');
+
+      return value || true;
+    }
 
     /**
      *

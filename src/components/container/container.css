@@ -4,8 +4,6 @@
   box-sizing: border-box;
   margin-right: auto;
   display: block;
-  padding-left: 24px;
-  padding-right: 24px;
 }
 
 :host([disablegutters]) {
@@ -14,30 +12,50 @@
 }
 
 @media (min-width: 0) {
+  :host {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
   :host([maxwidth='xs']) {
     max-width: 444px;
   }
 }
 
 @media (min-width: 600px) {
+  :host {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
   :host([maxwidth='sm']) {
     max-width: 600px;
   }
 }
 
 @media (min-width: 900px) {
+  :host {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
   :host([maxwidth='md']) {
     max-width: 900px;
   }
 }
 
 @media (min-width: 1200px) {
+  :host {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
   :host([maxwidth='lg']) {
     max-width: 1200px;
   }
 }
 
 @media (min-width: 1536px) {
+  :host {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
   :host([maxwidth='xl']) {
     max-width: 1536px;
   }
