@@ -13,32 +13,32 @@ const Module = () => {
             <punica-row wrap="nowrap" gap={16}>
               <punica-col>
                 <punica-badge badgeContent={8}>
-                  <i className="fa-duotone fa-envelope fa-xl"></i>
+                  <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>
               <punica-col>
                 <punica-badge badgeContent={10} color="error">
-                  <i className="fa-duotone fa-envelope fa-xl"></i>
+                  <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>
               <punica-col>
                 <punica-badge badgeContent={8} color="success">
-                  <i className="fa-duotone fa-envelope fa-xl"></i>
+                  <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>
               <punica-col>
                 <punica-badge badgeContent={8} color="info">
-                  <i className="fa-duotone fa-envelope fa-xl"></i>
+                  <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>
               <punica-col>
                 <punica-badge badgeContent={8} color="warning">
-                  <i className="fa-duotone fa-envelope fa-xl"></i>
+                  <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>
               <punica-col>
                 <punica-badge badgeContent={8} color="error" size="small">
-                  <i className="fa-duotone fa-envelope fa-xl"></i>
+                  <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>
             </punica-row>

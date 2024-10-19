@@ -4,7 +4,7 @@
   template.innerHTML = `
     <slot></slot>
     <slot name="delete"></slot>
-    <style>@import "http://localhost:5008/assets/chip/chip.css";</style>
+    <style></style>
   `;
 
   class Chip extends HTMLElement {

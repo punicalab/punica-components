@@ -8,7 +8,7 @@
         <slot></slot>
       </div>
     </punica-popover>
-    <style>@import "http://localhost:5008/assets/menu/menu.css";</style>
+    <style></style>
   `;
 
   class Menu extends HTMLElement {

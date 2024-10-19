@@ -5,7 +5,7 @@
     <punica-typography color="white">
       <slot></slot>
     </punica-typography>
-    <style>@import "http://localhost:5008/assets/avatar/avatar.css";</style>
+    <style></style>
   `;
 
   const defaultColorMapping = {

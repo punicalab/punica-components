@@ -6,7 +6,7 @@
     <punica-paper>
       <slot></slot>
     </punica-paper>
-    <style>@import "http://localhost:5008/assets/drawer/drawer.css";</style>
+    <style></style>
   `;
 
   const SIZES = {

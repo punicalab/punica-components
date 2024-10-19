@@ -1,0 +1,5 @@
+:host {
+  grid-area: content;
+  overflow-x: hidden;
+  padding: var(--spacing-16) 0;
+}

@@ -60,7 +60,7 @@ const Module = () => {
                   <i
                     slot="delete"
                     className="fa-lg fa-duotone fa-circle-xmark"
-                  ></i>
+                  />
                 </punica-chip>
               </punica-col>
             </punica-row>

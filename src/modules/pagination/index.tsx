@@ -12,40 +12,40 @@ const Module = () => {
           <punica-col xs={12}>
             <punica-pagination page={4} totalCount={200}>
               <slot slot="prevPage">
-                <i className="fa-regular fa-angle-left"></i>
+                <i className="fa-regular fa-angle-left" />
               </slot>
               <slot slot="nextPage">
-                <i className="fa-regular fa-angle-right"></i>
+                <i className="fa-regular fa-angle-right" />
               </slot>
             </punica-pagination>
           </punica-col>
           <punica-col xs={12}>
             <punica-pagination page={1} totalCount={200}>
               <slot slot="prevPage">
-                <i className="fa-regular fa-angle-left"></i>
+                <i className="fa-regular fa-angle-left" />
               </slot>
               <slot slot="nextPage">
-                <i className="fa-regular fa-angle-right"></i>
+                <i className="fa-regular fa-angle-right" />
               </slot>
             </punica-pagination>
           </punica-col>
           <punica-col xs={12}>
             <punica-pagination page={5} totalCount={200}>
               <slot slot="prevPage">
-                <i className="fa-regular fa-angle-left"></i>
+                <i className="fa-regular fa-angle-left" />
               </slot>
               <slot slot="nextPage">
-                <i className="fa-regular fa-angle-right"></i>
+                <i className="fa-regular fa-angle-right" />
               </slot>
             </punica-pagination>
           </punica-col>
           <punica-col xs={12}>
             <punica-pagination page={10} totalCount={200}>
               <slot slot="prevPage">
-                <i className="fa-regular fa-angle-left"></i>
+                <i className="fa-regular fa-angle-left" />
               </slot>
               <slot slot="nextPage">
-                <i className="fa-regular fa-angle-right"></i>
+                <i className="fa-regular fa-angle-right" />
               </slot>
             </punica-pagination>
           </punica-col>

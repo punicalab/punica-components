@@ -13,37 +13,37 @@ const Module = () => {
             <punica-row gap={16}>
               <punica-col>
                 <punica-icon-button>
-                  <i className="fa-duotone fa-trash"></i>
+                  <i className="fa-duotone fa-trash" />
                 </punica-icon-button>
               </punica-col>
               <punica-col>
                 <punica-icon-button color="primary">
-                  <i className="fa-duotone fa-trash"></i>
+                  <i className="fa-duotone fa-trash" />
                 </punica-icon-button>
               </punica-col>
               <punica-col>
                 <punica-icon-button color="secondary">
-                  <i className="fa-duotone fa-trash"></i>
+                  <i className="fa-duotone fa-trash" />
                 </punica-icon-button>
               </punica-col>
               <punica-col>
                 <punica-icon-button color="error">
-                  <i className="fa-duotone fa-trash"></i>
+                  <i className="fa-duotone fa-trash" />
                 </punica-icon-button>
               </punica-col>
               <punica-col>
                 <punica-icon-button color="info">
-                  <i className="fa-duotone fa-trash"></i>
+                  <i className="fa-duotone fa-trash" />
                 </punica-icon-button>
               </punica-col>
               <punica-col>
                 <punica-icon-button color="success">
-                  <i className="fa-duotone fa-trash"></i>
+                  <i className="fa-duotone fa-trash" />
                 </punica-icon-button>
               </punica-col>
               <punica-col>
                 <punica-icon-button color="warning">
-                  <i className="fa-duotone fa-trash"></i>
+                  <i className="fa-duotone fa-trash" />
                 </punica-icon-button>
               </punica-col>
             </punica-row>
@@ -52,17 +52,17 @@ const Module = () => {
             <punica-row gap={16}>
               <punica-col>
                 <punica-icon-button size="small">
-                  <i className="fa-duotone fa-trash"></i>
+                  <i className="fa-duotone fa-trash" />
                 </punica-icon-button>
               </punica-col>
               <punica-col>
                 <punica-icon-button size="medium">
-                  <i className="fa-duotone fa-trash"></i>
+                  <i className="fa-duotone fa-trash" />
                 </punica-icon-button>
               </punica-col>
               <punica-col>
                 <punica-icon-button size="large">
-                  <i className="fa-duotone fa-trash"></i>
+                  <i className="fa-duotone fa-trash" />
                 </punica-icon-button>
               </punica-col>
             </punica-row>

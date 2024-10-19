@@ -16,22 +16,22 @@ const Module = () => {
               </punica-col>
               <punica-col>
                 <punica-input placeholder="Lorem Ipsum...">
-                  <i slot="startAdornment" className="fa-duotone fa-house"></i>
+                  <i slot="startAdornment" className="fa-duotone fa-house" />
                 </punica-input>
               </punica-col>
               <punica-col>
                 <punica-input placeholder="Lorem Ipsum...">
-                  <i slot="endAdornment" className="fa-duotone fa-house"></i>
+                  <i slot="endAdornment" className="fa-duotone fa-house" />
                 </punica-input>
               </punica-col>
               <punica-col>
                 <punica-input placeholder="Lorem Ipsum..." error>
-                  <i slot="endAdornment" className="fa-duotone fa-house"></i>
+                  <i slot="endAdornment" className="fa-duotone fa-house" />
                 </punica-input>
               </punica-col>
               <punica-col xs={12}>
                 <punica-input placeholder="Lorem Ipsum..." fullWidth>
-                  <i slot="endAdornment" className="fa-duotone fa-house"></i>
+                  <i slot="endAdornment" className="fa-duotone fa-house" />
                 </punica-input>
               </punica-col>
             </punica-row>

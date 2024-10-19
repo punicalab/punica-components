@@ -4,7 +4,7 @@
   template.innerHTML = `
     <input type="checkbox" />
     <label></label>
-    <style>@import "http://localhost:5008/assets/checkbox/checkbox.css";</style>
+    <style></style>
   `;
 
   class Checkbox extends HTMLElement {

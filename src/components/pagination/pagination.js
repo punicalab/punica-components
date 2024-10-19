@@ -15,7 +15,7 @@
         </punica-icon-button>
       </punica-col>
     </punica-row>
-    <style>@import "http://localhost:5008/assets/pagination/pagination.css";</style>
+    <style></style>
   `;
 
   class Pagination extends HTMLElement {

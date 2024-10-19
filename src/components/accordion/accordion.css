@@ -1,4 +1,8 @@
 :host {
+  --accordion-border-radius: var(--spacing-16);
+}
+
+:host {
   display: flex;
   box-sizing: border-box;
   flex-wrap: wrap;
@@ -6,5 +10,5 @@
 }
 
 :host([rounded]) {
-  border-radius: var(--spacing-8);
+  border-radius: var(--accordion-border-radius);
 }

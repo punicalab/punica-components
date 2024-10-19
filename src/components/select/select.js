@@ -13,7 +13,7 @@
         <slot></slot>
       </div>
     </punica-popover>
-    <style>@import "http://localhost:5008/assets/select/select.css";</style>
+    <style></style>
   `;
 
   class Select extends HTMLElement {
@@ -22,6 +22,15 @@
     #backdrop = null;
     #selected = null;
     #content = null;
+
+    /**
+     *
+     */
+    get rounded() {
+      const value = this.getAttribute('rounded');
+
+      return value || true;
+    }
 
     /**
      *
@@ -176,7 +185,7 @@
      */
     fireOnChange() {
       this.dispatchEvent(
-        new CustomEvent('change', {
+        new CustomEvent('onChange', {
           detail: {
             value: this.value
           },

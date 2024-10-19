@@ -23,16 +23,16 @@ const Variant = () => {
           <punica-select-item value="item9">Item 9</punica-select-item>
           <punica-select-item value="item10">Item 10</punica-select-item>
           <punica-icon slot="caret">
-            <i className="fa-solid fa-caret-down"></i>
+            <i className="fa-solid fa-caret-down" />
           </punica-icon>
           <punica-icon slot="clear">
-            <i className="fa-regular fa-xmark"></i>
+            <i className="fa-regular fa-xmark" />
           </punica-icon>
           <punica-icon slot="adornment">
-            <i className="fa-brands fa-html5"></i>
+            <i className="fa-brands fa-html5" />
           </punica-icon>
           <punica-icon slot="preload">
-            <i className="fa-duotone fa-spinner-third fa-spin"></i>
+            <i className="fa-duotone fa-spinner-third fa-spin" />
           </punica-icon>
         </punica-select>
       </Layout.Example>
@@ -54,16 +54,16 @@ const Code = `
     <punica-select-item value="item9">Item 9</punica-select-item>
     <punica-select-item value="item10">Item 10</punica-select-item>
     <punica-icon slot="caret">
-      <i className="fa-solid fa-caret-down"></i>
+      <i className="fa-solid fa-caret-down" />
     </punica-icon>
     <punica-icon slot="clear">
-      <i className="fa-regular fa-xmark"></i>
+      <i className="fa-regular fa-xmark" />
     </punica-icon>
     <punica-icon slot="adornment">
-      <i className="fa-brands fa-html5"></i>
+      <i className="fa-brands fa-html5" />
     </punica-icon>
     <punica-icon slot="preload">
-      <i className="fa-duotone fa-spinner-third fa-spin"></i>
+      <i className="fa-duotone fa-spinner-third fa-spin" />
     </punica-icon>
   </punica-select>
 `;

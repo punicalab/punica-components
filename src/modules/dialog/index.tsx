@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 const Module = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [openRounded, setOpenRounded] = useState(false);
 
   return (
     <Layout.Main>
@@ -21,38 +22,91 @@ const Module = () => {
                 >
                   Show Dialog
                 </punica-button>
+                <punica-button
+                  style={{ marginLeft: 12 }}
+                  onClick={() => {
+                    setOpenRounded(true);
+                  }}
+                >
+                  Show Dialog Rounded
+                </punica-button>
                 <punica-dialog open={open}>
-                  <punica-typography variant="headline6" slot="title">
-                    Lorem Ipsum.
-                  </punica-typography>
-                  <punica-typography slot="content">
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown
-                    printer took a galley of type and scrambled it to make a
-                    type specimen book. It has survived not only five centuries,
-                    but also the leap into electronic typesetting, remaining
-                    essentially unchanged. It was popularised in the 1960s with
-                    the release of Letraset sheets containing Lorem Ipsum
-                    passages, and more recently with desktop publishing software
-                    like Aldus PageMaker including versions of Lorem Ipsum.
-                  </punica-typography>
-                  <punica-button
-                    slot="footer"
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    Action 1
-                  </punica-button>
-                  <punica-button
-                    slot="footer"
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    Action 2
-                  </punica-button>
+                  <punica-dialog-header>
+                    <punica-typography variant="headline6">
+                      Lorem Ipsum.
+                    </punica-typography>
+                  </punica-dialog-header>
+                  <punica-dialog-content>
+                    <punica-typography>
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Lorem Ipsum has been the industry's
+                      standard dummy text ever since the 1500s, when an unknown
+                      printer took a galley of type and scrambled it to make a
+                      type specimen book. It has survived not only five
+                      centuries, but also the leap into electronic typesetting,
+                      remaining essentially unchanged. It was popularised in the
+                      1960s with the release of Letraset sheets containing Lorem
+                      Ipsum passages, and more recently with desktop publishing
+                      software like Aldus PageMaker including versions of Lorem
+                      Ipsum.
+                    </punica-typography>
+                  </punica-dialog-content>
+                  <punica-dialog-footer>
+                    <punica-button
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      Action 1
+                    </punica-button>
+                    <punica-button
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      Action 2
+                    </punica-button>
+                  </punica-dialog-footer>
+                </punica-dialog>
+                <punica-dialog open={openRounded} rounded>
+                  <punica-dialog-header>
+                    <punica-typography variant="headline6">
+                      Lorem Ipsum.
+                    </punica-typography>
+                  </punica-dialog-header>
+                  <punica-dialog-content>
+                    <punica-typography>
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Lorem Ipsum has been the industry's
+                      standard dummy text ever since the 1500s, when an unknown
+                      printer took a galley of type and scrambled it to make a
+                      type specimen book. It has survived not only five
+                      centuries, but also the leap into electronic typesetting,
+                      remaining essentially unchanged. It was popularised in the
+                      1960s with the release of Letraset sheets containing Lorem
+                      Ipsum passages, and more recently with desktop publishing
+                      software like Aldus PageMaker including versions of Lorem
+                      Ipsum.
+                    </punica-typography>
+                  </punica-dialog-content>
+                  <punica-dialog-footer>
+                    <punica-button
+                      rounded
+                      onClick={() => {
+                        setOpenRounded(false);
+                      }}
+                    >
+                      Action 1
+                    </punica-button>
+                    <punica-button
+                      rounded
+                      onClick={() => {
+                        setOpenRounded(false);
+                      }}
+                    >
+                      Action 2
+                    </punica-button>
+                  </punica-dialog-footer>
                 </punica-dialog>
               </punica-col>
             </punica-row>

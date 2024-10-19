@@ -1,10 +1,7 @@
 (function () {
   const template = document.createElement('template');
 
-  template.innerHTML = `
-    <slot></slot>
-    <style>@import "http://localhost:5008/assets/grid/gridRow.css";</style>
-  `;
+  template.innerHTML = `<slot></slot><style></style>`;
 
   class GridRow extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });

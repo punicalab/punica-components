@@ -41,7 +41,7 @@ const Module = () => {
           <punica-col xs={12} style={{ position: 'relative' }}>
             <punica-icon-button size="small" onClick={handleClick}>
               <punica-icon>
-                <i className="fa-solid fa-ellipsis-vertical"></i>
+                <i className="fa-solid fa-ellipsis-vertical" />
               </punica-icon>
             </punica-icon-button>
             <punica-menu

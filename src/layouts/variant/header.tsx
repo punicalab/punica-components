@@ -10,7 +10,7 @@ export const Header = (props: IHeaderProps) => {
         <punica-col>
           <a href={`#${link}`}>
             <punica-icon>
-              <i className="fa-regular fa-link"></i>
+              <i className="fa-regular fa-link" />
             </punica-icon>
           </a>
         </punica-col>

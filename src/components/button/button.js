@@ -5,11 +5,25 @@
     <slot name="startIcon"></slot>
     <slot></slot>
     <slot name="endIcon"></slot>
-    <style>@import "http://localhost:5008/assets/button/button.css";</style>
+    <style></style>
   `;
 
   class Button extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
+
+    /**
+     *
+     */
+    get rounded() {
+      return this.getAttribute('rounded') == 'true';
+    }
+
+    /**
+     *
+     */
+    set rounded(val) {
+      this.setAttribute('rounded', val);
+    }
 
     /**
      *

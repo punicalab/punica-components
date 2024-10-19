@@ -27,6 +27,7 @@ declare global {
       > & {
         value: string | number | Date;
         class?: string;
+        rounded?: boolean;
       };
       'punica-select-item': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -67,6 +68,7 @@ declare global {
         fullWidth?: boolean;
         loading?: boolean;
         underline?: boolean;
+        rounded?: boolean;
         disabled?: boolean;
         color?:
           | 'primary'
@@ -106,8 +108,26 @@ declare global {
         HTMLElement
       > & {
         class?: string;
-        variant?: 'filled' | 'outlined';
+        variant?: 'standard' | 'filled' | 'outlined';
         severity?: 'error' | 'info' | 'warning' | 'success';
+      };
+      'punica-alert-icon': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+      };
+      'punica-alert-title': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+      };
+      'punica-alert-description': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
       };
       'punica-badge': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -286,11 +306,41 @@ declare global {
       'punica-modal': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
-      > & { class?: string; open: boolean; width: number; height: number };
+      > & {
+        class?: string;
+        rounded?: boolean;
+        open: boolean;
+        width: number;
+        height: number;
+      };
+      'punica-modal-header': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & { class?: string };
+      'punica-modal-content': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & { class?: string };
+      'punica-modal-footer': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & { class?: string };
       'punica-dialog': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
-      > & { class?: string; open: boolean };
+      > & { class?: string; open: boolean; rounded?: boolean };
+      'punica-dialog-header': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & { class?: string };
+      'punica-dialog-content': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & { class?: string };
+      'punica-dialog-footer': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & { class?: string };
       'punica-skeleton': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement

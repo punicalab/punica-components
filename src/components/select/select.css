@@ -1,15 +1,19 @@
 :host {
+  --select-border-radius: var(--spacing-16);
+  --select-border-color: var(--neutral-main);
+}
+
+:host {
   display: inline-flex;
   flex-wrap: nowrap;
   align-items: center;
   gap: var(--spacing-8);
   border-width: 1px;
   border-style: solid;
-  border-radius: var(--spacing-4);
   padding: var(--spacing-12) var(--spacing-12);
   box-sizing: border-box;
   transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-color: var(--neutral-main);
+  border-color: var(--select-border-color);
   min-width: 250px;
   height: 40px;
 }
@@ -24,6 +28,10 @@
 
 :host([focus]) {
   border-color: var(--primary-main);
+}
+
+:host([rounded]) {
+  border-radius: var(--select-border-radius);
 }
 
 #contentWrapper {
@@ -47,6 +55,10 @@
   pointer-events: all;
 }
 
+:host([rounded]) #optionWrapper {
+  border-radius: var(--select-border-radius);
+}
+
 #optionWrapper {
   padding: var(--spacing-8) 0;
   box-sizing: border-box;
@@ -54,7 +66,6 @@
   display: block;
   max-height: 250px;
   overflow-x: hidden;
-  border-radius: var(--spacing-4);
   margin-top: 4px;
   box-shadow: 1px 1px rgba(125, 125, 125, 0.1),
     0 1px 1px 1px rgba(125, 125, 125, 0.1);

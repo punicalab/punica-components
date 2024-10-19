@@ -1,9 +1,7 @@
 (function () {
   const template = document.createElement('template');
 
-  template.innerHTML = `
-    <style>@import "http://localhost:5008/assets/divider/divider.css";</style>
-  `;
+  template.innerHTML = `<style></style>`;
 
   class Divider extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });

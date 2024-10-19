@@ -3,6 +3,7 @@
   width: 100%;
   box-sizing: border-box;
   overflow-x: hidden;
+  padding: var(--spacing-16);
 }
 
 :host-context(punica-accordion[expanded='true']) {

@@ -12,36 +12,40 @@ const Module = () => {
           <punica-col xs={12}>
             <punica-row gap={16}>
               <punica-col>
-                <punica-button variant="text">
+                <punica-button rounded variant="text">
                   Text Button Primary
                 </punica-button>
               </punica-col>
               <punica-col>
-                <punica-button>Button Primary</punica-button>
+                <punica-button rounded>Button Primary</punica-button>
               </punica-col>
               <punica-col>
-                <punica-button variant="outlined">
+                <punica-button rounded variant="outlined">
                   Button Outlined
                 </punica-button>
               </punica-col>
               <punica-col>
-                <punica-button color="secondary">
+                <punica-button rounded color="secondary">
                   Button Color Secondary
                 </punica-button>
               </punica-col>
               <punica-col>
-                <punica-button color="error">Button Color Error</punica-button>
+                <punica-button rounded color="error">
+                  Button Color Error
+                </punica-button>
               </punica-col>
               <punica-col>
-                <punica-button color="info">Button Color Info</punica-button>
+                <punica-button rounded color="info">
+                  Button Color Info
+                </punica-button>
               </punica-col>
               <punica-col>
-                <punica-button color="success">
+                <punica-button rounded color="success">
                   Button Color Success
                 </punica-button>
               </punica-col>
               <punica-col>
-                <punica-button color="warning">
+                <punica-button rounded color="warning">
                   Button Color Warning
                 </punica-button>
               </punica-col>

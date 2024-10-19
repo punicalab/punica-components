@@ -1,11 +1,13 @@
-.alert {
-  padding: var(--spacing-16);
-  width: fit-content;
-  box-sizing: border-box;
-  border-radius: var(--spacing-8);
+:host {
+  --alert-border-radius: var(--spacing-16);
+  --alert-padding: var(--spacing-16);
 }
 
-.alert-layout-main {
+:host {
+  padding: var(--alert-padding);
+  border-radius: var(--alert-border-radius);
+  width: fit-content;
+  box-sizing: border-box;
   display: grid;
   align-items: center;
   grid-template-columns: auto auto;
@@ -13,82 +15,70 @@
   column-gap: var(--spacing-12);
   grid-template-areas:
     'icon title'
-    '. descripton';
+    '. description';
 }
 
-.alert-layout-icon {
-  grid-area: icon;
-}
-
-.alert-layout-title {
-  grid-area: title;
-}
-
-.alert-layout-description {
-  grid-area: descripton;
-}
-
-.alert[class*='variant-outlined'] {
+:host[class*='variant-outlined'] {
   border-width: 1px;
   border-style: solid;
 }
 
-.alert-is-variant-default.alert-is-severity-error {
+:host([variant='standard'][severity='error']) {
   background-color: var(--error-light);
   color: var(--error-main);
 }
 
-.alert-is-variant-default.alert-is-severity-info {
+:host([variant='standard'][severity='info']) {
   background-color: var(--info-light);
   color: var(--info-main);
 }
 
-.alert-is-variant-default.alert-is-severity-success {
+:host([variant='standard'][severity='success']) {
   background-color: var(--success-light);
   color: var(--success-main);
 }
 
-.alert-is-variant-default.alert-is-severity-warning {
+:host([variant='standard'][severity='warning']) {
   background-color: var(--warning-light);
   color: var(--warning-main);
 }
 
-.alert-is-variant-outlined.alert-is-severity-error {
+:host([variant='outlined'][severity='error']) {
   background-color: var(--white);
   color: var(--error-main);
 }
 
-.alert-is-variant-outlined.alert-is-severity-info {
+:host([variant='outlined'][severity='info']) {
   background-color: var(--white);
   color: var(--info-main);
 }
 
-.alert-is-variant-outlined.alert-is-severity-success {
+:host([variant='outlined'][severity='success']) {
   background-color: var(--white);
   color: var(--success-main);
 }
 
-.alert-is-variant-outlined.alert-is-severity-warning {
+:host([variant='outlined'][severity='warning']) {
   background-color: var(--white);
   color: var(--warning-main);
 }
 
-.alert-is-variant-filled.alert-is-severity-error {
+:host([variant='filled'][severity='error']) {
   color: var(--white);
   background-color: var(--error-main);
 }
 
-.alert-is-variant-filled.alert-is-severity-info {
+:host([variant='filled'][severity='info']) {
   color: var(--white);
   background-color: var(--info-main);
 }
 
-.alert-is-variant-filled.alert-is-severity-success {
+:host([variant='filled'][severity='success']) {
   color: var(--white);
   background-color: var(--success-main);
 }
 
-.alert-is-variant-filled.alert-is-severity-warning {
+:host([variant='filled'][severity='warning']) {
   color: var(--white);
   background-color: var(--warning-main);
 }

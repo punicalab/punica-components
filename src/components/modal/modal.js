@@ -3,24 +3,23 @@
 
   template.innerHTML = `
     <dialog>
-      <div class="modal-layout-main">
-        <div class="modal-layout-header">
-          <slot name="header"></slot>
-        </div>
-        <div class="modal-layout-content">
-          <slot name="content"></slot>
-        </div>
-        <div class="modal-layout-footer">
-          <slot name="footer"></slot>
-        </div>
-      </div>
+      <slot></slot>
     </dialog>
-    <style>@import "http://localhost:5008/assets/modal/modal.css";</style>
+    <style></style>
   `;
 
   class Modal extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
     #dialog = null;
+
+    /**
+     *
+     */
+    get rounded() {
+      const value = this.getAttribute('rounded');
+
+      return value || true;
+    }
 
     /**
      *

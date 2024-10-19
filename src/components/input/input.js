@@ -5,7 +5,7 @@
     <slot name="startAdornment"></slot>
     <input />
     <slot name="endAdornment"></slot>
-    <style>@import "http://localhost:5008/assets/input/input.css";</style>
+    <style></style>
   `;
 
   class Input extends HTMLElement {

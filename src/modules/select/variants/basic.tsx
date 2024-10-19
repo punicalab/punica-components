@@ -23,7 +23,7 @@ const Module = () => {
           <punica-select-item value="item9">Item 9</punica-select-item>
           <punica-select-item value="item10">Item 10</punica-select-item>
           <punica-icon slot="caret">
-            <i className="fa-solid fa-caret-down"></i>
+            <i className="fa-solid fa-caret-down" />
           </punica-icon>
         </punica-select>
       </Layout.Example>
@@ -47,7 +47,7 @@ const Code = `
         Item 10
     </punica-select-item>
     <punica-icon slot="caret">
-        <i className="fa-solid fa-caret-down"></i>
+        <i className="fa-solid fa-caret-down" />
     </punica-icon>
   </punica-select>
 `;

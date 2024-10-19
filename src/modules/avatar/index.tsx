@@ -18,17 +18,17 @@ const Module = () => {
               </punica-col>
               <punica-col>
                 <punica-avatar variant="circular">
-                  <img src="/assets/avatar/avatar.jpg"></img>
+                  <img src="/assets/avatar.jpg"></img>
                 </punica-avatar>
               </punica-col>
               <punica-col>
                 <punica-avatar variant="rounded">
-                  <img src="/assets/avatar/avatar.jpg"></img>
+                  <img src="/assets/avatar.jpg"></img>
                 </punica-avatar>
               </punica-col>
               <punica-col>
                 <punica-avatar variant="square">
-                  <img src="/assets/avatar/avatar.jpg"></img>
+                  <img src="/assets/avatar.jpg"></img>
                 </punica-avatar>
               </punica-col>
             </punica-row>

@@ -1,6 +1,9 @@
 :host {
+  --button-border-radius: var(--spacing-16);
+}
+
+:host {
   outline: none;
-  border-radius: var(--spacing-8);
   border: none;
   flex-wrap: nowrap;
   cursor: pointer;
@@ -11,6 +14,10 @@
   box-sizing: border-box;
   font-weight: 400;
   transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+:host([rounded]) {
+  border-radius: var(--button-border-radius);
 }
 
 :host([disabled='true']) {

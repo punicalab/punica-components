@@ -5,7 +5,7 @@
     <slot name="icon"></slot>
     <slot name="content"></slot>
     <slot name="expandIcon"></slot>
-    <style>@import "http://localhost:5008/assets/accordion/accordionSummary.css";</style>
+    <style></style>
   `;
 
   class AccordionSummary extends HTMLElement {

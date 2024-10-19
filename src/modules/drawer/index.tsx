@@ -33,7 +33,7 @@ const Module = () => {
                             setOpenLeft(false);
                           }}
                         >
-                          <i className="fa-duotone fa-circle-xmark"></i>
+                          <i className="fa-duotone fa-circle-xmark" />
                         </punica-icon-button>
                       </punica-col>
                       <punica-col>
@@ -77,7 +77,7 @@ const Module = () => {
                             setOpenBottom(false);
                           }}
                         >
-                          <i className="fa-duotone fa-circle-xmark"></i>
+                          <i className="fa-duotone fa-circle-xmark" />
                         </punica-icon-button>
                       </punica-col>
                       <punica-col>
@@ -117,7 +117,7 @@ const Module = () => {
                             setOpenRight(false);
                           }}
                         >
-                          <i className="fa-duotone fa-circle-xmark"></i>
+                          <i className="fa-duotone fa-circle-xmark" />
                         </punica-icon-button>
                       </punica-col>
                       <punica-col>
@@ -157,7 +157,7 @@ const Module = () => {
                             setOpenTop(false);
                           }}
                         >
-                          <i className="fa-duotone fa-circle-xmark"></i>
+                          <i className="fa-duotone fa-circle-xmark" />
                         </punica-icon-button>
                       </punica-col>
                       <punica-col>

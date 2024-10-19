@@ -1,10 +1,7 @@
 (function () {
   const template = document.createElement('template');
 
-  template.innerHTML = `
-    <slot></slot>
-    <style>@import "http://localhost:5008/assets/typography/typography.css";</style>
-  `;
+  template.innerHTML = `<slot></slot><style></style>`;
 
   const defaultVariantLevelMapping = {
     headline1: '1',

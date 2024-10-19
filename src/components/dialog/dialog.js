@@ -3,19 +3,9 @@
 
   template.innerHTML = `
     <dialog>
-      <div class="dialog-layout-main">
-        <div class="dialog-layout-title">
-          <slot name="title"></slot>
-        </div>
-        <div class="dialog-layout-content">
-          <slot name="content"></slot>
-        </div>
-        <div class="dialog-layout-footer">
-          <slot name="footer"></slot>
-        </div>
-      </div>
+      <slot></slot>
     </dialog>
-    <style>@import "http://localhost:5008/assets/dialog/dialog.css";</style>
+    <style></style>
   `;
 
   class Dialog extends HTMLElement {
@@ -27,6 +17,15 @@
      */
     get open() {
       return this.getAttribute('open');
+    }
+
+    /**
+     *
+     */
+    get rounded() {
+      const value = this.getAttribute('rounded');
+
+      return value || true;
     }
 
     /**

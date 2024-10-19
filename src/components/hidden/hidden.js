@@ -1,9 +1,7 @@
 (function () {
   const template = document.createElement('template');
 
-  template.innerHTML = `
-    <slot></slot>
-  `;
+  template.innerHTML = `<slot></slot><style></style>`;
 
   class Hidden extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });

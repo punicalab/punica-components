@@ -1,7 +1,7 @@
 (function () {
   const template = document.createElement('template');
 
-  template.innerHTML = ``;
+  template.innerHTML = `<style></style>`;
 
   class TabPanel extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });

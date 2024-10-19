@@ -1,26 +1,24 @@
+:host {
+  --modal-border-radius: var(--spacing-16);
+  --modal-background-color: var(--background-main);
+  --modal-padding: var(--spacing-24);
+  --modal-backdrop-background-color: var(--backdrop-main);
+}
+
 dialog {
+  display: none;
   border: none;
   outline: none;
-  opacity: 0;
+  min-width: 500px;
+  max-width: 600px;
+  box-sizing: border-box;
+  padding: var(--modal-padding);
+  background-color: var(--modal-background-color);
   overflow: hidden;
-  border-radius: var(--spacing-8);
-  padding: var(--spacing-24);
-  background-color: var(--background-paper);
-  border: 1px solid var(--neutral-main);
 }
 
 dialog[open] {
-  animation: fade-in 0.5s cubic-bezier(0.25, 0, 0.3, 1) forwards;
-  animation-timing-function: cubic-bezier(0.5, -0.5, 0.1, 1.5);
-}
-
-dialog[open]::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-layout-main {
   display: grid;
-  height: 100%;
   grid-template-columns: auto;
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
@@ -29,27 +27,10 @@ dialog[open]::backdrop {
     'footer';
 }
 
-.modal-layout-header {
-  grid-area: header;
+:host([rounded]) dialog {
+  border-radius: var(--modal-border-radius);
 }
 
-.modal-layout-content {
-  grid-area: content;
-  margin: var(--spacing-16) 0;
-  overflow-x: hidden;
-}
-
-.modal-layout-footer {
-  grid-area: footer;
-  display: flex;
-  flex-wrap: nowrap;
-  gap: var(--spacing-8);
-  justify-content: flex-end;
-}
-
-/* Animation keyframes */
-@keyframes fade-in {
-  to {
-    opacity: 1;
-  }
+dialog[open]::backdrop {
+  background-color: var(--modal-backdrop-background-color);
 }

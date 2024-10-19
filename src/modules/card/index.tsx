@@ -38,8 +38,8 @@ const Module = () => {
                 </div>
               </punica-card-content>
               <punica-card-actions>
-                <punica-button>Action 1</punica-button>
-                <punica-button>Action 2</punica-button>
+                <punica-button rounded>Action 1</punica-button>
+                <punica-button rounded>Action 2</punica-button>
               </punica-card-actions>
             </punica-card>
           </punica-col>

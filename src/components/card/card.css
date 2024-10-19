@@ -1,10 +1,11 @@
 :host {
   --card-border-radius: var(--spacing-16);
+  --card-background-color: var(--background-paper);
 }
 
 :host {
   display: inline-block;
-  background-color: var(--background-paper);
+  background-color: var(--card-background-color);
   box-sizing: border-box;
   overflow: hidden;
 }

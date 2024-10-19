@@ -4,7 +4,7 @@
   template.innerHTML = `
     <slot></slot>
     <span class="content"></span>
-    <style>@import "http://localhost:5008/assets/badge/badge.css";</style>
+    <style></style>
   `;
 
   class Badge extends HTMLElement {

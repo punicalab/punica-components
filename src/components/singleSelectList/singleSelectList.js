@@ -1,10 +1,7 @@
 (function () {
   const template = document.createElement('template');
 
-  template.innerHTML = `
-    <slot></slot>
-    <style>@import "http://localhost:5008/assets/singleSelectList/singleSelectList.css";</style>
-  `;
+  template.innerHTML = `<slot></slot><style></style>`;
 
   class SingleSelectList extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
