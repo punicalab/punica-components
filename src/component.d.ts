@@ -28,6 +28,7 @@ declare global {
         value: string | number | Date;
         class?: string;
         rounded?: boolean;
+        fullWidth?: boolean;
       };
       'punica-select-item': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

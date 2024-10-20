@@ -15,6 +15,15 @@
     /**
      *
      */
+    get rounded() {
+      const value = this.getAttribute('rounded');
+
+      return value || true;
+    }
+
+    /**
+     *
+     */
     get placeholder() {
       return this.getAttribute('placeholder');
     }

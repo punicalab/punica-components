@@ -1,7 +1,7 @@
 (function () {
   const template = document.createElement('template');
 
-  template.innerHTML = `<slot></slot><style></style>`;
+  template.innerHTML = `<textarea></textarea><style></style>`;
 
   class Textarea extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
