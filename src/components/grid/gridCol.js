@@ -51,6 +51,68 @@
     /**
      *
      */
+    #cerateStyle() {
+      const style = document.createElement('style');
+
+      style.innerHTML = `
+        ${
+          this.xs
+            ? `
+            @media (min-width: 0) {
+              :host{
+                width: calc(100% * ${this.xs} / var(--columns));
+              }
+            }`
+            : ``
+        }
+        ${
+          this.sm
+            ? `
+            @media (min-width: 600px) {
+              :host{
+                width: calc(100% * ${this.sm} / var(--columns));
+              }
+            }`
+            : ``
+        }
+        ${
+          this.md
+            ? `
+            @media (min-width: 900px) {
+              :host{
+                width: calc(100% * ${this.md} / var(--columns));
+              }
+            }`
+            : ``
+        }
+        ${
+          this.lg
+            ? `
+            @media (min-width: 1200px) {
+              :host{
+                width: calc(100% * ${this.lg} / var(--columns));
+              }
+            }`
+            : ``
+        }
+        ${
+          this.xl
+            ? `
+            @media (min-width: 1536px) {
+              :host{
+                width: calc(100% * ${this.xl} / var(--columns));
+              }
+            }`
+            : ``
+        }
+      `;
+
+      this.#shadow.appendChild(style);
+    }
+
+    /**
+     *
+     */
     constructor() {
       super();
 
@@ -72,64 +134,20 @@
         case 'md':
         case 'lg':
         case 'xl':
-          const style = document.createElement('style');
+          console.log(oldValue, newValue);
 
-          style.innerHTML = `
-            ${
-              this.xs
-                ? `
-                @media (min-width: 0) {
-                  :host{
-                    width: calc(100% * ${newValue} / var(--columns));
-                  }
-                }`
-                : ``
-            }
-            ${
-              this.sm
-                ? `
-                @media (min-width: 600px) {
-                  :host{
-                    width: calc(100% * ${newValue} / var(--columns));
-                  }
-                }`
-                : ``
-            }
-            ${
-              this.md
-                ? `
-                @media (min-width: 900px) {
-                  :host{
-                    width: calc(100% * ${newValue} / var(--columns));
-                  }
-                }`
-                : ``
-            }
-            ${
-              this.lg
-                ? `
-                @media (min-width: 1200px) {
-                  :host{
-                    width: calc(100% * ${newValue} / var(--columns));
-                  }
-                }`
-                : ``
-            }
-            ${
-              this.xl
-                ? `
-                @media (min-width: 1536px) {
-                  :host{
-                    width: calc(100% * ${newValue} / var(--columns));
-                  }
-                }`
-                : ``
-            }
-          `;
-
-          this.#shadow.appendChild(style);
+          if (oldValue != newValue) {
+            this.#cerateStyle();
+          }
           break;
       }
+    }
+
+    /**
+     *
+     */
+    connectedCallback() {
+      this.#cerateStyle();
     }
   }
 
