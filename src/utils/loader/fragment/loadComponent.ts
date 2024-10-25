@@ -1,7 +1,7 @@
 const loadComponent = (scope: string, module: string) => {
   return async () => {
     //@ts-ignore
-    await __webpack_init_sharing__("default");
+    await __webpack_init_sharing__('default');
     const container = window[scope];
     //@ts-ignore
     await container.init(__webpack_share_scopes__.default);

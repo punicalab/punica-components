@@ -80,6 +80,24 @@ declare global {
           | 'success'
           | 'ghost';
       };
+      'punica-button-group': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+        size?: 'small' | 'medium' | 'large';
+        variant?: 'filled' | 'outlined' | 'text';
+        disabled?: boolean;
+        color?:
+          | 'primary'
+          | 'secondary'
+          | 'error'
+          | 'info'
+          | 'warning'
+          | 'success'
+          | 'ghost';
+        fullWidth?: boolean;
+      };
       'punica-icon-button': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
@@ -475,6 +493,41 @@ declare global {
           | 'caption'
           | 'button'
           | 'overline';
+      };
+      'punica-toggle-button': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        value: string;
+        selected?: boolean;
+        class?: string;
+        size?: 'xsmall' | 'small' | 'medium' | 'large';
+        disabled?: boolean;
+        color?:
+          | 'primary'
+          | 'secondary'
+          | 'error'
+          | 'info'
+          | 'warning'
+          | 'success';
+      };
+      'punica-toggle-button-group': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        value?: string;
+        class?: string;
+        size?: 'small' | 'medium' | 'large';
+        disabled?: boolean;
+        color?:
+          | 'primary'
+          | 'secondary'
+          | 'error'
+          | 'info'
+          | 'warning'
+          | 'success'
+          | 'ghost';
+        fullWidth?: boolean;
       };
       'punica-col': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

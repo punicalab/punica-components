@@ -62,6 +62,11 @@ const Module = () => {
               <punica-col>
                 <punica-button size="large">Large</punica-button>
               </punica-col>
+              <punica-col>
+                <punica-button size="large" disabled>
+                  Disabled
+                </punica-button>
+              </punica-col>
             </punica-row>
           </punica-col>
         </punica-row>

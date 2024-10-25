@@ -5,6 +5,7 @@
   "component.badge": "Badge",
   "component.box": "Box",
   "component.button": "Button",
+  "component.buttonGroup": "ButtonGroup",
   "component.card": "Card",
   "component.checkbox": "Checkbox",
   "component.chip": "Chip",
@@ -29,6 +30,8 @@
   "component.switch": "Switch",
   "component.tab": "Tab",
   "component.textarea": "Textarea",
+  "component.toggleButton": "ToggleButton",
+  "component.toggleButtonGroup": "ToggleButtonGroup",
   "component.typography": "Typography",
   "component.splitButton": "SplitButton"
 }

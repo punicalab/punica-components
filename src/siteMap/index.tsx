@@ -44,6 +44,11 @@ export const SiteMap: Array<CustomRouteObject> = [
         element: <ModuleLoader module="button" />
       },
       {
+        translateKey: 'component.buttonGroup',
+        path: '/buttonGroup',
+        element: <ModuleLoader module="buttonGroup" />
+      },
+      {
         translateKey: 'component.card',
         path: '/card',
         element: <ModuleLoader module="card" />
@@ -167,6 +172,16 @@ export const SiteMap: Array<CustomRouteObject> = [
         translateKey: 'component.textarea',
         path: '/textarea',
         element: <ModuleLoader module="textarea" />
+      },
+      {
+        translateKey: 'component.toggleButton',
+        path: '/toggleButton',
+        element: <ModuleLoader module="toggleButton" />
+      },
+      {
+        translateKey: 'component.toggleButtonGroup',
+        path: '/toggleButtonGroup',
+        element: <ModuleLoader module="toggleButtonGroup" />
       },
       {
         translateKey: 'component.typography',

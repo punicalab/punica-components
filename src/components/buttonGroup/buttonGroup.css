@@ -1,0 +1,34 @@
+:host([fullWidth]) {
+  width: 100%;
+  display: inline-flex;
+}
+
+::slotted(.first-button),
+::slotted(.middle-button) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+::slotted(.last-button),
+::slotted(.middle-button) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* Outlined */
+::slotted([variant='outlined'].first-button),
+::slotted([variant='outlined'].middle-button) {
+  border-right-color: transparent;
+}
+
+/* Outlined */
+::slotted([variant='outlined'].last-button),
+::slotted([variant='outlined'].middle-button) {
+  margin-left: -1;
+}
+
+/* Filled */
+::slotted([variant='filled'].first-button),
+::slotted([variant='filled'].middle-button) {
+  border-right: 1px solid lightgrey;
+}
