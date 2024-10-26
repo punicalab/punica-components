@@ -1,5 +1,5 @@
 :host {
-  --paper-color: var(--background-paper);
+  --paper-background-color: var(--background-paper);
 }
 
 :host {
@@ -22,7 +22,7 @@
 
 :host punica-paper {
   transition: transform 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-  background-color: var(--paper-color);
+  background-color: var(--paper-background-color);
   overflow-y: auto;
   display: flex;
   flex-direction: column;

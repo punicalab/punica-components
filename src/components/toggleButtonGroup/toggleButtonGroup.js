@@ -10,20 +10,18 @@
      *
      */
     static get observedAttributes() {
-      return ['value','size', 'color', 'disabled', 'fullWidth'];
+      return ['value', 'size', 'color', 'disabled', 'fullWidth'];
     }
 
-
-  /**
-   * 
-   */
-   get value() {
-    return this.getAttribute('value');
-   }
-
-   
     /**
-     * 
+     *
+     */
+    get value() {
+      return this.getAttribute('value');
+    }
+
+    /**
+     *
      */
     set value(val) {
       this.setAttribute('value', val);
@@ -36,7 +34,6 @@
       return this.getAttribute('size') || 'medium';
     }
 
-  
     /**
      *
      */
@@ -56,68 +53,66 @@
      */
     set color(val) {
       this.setAttribute('color', val);
-    }  
-    
-    /**
-    *
-    */
-    get disabled() {
-    return this.hasAttribute('disabled');
-  }
+    }
 
     /**
-    *
-    */
+     *
+     */
+    get disabled() {
+      return this.hasAttribute('disabled');
+    }
+
+    /**
+     *
+     */
     get fullWidth() {
       return this.getAttribute('fullWidth');
     }
 
-
     /**
-     * 
-     * @param {*} children 
-     * @param {*} index 
-     * @returns 
+     *
+     * @param {*} children
+     * @param {*} index
+     * @returns
      */
-    getButtonPositionClassName(children, index){
+    getButtonPositionClassName(children, index) {
       const isFirstButton = index === 0;
       const isLastButton = index === children.length - 1;
-  
+
       if (isFirstButton && isLastButton) {
         return null;
       }
 
       if (isFirstButton) {
-        return 'first-button'
+        return 'first-button';
       }
 
       if (isLastButton) {
-       return 'last-button'
+        return 'last-button';
       }
 
-      return 'middle-button'
-    };
+      return 'middle-button';
+    }
 
     /**
-     * 
+     *
      */
     applyButtonStyles() {
       const slot = this.#shadow.querySelector('slot');
       const children = slot.assignedElements();
 
       if (children.length > 0) {
-          children.forEach((_, i) => {
-            const className = this.getButtonPositionClassName(children, i);
-            children[i].classList.add(className);
-          })
-
-      };
+        children.forEach((_, i) => {
+          const className = this.getButtonPositionClassName(children, i);
+          children[i].classList.add(className);
+        });
+      }
     }
 
     /**
-     * 
-     * @param {*} attribute 
-     * @param {*} newAttributeType 
+     *
+     * @param {*} attribute
+     * @param {*} newAttributeType
      */
     applyNewStyle(attribute, newAttributeType) {
       const attributeValue = this.getAttribute(attribute);
@@ -125,38 +120,42 @@
       const children = slot.assignedElements();
 
       children.forEach((child) => {
-          if (attributeValue === newAttributeType) {
-            child.classList.remove(attribute);
-            child.setAttribute(attribute, newAttributeType);
-          }
+        if (attributeValue === newAttributeType) {
+          child.classList.remove(attribute);
+          child.setAttribute(attribute, newAttributeType);
+        }
       });
     }
 
-
     /**
-     * 
-     * @param {*} event 
+     *
+     * @param {*} event
      */
-    handleToggleButtonClick(event){
+    handleToggleButtonClick(event) {
       const clickedButton = event.target.closest('punica-toggle-button');
 
-      if (clickedButton && clickedButton.tagName.toLowerCase() === 'punica-toggle-button') {
+      if (
+        clickedButton &&
+        clickedButton.tagName.toLowerCase() === 'punica-toggle-button'
+      ) {
         const selectedValue = clickedButton.getAttribute('value');
         this.value = selectedValue;
 
-        this.dispatchEvent(new CustomEvent('change', {
-          detail: { value: selectedValue },
-          bubbles: true,
-          composed: true
-        }));
+        this.dispatchEvent(
+          new CustomEvent('change', {
+            detail: { value: selectedValue },
+            bubbles: true,
+            composed: true
+          })
+        );
 
         this.updateSelectedButton(selectedValue);
       }
-  };
+    }
 
     /**
-     * 
-     * @param {*} clickedButton 
+     *
+     * @param {*} clickedButton
      */
     updateSelectedButton(value) {
       const slot = this.#shadow.querySelector('slot');
@@ -181,7 +180,7 @@
     }
 
     /**
-     * 
+     *
      */
     connectedCallback() {
       this.applyButtonStyles();
@@ -193,18 +192,17 @@
       this.applyNewStyle('size', this.size);
       this.addEventListener('click', this.handleToggleButtonClick);
 
-      if(this.value){
-        this.updateSelectedButton(this.value)
+      if (this.value) {
+        this.updateSelectedButton(this.value);
       }
     }
 
     /**
-     * 
+     *
      */
     disconnectedCallback() {
       this.removeEventListener('click', this.handleToggleButtonClick);
-    } 
-
+    }
   }
 
   customElements.define('punica-toggle-button-group', ToggleButtonGroup);

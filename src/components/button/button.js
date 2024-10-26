@@ -84,6 +84,13 @@
     /**
      *
      */
+    set disabled(val) {
+      this.setAttribute('disabled', val);
+    }
+
+    /**
+     *
+     */
     get loading() {
       return this.getAttribute('loading');
     }
@@ -91,8 +98,22 @@
     /**
      *
      */
+    set loading(val) {
+      this.setAttribute('loading', val);
+    }
+
+    /**
+     *
+     */
     get underline() {
       return this.getAttribute('underline');
+    }
+
+    /**
+     *
+     */
+    set underline(val) {
+      this.setAttribute('underline', val);
     }
 
     /**

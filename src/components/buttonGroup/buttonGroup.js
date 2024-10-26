@@ -10,7 +10,7 @@
      *
      */
     static get observedAttributes() {
-      return ['variant','size', 'color', 'disabled', 'fullWidth'];
+      return ['variant', 'size', 'color', 'disabled', 'fullWidth'];
     }
 
     /**
@@ -20,7 +20,6 @@
       return this.getAttribute('size') || 'medium';
     }
 
-  
     /**
      *
      */
@@ -54,67 +53,66 @@
      */
     set color(val) {
       this.setAttribute('color', val);
-    }  
-    
-    /**
-    *
-    */
-    get disabled() {
-    return this.hasAttribute('disabled');
-  }
-
-    /**
-    *
-    */
-    get fullWidth() {
-      return this.getAttribute('fullWidth');
     }
 
     /**
-     * 
-     * @param {*} children 
-     * @param {*} index 
-     * @returns 
+     *
      */
-     getButtonPositionClassName(children, index){
+    get disabled() {
+      return this.hasAttribute('disabled') == 'true';
+    }
+
+    /**
+     *
+     */
+    get fullWidth() {
+      return this.getAttribute('fullWidth') == 'true';
+    }
+
+    /**
+     *
+     * @param {*} children
+     * @param {*} index
+     * @returns
+     */
+    getButtonPositionClassName(children, index) {
       const isFirstButton = index === 0;
       const isLastButton = index === children.length - 1;
-  
+
       if (isFirstButton && isLastButton) {
         return null;
       }
 
       if (isFirstButton) {
-        return 'first-button'
+        return 'first-button';
       }
 
       if (isLastButton) {
-       return 'last-button'
+        return 'last-button';
       }
 
-      return 'middle-button'
-    };
+      return 'middle-button';
+    }
 
     /**
-     * 
+     *
      */
     applyButtonStyles() {
       const slot = this.#shadow.querySelector('slot');
       const children = slot.assignedElements();
 
       if (children.length > 0) {
-          children.forEach((_, i) => {
-            const className = this.getButtonPositionClassName(children, i);
-            children[i].classList.add(className);
-          })
-
-      };
+        children.forEach((_, i) => {
+          const className = this.getButtonPositionClassName(children, i);
+          children[i].classList.add(className);
+        });
+      }
     }
 
     /**
-     * 
-     * @param {*} attribute 
-     * @param {*} newAttributeType 
+     *
+     * @param {*} attribute
+     * @param {*} newAttributeType
      */
     applyNewStyle(attribute, newAttributeType) {
       const attributeValue = this.getAttribute(attribute);
@@ -122,10 +120,10 @@
       const children = slot.assignedElements();
 
       children.forEach((child) => {
-          if (attributeValue === newAttributeType) {
-            child.classList.remove(attribute);
-            child.setAttribute(attribute, newAttributeType);
-          }
+        if (attributeValue === newAttributeType) {
+          child.classList.remove(attribute);
+          child.setAttribute(attribute, newAttributeType);
+        }
       });
     }
 
@@ -139,7 +137,7 @@
     }
 
     /**
-     * 
+     *
      */
     connectedCallback() {
       this.applyButtonStyles();
@@ -151,9 +149,6 @@
       this.applyNewStyle('size', this.size);
       this.applyNewStyle('variant', this.variant);
     }
-
- 
-    
   }
 
   customElements.define('punica-button-group', ButtonGroup);

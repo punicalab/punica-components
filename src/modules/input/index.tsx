@@ -30,6 +30,26 @@ const Module = () => {
                 </punica-input>
               </punica-col>
               <punica-col xs={12}>
+                <punica-input placeholder="Lorem Ipsum..." rounded>
+                  <i slot="endAdornment" className="fa-duotone fa-house" />
+                </punica-input>
+              </punica-col>
+              <punica-col>
+                <punica-input placeholder="Lorem Ipsum..." size="small">
+                  <i slot="endAdornment" className="fa-duotone fa-house" />
+                </punica-input>
+              </punica-col>
+              <punica-col>
+                <punica-input placeholder="Lorem Ipsum..." size="medium">
+                  <i slot="endAdornment" className="fa-duotone fa-house" />
+                </punica-input>
+              </punica-col>
+              <punica-col>
+                <punica-input placeholder="Lorem Ipsum..." size="large">
+                  <i slot="endAdornment" className="fa-duotone fa-house" />
+                </punica-input>
+              </punica-col>
+              <punica-col xs={12}>
                 <punica-input placeholder="Lorem Ipsum..." fullWidth>
                   <i slot="endAdornment" className="fa-duotone fa-house" />
                 </punica-input>

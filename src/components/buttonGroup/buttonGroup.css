@@ -24,7 +24,7 @@
 /* Outlined */
 ::slotted([variant='outlined'].last-button),
 ::slotted([variant='outlined'].middle-button) {
-  margin-left: -1;
+  margin-left: -1px;
 }
 
 /* Filled */

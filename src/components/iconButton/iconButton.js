@@ -10,18 +10,28 @@
      *
      */
     get color() {
-      const value = this.getAttribute('color');
+      return this.getAttribute('color');
+    }
 
-      return value;
+    /**
+     *
+     */
+    set color(val) {
+      this.setAttribute('color', val);
     }
 
     /**
      *
      */
     get size() {
-      const value = this.getAttribute('size');
+      return this.getAttribute('size');
+    }
 
-      return value;
+    /**
+     *
+     */
+    set size(val) {
+      this.setAttribute('size', val);
     }
 
     /**
@@ -34,8 +44,22 @@
     /**
      *
      */
+    set disabled(val) {
+      this.setAttribute('disabled', val);
+    }
+
+    /**
+     *
+     */
     get loading() {
       return this.getAttribute('loading');
+    }
+
+    /**
+     *
+     */
+    set loading(val) {
+      this.setAttribute('loading', val);
     }
 
     /**
@@ -52,6 +76,17 @@
       super();
 
       this.#shadow.appendChild(template.content.cloneNode(true));
+    }
+
+    /**
+     *
+     */
+    connectedCallback() {
+      if (!this.size) {
+        this.size = 'medium';
+      }
+
+      this.setAttribute('role', 'button');
     }
   }
 

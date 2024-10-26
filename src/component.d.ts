@@ -181,10 +181,12 @@ declare global {
         placeholder?: string;
         fullWidth?: boolean;
         disabled?: boolean;
+        rounded?: boolean;
         error?: boolean;
         startAdornment?: HTMLElement;
         endAdornment?: HTMLElement;
         value?: string;
+        size?: 'small' | 'medium' | 'large';
         type?:
           | 'button'
           | 'checkbox'

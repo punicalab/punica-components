@@ -16,9 +16,14 @@
      *
      */
     get rounded() {
-      const value = this.getAttribute('rounded');
+      return this.getAttribute('rounded') == 'true';
+    }
 
-      return value || true;
+    /**
+     *
+     */
+    set rounded(val) {
+      this.setAttribute('rounded', val);
     }
 
     /**
@@ -75,6 +80,20 @@
      */
     get value() {
       return this.getAttribute('value');
+    }
+
+    /**
+     *
+     */
+    get size() {
+      return this.getAttribute('size');
+    }
+
+    /**
+     *
+     */
+    set size(val) {
+      this.setAttribute('size', val);
     }
 
     /**
@@ -143,6 +162,7 @@
      */
     static get observedAttributes() {
       return [
+        'size',
         'placeholder',
         'fullWidth',
         'disabled',
@@ -181,6 +201,10 @@
 
       if (this.placeholder) {
         this.#input.placeholder = this.placeholder;
+      }
+
+      if (!this.size) {
+        this.size = 'medium';
       }
     }
 
