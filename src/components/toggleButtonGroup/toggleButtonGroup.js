@@ -33,7 +33,7 @@
      *
      */
     get size() {
-      return this.getAttribute('size');
+      return this.getAttribute('size') || 'medium';
     }
 
   
@@ -48,7 +48,7 @@
      *
      */
     get color() {
-      return this.getAttribute('color');
+      return this.getAttribute('color') || 'primary';
     }
 
     /**
@@ -140,11 +140,11 @@
     handleToggleButtonClick(event){
       const clickedButton = event.target.closest('punica-toggle-button');
 
-      if (clickedButton.tagName.toLowerCase() === 'punica-toggle-button') {
+      if (clickedButton && clickedButton.tagName.toLowerCase() === 'punica-toggle-button') {
         const selectedValue = clickedButton.getAttribute('value');
         this.value = selectedValue;
 
-        this.dispatchEvent(new CustomEvent('toggle-button-click', {
+        this.dispatchEvent(new CustomEvent('change', {
           detail: { value: selectedValue },
           bubbles: true,
           composed: true
@@ -188,15 +188,9 @@
       this.setAttribute('role', 'group');
 
       this.applyNewStyle('disabled', this.disabled ? 'true' : 'false');
-
       this.applyNewStyle('fullWidth', this.fullWidth ? 'true' : 'false');
-
-      this.color = this.color || 'primary';
       this.applyNewStyle('color', this.color);
-
-      this.size = this.size || 'medium';
       this.applyNewStyle('size', this.size);
-
       this.addEventListener('click', this.handleToggleButtonClick);
 
       if(this.value){

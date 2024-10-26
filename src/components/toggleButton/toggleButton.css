@@ -10,7 +10,6 @@
   -webkit-tap-highlight-color: transparent;
   background-color: transparent;
   outline: 0px;
-  /* border: 0px; */
   margin: 0px;
   cursor: pointer;
   vertical-align: middle;
@@ -18,11 +17,9 @@
   text-decoration: none;
   text-align: center;
   flex: 0 0 auto;
-  /* border-radius: 50%; */
   overflow: visible;
   transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   padding: 12px;
-  /* background-color: rgb(from var(--text-primary) r g b / 6%); */
   border: 1px solid #ebebeb;
   border-radius: 4px;
 }

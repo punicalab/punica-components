@@ -17,7 +17,7 @@
      *
      */
     get size() {
-      return this.getAttribute('size');
+      return this.getAttribute('size') || 'medium';
     }
 
   
@@ -32,7 +32,7 @@
      *
      */
     get variant() {
-      return this.getAttribute('variant');
+      return this.getAttribute('variant') || 'outlined';
     }
 
     /**
@@ -46,7 +46,7 @@
      *
      */
     get color() {
-      return this.getAttribute('color');
+      return this.getAttribute('color') || 'primary';
     }
 
     /**
@@ -146,17 +146,9 @@
       this.setAttribute('role', 'group');
 
       this.applyNewStyle('disabled', this.disabled ? 'true' : 'false');
-
       this.applyNewStyle('fullWidth', this.fullWidth ? 'true' : 'false');
-
-      this.color = this.color || 'primary';
       this.applyNewStyle('color', this.color);
-
-      this.size = this.size || 'medium';
       this.applyNewStyle('size', this.size);
-    
-
-      this.variant = this.variant || 'outlined';
       this.applyNewStyle('variant', this.variant);
     }
 

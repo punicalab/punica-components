@@ -11,9 +11,7 @@
      *
      */
     get value() {
-      const value = this.getAttribute('value');
-    
-      return value;
+      return this.getAttribute('value');
     }
    
 
@@ -21,9 +19,7 @@
      *
      */
     get size() {
-      const value = this.getAttribute('size');
-
-      return value;
+      return this.getAttribute('size');
     }
 
     /**
@@ -55,6 +51,23 @@
 
     toggle() {
       this.selected = !this.selected;
+      this.fireOnChange();
+    }
+
+    /**
+     *
+     */
+     fireOnChange() {
+      this.dispatchEvent(
+        new CustomEvent('change', {
+          detail: {
+            value: this.selected
+          },
+          bubbles: true,
+          cancelable: false,
+          composed: true
+        })
+      );
     }
 
     
@@ -78,9 +91,8 @@
     *
     */
     connectedCallback() {
-      this.addEventListener('click', this.toggle);
-
-      if (this.parentElement.localName == 'punica-toggle-button-group') {
+      if(this.disabled === null){
+        this.addEventListener('click', this.toggle);
       }
     }
 
@@ -89,6 +101,25 @@
      */
     disconnectedCallback() {
       this.removeEventListener('click', this.toggle);
+    }
+    
+    /**
+     *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+     attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case 'disabled':
+          if(newValue){
+            this.addEventListener('click', this.toggle);
+          }
+          else {
+            this.removeEventListener('click');
+          }
+          break;
+      }
     }
 
 

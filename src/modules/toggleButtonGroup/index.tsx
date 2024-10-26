@@ -17,7 +17,7 @@ const Module = () => {
               <punica-toggle-button value="grid">
                 <i className="fa-duotone fa-grid" />
               </punica-toggle-button>
-              <punica-toggle-button value="list">
+              <punica-toggle-button disabled value="list">
                 <i className="fa-duotone fa-list" />
               </punica-toggle-button>
             </punica-toggle-button-group>
