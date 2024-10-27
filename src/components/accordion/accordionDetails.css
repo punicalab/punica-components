@@ -1,9 +1,13 @@
 :host {
+  --accordion-details-padding: var(--spacing-16);
+}
+
+:host {
   display: block;
   width: 100%;
   box-sizing: border-box;
   overflow-x: hidden;
-  padding: var(--spacing-16);
+  padding: var(--accordion-details-padding);
 }
 
 :host-context(punica-accordion[expanded='true']) {
