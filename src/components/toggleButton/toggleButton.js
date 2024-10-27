@@ -6,14 +6,12 @@
   class ToggleButton extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
 
-
     /**
      *
      */
     get value() {
       return this.getAttribute('value');
     }
-   
 
     /**
      *
@@ -29,16 +27,15 @@
       return this.getAttribute('disabled');
     }
 
-
     /**
-     * 
+     *
      */
     get selected() {
       return this.hasAttribute('selected');
     }
 
     /**
-     * 
+     *
      */
     set selected(value) {
       if (value) {
@@ -48,7 +45,6 @@
       }
     }
 
-
     toggle() {
       this.selected = !this.selected;
       this.fireOnChange();
@@ -57,20 +53,19 @@
     /**
      *
      */
-     fireOnChange() {
+    fireOnChange() {
       this.dispatchEvent(
         new CustomEvent('change', {
           detail: {
             value: this.selected
           },
-          bubbles: true,
+          bubbles: false,
           cancelable: false,
           composed: true
         })
       );
     }
 
-    
     /**
      *
      */
@@ -88,10 +83,10 @@
     }
 
     /**
-    *
-    */
+     *
+     */
     connectedCallback() {
-      if(this.disabled === null){
+      if (this.disabled === null) {
         this.addEventListener('click', this.toggle);
       }
     }
@@ -102,27 +97,24 @@
     disconnectedCallback() {
       this.removeEventListener('click', this.toggle);
     }
-    
+
     /**
      *
      * @param {*} name
      * @param {*} oldValue
      * @param {*} newValue
      */
-     attributeChangedCallback(name, oldValue, newValue) {
+    attributeChangedCallback(name, oldValue, newValue) {
       switch (name) {
         case 'disabled':
-          if(newValue){
+          if (newValue) {
             this.addEventListener('click', this.toggle);
-          }
-          else {
+          } else {
             this.removeEventListener('click');
           }
           break;
       }
     }
-
-
   }
 
   customElements.define('punica-toggle-button', ToggleButton);

@@ -500,7 +500,7 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
-        value: string;
+        value: any;
         selected?: boolean;
         class?: string;
         size?: 'xsmall' | 'small' | 'medium' | 'large';

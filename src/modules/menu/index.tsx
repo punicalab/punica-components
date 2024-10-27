@@ -12,7 +12,7 @@ const Module = () => {
    *
    */
   useEventListener(
-    'onClose',
+    'close',
     () => {
       setPosition(false);
     },

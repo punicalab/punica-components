@@ -71,6 +71,19 @@
 
     /**
      *
+     */
+    fireOnChange() {
+      this.dispatchEvent(
+        new CustomEvent('change', {
+          detail: { value: this.value },
+          bubbles: true,
+          composed: true
+        })
+      );
+    }
+
+    /**
+     *
      * @param {*} children
      * @param {*} index
      * @returns
@@ -141,14 +154,7 @@
         const selectedValue = clickedButton.getAttribute('value');
         this.value = selectedValue;
 
-        this.dispatchEvent(
-          new CustomEvent('change', {
-            detail: { value: selectedValue },
-            bubbles: true,
-            composed: true
-          })
-        );
-
+        this.fireOnChange();
         this.updateSelectedButton(selectedValue);
       }
     }
