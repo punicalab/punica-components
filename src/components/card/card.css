@@ -6,7 +6,6 @@
 :host {
   display: inline-block;
   background-color: var(--card-background-color);
-  box-sizing: border-box;
   overflow: hidden;
 }
 

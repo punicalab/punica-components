@@ -7,7 +7,6 @@
   padding: var(--alert-padding);
   border-radius: var(--alert-border-radius);
   width: fit-content;
-  box-sizing: border-box;
   display: grid;
   align-items: center;
   grid-template-columns: auto auto;

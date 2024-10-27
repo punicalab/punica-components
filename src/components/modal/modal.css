@@ -11,7 +11,6 @@ dialog {
   outline: none;
   min-width: 500px;
   max-width: 600px;
-  box-sizing: border-box;
   padding: var(--modal-padding);
   background-color: var(--modal-background-color);
   overflow: hidden;

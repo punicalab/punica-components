@@ -8,7 +8,6 @@
 
 .error-layout > .header {
   grid-area: header;
-  box-sizing: border-box;
   padding: var(--spacing-12);
   background-color: var(--background-paper);
 }

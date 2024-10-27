@@ -3,5 +3,4 @@
   flex-basis: auto;
   min-width: 0px;
   padding: calc(var(--spacing) / 2) calc(var(--spacing) / 2);
-  box-sizing: border-box;
 }

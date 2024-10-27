@@ -4,7 +4,6 @@
 
 :host {
   width: 100%;
-  box-sizing: border-box;
   overflow-x: hidden;
   padding: var(--accordion-details-padding);
 }
