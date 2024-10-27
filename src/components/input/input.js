@@ -146,7 +146,7 @@
      */
     fireOnChange() {
       this.dispatchEvent(
-        new CustomEvent('onChange', {
+        new CustomEvent('change', {
           detail: {
             value: this.#input.value
           },

@@ -54,7 +54,7 @@
      */
     fireOnClose() {
       this.dispatchEvent(
-        new CustomEvent('onClose', {
+        new CustomEvent('close', {
           bubbles: true,
           cancelable: false,
           composed: true

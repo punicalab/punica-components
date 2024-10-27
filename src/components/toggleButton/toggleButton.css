@@ -1,4 +1,8 @@
 :host {
+  --toggle-button-border-color: var(--neutral-main);
+}
+
+:host {
   pointer-events: all;
   display: inline-flex;
   -webkit-box-align: center;
@@ -19,7 +23,7 @@
   overflow: visible;
   transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   padding: 12px;
-  border: 1px solid #ebebeb;
+  border: 1px solid var(--toggle-button-border-color);
   border-radius: 4px;
 }
 

@@ -2,5 +2,6 @@
   flex-grow: 0;
   flex-basis: auto;
   min-width: 0px;
+  line-height: 0;
   padding: calc(var(--spacing) / 2) calc(var(--spacing) / 2);
 }
