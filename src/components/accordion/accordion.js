@@ -17,6 +17,13 @@
     /**
      *
      */
+    set rounded(value) {
+      this.setAttribute('rounded', value);
+    }
+
+    /**
+     *
+     */
     get expanded() {
       return this.getAttribute('expanded') == 'true';
     }
@@ -56,6 +63,7 @@
      */
     handleSummaryClick = () => {
       this.expanded = !this.expanded;
+      this.#shadow.host.setAttribute('aria-expanded', this.expanded);
 
       this.fireOnChange();
     };
@@ -76,6 +84,14 @@
     addSummary(summary) {
       this.#summary = summary;
       this.#summary.addEventListener('click', this.handleSummaryClick);
+    }
+
+    /**
+     *
+     */
+    connectedCallback() {
+      if (this.getAttribute('expanded') === null) this.expanded = false;
+      if (this.getAttribute('rounded') === null) this.rounded = false;
     }
 
     /**
