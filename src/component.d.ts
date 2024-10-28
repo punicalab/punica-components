@@ -148,6 +148,22 @@ declare global {
       > & {
         class?: string;
       };
+      'punica-app-bar': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+        position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
+        color?:
+          | 'inherit'
+          | 'transparent'
+          | 'primary'
+          | 'secondary'
+          | 'error'
+          | 'info'
+          | 'warning'
+          | 'success';
+      };
       'punica-badge': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
@@ -530,6 +546,12 @@ declare global {
           | 'success'
           | 'ghost';
         fullWidth?: boolean;
+      };
+      'punica-toolbar': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
       };
       'punica-col': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

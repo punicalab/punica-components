@@ -1,0 +1,18 @@
+:host {
+  min-height: var(--spacing-48);
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: var(--spacing-16);
+  padding-right: var(--spacing-16);
+}
+
+@media (min-width: 600px) {
+  :host {
+    padding-left: var(--spacing-16);
+    padding-right: var(--spacing-16);
+    padding-left: var(--spacing-24);
+    padding-right: var(--spacing-24);
+    min-height: var(--spacing-64);
+  }
+}

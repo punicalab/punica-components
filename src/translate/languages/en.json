@@ -1,6 +1,7 @@
 {
   "component.accordion": "Accordion",
   "component.alert": "Alert",
+  "component.appBar": "AppBar",
   "component.avatar": "Avatar",
   "component.badge": "Badge",
   "component.box": "Box",
@@ -32,6 +33,7 @@
   "component.textarea": "Textarea",
   "component.toggleButton": "ToggleButton",
   "component.toggleButtonGroup": "ToggleButtonGroup",
+  "component.toolbar": "Toolbar",
   "component.typography": "Typography",
   "component.splitButton": "SplitButton"
 }

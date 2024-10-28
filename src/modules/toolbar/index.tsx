@@ -1,0 +1,35 @@
+import { Module as Layout } from '@/layouts/module';
+import { useTranslation } from 'react-i18next';
+
+const Module = () => {
+  const { t } = useTranslation();
+
+  return (
+    <Layout.Main>
+      <Layout.Header title={t('component.toolbar')} />
+      <Layout.Content>
+        <punica-row gap={16}>
+          <punica-col xs={12}>
+            <punica-toolbar>
+              <punica-icon-button style={{ marginRight: 2 }}>
+                <i className="fa-duotone fa-bars" />
+              </punica-icon-button>
+              <punica-typography style={{ flexGrow: 1 }}>
+                News
+              </punica-typography>
+              <punica-toggle-button value="delete" color="secondary">
+                <i className="fa-duotone fa-trash" />
+              </punica-toggle-button>
+              <punica-toggle-button value="delete" color="secondary">
+                <i className="fa-duotone fa-trash" />
+              </punica-toggle-button>
+              <punica-button>Login</punica-button>
+            </punica-toolbar>
+          </punica-col>
+        </punica-row>
+      </Layout.Content>
+    </Layout.Main>
+  );
+};
+
+export default Module;

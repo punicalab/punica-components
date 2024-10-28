@@ -24,6 +24,11 @@ export const SiteMap: Array<CustomRouteObject> = [
         element: <ModuleLoader module="alert" />
       },
       {
+        translateKey: 'component.appBar',
+        path: '/appBar',
+        element: <ModuleLoader module="appBar" />
+      },
+      {
         translateKey: 'component.avatar',
         path: '/avatar',
         element: <ModuleLoader module="avatar" />
@@ -182,6 +187,11 @@ export const SiteMap: Array<CustomRouteObject> = [
         translateKey: 'component.toggleButtonGroup',
         path: '/toggleButtonGroup',
         element: <ModuleLoader module="toggleButtonGroup" />
+      },
+      {
+        translateKey: 'component.toolbar',
+        path: '/toolbar',
+        element: <ModuleLoader module="toolbar" />
       },
       {
         translateKey: 'component.typography',
