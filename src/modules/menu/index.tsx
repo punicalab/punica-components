@@ -50,7 +50,7 @@ const Module = () => {
               width={position?.width}
               height={position?.height}
               bottom={position?.bottom}
-              placement="bottom"
+              placement="right"
               open={Boolean(position)}
               ref={ref}
             >

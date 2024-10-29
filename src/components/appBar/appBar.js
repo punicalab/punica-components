@@ -13,33 +13,33 @@
       return ['color', 'position'];
     }
 
-     /**
+    /**
      *
      */
-      get color() {
-        return this.getAttribute('color') || 'primary';
-      }
-  
-      /**
-       *
-       */
-      set color(val) {
-        this.setAttribute('color', val);
-      }
+    get color() {
+      return this.getAttribute('color') || 'primary';
+    }
 
-      /**
+    /**
      *
      */
-       get color() {
-        return this.getAttribute('position') || 'fixed';
-      }
-  
-      /**
-       *
-       */
-      set color(val) {
-        this.setAttribute('position', val);
-      }
+    set color(val) {
+      this.setAttribute('color', val);
+    }
+
+    /**
+     *
+     */
+    get color() {
+      return this.getAttribute('position') || 'fixed';
+    }
+
+    /**
+     *
+     */
+    set color(val) {
+      this.setAttribute('position', val);
+    }
 
     /**
      *
@@ -50,13 +50,12 @@
       this.#shadow.appendChild(template.content.cloneNode(true));
     }
 
-     /**
+    /**
      *
      */
-      connectedCallback() {
-        this.setAttribute('role', 'header');
-      }
-
+    connectedCallback() {
+      this.setAttribute('role', 'header');
+    }
   }
 
   customElements.define('punica-app-bar', AppBar);

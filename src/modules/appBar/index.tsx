@@ -12,7 +12,7 @@ const Module = () => {
           <punica-col xs={12}>
             <punica-app-bar color="primary" position="sticky">
               <punica-toolbar>
-                <punica-icon-button style={{ marginRight: 2 }}>
+                <punica-icon-button style={{ marginRight: 16 }}>
                   <i className="fa-duotone fa-bars" />
                 </punica-icon-button>
                 <punica-typography style={{ flexGrow: 1 }}>
