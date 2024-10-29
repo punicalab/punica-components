@@ -18,23 +18,6 @@
   border-radius: 50%;
 }
 
-:host([color='error']) {
-  color: var(--white);
-  background-color: var(--error-main);
-}
-
-:host([color='info']) {
-  background-color: var(--info-main);
-}
-
-:host([color='success']) {
-  background-color: var(--success-main);
-}
-
-:host([color='warning']) {
-  background-color: var(--warning-main);
-}
-
 ::slotted(img) {
   width: 100%;
   height: 100%;

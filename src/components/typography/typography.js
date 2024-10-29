@@ -122,7 +122,9 @@
           if (newValue) {
             const isDefinedColor = defaultColorMapping[newValue];
 
-            if (!isDefinedColor) {
+            if (isDefinedColor) {
+              this.style.color = isDefinedColor;
+            } else {
               this.style.color = newValue;
             }
           }

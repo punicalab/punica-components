@@ -10,13 +10,52 @@ const Module = () => {
       <Layout.Content>
         <punica-row gap={16}>
           <punica-col xs={12}>
-            <punica-row wrap="nowrap" spacing={16}>
-              <punica-col>
-                <punica-avatar color="warning" variant="circular">
-                  AK
-                </punica-avatar>
+            <punica-row spacing={16}>
+              <punica-col xs={12}>
+                <punica-row gap={8}>
+                  <punica-col>
+                    <punica-avatar color="primary" variant="circular">
+                      AK
+                    </punica-avatar>
+                  </punica-col>
+                  <punica-col>
+                    <punica-avatar color="secondary" variant="circular">
+                      AK
+                    </punica-avatar>
+                  </punica-col>
+                  <punica-col>
+                    <punica-avatar color="error" variant="circular">
+                      AK
+                    </punica-avatar>
+                  </punica-col>
+                  <punica-col>
+                    <punica-avatar color="warning" variant="circular">
+                      AK
+                    </punica-avatar>
+                  </punica-col>
+                  <punica-col>
+                    <punica-avatar color="info" variant="circular">
+                      AK
+                    </punica-avatar>
+                  </punica-col>
+                  <punica-col>
+                    <punica-avatar color="success" variant="circular">
+                      AK
+                    </punica-avatar>
+                  </punica-col>
+                  <punica-col>
+                    <punica-avatar color="white" variant="circular">
+                      AK
+                    </punica-avatar>
+                  </punica-col>
+                  <punica-col>
+                    <punica-avatar color="blue" variant="circular">
+                      AK
+                    </punica-avatar>
+                  </punica-col>
+                </punica-row>
               </punica-col>
-              <punica-col>
+              <punica-col xs={12}>
                 <punica-avatar variant="circular">
                   <img src="/assets/avatar.jpg"></img>
                 </punica-avatar>

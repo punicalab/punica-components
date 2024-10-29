@@ -9,6 +9,8 @@
   `;
 
   const defaultColorMapping = {
+    primary: 'var(--primary-main)',
+    secondary: 'var(--secondary-main)',
     error: 'var(--error-main)',
     warning: 'var(--warning-main)',
     info: 'var(--info-main)',
@@ -60,7 +62,9 @@
           if (newValue) {
             const isDefinedColor = defaultColorMapping[newValue];
 
-            if (!isDefinedColor) {
+            if (isDefinedColor) {
+              this.style.backgroundColor = isDefinedColor;
+            } else {
               this.style.backgroundColor = newValue;
             }
           }

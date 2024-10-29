@@ -120,7 +120,17 @@ declare global {
       > & {
         class?: string;
         variant?: 'circular' | 'rounded' | 'square';
-        color?: ('error' | 'info' | 'warning' | 'success') | string;
+        color?:
+          | (
+              | 'primary'
+              | 'secondary'
+              | 'error'
+              | 'warning'
+              | 'info'
+              | 'success'
+              | 'white'
+            )
+          | string;
       };
       'punica-alert': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

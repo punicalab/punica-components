@@ -60,6 +60,12 @@ const Module = () => {
           <punica-col xs={12}>
             <punica-typography variant="overline">overline</punica-typography>
           </punica-col>
+          <punica-col xs={12}>
+            <punica-typography color="primary">primary color</punica-typography>
+          </punica-col>
+          <punica-col xs={12}>
+            <punica-typography color="blue">custom color</punica-typography>
+          </punica-col>
         </punica-row>
       </Layout.Content>
     </Layout.Main>
