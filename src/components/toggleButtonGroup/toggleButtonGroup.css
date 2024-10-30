@@ -5,12 +5,24 @@
 
 ::slotted(.first-button),
 ::slotted(.middle-button) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
 ::slotted(.last-button),
 ::slotted(.middle-button) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* Outlined */
+::slotted(.first-button),
+::slotted(.middle-button) {
+  border-right-color: transparent;
+}
+
+/* Outlined */
+::slotted(.last-button),
+::slotted(.middle-button) {
+  margin-left: -1px;
 }

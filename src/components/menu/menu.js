@@ -100,15 +100,17 @@
         child.cloneNode(true)
       );
 
-      const container = document.createElement('div');
-      container.setAttribute('id', 'menu-clone');
-      container.style = this.style;
-      container.appendChild(templateMenu.content.cloneNode(true));
-      container.style.display = 'inline-flex';
+      const menu = document.createElement('div');
 
-      const popover = container.querySelector('punica-popover');
-      const backdrop = container.querySelector('#backdrop');
-      const optionWrapper = container.querySelector('#option-wrapper');
+      menu.style = this.style;
+      menu.style.display = 'inline-flex';
+
+      menu.setAttribute('id', 'menu');
+      menu.appendChild(templateMenu.content.cloneNode(true));
+
+      const popover = menu.querySelector('punica-popover');
+      const backdrop = menu.querySelector('#backdrop');
+      const optionWrapper = menu.querySelector('#option-wrapper');
 
       childrenClones.forEach((clone) => optionWrapper.appendChild(clone));
 
@@ -122,14 +124,14 @@
 
       backdrop.addEventListener('click', this.backdropClick);
 
-      document.body.appendChild(container);
+      document.body.appendChild(menu);
     }
 
     /**
      *
      */
     hide() {
-      const clone = document.body.querySelector('#menu-clone');
+      const clone = document.body.querySelector('#menu');
 
       if (!clone) {
         return;
