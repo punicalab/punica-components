@@ -1,12 +1,7 @@
 :host {
-  --toolbar-gap: var(--spacing-8);
-}
-
-:host {
   position: relative;
   display: flex;
   align-items: center;
-  gap: var(--toolbar-gap);
 }
 
 :host([disablegutters='true']) {

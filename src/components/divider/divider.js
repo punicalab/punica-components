@@ -9,15 +9,54 @@
     /**
      *
      */
+    get orientation() {
+      return this.getAttribute('orientation');
+    }
+
+    /**
+     *
+     */
+    set orientation(val) {
+      this.setAttribute('orientation', val);
+    }
+
+    /**
+     *
+     */
+    get flexItem() {
+      return this.getAttribute('flexItem');
+    }
+
+    /**
+     *
+     */
+    set flexItem(val) {
+      this.setAttribute('flexItem', val);
+    }
+
+    /**
+     *
+     */
+    static get observedAttributes() {
+      return ['orientation', 'flexItem'];
+    }
+
+    /**
+     *
+     */
     constructor() {
       super();
+
+      this.#shadow.appendChild(template.content.cloneNode(true));
     }
 
     /**
      *
      */
     connectedCallback() {
-      this.#shadow.appendChild(template.content.cloneNode(true));
+      if (!this.orientation) {
+        this.orientation = 'horizontal';
+      }
     }
   }
 

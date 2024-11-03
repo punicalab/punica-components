@@ -12,6 +12,9 @@ const Module = () => {
           <punica-col xs={12}>
             <punica-divider />
           </punica-col>
+          <punica-col xs={12}>
+            <punica-divider orientation="vertical" />
+          </punica-col>
         </punica-row>
       </Layout.Content>
     </Layout.Main>

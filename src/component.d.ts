@@ -345,6 +345,8 @@ declare global {
         HTMLElement
       > & {
         class?: string;
+        flexItem?: boolean;
+        orientation?: 'horizontal' | 'vertical';
       };
       'punica-switch': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
