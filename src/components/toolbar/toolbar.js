@@ -9,8 +9,22 @@
     /**
      *
      */
+    get variant() {
+      return this.getAttribute('variant');
+    }
+
+    /**
+     *
+     */
+    set variant(val) {
+      this.setAttribute('variant', val);
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
-      return [];
+      return ['variant'];
     }
 
     /**
@@ -22,14 +36,16 @@
       this.#shadow.appendChild(template.content.cloneNode(true));
     }
 
-     /**
+    /**
      *
      */
-      connectedCallback() {
-        this.setAttribute('role', 'div');
+    connectedCallback() {
+      this.setAttribute('role', 'div');
+
+      if (!this.variant) {
+        this.variant = 'regular';
       }
-
-
+    }
   }
 
   customElements.define('punica-toolbar', Toolbar);

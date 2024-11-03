@@ -1,5 +1,4 @@
 :host {
-  min-height: var(--spacing-48);
   position: relative;
   display: flex;
   align-items: center;
@@ -7,12 +6,17 @@
   padding-right: var(--spacing-16);
 }
 
+:host([variant='dense']) {
+  min-height: 48px;
+}
+
+:host([variant='regular']) {
+  min-height: 64px;
+}
+
 @media (min-width: 600px) {
   :host {
-    padding-left: var(--spacing-16);
-    padding-right: var(--spacing-16);
     padding-left: var(--spacing-24);
     padding-right: var(--spacing-24);
-    min-height: var(--spacing-64);
   }
 }
