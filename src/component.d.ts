@@ -248,6 +248,7 @@ declare global {
         disabled?: boolean;
         error?: boolean;
         value?: string;
+        rounded?: boolean;
       };
       'punica-container': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

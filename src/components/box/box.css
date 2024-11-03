@@ -7,7 +7,7 @@
   transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-:host([rounded]) {
+:host([rounded='true']) {
   border-radius: var(--box-border-radius);
 }
 
@@ -15,11 +15,11 @@
   border: 1px solid var(--neutral-main);
 }
 
-:host([error]) {
+:host([error='true']) {
   border: 1px solid var(--error-main);
 }
 
-:host([fullWidth]) {
+:host([fullWidth='true']) {
   width: 100%;
 }
 

@@ -1,4 +1,4 @@
-:host([fullWidth]) {
+:host([fullWidth='true']) {
   width: 100%;
   display: inline-flex;
 }

@@ -4,7 +4,7 @@
   width: fit-content;
 }
 
-:host([fullWidth]) {
+:host([fullWidth='true']) {
   width: 100%;
 }
 

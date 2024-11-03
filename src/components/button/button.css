@@ -170,7 +170,7 @@
   background-color: var(--success-dark);
 }
 
-:host([fullWidth]) {
+:host([fullWidth='true']) {
   width: 100%;
 }
 

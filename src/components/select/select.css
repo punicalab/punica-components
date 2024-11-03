@@ -16,11 +16,11 @@
   color: var(--text-primary);
 }
 
-:host([fullWidth]) {
+:host([fullWidth='true']) {
   width: 100%;
 }
 
-:host([error]) {
+:host([error='true']) {
   border-color: var(--error-main);
 }
 
@@ -28,7 +28,7 @@
   border-color: var(--primary-main);
 }
 
-:host([rounded]) {
+:host([rounded='true']) {
   border-radius: var(--select-border-radius);
 }
 
