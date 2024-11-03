@@ -1,9 +1,17 @@
 :host {
+  --toolbar-gap: var(--spacing-8);
+}
+
+:host {
   position: relative;
   display: flex;
   align-items: center;
-  padding-left: var(--spacing-16);
-  padding-right: var(--spacing-16);
+  gap: var(--toolbar-gap);
+}
+
+:host([disablegutters='true']) {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 :host([variant='dense']) {
@@ -14,7 +22,14 @@
   min-height: 64px;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 0) {
+  :host {
+    padding-left: var(--spacing-16);
+    padding-right: var(--spacing-16);
+  }
+}
+
+@media (min-width: 1200px) {
   :host {
     padding-left: var(--spacing-24);
     padding-right: var(--spacing-24);

@@ -565,6 +565,7 @@ declare global {
       > & {
         class?: string;
         variant?: 'dense' | 'regular';
+        disableGutters?: boolean;
       };
       'punica-col': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
