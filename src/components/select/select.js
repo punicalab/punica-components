@@ -98,6 +98,20 @@
     /**
      *
      */
+    get size() {
+      return this.getAttribute('size');
+    }
+
+    /**
+     *
+     */
+    set size(val) {
+      this.setAttribute('size', val);
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
       return [
         'placeholder',
@@ -107,7 +121,8 @@
         'adornment',
         'clearButton',
         'loading',
-        'value'
+        'value',
+        'size'
       ];
     }
 
@@ -258,6 +273,10 @@
      *
      */
     connectedCallback() {
+      if (!this.size) {
+        this.size = 'medium';
+      }
+
       this.addEventListener('click', this.click);
     }
 

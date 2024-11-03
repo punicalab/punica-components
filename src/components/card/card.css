@@ -1,5 +1,5 @@
 :host {
-  --card-border-radius: var(--spacing-16);
+  --card-border-radius: var(--root-border-radius);
   --card-background-color: var(--background-paper);
 }
 

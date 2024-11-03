@@ -1,5 +1,5 @@
 :host {
-  --box-border-radius: var(--spacing-16);
+  --box-border-radius: var(--root-border-radius);
 }
 
 :host {

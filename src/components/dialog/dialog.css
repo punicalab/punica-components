@@ -1,7 +1,7 @@
 :host {
-  --dialog-border-radius: var(--spacing-16);
+  --dialog-border-radius: var(--root-border-radius);
+  --dialog-padding: var(--root-padding);
   --dialog-background-color: var(--background-main);
-  --dialog-padding: var(--spacing-24);
   --dialog-backdrop-background-color: var(--backdrop-main);
 }
 

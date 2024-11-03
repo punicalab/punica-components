@@ -26,6 +26,7 @@ declare global {
         HTMLElement
       > & {
         value: string | number | Date;
+        size?: 'small' | 'medium' | 'large';
         class?: string;
         rounded?: boolean;
         fullWidth?: boolean;
@@ -543,7 +544,7 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
-        value?: string;
+        value?: any;
         class?: string;
         size?: 'small' | 'medium' | 'large';
         disabled?: boolean;

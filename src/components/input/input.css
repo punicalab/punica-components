@@ -1,5 +1,5 @@
 :host {
-  --input-border-radius: var(--spacing-16);
+  --input-border-radius: var(--root-border-radius);
   --input-border-color: var(--neutral-main);
   --input-color: var(--text-primary);
 }

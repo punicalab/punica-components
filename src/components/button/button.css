@@ -1,5 +1,5 @@
 :host {
-  --button-border-radius: var(--spacing-16);
+  --button-border-radius: var(--root-border-radius);
 }
 
 :host {

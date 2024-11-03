@@ -1,5 +1,5 @@
 :host {
-  --accordion-border-radius: var(--spacing-16);
+  --accordion-border-radius: var(--root-border-radius);
 }
 
 :host {
