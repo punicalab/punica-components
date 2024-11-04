@@ -74,6 +74,11 @@ export const SiteMap: Array<CustomRouteObject> = [
         element: <ModuleLoader module="container" />
       },
       {
+        translateKey: 'component.datePicker',
+        path: '/datePicker',
+        element: <ModuleLoader module="datePicker" />
+      },
+      {
         translateKey: 'component.dialog',
         path: '/dialog',
         element: <ModuleLoader module="dialog" />

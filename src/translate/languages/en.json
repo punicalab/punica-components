@@ -11,6 +11,7 @@
   "component.checkbox": "Checkbox",
   "component.chip": "Chip",
   "component.container": "Container",
+  "component.datePicker": "DatePicker",
   "component.dialog": "Dialog",
   "component.divider": "Divider",
   "component.drawer": "Drawer",

@@ -278,6 +278,13 @@ declare global {
           | 'warning'
           | 'success';
       };
+      'punica-date-picker': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+        open?: boolean;
+      };
       'punica-drawer': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
