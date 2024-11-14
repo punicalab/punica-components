@@ -1,4 +1,9 @@
 :root {
+  --root-border-radius: 8px;
+  --root-padding: 16px;
+}
+
+:root {
   --background-main: #181a1c;
   --background-paper: #3c4143;
 

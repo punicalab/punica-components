@@ -17,18 +17,18 @@
         inset: 0;
         background-color: transparent;
         pointer-events: all;
-        z-index: 9;
+        z-index: var(--zindex-backdrop);
       }
 
       #option-wrapper {
         padding: var(--spacing-8) 0;
+        border: 1px solid var(--neutral-main);
         background-color: var(--background-paper);
         display: block;
         max-height: 250px;
         overflow-x: hidden;
         border-radius: var(--spacing-4);
-        box-shadow: 1px 1px rgba(125, 125, 125, 0.1),
-          0 1px 1px 1px rgba(125, 125, 125, 0.1);
+        box-shadow: var(--box-shadow-xxs);
       }
     </style>
   `;
@@ -103,7 +103,6 @@
       const menu = document.createElement('div');
 
       menu.style = this.style;
-      menu.style.display = 'inline-flex';
 
       menu.setAttribute('id', 'menu');
       menu.appendChild(templateMenu.content.cloneNode(true));

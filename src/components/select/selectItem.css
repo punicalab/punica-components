@@ -7,9 +7,9 @@
 }
 
 :host(:hover) {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: var(--neutral-main);
 }
 
 :host([selected='true']) {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: var(--neutral-main);
 }

@@ -53,7 +53,7 @@
 }
 
 :host(:hover) {
-  background-color: rgb(from var(--text-primary) r g b / 6%);
+  background-color: rgb(from var(--text-primary) r g b / 10%);
 }
 
 :host([color='primary']) {
@@ -61,7 +61,7 @@
 }
 
 :host([color='primary']):host(:hover) {
-  background-color: rgb(from var(--primary-main) r g b / 6%);
+  background-color: rgb(from var(--primary-main) r g b / 10%);
 }
 
 :host([color='secondary']) {
@@ -69,7 +69,7 @@
 }
 
 :host([color='secondary']):host(:hover) {
-  background-color: rgb(from var(--secondary-main) r g b / 6%);
+  background-color: rgb(from var(--secondary-main) r g b / 10%);
 }
 
 :host([color='error']) {
@@ -77,7 +77,7 @@
 }
 
 :host([color='error']):host(:hover) {
-  background-color: rgb(from var(--error-main) r g b / 6%);
+  background-color: rgb(from var(--error-main) r g b / 10%);
 }
 
 :host([color='warning']) {
@@ -85,7 +85,7 @@
 }
 
 :host([color='warning']):host(:hover) {
-  background-color: rgb(from var(--warning-main) r g b / 6%);
+  background-color: rgb(from var(--warning-main) r g b / 10%);
 }
 
 :host([color='info']) {
@@ -93,7 +93,7 @@
 }
 
 :host([color='info']):host(:hover) {
-  background-color: rgb(from var(--info-main) r g b / 6%);
+  background-color: rgb(from var(--info-main) r g b / 10%);
 }
 
 :host([color='success']) {
@@ -101,5 +101,5 @@
 }
 
 :host([color='success']):host(:hover) {
-  background-color: rgb(from var(--success-main) r g b / 6%);
+  background-color: rgb(from var(--success-main) r g b / 10%);
 }
