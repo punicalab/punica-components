@@ -174,8 +174,11 @@
   width: 100%;
 }
 
-:host([disabled='true']) {
+:host([disabled='true']):host([variant='filled']) {
   background: var(--disabled);
+}
+
+:host([disabled='true']) {
   cursor: default;
 }
 

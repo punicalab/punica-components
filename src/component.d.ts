@@ -44,6 +44,7 @@ declare global {
       > & {
         class?: string;
         open: boolean;
+        minimumTargetWidth?: boolean;
         left: number;
         top: number;
         bottom: number;
@@ -490,7 +491,6 @@ declare global {
       > & {
         class?: string;
         truncate?: number;
-        gutterBottom?: boolean;
         textAlign?: 'left' | 'right' | 'center' | 'justify';
         whiteSpace?: 'nowrap' | 'nowrap' | 'pre-line' | 'pre-wrap';
         fontWeight?:
