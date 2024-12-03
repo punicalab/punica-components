@@ -11,7 +11,7 @@ const Module = () => {
         scrambled it to make a type specimen book.
       </Layout.SubHeader>
       <Layout.Example>
-        <punica-select value="item3" placeholder="Lorem Ipsum...">
+        <punica-select value="item3" placeholder="Lorem Ipsum..." class="foo">
           <punica-select-item value="item1">Item 1</punica-select-item>
           <punica-select-item value="item2">Item 2</punica-select-item>
           <punica-select-item value="item3">Item 3</punica-select-item>

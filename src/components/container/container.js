@@ -16,8 +16,22 @@
     /**
      *
      */
+    set maxWidth(val) {
+      this.aetAttribute('maxWidth', val);
+    }
+
+    /**
+     *
+     */
     get disableGutters() {
       return this.getAttribute('disableGutters');
+    }
+
+    /**
+     *
+     */
+    set disableGutters(val) {
+      return this.setAttribute('disableGutters', val);
     }
 
     /**

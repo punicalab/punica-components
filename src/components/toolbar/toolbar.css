@@ -1,18 +1,32 @@
 :host {
-  min-height: var(--spacing-48);
   position: relative;
   display: flex;
   align-items: center;
-  padding-left: var(--spacing-16);
-  padding-right: var(--spacing-16);
 }
 
-@media (min-width: 600px) {
+:host([disablegutters='true']) {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+:host([variant='dense']) {
+  min-height: 48px;
+}
+
+:host([variant='regular']) {
+  min-height: 64px;
+}
+
+@media (min-width: 0) {
   :host {
     padding-left: var(--spacing-16);
     padding-right: var(--spacing-16);
+  }
+}
+
+@media (min-width: 1200px) {
+  :host {
     padding-left: var(--spacing-24);
     padding-right: var(--spacing-24);
-    min-height: var(--spacing-64);
   }
 }

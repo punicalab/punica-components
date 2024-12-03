@@ -1,0 +1,48 @@
+:host {
+  display: inline-flex;
+  flex-wrap: nowrap;
+}
+
+#calendar-container {
+  padding: 0 !important;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+punica-toggle-button punica-typography {
+  font-weight: 400;
+}
+
+.time {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-left: 10px;
+}
+
+.time punica-typography {
+  line-height: 1.05;
+  font-size: 2.5rem;
+}
+
+::slotted([slot='hour-up']),
+::slotted([slot='hour-down']),
+::slotted([slot='minutes-down']),
+::slotted([slot='minutes-up']) {
+  width: 10px;
+  height: 10px;
+}
+
+.time .timepicker-dot {
+  color: #3d4a51;
+}
+
+.hour,
+.minutes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

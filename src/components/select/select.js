@@ -1,5 +1,6 @@
 (function () {
   const template = document.createElement('template');
+  const templateMenu = document.createElement('template');
 
   template.innerHTML = `
     <slot name="adornment"></slot>
@@ -7,13 +8,36 @@
     <slot name="preload"></slot>
     <slot name="clear"></slot>
     <slot name="caret"></slot>
+    <style></style>
+  `;
+
+  templateMenu.innerHTML = `
     <div id="backdrop"></div>
     <punica-popover open="false" placement="bottom" minimumTargetWidth="true">
-      <div id="optionWrapper">
+      <div id="option-wrapper">
         <slot></slot>
       </div>
     </punica-popover>
-    <style></style>
+    <style>
+      #backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: transparent;
+        pointer-events: all;
+        z-index: var(--zindex-backdrop);
+      }
+
+      #option-wrapper {
+        padding: var(--spacing-8) 0;
+        border: 1px solid var(--neutral-main);
+        background-color: var(--background-paper);
+        display: block;
+        max-height: 250px;
+        overflow-x: hidden;
+        border-radius: var(--spacing-4);
+        box-shadow: var(--box-shadow-xxs);
+      }
+    </style>
   `;
 
   class Select extends HTMLElement {
@@ -98,6 +122,20 @@
     /**
      *
      */
+    get size() {
+      return this.getAttribute('size');
+    }
+
+    /**
+     *
+     */
+    set size(val) {
+      this.setAttribute('size', val);
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
       return [
         'placeholder',
@@ -107,7 +145,8 @@
         'adornment',
         'clearButton',
         'loading',
-        'value'
+        'value',
+        'size'
       ];
     }
 
@@ -115,21 +154,38 @@
      *
      */
     show() {
+      document.addEventListener('keydown', this.hosContainerKeyDown);
+
+      const childrenClones = Array.from(this.children)
+        .filter((child) => child.nodeName == 'PUNICA-SELECT-ITEM')
+        .map((child) => child.cloneNode(true));
+
       const position = this.getBoundingClientRect();
+      const select = document.createElement('div');
 
       this.setAttribute('focus', true);
 
-      this.#popover.setAttribute('top', position.top);
-      this.#popover.setAttribute('left', position.left);
-      this.#popover.setAttribute('width', position.width);
-      this.#popover.setAttribute('height', position.height);
-      this.#popover.setAttribute('bottom', position.bottom);
-      this.#popover.setAttribute('open', true);
+      select.style = this.style;
 
-      this.#backdrop.addEventListener('click', this.backdropClick);
-      this.#backdrop.style.display = 'block';
+      select.setAttribute('id', 'select');
+      select.appendChild(templateMenu.content.cloneNode(true));
 
-      this.removeEventListener('click', this.click);
+      const popover = select.querySelector('punica-popover');
+      const backdrop = select.querySelector('#backdrop');
+      const optionWrapper = select.querySelector('#option-wrapper');
+
+      childrenClones.forEach((clone) => optionWrapper.appendChild(clone));
+
+      popover.setAttribute('top', position.top);
+      popover.setAttribute('left', position.left);
+      popover.setAttribute('width', position.width);
+      popover.setAttribute('height', position.height);
+      popover.setAttribute('bottom', position.bottom);
+      popover.setAttribute('open', true);
+
+      backdrop.addEventListener('click', this.backdropClick);
+
+      document.body.appendChild(select);
     }
 
     /**
@@ -137,10 +193,16 @@
      */
     hide() {
       this.removeAttribute('focus');
-      this.#backdrop.style.display = 'none';
-      this.#popover.removeAttribute('open');
-      this.#backdrop.removeEventListener('click', this.backdropClick);
-      this.addEventListener('click', this.click);
+
+      const clone = document.body.querySelector('#select');
+
+      if (!clone) {
+        return;
+      }
+
+      this.fireOnClose();
+
+      document.body.removeChild(clone);
       document.removeEventListener('keydown', this.hosContainerKeyDown);
     }
 
@@ -167,8 +229,6 @@
      */
     click = () => {
       this.show();
-
-      document.addEventListener('keydown', this.hosContainerKeyDown);
     };
 
     /**
@@ -189,6 +249,19 @@
           detail: {
             value: this.value
           },
+          bubbles: true,
+          cancelable: false,
+          composed: true
+        })
+      );
+    }
+
+    /**
+     *
+     */
+    fireOnClose() {
+      this.dispatchEvent(
+        new CustomEvent('close', {
           bubbles: true,
           cancelable: false,
           composed: true
@@ -258,9 +331,18 @@
      *
      */
     connectedCallback() {
+      if (!this.size) {
+        this.size = 'medium';
+      }
+
+      const componentClass = this.getAttribute('class');
+      
+      if (componentClass) {
+        this.#popover.classList.add(`${componentClass}-popover`);
+      }
+
       this.addEventListener('click', this.click);
     }
-
     /**
      *
      */

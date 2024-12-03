@@ -9,8 +9,36 @@
     /**
      *
      */
+    get variant() {
+      return this.getAttribute('variant');
+    }
+
+    /**
+     *
+     */
+    set variant(val) {
+      this.setAttribute('variant', val);
+    }
+
+    /**
+     *
+     */
+    get disableGutters() {
+      return this.getAttribute('disableGutters');
+    }
+
+    /**
+     *
+     */
+    set disableGutters(val) {
+      return this.setAttribute('disableGutters', val);
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
-      return [];
+      return ['variant', 'disableGutters'];
     }
 
     /**
@@ -22,14 +50,16 @@
       this.#shadow.appendChild(template.content.cloneNode(true));
     }
 
-     /**
+    /**
      *
      */
-      connectedCallback() {
-        this.setAttribute('role', 'div');
+    connectedCallback() {
+      this.setAttribute('role', 'div');
+
+      if (!this.variant) {
+        this.variant = 'regular';
       }
-
-
+    }
   }
 
   customElements.define('punica-toolbar', Toolbar);

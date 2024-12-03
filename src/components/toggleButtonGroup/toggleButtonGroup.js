@@ -10,7 +10,14 @@
      *
      */
     static get observedAttributes() {
-      return ['value', 'size', 'color', 'disabled', 'fullWidth'];
+      return ['value', 'size', 'color', 'disabled', 'fullWidth, orientation'];
+    }
+
+    /**
+     *
+     */
+     get orientation() {
+      return this.getAttribute('orientation') || 'horizontal';
     }
 
     /**
@@ -197,6 +204,10 @@
       this.applyNewStyle('color', this.color);
       this.applyNewStyle('size', this.size);
       this.addEventListener('click', this.handleToggleButtonClick);
+
+      if (!this.hasAttribute('orientation')) {
+        this.setAttribute('orientation', 'horizontal');
+      }
 
       if (this.value) {
         this.updateSelectedButton(this.value);

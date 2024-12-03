@@ -26,6 +26,7 @@ declare global {
         HTMLElement
       > & {
         value: string | number | Date;
+        size?: 'small' | 'medium' | 'large';
         class?: string;
         rounded?: boolean;
         fullWidth?: boolean;
@@ -43,6 +44,7 @@ declare global {
       > & {
         class?: string;
         open: boolean;
+        minimumTargetWidth?: boolean;
         left: number;
         top: number;
         bottom: number;
@@ -247,6 +249,7 @@ declare global {
         disabled?: boolean;
         error?: boolean;
         value?: string;
+        rounded?: boolean;
       };
       'punica-container': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -284,6 +287,10 @@ declare global {
       > & {
         class?: string;
         open?: boolean;
+        value?: Date | string;
+        timezone?: string;
+        minDate?: Date | string;
+        maxDate?: Date | string;
       };
       'punica-drawer': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -350,6 +357,8 @@ declare global {
         HTMLElement
       > & {
         class?: string;
+        flexItem?: boolean;
+        orientation?: 'horizontal' | 'vertical';
       };
       'punica-switch': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -487,13 +496,19 @@ declare global {
         class?: string;
         value: string | number | Date;
       };
+      'punica-time-picker': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+        open?: boolean;
+      };
       'punica-typography': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
         class?: string;
         truncate?: number;
-        gutterBottom?: boolean;
         textAlign?: 'left' | 'right' | 'center' | 'justify';
         whiteSpace?: 'nowrap' | 'nowrap' | 'pre-line' | 'pre-wrap';
         fontWeight?:
@@ -550,25 +565,21 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
-        value?: string;
+        value?: any;
         class?: string;
         size?: 'small' | 'medium' | 'large';
         disabled?: boolean;
-        color?:
-          | 'primary'
-          | 'secondary'
-          | 'error'
-          | 'info'
-          | 'warning'
-          | 'success'
-          | 'ghost';
         fullWidth?: boolean;
+        fullWidth?: boolean;
+        orientation?: 'horizontal' | 'vertical';
       };
       'punica-toolbar': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
         class?: string;
+        variant?: 'dense' | 'regular';
+        disableGutters?: boolean;
       };
       'punica-col': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

@@ -134,8 +134,6 @@
         case 'md':
         case 'lg':
         case 'xl':
-
-
           if (oldValue != newValue) {
             this.#cerateStyle();
           }

@@ -1,6 +1,22 @@
 :host {
-  width: 100%;
-  height: 1px;
   display: block;
-  background-color: var(--neutral-main);
+  margin: 0px;
+  flex-shrink: 0;
+  border-width: 0px 0px thin;
+  border-style: solid;
+  border-color: var(--neutral-main);
+}
+
+:host([orientation='horizontal']) {
+  width: 100%;
+}
+
+:host([orientation='vertical']) {
+  height: auto;
+  width: 1px;
+  align-self: stretch;
+}
+
+:host([flexItem='true']) {
+  margin: 8px 0px;
 }

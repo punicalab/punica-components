@@ -1,28 +1,55 @@
+:host {
+  display: flex;
+}
+
+:host([orientation='vertical']) {
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
 :host([fullWidth]) {
   width: 100%;
   display: inline-flex;
 }
 
-::slotted(.first-button),
-::slotted(.middle-button) {
+/* Horizontal */
+:host([orientation='horizontal']) ::slotted(.first-button),
+:host([orientation='horizontal']) ::slotted(.middle-button) {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
 
-::slotted(.last-button),
-::slotted(.middle-button) {
+:host([orientation='horizontal']) ::slotted(.last-button),
+:host([orientation='horizontal']) ::slotted(.middle-button) {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
 
 /* Outlined */
-::slotted(.first-button),
-::slotted(.middle-button) {
+:host([orientation='horizontal']) ::slotted(.first-button),
+:host([orientation='horizontal']) ::slotted(.middle-button) {
   border-right-color: transparent;
 }
 
 /* Outlined */
-::slotted(.last-button),
-::slotted(.middle-button) {
+:host([orientation='horizontal']) ::slotted(.last-button),
+:host([orientation='horizontal']) ::slotted(.middle-button) {
   margin-left: -1px;
+}
+
+/* Vertical */
+
+:host([orientation='vertical']) ::slotted(.first-button),
+:host([orientation='vertical']) ::slotted(.middle-button) {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+:host([orientation='vertical']) ::slotted(.last-button),
+:host([orientation='vertical']) ::slotted(.middle-button) {
+  margin-top: -1;
+  border-top: 1px solid transparent;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }

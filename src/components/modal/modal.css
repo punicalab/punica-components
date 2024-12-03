@@ -1,7 +1,7 @@
 :host {
-  --modal-border-radius: var(--spacing-16);
+  --modal-border-radius: var(--root-border-radius);
+  --modal-padding: var(--root-padding);
   --modal-background-color: var(--background-main);
-  --modal-padding: var(--spacing-24);
   --modal-backdrop-background-color: var(--backdrop-main);
 }
 
@@ -9,8 +9,6 @@ dialog {
   display: none;
   border: none;
   outline: none;
-  min-width: 500px;
-  max-width: 600px;
   padding: var(--modal-padding);
   background-color: var(--modal-background-color);
   overflow: hidden;

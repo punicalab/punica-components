@@ -1,5 +1,5 @@
 :host {
-  --accordion-details-padding: var(--spacing-16);
+  --accordion-details-padding: var(--root-padding);
 }
 
 :host {

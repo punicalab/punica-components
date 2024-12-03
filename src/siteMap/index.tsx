@@ -184,6 +184,11 @@ export const SiteMap: Array<CustomRouteObject> = [
         element: <ModuleLoader module="textarea" />
       },
       {
+        translateKey: 'component.timePicker',
+        path: '/timePicker',
+        element: <ModuleLoader module="timePicker" />
+      },
+      {
         translateKey: 'component.toggleButton',
         path: '/toggleButton',
         element: <ModuleLoader module="toggleButton" />

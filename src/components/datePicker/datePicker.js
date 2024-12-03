@@ -1,6 +1,5 @@
 
 (async function () {
-  const { Days, Months, getYears, ConverterNumberToTwoDigit } = await import('./utils/index.js');
 
   const template = document.createElement('template');
 
@@ -32,6 +31,31 @@
       </punica-popover>
   <style></style>`;
 
+const Days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
+ const isValidDate = (dateString) => {
+  if (!dateString) return false; 
+
+  const date = new Date(dateString);
+  return !isNaN(date.getTime());
+};
+
+const Months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
+
+
   class DatePicker extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
     #popover = null;
@@ -46,8 +70,43 @@
      *
      */
     static get observedAttributes() {
-      return ['open'];
+      return ['open', 'value', 'timezone'];
     }
+
+    /**
+     * 
+     */
+    get timezone() {
+      return this.getAttribute('timezone') || 'default';
+    }
+
+    /**
+     * 
+     */
+    set timezone(value) {
+      this.setAttribute('timezone', value);
+    }
+
+    /**
+     * 
+     */
+     get value(){
+      return this.getAttribute('value');
+    }
+
+    /**
+     * 
+     */
+     get minDate(){
+      return this.getAttribute('minDate');
+    }
+
+     /**
+     * 
+     */
+      get maxDate(){
+        return this.getAttribute('maxDate');
+      }
     
     /**
      * 
@@ -60,7 +119,6 @@
      * 
      */
      set open(value){
-
        if(value){
         this.setAttribute('open', value);
        }
@@ -110,10 +168,6 @@
      * 
      */
     get selectedDate() {
-      // if (!this.#selectedDate) {
-      //   this.#selectedDate = new Date();
-      //   this.#selectedDate.setHours(23, 59);
-      // }
       return this.#selectedDate;
     }
 
@@ -148,9 +202,10 @@
      * 
      */
     renderDays() {
-      // debugger;
       const daysList = this.getDaysOfMonth();
       const days = this.#shadow.querySelector('.dates');
+
+      const selectedDayTimestamp = this.selectedDate ? Math.floor(this.selectedDate.getTime() / 1000) : null;
 
       daysList.forEach(day => {
         const dayElement = document.createElement('button');
@@ -164,7 +219,16 @@
         dayElement.textContent = currentDay;
 
         const className = this.getDayClassName(day);
+
         dayElement.classList.add(className);
+        if(day.isDisabled){
+          dayElement.classList.add('day-is-disabled');
+        }
+    
+        if(timestamp === selectedDayTimestamp){
+          dayElement.classList.add('day-is-selected');
+        }
+        
         days.appendChild(dayElement);
 
         dayElement.addEventListener('click', () => this.handleSelectDate(dayElement));
@@ -175,7 +239,7 @@
     /**
      * 
      */
-    getDayClassName(day) {
+     getDayClassName(day) {
       if(day.isOtherMonth){
         return 'day-is-other-month';
       }
@@ -191,15 +255,22 @@
      */
     show() {
       const position = this.getBoundingClientRect();
-      // const positionInput = this.#shadow.querySelector('punica-input').getBoundingClientRect();
-      // console.log('position', position)
+     
       this.setAttribute('focus', true);
       this.#popover.setAttribute('top', position.top + 46);
       this.#popover.setAttribute('left', position.left);
       this.#popover.setAttribute('width', 320);
-      // this.#popover.setAttribute('height', position.height);
       this.#popover.setAttribute('bottom', position.bottom);
       this.#popover.setAttribute('open', true);
+
+      if (this.selectedDate) {
+        this.month = this.selectedDate.getMonth();
+        this.year = this.selectedDate.getFullYear();
+      }
+
+      this.showDate();
+      this.renderWeekDays();
+      this.renderDays();
     }
 
     /**
@@ -209,17 +280,18 @@
       this.refresh();
       this.removeAttribute('focus');
       this.#popover.removeAttribute('open');
+      const daysRow = this.#shadow.querySelector('.days-row');
+      daysRow.innerHTML = '';
     }
 
     /**
      * 
      */
     getDaysOfMonth() {
-      // console.log(this.month);
       const daysOfTheMonth = [];
       const today = new Date();
       const date = new Date(Date.UTC(this.year, this.month, 1, 0, 0, 0, 0));
-      console.log('date', new Date(Date.UTC(this.year, this.month, 1, 0, 0, 0, 0)))
+
       const extras = (date.getDay() + 6) % 7;
 
       date.setDate(date.getDate() - extras);
@@ -227,13 +299,7 @@
       while (1) {
         for (let i = 0; i < 7; i++) {
           const data = { date: new Date(date) };
-  
-          // const dateValue = Number(
-          //   `${date.getFullYear()}${ConverterNumberToTwoDigit(
-          //     date.getMonth()
-          //   )}${ConverterNumberToTwoDigit(date.getDate())}`
-          // );
-  
+          
           if (date.getMonth() != this.month) {
             data.isOtherMonth = true;
           }
@@ -247,12 +313,12 @@
           }
   
           // if (min && minValue > dateValue) {
-          //   data.isDisabled = true;
+          //   data.is = true;
           // }
   
-          // if (max && maxValue < dateValue) {
-          //   data.isDisabled = true;
-          // }
+          if (this.maxDate && (new Date(this.maxDate) < data.date)) {
+            data.isDisabled = true;
+          }
   
           daysOfTheMonth.push(data);
   
@@ -270,18 +336,6 @@
      */
     handleClickOpenCalendar(){
       this.open = !this.open;
-
-      if(this.open){
-        this.show();
-        this.showDate();
-        this.renderWeekDays();
-        this.renderDays();
-      }
-      else{
-        this.hide();
-        const daysRow = this.#shadow.querySelector('.days-row');
-        daysRow.innerHTML = '';
-      }
     }
 
     /**
@@ -297,19 +351,10 @@
      * @param {*} dayElement 
      */
     handleSelectDate(dayElement){
-      const timestamp = Math.floor(new Date(this.selectedDate).getTime() / 1000);
-      console.log(timestamp);
-      // console.log(`[data-date=${String(timestamp)}]`)
-      // console.log(`[data-date=${timestamp}]`)
-      console.log(this.#shadow.querySelector(`[data-date="${timestamp}"]`));
-      // console.log(this.#shadow.querySelector('[data-date="1730419200"]'));
-      // this.#shadow.querySelector(`[data-date="${timestamp}"]`).classList.remove('day-is-selected');
+      this.#shadow.querySelectorAll('.day-is-selected').forEach(el => el.classList.remove('day-is-selected'));
       
       dayElement.classList.add('day-is-selected');
       const time = new Date(dayElement.getAttribute('data-date') * 1000);
-      // console.log(new Date(time * 1000));
-      // console.log(new Date(dayElement.getAttribute('data-date')));
-
       this.selectedDate = time;
     }
 
@@ -345,9 +390,25 @@
       this.renderDays();
     }
 
+    /**
+     *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+     attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case 'open':
+          if (newValue == 'true') {
+            this.show();
+          } else  {
+            this.hide();
+          }
+          break;
+      }
+    }
+
     
-
-
     /**
      *
      */
@@ -360,21 +421,29 @@
       this.#previousButton = this.#shadow.querySelector('slot[name="previous-month"]');
       this.#nextButton = this.#shadow.querySelector('slot[name="next-month"]');
 
+
       this.handlePreviousButtonClick = this.handlePreviousButtonClick.bind(this);
       this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
       this.handleClickOpenCalendar = this.handleClickOpenCalendar.bind(this);
 
     }
 
+    /**
+     * 
+     */
     connectedCallback() {
-     const date = new Date();
-     date.setHours(3,0);
-     date.setSeconds(0);
-     this.selectedDate = date;
+
+      if(isValidDate(this.value)){
+        const date = new Date(this.value);
+        date.setHours(3);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        this.selectedDate = date;
+      }
+
      this.#previousButton.addEventListener('click', this.handlePreviousButtonClick);
      this.#nextButton.addEventListener('click', this.handleNextButtonClick);
      this.#shadow.querySelector('slot[name="endAdornment"]').addEventListener('click', this.handleClickOpenCalendar);
-    
     }
 
     /**
@@ -384,7 +453,6 @@
       this.#previousButton.removeEventListener('click', this.handlePreviousButtonClick);
       this.#nextButton.removeEventListener('click', this.handleNextButtonClick);
       this.#shadow.querySelector('slot[name="endAdornment"]').addEventListener('click', () => this.handleClickOpenCalendar());
-
     }
   }
 

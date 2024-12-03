@@ -10,7 +10,10 @@ const Module = () => {
       <Layout.Content>
         <punica-row gap={16}>
           <punica-col xs={12}>
-            <punica-date-picker>
+            <punica-date-picker
+              value="2024-09-30T21:00:00Z"
+              maxDate="2024-10-30T21:00:00Z"
+            >
               <punica-icon-button slot="endAdornment">
                 <i className="fa-regular fa-calendar" />
               </punica-icon-button>

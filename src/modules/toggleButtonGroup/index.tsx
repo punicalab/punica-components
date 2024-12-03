@@ -22,6 +22,28 @@ const Module = () => {
               </punica-toggle-button>
             </punica-toggle-button-group>
           </punica-col>
+
+          <punica-col xs={12}>
+            <punica-toggle-button-group value="AM">
+              <punica-toggle-button value="AM">
+                <punica-typography>AM</punica-typography>
+              </punica-toggle-button>
+              <punica-toggle-button value="PM">
+                <punica-typography>PM</punica-typography>
+              </punica-toggle-button>
+            </punica-toggle-button-group>
+          </punica-col>
+
+          <punica-col xs={12}>
+            <punica-toggle-button-group value="AM" orientation="vertical">
+              <punica-toggle-button value="AM">
+                <punica-typography>AM</punica-typography>
+              </punica-toggle-button>
+              <punica-toggle-button value="PM">
+                <punica-typography>PM</punica-typography>
+              </punica-toggle-button>
+            </punica-toggle-button-group>
+          </punica-col>
         </punica-row>
       </Layout.Content>
     </Layout.Main>

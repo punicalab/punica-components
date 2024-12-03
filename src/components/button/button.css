@@ -1,5 +1,5 @@
 :host {
-  --button-border-radius: var(--spacing-16);
+  --button-border-radius: var(--root-border-radius);
 }
 
 :host {
@@ -25,7 +25,7 @@
 }
 
 :host([size='small']) {
-  padding: var(--spacing-6) var(--spacing-12);
+  padding: var(--spacing-6) var(--spacing-8);
   height: 32px;
 }
 
@@ -40,7 +40,7 @@
 }
 
 :host([variant='text']) {
-  color: var(--primary-main);
+  color: var(--text-primary);
 }
 
 :host([color='primary']):host([variant='text']):host(:hover) {
@@ -170,12 +170,15 @@
   background-color: var(--success-dark);
 }
 
-:host([fullWidth]) {
+:host([fullWidth='true']) {
   width: 100%;
 }
 
-:host([disabled='true']) {
+:host([disabled='true']):host([variant='filled']) {
   background: var(--disabled);
+}
+
+:host([disabled='true']) {
   cursor: default;
 }
 

@@ -1,13 +1,14 @@
 :host {
-  --paper-border-radius: var(--spacing-16);
+  --paper-border-radius: var(--root-border-radius);
+  --paper-padding: var(--root-padding);
 }
 
 :host {
   display: block;
   background-color: var(--background-paper);
-  padding: var(--spacing-16);
+  padding: var(--paper-padding);
 }
 
-:host([rounded]) {
+:host([rounded='true']) {
   border-radius: var(--paper-border-radius);
 }

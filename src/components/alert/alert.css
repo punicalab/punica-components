@@ -1,6 +1,6 @@
 :host {
-  --alert-border-radius: var(--spacing-16);
-  --alert-padding: var(--spacing-16);
+  --alert-border-radius: var(--root-border-radius);
+  --alert-padding: var(--root-padding);
 }
 
 :host {

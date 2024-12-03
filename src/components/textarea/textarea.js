@@ -10,6 +10,20 @@
     /**
      *
      */
+    get rounded() {
+      return this.getAttribute('rounded') == 'true';
+    }
+
+    /**
+     *
+     */
+    set rounded(val) {
+      this.setAttribute('rounded', val);
+    }
+
+    /**
+     *
+     */
     get placeholder() {
       return this.getAttribute('placeholder');
     }
@@ -114,7 +128,8 @@
         'error',
         'startAdornment',
         'endAdornment',
-        'value'
+        'value',
+        'rounded'
       ];
     }
 

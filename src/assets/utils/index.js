@@ -12,6 +12,13 @@ export const getYears = (year) => {
   return years;
 };
 
+export const isValidDate = (dateString) => {
+  if (!dateString) return false; 
+
+  const date = new Date(dateString);
+  return !isNaN(date.getTime());
+};
+
 export const Months = [
   'January',
   'February',
