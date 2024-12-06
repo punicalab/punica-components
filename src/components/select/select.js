@@ -174,7 +174,11 @@
       const backdrop = select.querySelector('#backdrop');
       const optionWrapper = select.querySelector('#option-wrapper');
 
-      childrenClones.forEach((clone) => optionWrapper.appendChild(clone));
+      childrenClones.forEach((clone) => {
+        clone.addEventListener('click', this.onClickItemHandler);
+
+        optionWrapper.appendChild(clone);
+      });
 
       popover.setAttribute('top', position.top);
       popover.setAttribute('left', position.left);
@@ -308,8 +312,6 @@
     itemAdd(item) {
       const itemValue = item.getAttribute('value');
 
-      item.addEventListener('click', this.onClickItemHandler);
-
       if (itemValue == this.value) {
         this.#selected = item;
         this.#selected.selected = true;
@@ -321,28 +323,15 @@
 
     /**
      *
-     * @param {*} item
-     */
-    itemRemove(item) {
-      item.removeEventListener('click', this.onClickItemHandler);
-    }
-
-    /**
-     *
      */
     connectedCallback() {
       if (!this.size) {
         this.size = 'medium';
       }
 
-      const componentClass = this.getAttribute('class');
-      
-      if (componentClass) {
-        this.#popover.classList.add(`${componentClass}-popover`);
-      }
-
       this.addEventListener('click', this.click);
     }
+
     /**
      *
      */

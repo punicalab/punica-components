@@ -5,7 +5,6 @@
 
   class SelectItem extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
-    #parent = null;
 
     /**
      *
@@ -31,13 +30,6 @@
     /**
      *
      */
-    static get observedAttributes() {
-      return ['value', 'selected'];
-    }
-
-    /**
-     *
-     */
     constructor() {
       super();
 
@@ -49,18 +41,7 @@
      */
     connectedCallback() {
       if (this.parentElement.localName == 'punica-select') {
-        this.#parent = this.parentElement;
-        this.#parent.itemAdd(this);
-      }
-    }
-
-    /**
-     *
-     */
-    disconnectedCallback() {
-      if (this.#parent) {
-        this.#parent.itemRemove(this);
-        this.#parent = null;
+        this.parentElement.itemAdd(this);
       }
     }
   }

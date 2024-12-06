@@ -96,11 +96,10 @@
      *
      */
     show() {
-      const childrenClones = Array.from(this.children).map((child) =>
-        child.cloneNode(true)
-      );
-
       const menu = document.createElement('div');
+      const childrenClones = Array.from(this.children)
+        .filter((child) => child.nodeName == 'PUNICA-MENU-ITEM')
+        .map((child) => child.cloneNode(true));
 
       menu.style = this.style;
 
@@ -111,7 +110,9 @@
       const backdrop = menu.querySelector('#backdrop');
       const optionWrapper = menu.querySelector('#option-wrapper');
 
-      childrenClones.forEach((clone) => optionWrapper.appendChild(clone));
+      childrenClones.forEach((clone) => {
+        optionWrapper.appendChild(clone);
+      });
 
       popover.setAttribute('top', this.top);
       popover.setAttribute('left', this.left);
@@ -121,7 +122,7 @@
       popover.setAttribute('placement', this.placement);
       popover.setAttribute('open', true);
 
-      backdrop.addEventListener('click', this.backdropClick);
+      backdrop.addEventListener('click', this.#backdropClick);
 
       document.body.appendChild(menu);
     }
@@ -157,7 +158,7 @@
     /**
      *
      */
-    backdropClick = (event) => {
+    #backdropClick = (event) => {
       this.hide();
 
       event.stopPropagation();
@@ -166,7 +167,7 @@
     /**
      *
      */
-    hosContainerKeyDown = (event) => {
+    #hosContainerKeyDown = (event) => {
       if (event.key == 'Escape') {
         this.hide();
       }
@@ -191,10 +192,10 @@
       switch (name) {
         case 'open':
           if (newValue == 'true') {
-            document.addEventListener('keydown', this.hosContainerKeyDown);
+            document.addEventListener('keydown', this.#hosContainerKeyDown);
             this.show();
           } else {
-            document.removeEventListener('keydown', this.hosContainerKeyDown);
+            document.removeEventListener('keydown', this.#hosContainerKeyDown);
             this.hide();
           }
           break;
@@ -204,5 +205,3 @@
 
   customElements.define('punica-menu', Menu);
 })();
-
-//placement="bottom"

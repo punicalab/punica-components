@@ -23,6 +23,7 @@ const Module = () => {
    *
    */
   const handleClick = (event: MouseEvent<HTMLElement>) => {
+    debugger;
     setPosition(event.currentTarget.getBoundingClientRect());
   };
 
