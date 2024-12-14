@@ -52,6 +52,7 @@ input {
   outline: none;
   border: 0;
   background: none;
+  width: 100%;
   margin: 0;
   -webkit-tap-highlight-color: transparent;
   font-size: 0.875rem;

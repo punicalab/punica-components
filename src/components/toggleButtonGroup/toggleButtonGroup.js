@@ -9,14 +9,7 @@
     /**
      *
      */
-    static get observedAttributes() {
-      return ['value', 'size', 'color', 'disabled', 'fullWidth, orientation'];
-    }
-
-    /**
-     *
-     */
-     get orientation() {
+    get orientation() {
       return this.getAttribute('orientation') || 'horizontal';
     }
 
@@ -74,6 +67,13 @@
      */
     get fullWidth() {
       return this.getAttribute('fullWidth');
+    }
+
+    /**
+     *
+     */
+    static get observedAttributes() {
+      return ['value', 'size', 'color', 'disabled', 'fullWidth, orientation'];
     }
 
     /**

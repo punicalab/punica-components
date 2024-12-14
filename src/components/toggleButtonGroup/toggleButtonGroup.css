@@ -10,7 +10,6 @@
 
 :host([fullWidth]) {
   width: 100%;
-  display: inline-flex;
 }
 
 /* Horizontal */

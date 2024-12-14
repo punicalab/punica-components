@@ -33,7 +33,6 @@ const Module = () => {
               </punica-toggle-button>
             </punica-toggle-button-group>
           </punica-col>
-
           <punica-col xs={12}>
             <punica-toggle-button-group value="AM" orientation="vertical">
               <punica-toggle-button value="AM">

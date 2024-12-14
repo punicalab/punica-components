@@ -73,7 +73,7 @@
         this.#selected.selected = false;
       }
 
-      this.#selected = event.target;
+      this.#selected = event.currentTarget;
       this.#selected.selected = true;
       this.value = this.#selected.value;
 
@@ -116,6 +116,11 @@
         case 'value':
           if (this.#selected && this.#selected.value == newValue) {
             return;
+          }
+
+          if (this.#selected) {
+            this.#selected.selected = false;
+            this.#selected = null;
           }
 
           if (newValue) {

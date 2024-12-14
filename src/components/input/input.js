@@ -85,6 +85,13 @@
     /**
      *
      */
+    set value(val) {
+      this.setAttribute('value', val);
+    }
+
+    /**
+     *
+     */
     get size() {
       return this.getAttribute('size');
     }
@@ -130,6 +137,7 @@
      */
     inputChange = (e) => {
       this.fireOnChange();
+      this.value = this.#input.value;
 
       e.stopPropagation();
     };
