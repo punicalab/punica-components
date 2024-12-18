@@ -5,8 +5,8 @@ export const Example = (props: IHeaderProps) => {
 
   return (
     <punica-row
-      justifyContent="center"
-      alignItems="center"
+      justifycontent="center"
+      alignitems="center"
       style={{ minHeight: '100px' }}
     >
       <punica-col>{children}</punica-col>

@@ -45,8 +45,8 @@
     /**
      *
      */
-    get fullWidth() {
-      return this.getAttribute('fullWidth');
+    get fullwidth() {
+      return this.getAttribute('fullwidth');
     }
 
     /**
@@ -54,20 +54,6 @@
      */
     get disabled() {
       return this.getAttribute('disabled');
-    }
-
-    /**
-     *
-     */
-    get startAdornment() {
-      return this.getAttribute('startAdornment');
-    }
-
-    /**
-     *
-     */
-    get endAdornment() {
-      return this.getAttribute('endAdornment');
     }
 
     /**
@@ -123,11 +109,9 @@
       return [
         'placeholder',
         'rows',
-        'fullWidth',
+        'fullwidth',
         'disabled',
         'error',
-        'startAdornment',
-        'endAdornment',
         'value',
         'rounded'
       ];

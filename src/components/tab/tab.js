@@ -17,8 +17,8 @@
     /**
      *
      */
-    get fullWidth() {
-      return this.getAttribute('fullWidth');
+    get fullwidth() {
+      return this.getAttribute('fullwidth');
     }
 
     /**
@@ -46,7 +46,7 @@
      *
      */
     static get observedAttributes() {
-      return ['fullWidth', 'disabled', 'value', 'orientation'];
+      return ['fullwidth', 'disabled', 'value', 'orientation'];
     }
 
     /**

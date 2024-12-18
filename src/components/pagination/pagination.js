@@ -2,7 +2,7 @@
   const template = document.createElement('template');
 
   template.innerHTML = `
-    <punica-row wrap="nowrap" alignItems="center" gap="4">
+    <punica-row wrap="nowrap" alignitems="center" gap="4">
       <punica-col>
         <punica-button variant="text" size="small" id="prevPage">
           <slot name="prevPage"></slot>

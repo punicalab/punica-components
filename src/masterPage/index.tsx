@@ -21,7 +21,7 @@ const MainMasterPage = (props: { children: ReactNode }) => {
           </NavLink>
         </section>
         <section className="menu pt-24 pb-24">
-          <punica-row direction="column" alignItems="center">
+          <punica-row direction="column" alignitems="center">
             {SiteMap[0].children.map((site, index) => (
               <NavLink
                 key={index}

@@ -38,36 +38,36 @@
     /**
      *
      */
-    get fullHeight() {
-      return this.getAttribute('fullHeight');
+    get fullheight() {
+      return this.getAttribute('fullheight');
     }
 
     /**
      *
      */
-    get justifyItems() {
-      return this.getAttribute('justifyItems') || 'inherit';
+    get justifyitems() {
+      return this.getAttribute('justifyitems') || 'inherit';
     }
 
     /**
      *
      */
-    get justifyContent() {
-      return this.getAttribute('justifyContent') || 'inherit';
+    get justifycontent() {
+      return this.getAttribute('justifycontent') || 'inherit';
     }
 
     /**
      *
      */
-    get alignContent() {
-      return this.getAttribute('alignContent') || 'inherit';
+    get aligncontent() {
+      return this.getAttribute('aligncontent') || 'inherit';
     }
 
     /**
      *
      */
-    get alignItems() {
-      return this.getAttribute('alignItems') || 'inherit';
+    get alignitems() {
+      return this.getAttribute('alignitems') || 'inherit';
     }
 
     /**
@@ -79,11 +79,11 @@
         'direction',
         'spacing',
         'gap',
-        'justifyItems',
-        'justifyContent',
-        'alignContent',
-        'alignItems',
-        'fullHeight'
+        'justifyitems',
+        'justifycontent',
+        'aligncontent',
+        'alignitems',
+        'fullheight'
       ];
     }
 
@@ -95,10 +95,10 @@
         :host{
           --gap: ${this.gap};
           --spacing: ${this.spacing ? this.spacing + 'px' : 0};
-          --align-items: ${this.alignItems};
-          --align-content: ${this.alignContent};
-          --justify-items: ${this.justifyItems};
-          --justify-content: ${this.justifyContent};
+          --align-items: ${this.alignitems};
+          --align-content: ${this.aligncontent};
+          --justify-items: ${this.justifyitems};
+          --justify-content: ${this.justifycontent};
           --wrap: ${this.wrap};
           --direction: ${this.direction};
           --columns: 12;

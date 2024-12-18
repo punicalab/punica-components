@@ -13,6 +13,6 @@
   border-radius: var(--card-border-radius);
 }
 
-:host([fullWidth='true']) {
+:host([fullwidth='true']) {
   width: 100%;
 }

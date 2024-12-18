@@ -42,8 +42,6 @@
 
   class Select extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
-    #popover = null;
-    #backdrop = null;
     #selected = null;
     #content = null;
 
@@ -73,8 +71,8 @@
     /**
      *
      */
-    get fullWidth() {
-      return this.getAttribute('fullWidth');
+    get fullwidth() {
+      return this.getAttribute('fullwidth');
     }
 
     /**
@@ -94,8 +92,8 @@
     /**
      *
      */
-    get clearButton() {
-      return this.getAttribute('clearButton');
+    get ['clear-button']() {
+      return this.getAttribute('clear-button');
     }
 
     /**
@@ -140,10 +138,10 @@
       return [
         'placeholder',
         'error',
-        'fullWidth',
+        'fullwidth',
         'disabled',
         'adornment',
-        'clearButton',
+        'clear-button',
         'loading',
         'value',
         'size'
@@ -300,8 +298,6 @@
       super();
 
       this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#popover = this.#shadow.querySelector('punica-popover');
-      this.#backdrop = this.#shadow.querySelector('#backdrop');
       this.#content = this.#shadow.querySelector('#content');
     }
 

@@ -40,7 +40,7 @@ const Module = () => {
                 </punica-tab>
               </punica-col>
               <punica-col xs={12}>
-                <punica-tab-panel value="tab1" selectedValue={selected}>
+                <punica-tab-panel value="tab1" selectedvalue={selected}>
                   <punica-typography variant="headline5">
                     {selected.toUpperCase()}
                   </punica-typography>
@@ -55,7 +55,7 @@ const Module = () => {
                   passages, and more recently with desktop publishing software
                   like Aldus PageMaker including versions of Lorem Ipsum.
                 </punica-tab-panel>
-                <punica-tab-panel value="tab2" selectedValue={selected}>
+                <punica-tab-panel value="tab2" selectedvalue={selected}>
                   <punica-typography variant="headline5">
                     {selected.toUpperCase()}
                   </punica-typography>
@@ -70,7 +70,7 @@ const Module = () => {
                   passages, and more recently with desktop publishing software
                   like Aldus PageMaker including versions of Lorem Ipsum.
                 </punica-tab-panel>
-                <punica-tab-panel value="tab3" selectedValue={selected}>
+                <punica-tab-panel value="tab3" selectedvalue={selected}>
                   <punica-typography variant="headline5">
                     {selected.toUpperCase()}
                   </punica-typography>
@@ -95,7 +95,7 @@ const Module = () => {
                   orientation="vertical"
                   value={selected}
                   ref={ref}
-                  fullWidth
+                  fullwidth
                 >
                   <punica-tab-item value="tab1">sdfsd</punica-tab-item>
                   <punica-tab-item value="tab2">sdfsd</punica-tab-item>
@@ -103,7 +103,7 @@ const Module = () => {
                 </punica-tab>
               </punica-col>
               <punica-col xs={10}>
-                <punica-tab-panel value="tab1" selectedValue={selected}>
+                <punica-tab-panel value="tab1" selectedvalue={selected}>
                   <punica-typography variant="headline5">
                     {selected.toUpperCase()}
                   </punica-typography>
@@ -118,7 +118,7 @@ const Module = () => {
                   passages, and more recently with desktop publishing software
                   like Aldus PageMaker including versions of Lorem Ipsum.
                 </punica-tab-panel>
-                <punica-tab-panel value="tab2" selectedValue={selected}>
+                <punica-tab-panel value="tab2" selectedvalue={selected}>
                   <punica-typography variant="headline5">
                     {selected.toUpperCase()}
                   </punica-typography>
@@ -133,7 +133,7 @@ const Module = () => {
                   passages, and more recently with desktop publishing software
                   like Aldus PageMaker including versions of Lorem Ipsum.
                 </punica-tab-panel>
-                <punica-tab-panel value="tab3" selectedValue={selected}>
+                <punica-tab-panel value="tab3" selectedvalue={selected}>
                   <punica-typography variant="headline5">
                     {selected.toUpperCase()}
                   </punica-typography>

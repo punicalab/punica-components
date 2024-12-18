@@ -29,7 +29,7 @@ declare global {
         size?: 'small' | 'medium' | 'large';
         class?: string;
         rounded?: boolean;
-        fullWidth?: boolean;
+        fullwidth?: boolean;
       };
       'punica-select-item': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -68,7 +68,7 @@ declare global {
         class?: string;
         size?: 'small' | 'medium' | 'large';
         variant?: 'text' | 'filled' | 'outlined';
-        fullWidth?: boolean;
+        fullwidth?: boolean;
         loading?: boolean;
         underline?: boolean;
         rounded?: boolean;
@@ -98,7 +98,7 @@ declare global {
           | 'warning'
           | 'success'
           | 'ghost';
-        fullWidth?: boolean;
+        fullwidth?: boolean;
       };
       'punica-icon-button': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -207,12 +207,12 @@ declare global {
       > & {
         class?: string;
         placeholder?: string;
-        fullWidth?: boolean;
+        fullwidth?: boolean;
         disabled?: boolean;
         rounded?: boolean;
         error?: boolean;
-        startAdornment?: HTMLElement;
-        endAdornment?: HTMLElement;
+        startadornment?: HTMLElement;
+        endadornment?: HTMLElement;
         value?: string;
         size?: 'small' | 'medium' | 'large';
         type?:
@@ -245,7 +245,7 @@ declare global {
       > & {
         class?: string;
         placeholder?: string;
-        fullWidth?: boolean;
+        fullwidth?: boolean;
         disabled?: boolean;
         error?: boolean;
         value?: string;
@@ -321,7 +321,7 @@ declare global {
       > & {
         class?: string;
         rounded?: boolean;
-        fullWidth?: boolean;
+        fullwidth?: boolean;
       };
       'punica-card-media': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -349,8 +349,8 @@ declare global {
         rounded?: boolean;
         error?: boolean;
         border?: boolean;
-        fullWidth?: boolean;
-        fullHeight?: boolean;
+        fullwidth?: boolean;
+        fullheight?: boolean;
       };
       'punica-divider': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -449,7 +449,7 @@ declare global {
       > & {
         class?: string;
         orientation: 'horizontal' | 'vertical';
-        fullWidth?: boolean;
+        fullwidth?: boolean;
         disabled?: boolean;
         value?: string;
       };
@@ -466,7 +466,7 @@ declare global {
       > & {
         class?: string;
         value: string | number;
-        selectedValue: string | number;
+        selectedvalue: string | number;
       };
       'punica-single-select-list': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -509,9 +509,9 @@ declare global {
       > & {
         class?: string;
         truncate?: number;
-        textAlign?: 'left' | 'right' | 'center' | 'justify';
-        whiteSpace?: 'nowrap' | 'nowrap' | 'pre-line' | 'pre-wrap';
-        fontWeight?:
+        textalign?: 'left' | 'right' | 'center' | 'justify';
+        whitespace?: 'nowrap' | 'nowrap' | 'pre-line' | 'pre-wrap';
+        fontweight?:
           | 'thin'
           | 'regular'
           | 'medium'
@@ -569,8 +569,8 @@ declare global {
         class?: string;
         size?: 'small' | 'medium' | 'large';
         disabled?: boolean;
-        fullWidth?: boolean;
-        fullWidth?: boolean;
+        fullwidth?: boolean;
+        fullwidth?: boolean;
         orientation?: 'horizontal' | 'vertical';
       };
       'punica-toolbar': React.DetailedHTMLProps<
@@ -597,12 +597,12 @@ declare global {
         HTMLElement
       > & {
         class?: string;
-        fullHeight?: boolean;
+        fullheight?: boolean;
         wrap?: 'nowrap' | 'wrap-reverse' | 'wrap';
         direction?: 'column-reverse' | 'column' | 'row-reverse' | 'row';
         spacing?: 2 | 4 | 8 | 12 | 16 | 20 | 24 | 32 | 36 | 48 | 96;
         gap?: 2 | 4 | 8 | 12 | 16 | 20 | 24 | 32 | 36 | 48 | 96;
-        justifyItems?:
+        justifyitems?:
           | 'end'
           | 'auto'
           | 'start'
@@ -623,7 +623,7 @@ declare global {
           | 'legacy'
           | 'initial'
           | 'inherit';
-        justifyContent?:
+        justifycontent?:
           | 'flex-start'
           | 'flex-end'
           | 'center'
@@ -632,7 +632,7 @@ declare global {
           | 'space-evenly'
           | 'initial'
           | 'inherit';
-        alignContent?:
+        aligncontent?:
           | 'stretch'
           | 'center'
           | 'flex-start'
@@ -641,7 +641,7 @@ declare global {
           | 'space-around'
           | 'initial'
           | 'inherit';
-        alignItems?:
+        alignitems?:
           | 'stretch'
           | 'center'
           | 'flex-start'

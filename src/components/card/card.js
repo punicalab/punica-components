@@ -9,8 +9,15 @@
     /**
      *
      */
-    get fullWidth() {
-      return this.getAttribute('fullWidth');
+    get fullwidth() {
+      return this.getAttribute('fullwidth');
+    }
+
+    /**
+     *
+     */
+    set fullwidth(val) {
+      return this.setAttribute('fullwidth', val);
     }
 
     /**

@@ -16,7 +16,7 @@
   color: var(--text-primary);
 }
 
-:host([fullWidth='true']) {
+:host([fullwidth='true']) {
   width: 100%;
 }
 

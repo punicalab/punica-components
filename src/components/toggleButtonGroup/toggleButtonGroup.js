@@ -65,15 +65,15 @@
     /**
      *
      */
-    get fullWidth() {
-      return this.getAttribute('fullWidth');
+    get fullwidth() {
+      return this.getAttribute('fullwidth');
     }
 
     /**
      *
      */
     static get observedAttributes() {
-      return ['value', 'size', 'color', 'disabled', 'fullWidth, orientation'];
+      return ['value', 'size', 'color', 'disabled', 'fullwidth, orientation'];
     }
 
     /**
@@ -158,11 +158,11 @@
         clickedButton &&
         clickedButton.tagName.toLowerCase() === 'punica-toggle-button'
       ) {
-        const selectedValue = clickedButton.getAttribute('value');
-        this.value = selectedValue;
+        const selectedvalue = clickedButton.getAttribute('value');
+        this.value = selectedvalue;
 
         this.fireOnChange();
-        this.updateSelectedButton(selectedValue);
+        this.updateSelectedButton(selectedvalue);
       }
     }
 
@@ -200,7 +200,7 @@
       this.setAttribute('role', 'group');
 
       this.applyNewStyle('disabled', this.disabled ? 'true' : 'false');
-      this.applyNewStyle('fullWidth', this.fullWidth ? 'true' : 'false');
+      this.applyNewStyle('fullwidth', this.fullwidth ? 'true' : 'false');
       this.applyNewStyle('color', this.color);
       this.applyNewStyle('size', this.size);
       this.addEventListener('click', this.handleToggleButtonClick);

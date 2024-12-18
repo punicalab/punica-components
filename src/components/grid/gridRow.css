@@ -14,6 +14,6 @@
   margin: calc(var(--spacing) / -2) calc(var(--spacing) / -2);
 }
 
-:host([fullHeight]) {
+:host([fullheight='true']) {
   height: 100%;
 }

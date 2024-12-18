@@ -16,7 +16,7 @@ const Module = () => {
             <punica-typography variant="headline2">headline2</punica-typography>
           </punica-col>
           <punica-col xs={12}>
-            <punica-typography variant="headline2" textAlign="center">
+            <punica-typography variant="headline2" text-align="center">
               headline2 center
             </punica-typography>
           </punica-col>
@@ -39,12 +39,12 @@ const Module = () => {
             <punica-typography variant="body1">body1</punica-typography>
           </punica-col>
           <punica-col xs={12}>
-            <punica-typography variant="body1" textAlign="center">
+            <punica-typography variant="body1" text-align="center">
               body1 center
             </punica-typography>
           </punica-col>
           <punica-col xs={12}>
-            <punica-typography variant="body1" fontWeight="extra-bold">
+            <punica-typography variant="body1" font-weight="extra-bold">
               body1 extra-bold
             </punica-typography>
           </punica-col>

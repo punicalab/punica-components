@@ -41,15 +41,43 @@
     /**
      *
      */
-    get fontWeight() {
-      return this.getAttribute('fontWeight');
+    get fontweight() {
+      return this.getAttribute('fontweight');
     }
 
     /**
      *
      */
-    get textAlign() {
-      return this.getAttribute('textAlign');
+    set fontweight(val) {
+      return this.setAttribute('fontweight', val);
+    }
+
+    /**
+     *
+     */
+    get textalign() {
+      return this.getAttribute('textalign');
+    }
+
+    /**
+     *
+     */
+    set textalign(val) {
+      return this.setAttribute('textalign', val);
+    }
+
+    /**
+     *
+     */
+    get whitespace() {
+      return this.getAttribute('whitespace');
+    }
+
+    /**
+     *
+     */
+    set whitespace(val) {
+      return this.setAttribute('whitespace', val);
     }
 
     /**
@@ -62,6 +90,13 @@
     /**
      *
      */
+    set color(val) {
+      return this.setAttribute('color', val);
+    }
+
+    /**
+     *
+     */
     get truncate() {
       return this.getAttribute('truncate');
     }
@@ -69,8 +104,22 @@
     /**
      *
      */
+    set truncate(val) {
+      return this.setAttribute('truncate', val);
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
-      return ['variant', 'fontWeight', 'textAlign', 'color', 'truncate'];
+      return [
+        'variant',
+        'fontweight',
+        'textalign',
+        'whitespace',
+        'color',
+        'truncate'
+      ];
     }
 
     /**

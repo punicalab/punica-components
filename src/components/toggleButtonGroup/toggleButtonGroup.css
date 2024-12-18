@@ -8,7 +8,7 @@
   align-content: flex-start;
 }
 
-:host([fullWidth]) {
+:host([fullwidth]) {
   width: 100%;
 }
 

@@ -10,7 +10,7 @@
      *
      */
     static get observedAttributes() {
-      return ['variant', 'size', 'color', 'disabled', 'fullWidth'];
+      return ['variant', 'size', 'color', 'disabled', 'fullwidth'];
     }
 
     /**
@@ -65,8 +65,15 @@
     /**
      *
      */
-    get fullWidth() {
-      return this.getAttribute('fullWidth') == 'true';
+    get fullwidth() {
+      return this.getAttribute('fullwidth') == 'true';
+    }
+
+    /**
+     *
+     */
+    set fullwidth(val) {
+      return this.getAttribute('fullwidth', val);
     }
 
     /**
@@ -144,7 +151,7 @@
       this.setAttribute('role', 'group');
 
       this.applyNewStyle('disabled', this.disabled ? 'true' : 'false');
-      this.applyNewStyle('fullWidth', this.fullWidth ? 'true' : 'false');
+      this.applyNewStyle('fullwidth', this.fullwidth ? 'true' : 'false');
       this.applyNewStyle('color', this.color);
       this.applyNewStyle('size', this.size);
       this.applyNewStyle('variant', this.variant);

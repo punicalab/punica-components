@@ -50,7 +50,7 @@ const Module = () => {
                 </punica-input>
               </punica-col>
               <punica-col xs={12}>
-                <punica-input placeholder="Lorem Ipsum..." fullWidth>
+                <punica-input placeholder="Lorem Ipsum..." fullwidth>
                   <i slot="endAdornment" className="fa-duotone fa-house" />
                 </punica-input>
               </punica-col>

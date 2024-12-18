@@ -50,8 +50,8 @@
     /**
      *
      */
-    get fullWidth() {
-      return this.getAttribute('fullWidth');
+    get fullwidth() {
+      return this.getAttribute('fullwidth');
     }
 
     /**
@@ -64,15 +64,15 @@
     /**
      *
      */
-    get startAdornment() {
-      return this.getAttribute('startAdornment');
+    get startadornment() {
+      return this.getAttribute('startadornment');
     }
 
     /**
      *
      */
-    get endAdornment() {
-      return this.getAttribute('endAdornment');
+    get endadornment() {
+      return this.getAttribute('endadornment');
     }
 
     /**
@@ -172,11 +172,11 @@
       return [
         'size',
         'placeholder',
-        'fullWidth',
+        'fullwidth',
         'disabled',
         'error',
-        'startAdornment',
-        'endAdornment',
+        'startadornment',
+        'endadornment',
         'value',
         'type'
       ];

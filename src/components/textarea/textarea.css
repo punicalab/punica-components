@@ -14,7 +14,7 @@
   border-color: var(--textarea-border-color);
 }
 
-:host([fullWidth='true']) {
+:host([fullwidth='true']) {
   width: 100%;
 }
 

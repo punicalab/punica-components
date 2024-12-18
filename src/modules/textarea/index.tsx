@@ -23,7 +23,7 @@ const Module = () => {
               <punica-col xs={12}>
                 <punica-textarea
                   placeholder="Lorem Ipsum..."
-                  fullWidth
+                  fullwidth
                 ></punica-textarea>
               </punica-col>
             </punica-row>

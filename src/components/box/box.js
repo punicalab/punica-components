@@ -16,15 +16,15 @@
     /**
      *
      */
-    get fullWidth() {
-      return this.getAttribute('fullWidth');
+    get fullwidth() {
+      return this.getAttribute('fullwidth');
     }
 
     /**
      *
      */
-    get fullHeight() {
-      return this.getAttribute('fullHeight');
+    get fullheight() {
+      return this.getAttribute('fullheight');
     }
 
     /**
@@ -47,7 +47,7 @@
      *
      */
     static get observedAttributes() {
-      return ['error', 'rounded', 'border', 'fullHeight', 'fullWidth'];
+      return ['error', 'rounded', 'border', 'fullheight', 'fullwidth'];
     }
 
     /**

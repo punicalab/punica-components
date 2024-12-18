@@ -89,59 +89,59 @@
   display: block;
 }
 
-:host([textAlign='left']) {
+:host([textalign='left']) {
   text-align: left;
 }
 
-:host([textAlign='right']) {
+:host([textalign='right']) {
   text-align: right;
 }
 
-:host([textAlign='center']) {
+:host([textalign='center']) {
   text-align: center;
 }
 
-:host([textAlign='justify']) {
+:host([textalign='justify']) {
   text-align: justify;
 }
 
-:host([fontWeight='thin']) {
+:host([fontweight='thin']) {
   font-weight: var(--weight-thin);
 }
 
-:host([fontWeight='regular']) {
+:host([fontweight='regular']) {
   font-weight: var(--weight-regular);
 }
 
-:host([fontWeight='medium']) {
+:host([fontweight='medium']) {
   font-weight: var(--weight-medium);
 }
 
-:host([fontWeight='semi-bold']) {
+:host([fontweight='semi-bold']) {
   font-weight: var(--weight-semi-bold);
 }
 
-:host([fontWeight='bold']) {
+:host([fontweight='bold']) {
   font-weight: var(--weight-bold);
 }
 
-:host([fontWeight='extra-bold']) {
+:host([fontweight='extra-bold']) {
   font-weight: var(--weight-extra-bold);
 }
 
-:host([whiteSpace='nowrap']) {
+:host([whitespace='nowrap']) {
   white-space: nowrap;
 }
 
-:host([whiteSpace='normal']) {
+:host([whitespace='normal']) {
   white-space: normal;
 }
 
-:host([whiteSpace='pre-line']) {
+:host([whitespace='pre-line']) {
   white-space: pre-line;
 }
 
-:host([whiteSpace='pre-wrap']) {
+:host([whitespace='pre-wrap']) {
   white-space: pre-wrap;
 }
 

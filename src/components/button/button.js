@@ -70,8 +70,15 @@
     /**
      *
      */
-    get fullWidth() {
-      return this.getAttribute('fullWidth');
+    get fullwidth() {
+      return this.getAttribute('fullwidth');
+    }
+
+    /**
+     *
+     */
+    set fullwidth(val) {
+      return this.setAttribute('fullwidth', val);
     }
 
     /**
@@ -124,7 +131,7 @@
         'color',
         'size',
         'variant',
-        'fullWidth',
+        'fullwidth',
         'loading',
         'underline',
         'disabled'
@@ -144,18 +151,6 @@
      *
      */
     connectedCallback() {
-      if (!this.variant) {
-        this.variant = 'filled';
-      }
-
-      if (!this.color) {
-        this.color = 'primary';
-      }
-
-      if (!this.size) {
-        this.size = 'medium';
-      }
-
       this.setAttribute('role', 'button');
     }
   }

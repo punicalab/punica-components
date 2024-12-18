@@ -35,7 +35,7 @@ const Module = () => {
             </punica-button-group>
           </punica-col>
           <punica-col xs={12}>
-            <punica-button-group variant="outlined" fullWidth>
+            <punica-button-group variant="outlined" fullwidth>
               <punica-button rounded>Full Width 1</punica-button>
               <punica-button rounded>Full Width 2</punica-button>
               <punica-button rounded>Full Width 3</punica-button>

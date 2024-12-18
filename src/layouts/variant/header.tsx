@@ -2,7 +2,7 @@ export const Header = (props: IHeaderProps) => {
   const { link, children } = props;
 
   return (
-    <punica-row wrap="nowrap" alignItems="center" gap={4}>
+    <punica-row wrap="nowrap" alignitems="center" gap={4}>
       <punica-col>
         <punica-typography variant="headline5">{children}</punica-typography>
       </punica-col>
