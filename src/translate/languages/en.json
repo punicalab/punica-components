@@ -22,6 +22,7 @@
   "component.input": "Input",
   "component.menu": "Menu",
   "component.modal": "Modal",
+  "component.listView": "List View",
   "component.multiSelectList": "MultiSelectList",
   "component.pagination": "Pagination",
   "component.paper": "Paper",

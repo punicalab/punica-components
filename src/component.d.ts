@@ -468,6 +468,19 @@ declare global {
         value: string | number;
         selectedvalue: string | number;
       };
+      'punica-list-view': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+        enabledivider?: boolean;
+      };
+      'punica-list-view-item': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+      };
       'punica-single-select-list': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement

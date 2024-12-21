@@ -1,0 +1,7 @@
+:host {
+  --list-view-border-radius: var(--root-border-radius);
+}
+
+:host {
+  display: block;
+}
