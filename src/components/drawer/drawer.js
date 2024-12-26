@@ -31,6 +31,13 @@
     /**
      *
      */
+    set open(val) {
+      return this.setAttribute('open', val);
+    }
+
+    /**
+     *
+     */
     get direction() {
       return this.getAttribute('direction');
     }
@@ -47,6 +54,33 @@
      */
     static get observedAttributes() {
       return ['size', 'direction', 'open'];
+    }
+
+    /**
+     *
+     * @param {*} isOpen
+     * @param {*} size
+     * @param {*} transform
+     */
+    #updateContentStyles(isOpen, size, transform, wasOpen) {
+      this.#content.style.visibility = isOpen ? 'visible' : 'hidden';
+      this.#content.style.pointerEvents = isOpen ? 'all' : 'none';
+
+      if (this.direction === 'left' || this.direction === 'right') {
+        this.#content.style.width = size;
+      } else {
+        this.#content.style.height = size;
+      }
+
+      this.#content.style.transform = transform;
+
+      if (!isOpen && wasOpen) {
+        const transitionHandler = () => {
+          this.#content.style.visibility = 'hidden';
+          this.#content.removeEventListener('transitionend', transitionHandler);
+        };
+        this.#content.addEventListener('transitionend', transitionHandler);
+      }
     }
 
     /**
@@ -97,65 +131,25 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
-      switch (name) {
-        case 'open':
-          const size = SIZES[this.size];
+      if (name !== 'open') return;
 
-          switch (this.direction) {
-            case 'left':
-              if (newValue == 'true') {
-                this.#content.style.width = size;
-                this.#content.style.visibility = 'visible';
-                this.#content.style.pointerEvents = 'all';
-                this.#content.style.transform = `translateX(${0})`;
-              } else {
-                this.#content.style.pointerEvents = 'none';
-                this.#content.style.transform = `translateX(-${size})`;
-              }
-              break;
-            case 'right':
-              if (newValue == 'true') {
-                this.#content.style.width = size;
-                this.#content.style.visibility = 'visible';
-                this.#content.style.pointerEvents = 'all';
-                this.#content.style.transform = `translateX(${0})`;
-              } else {
-                this.#content.style.pointerEvents = 'none';
-                this.#content.style.transform = `translateX(${size})`;
-              }
-              break;
-            case 'top':
-              if (newValue == 'true') {
-                this.#content.style.height = size;
-                this.#content.style.visibility = 'visible';
-                this.#content.style.pointerEvents = 'all';
-                this.#content.style.transform = `translateY(${0})`;
-              } else {
-                this.#content.style.pointerEvents = 'none';
-                this.#content.style.transform = `translateY(-${size})`;
-              }
-              break;
-            case 'bottom':
-              if (newValue == 'true') {
-                this.#content.style.height = size;
-                this.#content.style.visibility = 'visible';
-                this.#content.style.pointerEvents = 'all';
-                this.#content.style.transform = `translateY(${0})`;
-              } else {
-                this.#content.style.pointerEvents = 'none';
-                this.#content.style.transform = `translateY(${size})`;
-              }
-              break;
-          }
+      const size = SIZES[this.size];
+      const isOpen = newValue === 'true';
+      const wasOpen = oldValue === 'true';
 
-          break;
-      }
+      const transformMap = {
+        left: isOpen ? `translateX(0)` : `translateX(-${size})`,
+        right: isOpen ? `translateX(0)` : `translateX(${size})`,
+        top: isOpen ? `translateY(0)` : `translateY(-${size})`,
+        bottom: isOpen ? `translateY(0)` : `translateY(${size})`
+      };
 
-      if (newValue == 'true') {
-        this.style.visibility = 'visible';
-      } else {
-        this.style.visibility = 'hidden';
-      }
+      this.#updateContentStyles(
+        isOpen,
+        size,
+        transformMap[this.direction],
+        wasOpen
+      );
     }
 
     /**

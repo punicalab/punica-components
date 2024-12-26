@@ -10,14 +10,11 @@
 }
 
 :host([open='true']) .backdrop {
-  opacity: 1;
-  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   position: fixed;
   inset: 0px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--backdrop-main);
   -webkit-tap-highlight-color: transparent;
   z-index: -1;
-  backdrop-filter: blur(0.5px);
 }
 
 :host punica-paper {
@@ -49,9 +46,11 @@
   left: 0px;
   right: 0px;
   max-height: 100%;
+  width: 100vw;
 }
 
 :host([direction='bottom']) punica-paper {
   max-height: 100%;
   bottom: 0;
+  width: 100vw;
 }

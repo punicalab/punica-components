@@ -373,8 +373,8 @@ declare global {
         class?: string;
         rounded?: boolean;
         open: boolean;
-        width: number;
-        height: number;
+        width: number | string;
+        height: number | string;
       };
       'punica-modal-header': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
