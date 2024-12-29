@@ -17,6 +17,7 @@
   align-items: center;
   position: fixed;
   inset: 0;
+  z-index: var(--zindex-backdrop);
 }
 
 :host([open='true']) .modal {
@@ -42,6 +43,6 @@
   z-index: var(--zindex-backdrop);
 }
 
-:host([rounded='true']) {
+:host([rounded='true']) .modal {
   border-radius: var(--modal-border-radius);
 }
