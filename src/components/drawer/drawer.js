@@ -86,7 +86,7 @@
     /**
      *
      */
-    fireOnClose() {
+    #fireOnClose() {
       this.dispatchEvent(
         new CustomEvent('close', {
           bubbles: true,
@@ -100,16 +100,16 @@
      *
      * @param {*} e
      */
-    handleBackdropClick = (e) => {
-      this.fireOnClose();
+    #handleBackdropClick = (e) => {
+      this.#fireOnClose();
     };
 
     /**
      *
      */
-    hosContainerKeyDown = (event) => {
+    #hosContainerKeyDown = (event) => {
       if (event.key == 'Escape') {
-        this.fireOnClose();
+        this.#fireOnClose();
       }
     };
 
@@ -173,8 +173,8 @@
           break;
       }
 
-      this.#backdrop.addEventListener('click', this.handleBackdropClick);
-      document.addEventListener('keydown', this.hosContainerKeyDown);
+      this.#backdrop.addEventListener('click', this.#handleBackdropClick);
+      document.addEventListener('keydown', this.#hosContainerKeyDown);
     }
   }
 

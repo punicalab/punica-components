@@ -2,15 +2,17 @@
   const template = document.createElement('template');
 
   template.innerHTML = `
-    <dialog>
+    <div class="backdrop"></div>
+    <div class="modal">
       <slot></slot>
-    </dialog>
+    </div>
     <style></style>
   `;
 
   class Modal extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
-    #dialog = null;
+    #modal = null;
+    #backdrop = null;
 
     /**
      *
@@ -59,11 +61,33 @@
     /**
      *
      */
+    #fireOnClose() {
+      this.dispatchEvent(
+        new CustomEvent('close', {
+          bubbles: true,
+          cancelable: false,
+          composed: true
+        })
+      );
+    }
+
+    /**
+     *
+     * @param {*} e
+     */
+    #handleBackdropClick = (e) => {
+      this.#fireOnClose();
+    };
+
+    /**
+     *
+     */
     constructor() {
       super();
 
       this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#dialog = this.#shadow.querySelector('dialog');
+      this.#backdrop = this.#shadow.querySelector('.backdrop');
+      this.#modal = this.#shadow.querySelector('.modal');
     }
 
     /**
@@ -76,12 +100,15 @@
       switch (name) {
         case 'open':
           if (newValue == 'true') {
-            this.#dialog.style.width = this.width;
-            this.#dialog.style.height = this.height;
+            this.#modal.style.width = this.width;
+            this.#modal.style.height = this.height;
 
-            this.#dialog.showModal();
+            this.#backdrop.addEventListener('click', this.#handleBackdropClick);
           } else {
-            this.#dialog.close();
+            this.#backdrop.removeEventListener(
+              'click',
+              this.#handleBackdropClick
+            );
           }
           break;
       }

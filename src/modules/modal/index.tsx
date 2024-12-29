@@ -67,6 +67,32 @@ const Module = () => {
                   passages, and more recently with desktop publishing software
                   like Aldus PageMaker including versions of Lorem Ipsum.
                 </punica-typography>
+                <punica-select value="item3" placeholder="Lorem Ipsum...">
+                  <punica-select-item value="item1">Item 1</punica-select-item>
+                  <punica-select-item value="item2">Item 2</punica-select-item>
+                  <punica-select-item value="item3">Item 3</punica-select-item>
+                  <punica-select-item value="item4">Item 4</punica-select-item>
+                  <punica-select-item value="item5">Item 5</punica-select-item>
+                  <punica-select-item value="item6">Item 6</punica-select-item>
+                  <punica-select-item value="item7">Item 7</punica-select-item>
+                  <punica-select-item value="item8">Item 8</punica-select-item>
+                  <punica-select-item value="item9">Item 9</punica-select-item>
+                  <punica-select-item value="item10">
+                    Item 10
+                  </punica-select-item>
+                  <punica-icon slot="caret">
+                    <i className="fa-solid fa-caret-down" />
+                  </punica-icon>
+                  <punica-icon slot="clear">
+                    <i className="fa-regular fa-xmark" />
+                  </punica-icon>
+                  <punica-icon slot="adornment">
+                    <i className="fa-brands fa-html5" />
+                  </punica-icon>
+                  <punica-icon slot="preload">
+                    <i className="fa-duotone fa-spinner-third fa-spin" />
+                  </punica-icon>
+                </punica-select>
               </punica-modal-content>
               <punica-modal-footer>
                 <punica-button
