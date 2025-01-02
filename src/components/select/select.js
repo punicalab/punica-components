@@ -319,6 +319,28 @@
 
     /**
      *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case 'value':
+          if (newValue == null) {
+            if (this.#selected) {
+              this.#selected.selected = false;
+            }
+
+            this.#selected = null;
+
+            this.#content.innerHTML = '';
+          }
+          break;
+      }
+    }
+
+    /**
+     *
      */
     connectedCallback() {
       if (!this.size) {
