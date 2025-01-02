@@ -1,8 +1,17 @@
 import { Module as Layout } from '@/layouts/module';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Module = () => {
   const { t } = useTranslation();
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    console.log(inputRef.current);
+    const input = inputRef.current;
+
+    input.inputFocus();
+  }, [inputRef]);
 
   return (
     <Layout.Main>
@@ -12,7 +21,10 @@ const Module = () => {
           <punica-col xs={12}>
             <punica-row gap={16}>
               <punica-col>
-                <punica-input placeholder="Lorem Ipsum..."></punica-input>
+                <punica-input
+                  placeholder="Lorem Ipsum..."
+                  ref={inputRef}
+                ></punica-input>
               </punica-col>
               <punica-col>
                 <punica-input placeholder="Lorem Ipsum...">

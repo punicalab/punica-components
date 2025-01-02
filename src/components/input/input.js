@@ -109,6 +109,7 @@
     inputFocus = () => {
       if (!this.error) {
         this.setAttribute('focus', true);
+        this.#input.focus();
       }
     };
 
@@ -214,7 +215,7 @@
         'startadornment',
         'endadornment',
         'value',
-        'type'
+        'type',
       ];
     }
 
