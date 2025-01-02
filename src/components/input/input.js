@@ -119,6 +119,7 @@
     inputMouseDown = (e) => {
       e.target.focus();
       e.stopPropagation();
+      this.fireOnFocus();
 
       if (!this.error) {
         this.setAttribute('focus', true);
@@ -129,6 +130,7 @@
      *
      */
     inputBlur = () => {
+      this.fireOnBlur();
       this.removeAttribute('focus');
     };
 
@@ -148,6 +150,40 @@
     inputOnKeyDown = (e) => {
       e.stopImmediatePropagation();
     };
+
+    
+    /**
+     * 
+     */
+    fireOnBlur() {
+      this.dispatchEvent(
+        new CustomEvent('blur', {
+          detail: {
+            value: this.#input.value
+          },
+          bubbles: true,
+          cancelable: false,
+          composed: true
+        })
+      );
+    }
+
+
+    /**
+     * 
+     */
+    fireOnFocus() {
+      this.dispatchEvent(
+        new CustomEvent('focus', {
+          detail: {
+            value: this.#input.value
+          },
+          bubbles: true,
+          cancelable: false,
+          composed: true
+        })
+      );
+    }
 
     /**
      *

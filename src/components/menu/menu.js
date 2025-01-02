@@ -112,6 +112,7 @@
 
       childrenClones.forEach((clone) => {
         optionWrapper.appendChild(clone);
+        clone.addEventListener('click', this.handleMenuItemClick);
       });
 
       popover.setAttribute('top', this.top);
@@ -171,6 +172,27 @@
       if (event.key == 'Escape') {
         this.hide();
       }
+    };
+
+    /**
+     * 
+     * @param {*} event 
+     */
+    handleMenuItemClick = (event) => {
+      const menuItem = event.currentTarget;
+      const itemData = menuItem.getAttribute('data-item');
+      if (menuItem instanceof HTMLElement) {
+        this.dispatchEvent(
+          new CustomEvent('menu-item-click', {
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            detail: { value: menuItem.textContent, data: itemData  },
+          })
+        );
+      }
+      this.hide();
+      event.stopPropagation();
     };
 
     /**

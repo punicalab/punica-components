@@ -73,35 +73,8 @@
       if (!this.hasAttribute('role')) {
         this.setAttribute('role', 'menuitem');
       }
-
-      // Optional: add default event listeners
-      this.addEventListener('click', this.#onClick);
     }
 
-    /**
-     * Lifecycle callback: called when the element is disconnected from the DOM.
-     */
-    disconnectedCallback() {
-      this.removeEventListener('click', this.#onClick);
-    }
-
-    /**
-     * Private method to handle clicks.
-     */
-    #onClick = (event) => {
-      if (this.disabled) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      } else {
-        this.dispatchEvent(
-          new CustomEvent('menu-item-click', {
-            detail: { value: this.value },
-            bubbles: true,
-            composed: true
-          })
-        );
-      }
-    };
   }
 
   // Define the custom element
