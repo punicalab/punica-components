@@ -5,6 +5,10 @@
   --dialog-backdrop-background-color: var(--backdrop-main);
 }
 
+:host {
+  background-color: var(--dialog-background-color);
+}
+
 dialog {
   display: none;
   border: none;
@@ -12,7 +16,7 @@ dialog {
   min-width: 400px;
   max-width: 500px;
   padding: var(--dialog-padding);
-  background-color: var(--dialog-background-color);
+  background-color: inherit;
   overflow: hidden;
 }
 
