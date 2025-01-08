@@ -23,22 +23,22 @@
     /**
      *
      */
-    get disableGutters() {
-      return this.getAttribute('disableGutters');
+    get disablegutters() {
+      return this.getAttribute('disablegutters');
     }
 
     /**
      *
      */
-    set disableGutters(val) {
-      return this.setAttribute('disableGutters', val);
+    set disablegutters(val) {
+      return this.setAttribute('disablegutters', val);
     }
 
     /**
      *
      */
     static get observedAttributes() {
-      return ['variant', 'disableGutters'];
+      return ['variant', 'disablegutters'];
     }
 
     /**

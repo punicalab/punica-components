@@ -39,7 +39,7 @@ const MainMasterPage = (props: { children: ReactNode }) => {
         </section>
       </nav>
       <section className="content">
-        <punica-container maxWidth="lg">{children}</punica-container>
+        <punica-container maxwidth="lg">{children}</punica-container>
       </section>
     </main>
   );

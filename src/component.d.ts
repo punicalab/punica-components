@@ -256,8 +256,8 @@ declare global {
         HTMLElement
       > & {
         class?: string;
-        maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-        disableGutters?: boolean;
+        maxwidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+        disablegutters?: boolean;
       };
       'punica-hidden': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -592,7 +592,7 @@ declare global {
       > & {
         class?: string;
         variant?: 'dense' | 'regular';
-        disableGutters?: boolean;
+        disablegutters?: boolean;
       };
       'punica-col': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

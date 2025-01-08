@@ -5,7 +5,7 @@ export const Content = (props: IContentProps) => {
 
   return (
     <div className="content">
-      <punica-container disableGutters>{children}</punica-container>
+      <punica-container disablegutters>{children}</punica-container>
     </div>
   );
 };

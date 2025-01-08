@@ -152,9 +152,8 @@
       e.stopImmediatePropagation();
     };
 
-    
     /**
-     * 
+     *
      */
     fireOnBlur() {
       this.dispatchEvent(
@@ -169,9 +168,8 @@
       );
     }
 
-
     /**
-     * 
+     *
      */
     fireOnFocus() {
       this.dispatchEvent(
@@ -215,7 +213,7 @@
         'startadornment',
         'endadornment',
         'value',
-        'type',
+        'type'
       ];
     }
 

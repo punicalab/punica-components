@@ -10,20 +10,20 @@ const Module = () => {
       <Layout.Content>
         <punica-row gap={16}>
           <punica-col xs={12}>
-            <punica-container maxWidth="sm">Max Width - SM</punica-container>
+            <punica-container maxwidth="sm">Max Width - SM</punica-container>
           </punica-col>
           <punica-col xs={12}>
-            <punica-container maxWidth="md">Max Width - MD</punica-container>
+            <punica-container maxwidth="md">Max Width - MD</punica-container>
           </punica-col>
           <punica-col xs={12}>
-            <punica-container maxWidth="lg">Max Width - LG</punica-container>
+            <punica-container maxwidth="lg">Max Width - LG</punica-container>
           </punica-col>
           <punica-col xs={12}>
-            <punica-container maxWidth="xl">Max Width - XL</punica-container>
+            <punica-container maxwidth="xl">Max Width - XL</punica-container>
           </punica-col>
           <punica-col xs={12}>
-            <punica-container maxWidth="xl" disableGutters>
-              Max Width - XL & disableGutters
+            <punica-container maxwidth="xl" disablegutters>
+              Max Width - XL & disablegutters
             </punica-container>
           </punica-col>
         </punica-row>

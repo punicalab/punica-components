@@ -48,7 +48,7 @@ const Module = () => {
           </punica-col>
           <punica-col xs={12}>
             <punica-toolbar
-              disableGutters
+              disablegutters
               style={{ background: 'var(--primary-main)' }}
             >
               <punica-icon-button style={{ marginRight: 2 }}>

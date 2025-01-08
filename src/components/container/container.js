@@ -9,36 +9,36 @@
     /**
      *
      */
-    get maxWidth() {
-      return this.getAttribute('maxWidth');
+    get maxwidth() {
+      return this.getAttribute('maxwidth');
     }
 
     /**
      *
      */
-    set maxWidth(val) {
-      this.aetAttribute('maxWidth', val);
+    set maxwidth(val) {
+      this.aetAttribute('maxwidth', val);
     }
 
     /**
      *
      */
-    get disableGutters() {
-      return this.getAttribute('disableGutters');
+    get disablegutters() {
+      return this.getAttribute('disablegutters');
     }
 
     /**
      *
      */
-    set disableGutters(val) {
-      return this.setAttribute('disableGutters', val);
+    set disablegutters(val) {
+      return this.setAttribute('disablegutters', val);
     }
 
     /**
      *
      */
     static get observedAttributes() {
-      return ['maxWidth', 'disableGutters'];
+      return ['maxwidth', 'disablegutters'];
     }
 
     /**
