@@ -261,6 +261,20 @@
       this.#input.removeEventListener('input', this.inputChange);
       this.#input.removeEventListener('keydown', this.inputOnKeyDown);
     }
+
+    /**
+     *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case 'value':
+          this.#input.value = newValue;
+          break;
+      }
+    }
   }
 
   customElements.define('punica-input', Input);

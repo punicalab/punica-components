@@ -5,7 +5,7 @@
   display: block;
 }
 
-:host([disablegutters='true']) {
+:host([disablegutters]) {
   padding-left: 0;
   padding-right: 0;
 }
