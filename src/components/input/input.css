@@ -41,10 +41,14 @@
   padding: var(--spacing-8) var(--spacing-12);
   height: 40px;
 }
-
 :host([size='large']) {
   padding: var(--spacing-12) var(--spacing-12);
   height: 48px;
+}
+
+:host([disabled='true']) {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
 }
 
 input {

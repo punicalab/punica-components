@@ -10,7 +10,7 @@ const Module = () => {
       <Layout.Content>
         <punica-row gap={16}>
           <punica-col xs={12}>
-            <punica-pagination page={4} totalCount={200}>
+            <punica-pagination page={4} totalCount={200} size={10}>
               <slot slot="prevPage">
                 <i className="fa-regular fa-angle-left" />
               </slot>

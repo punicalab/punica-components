@@ -42,7 +42,7 @@ const Module = () => {
                 </punica-input>
               </punica-col>
               <punica-col xs={12}>
-                <punica-input placeholder="Lorem Ipsum..." rounded>
+                <punica-input placeholder="Disabled..." rounded disabled>
                   <i slot="endAdornment" className="fa-duotone fa-house" />
                 </punica-input>
               </punica-col>

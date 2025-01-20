@@ -249,9 +249,14 @@
       if (!this.size) {
         this.size = 'medium';
       }
+
+      if(this.disabled){
+        this.#input.disabled = true; 
+      }
+
     }
 
-    /**
+  /**
      *
      */
     disconnectedCallback() {
