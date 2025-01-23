@@ -4,6 +4,7 @@
   cursor: pointer;
   pointer-events: all;
   color: var(--text-primary);
+  font-size: 0.875rem;
 }
 
 :host(:hover) {

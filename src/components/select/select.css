@@ -58,4 +58,5 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
+  font-size: 0.875rem;
 }
