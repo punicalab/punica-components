@@ -225,7 +225,6 @@
 
       this.#shadow.appendChild(template.content.cloneNode(true));
       this.#input = this.#shadow.querySelector('input');
-
       this.#input.focus();
     }
 
@@ -250,7 +249,8 @@
         this.size = 'medium';
       }
 
-      if(this.disabled){
+
+      if(this.disabled === 'true'){
         this.#input.disabled = true; 
       }
 
