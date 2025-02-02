@@ -9,7 +9,6 @@
 
   class Checkbox extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
-    #input = null;
 
     /**
      *
@@ -25,7 +24,7 @@
       this.removeAttribute('indeterminate');
 
       if (value) {
-        this.setAttribute('checked', 'true');
+        this.setAttribute('checked', value);
       } else {
         this.removeAttribute('checked');
       }
@@ -33,7 +32,6 @@
       this.update();
     }
 
-  
     /**
      *
      */
@@ -53,24 +51,7 @@
      */
     handleClick = () => {
       this.checked = !this.checked;
-      this.fireOnChange();
     };
-
-    /**
-     *
-     */
-     fireOnChange() {
-      this.dispatchEvent(
-        new CustomEvent('change', {
-          detail: {
-            value: this.checked
-          },
-          bubbles: false,
-          cancelable: false,
-          composed: true
-        })
-      );
-    }
 
     /**
      *
@@ -83,15 +64,16 @@
      *
      */
     update() {
+      const input = this.#shadow.querySelector('input');
       const label = this.#shadow.querySelector('label');
 
-      this.#input.setAttribute('indeterminate', this.indeterminate);
+      input.setAttribute('indeterminate', this.indeterminate);
 
       if (this.checked) {
-        this.#input.setAttribute('checked', '');
-        this.#input.removeAttribute('indeterminate');
+        input.setAttribute('checked', '');
+        input.removeAttribute('indeterminate');
       } else {
-        this.#input.removeAttribute('checked');
+        input.removeAttribute('checked');
       }
 
       label.innerText = this.label;
@@ -103,22 +85,17 @@
     constructor() {
       super();
 
-      this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#input = this.#shadow.querySelector('input');
-
       this.addEventListener('click', this.handleClick);
-
     }
 
     /**
      *
      */
     connectedCallback() {
+      this.#shadow.appendChild(template.content.cloneNode(true));
+
       this.update();
     }
-
-
-    
   }
 
   customElements.define('punica-checkbox', Checkbox);

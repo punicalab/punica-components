@@ -43,6 +43,10 @@
   color: var(--text-primary);
 }
 
+:host([variant='text']):host(:hover) {
+  background-color: rgb(from var(--text-primary) r g b / 10%);
+}
+
 :host([color='primary']):host([variant='text']):host(:hover) {
   background-color: var(--primary-light);
   color: var(--white);
