@@ -31,8 +31,15 @@
     /**
      *
      */
-    get gap() {
-      return this.getAttribute('gap') || 0;
+    get rowspacing() {
+      return this.getAttribute('rowspacing') || this.spacing;
+    }
+
+    /**
+     *
+     */
+    get columnspacing() {
+      return this.getAttribute('columnspacing') || this.spacing;
     }
 
     /**
@@ -78,7 +85,8 @@
         'wrap',
         'direction',
         'spacing',
-        'gap',
+        'rowspacing',
+        'columnspacing',
         'justifyitems',
         'justifycontent',
         'aligncontent',
@@ -93,8 +101,8 @@
     update() {
       this.#style.innerHTML = `
         :host{
-          --gap: ${this.gap};
-          --spacing: ${this.spacing ? this.spacing + 'px' : 0};
+          --row-spacing: ${this.rowspacing * 8 + 'px'};
+          --column-spacing: ${this.columnspacing * 8 + 'px'};
           --align-items: ${this.alignitems};
           --align-content: ${this.aligncontent};
           --justify-items: ${this.justifyitems};
@@ -102,6 +110,18 @@
           --wrap: ${this.wrap};
           --direction: ${this.direction};
           --columns: 12;
+        }
+
+        :host > * {
+          --parent-row-spacing: ${this.rowspacing * 8 + 'px'};
+        }
+
+        :host > * {
+          --parent-column-spacing: ${this.columnspacing * 8 + 'px'};
+        }
+
+        :host > * {
+          --parent-columns: var(--columns);
         }
       `;
     }

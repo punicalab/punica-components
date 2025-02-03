@@ -8,7 +8,7 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.skeleton')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
             <punica-skeleton variant="circular" width="100px" height="100px" />
           </punica-col>

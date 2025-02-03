@@ -613,8 +613,9 @@ declare global {
         fullheight?: boolean;
         wrap?: 'nowrap' | 'wrap-reverse' | 'wrap';
         direction?: 'column-reverse' | 'column' | 'row-reverse' | 'row';
-        spacing?: 2 | 4 | 8 | 12 | 16 | 20 | 24 | 32 | 36 | 48 | 96;
-        gap?: 2 | 4 | 8 | 12 | 16 | 20 | 24 | 32 | 36 | 48 | 96;
+        spacing?: number;
+        rowspacing?: number;
+        columnspacing?: number;
         justifyitems?:
           | 'end'
           | 'auto'

@@ -9,6 +9,13 @@
     /**
      *
      */
+    get size() {
+      return this.getAttribute('size');
+    }
+
+    /**
+     *
+     */
     get xs() {
       return this.getAttribute('xs');
     }
@@ -60,7 +67,7 @@
             ? `
             @media (min-width: 0) {
               :host{
-                width: calc(100% * ${this.xs} / var(--columns));
+                width: calc(100% * ${this.xs} / var(--parent-columns) - (var(--parent-columns) - ${this.xs}) * (var(--parent-column-spacing) / var(--parent-columns)))
               }
             }`
             : ``
@@ -70,7 +77,7 @@
             ? `
             @media (min-width: 600px) {
               :host{
-                width: calc(100% * ${this.sm} / var(--columns));
+                width: calc(100% * ${this.sm} / var(--parent-columns) - (var(--parent-columns) - ${this.sm}) * (var(--parent-column-spacing) / var(--parent-columns)))
               }
             }`
             : ``
@@ -80,7 +87,7 @@
             ? `
             @media (min-width: 900px) {
               :host{
-                width: calc(100% * ${this.md} / var(--columns));
+                width: calc(100% * ${this.md} / var(--parent-columns) - (var(--parent-columns) - ${this.md}) * (var(--parent-column-spacing) / var(--parent-columns)))
               }
             }`
             : ``
@@ -90,7 +97,7 @@
             ? `
             @media (min-width: 1200px) {
               :host{
-                width: calc(100% * ${this.lg} / var(--columns));
+                width: calc(100% * ${this.lg} / var(--parent-columns) - (var(--parent-columns) - ${this.lg}) * (var(--parent-column-spacing) / var(--parent-columns)))
               }
             }`
             : ``
@@ -100,7 +107,7 @@
             ? `
             @media (min-width: 1536px) {
               :host{
-                width: calc(100% * ${this.xl} / var(--columns));
+                width: calc(100% * ${this.xl} / var(--parent-columns) - (var(--parent-columns) - ${this.xl}) * (var(--parent-column-spacing) / var(--parent-columns)))
               }
             }`
             : ``

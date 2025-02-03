@@ -8,7 +8,7 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.pagination')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
             <punica-pagination page={4} totalCount={200} size={10}>
               <slot slot="prevPage">

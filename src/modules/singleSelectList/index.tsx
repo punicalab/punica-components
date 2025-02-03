@@ -8,7 +8,7 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.singleSelectList')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
             <punica-single-select-list value="item3">
               <punica-single-select-list-item value="item1">

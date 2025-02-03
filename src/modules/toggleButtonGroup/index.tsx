@@ -8,7 +8,7 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.toggleButtonGroup')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
             <punica-toggle-button-group value="grid">
               <punica-toggle-button value="delete">

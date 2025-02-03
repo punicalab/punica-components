@@ -9,7 +9,7 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.select')} />
       <Layout.Content>
-        <punica-row gap={24}>
+        <punica-row spacing={3}>
           <punica-col xs={12}>
             <Basic />
           </punica-col>

@@ -8,7 +8,7 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.card')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
             <punica-card>
               <punica-card-media>

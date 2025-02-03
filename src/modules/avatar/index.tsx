@@ -8,11 +8,11 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.avatar')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
-            <punica-row spacing={16}>
+            <punica-row spacing={2}>
               <punica-col xs={12}>
-                <punica-row gap={8}>
+                <punica-row spacing={1}>
                   <punica-col>
                     <punica-avatar color="primary" variant="circular">
                       AK

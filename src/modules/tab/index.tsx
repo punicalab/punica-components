@@ -29,9 +29,9 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.tab')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col>
-            <punica-row gap={16}>
+            <punica-row spacing={2}>
               <punica-col xs={12}>
                 <punica-tab orientation="horizontal" value={selected} ref={ref}>
                   <punica-tab-item value="tab1">sdfsd</punica-tab-item>
@@ -89,7 +89,7 @@ const Module = () => {
             </punica-row>
           </punica-col>
           <punica-col>
-            <punica-row gap={16} wrap="nowrap">
+            <punica-row spacing={2} wrap="nowrap">
               <punica-col xs={2}>
                 <punica-tab
                   orientation="vertical"

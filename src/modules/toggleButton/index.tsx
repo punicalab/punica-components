@@ -8,9 +8,9 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.toggleButton')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
-            <punica-row gap={16}>
+            <punica-row spacing={2}>
               <punica-col>
                 <punica-toggle-button value="delete" disabled>
                   <i className="fa-duotone fa-trash" />
@@ -49,7 +49,7 @@ const Module = () => {
             </punica-row>
           </punica-col>
           <punica-col xs={12}>
-            <punica-row gap={16}>
+            <punica-row spacing={2}>
               <punica-col>
                 <punica-toggle-button value="delete" size="small">
                   <i className="fa-duotone fa-trash" />

@@ -8,9 +8,9 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.badge')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
-            <punica-row wrap="nowrap" gap={16}>
+            <punica-row wrap="nowrap" spacing={2}>
               <punica-col>
                 <punica-badge badgeContent={8}>
                   <i className="fa-duotone fa-envelope fa-xl" />

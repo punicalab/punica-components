@@ -8,7 +8,7 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.appBar')} />
       <Layout.Content>
-        <punica-row gap={16} style={{ height: '1500px' }}>
+        <punica-row spacing={2} style={{ height: '1500px' }}>
           <punica-col xs={12}>
             <punica-app-bar color="primary" position="sticky">
               <punica-toolbar>

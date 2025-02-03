@@ -11,7 +11,7 @@ const Module = () => {
         scrambled it to make a type specimen book.
       </Layout.SubHeader>
       <Layout.Example>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col>
             <punica-select
               size="small"

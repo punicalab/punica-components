@@ -39,7 +39,7 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.modal')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
             <punica-button onClick={handleClick}>Show Modal</punica-button>
             <punica-button

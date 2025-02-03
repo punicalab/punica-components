@@ -8,7 +8,7 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.buttonGroup')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
             <punica-button-group size="small" variant="outlined">
               <punica-button rounded>Small 1</punica-button>
@@ -17,7 +17,12 @@ const Module = () => {
             </punica-button-group>
           </punica-col>
           <punica-col xs={12}>
-            <punica-button-group color="error" disabled variant="filled">
+            <punica-button-group
+              color="error"
+              disabled
+              variant="filled"
+              size="medium"
+            >
               <punica-button rounded>Disabled 1</punica-button>
               <punica-button rounded>Disabled 2</punica-button>
               <punica-button rounded>Disabled 3</punica-button>
@@ -35,14 +40,23 @@ const Module = () => {
             </punica-button-group>
           </punica-col>
           <punica-col xs={12}>
-            <punica-button-group variant="outlined" fullwidth>
+            <punica-button-group
+              variant="outlined"
+              size="medium"
+              color="primary"
+              fullwidth
+            >
               <punica-button rounded>Full Width 1</punica-button>
               <punica-button rounded>Full Width 2</punica-button>
               <punica-button rounded>Full Width 3</punica-button>
             </punica-button-group>
           </punica-col>
           <punica-col xs={12}>
-            <punica-button-group variant="outlined">
+            <punica-button-group
+              variant="outlined"
+              size="medium"
+              color="primary"
+            >
               <punica-button rounded>Full Width 1</punica-button>
               <punica-button rounded>Full Width 2</punica-button>
               <punica-button rounded>Full Width 3</punica-button>

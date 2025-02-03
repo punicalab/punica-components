@@ -66,7 +66,7 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.popover')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
             <punica-button ref={topRef} onClick={handleTopClick}>
               Top

@@ -1,6 +1,5 @@
 :host {
   display: flex;
-  gap: calc(var(--gap) * 1px);
   min-width: 0px;
   align-items: var(--align-items);
   align-content: var(--align-content);
@@ -8,10 +7,7 @@
   justify-content: var(--justify-content);
   flex-wrap: var(--wrap);
   flex-direction: var(--direction);
-}
-
-:host([spacing]) {
-  margin: calc(var(--spacing) / -2) calc(var(--spacing) / -2);
+  gap: var(--row-spacing) var(--column-spacing);
 }
 
 :host([fullheight='true']) {

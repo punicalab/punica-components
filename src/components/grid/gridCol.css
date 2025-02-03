@@ -1,5 +1,6 @@
 :host {
+  -webkit-box-flex: 0;
   flex-grow: 0;
   flex-basis: auto;
-  padding: calc(var(--spacing) / 2) calc(var(--spacing) / 2);
+  min-width: 0px;
 }

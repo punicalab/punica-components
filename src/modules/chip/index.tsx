@@ -21,9 +21,9 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.chip')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
-            <punica-row wrap="nowrap" gap={16}>
+            <punica-row wrap="nowrap" spacing={2}>
               <punica-col>
                 <punica-chip variant="filled" color="primary" size="medium">
                   Content
@@ -66,7 +66,7 @@ const Module = () => {
             </punica-row>
           </punica-col>
           <punica-col xs={12}>
-            <punica-row wrap="nowrap" gap={16}>
+            <punica-row wrap="nowrap" spacing={2}>
               <punica-col>
                 <punica-chip variant="outlined" color="default" size="medium">
                   Content

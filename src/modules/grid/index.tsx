@@ -8,9 +8,9 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.grid')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
-            <punica-row gap={4}>
+            <punica-row spacing={0.5}>
               <punica-col xs={12} md={5}>
                 <punica-paper rounded>XS-12 MD-5</punica-paper>
               </punica-col>
@@ -42,7 +42,7 @@ const Module = () => {
             <punica-divider />
           </punica-col>
           <punica-col xs={12}>
-            <punica-row spacing={16}>
+            <punica-row spacing={2}>
               <punica-col xs={3}>
                 <punica-paper rounded>XS-3</punica-paper>
               </punica-col>
@@ -61,7 +61,7 @@ const Module = () => {
             <punica-divider />
           </punica-col>
           <punica-col xs={12}>
-            <punica-row spacing={16}>
+            <punica-row spacing={2}>
               <punica-col xs={12} sm={3} md={3} lg={3} xl={3}>
                 <punica-paper rounded>XS-12 SM-3 MD-3 LG-3 XL-3</punica-paper>
               </punica-col>
@@ -80,7 +80,7 @@ const Module = () => {
             <punica-divider />
           </punica-col>
           <punica-col xs={12}>
-            <punica-row spacing={16} alignitems="center">
+            <punica-row spacing={2} alignitems="center">
               <punica-col xs={12} sm={6} md={3} lg={2} xl={4}>
                 <punica-paper rounded>XS-12 SM-6 MD-3 LG-2 XL-4</punica-paper>
               </punica-col>
@@ -99,7 +99,7 @@ const Module = () => {
             <punica-divider />
           </punica-col>
           <punica-col xs={12}>
-            <punica-row spacing={16} justifycontent="center">
+            <punica-row spacing={2} justifycontent="center">
               <punica-col xs={4}>
                 <punica-paper rounded>XS-4 JUSTIFYCONTENT CENTER</punica-paper>
               </punica-col>

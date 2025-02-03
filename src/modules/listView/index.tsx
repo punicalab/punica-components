@@ -8,9 +8,9 @@ const Module = () => {
     <Layout.Main>
       <Layout.Header title={t('component.listView')} />
       <Layout.Content>
-        <punica-row gap={16}>
+        <punica-row spacing={2}>
           <punica-col xs={12}>
-            <punica-row gap={16}>
+            <punica-row spacing={2}>
               <punica-col xs={12}>
                 <punica-list-view>
                   <punica-list-view-item>
@@ -93,7 +93,7 @@ const Module = () => {
                       width="100%"
                     />
                     <div slot="content">
-                      <punica-row gap={8} wrap="nowrap">
+                      <punica-row spacing={1} wrap="nowrap">
                         <punica-col>
                           <punica-icon>
                             <i
@@ -113,7 +113,7 @@ const Module = () => {
                           </punica-typography>
                         </punica-col>
                       </punica-row>
-                      <punica-row gap={8} wrap="nowrap">
+                      <punica-row spacing={1} wrap="nowrap">
                         <punica-col>
                           <punica-icon>
                             <i
@@ -153,7 +153,7 @@ const Module = () => {
                       width="100%"
                     />
                     <div slot="content">
-                      <punica-row gap={8} wrap="nowrap">
+                      <punica-row spacing={1} wrap="nowrap">
                         <punica-col>
                           <punica-icon>
                             <i
@@ -173,7 +173,7 @@ const Module = () => {
                           </punica-typography>
                         </punica-col>
                       </punica-row>
-                      <punica-row gap={8} wrap="nowrap">
+                      <punica-row spacing={1} wrap="nowrap">
                         <punica-col>
                           <punica-icon>
                             <i
@@ -213,7 +213,7 @@ const Module = () => {
                       width="100%"
                     />
                     <div slot="content">
-                      <punica-row gap={8} wrap="nowrap">
+                      <punica-row spacing={1} wrap="nowrap">
                         <punica-col>
                           <punica-icon>
                             <i
@@ -233,7 +233,7 @@ const Module = () => {
                           </punica-typography>
                         </punica-col>
                       </punica-row>
-                      <punica-row gap={8} wrap="nowrap">
+                      <punica-row spacing={1} wrap="nowrap">
                         <punica-col>
                           <punica-icon>
                             <i
@@ -273,7 +273,7 @@ const Module = () => {
                       width="100%"
                     />
                     <div slot="content">
-                      <punica-row gap={8} wrap="nowrap">
+                      <punica-row spacing={1} wrap="nowrap">
                         <punica-col>
                           <punica-icon>
                             <i
@@ -293,7 +293,7 @@ const Module = () => {
                           </punica-typography>
                         </punica-col>
                       </punica-row>
-                      <punica-row gap={8} wrap="nowrap">
+                      <punica-row spacing={1} wrap="nowrap">
                         <punica-col>
                           <punica-icon>
                             <i

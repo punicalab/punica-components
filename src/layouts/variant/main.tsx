@@ -18,7 +18,7 @@ export const Main = (props: IMainProps) => {
   }, [children]);
 
   return (
-    <punica-row id={id} direction="column" gap={12}>
+    <punica-row id={id} direction="column" spacing={1.5}>
       <punica-col xs={12}>
         {cloneElement(childMap['header'], {
           link: id
@@ -33,7 +33,7 @@ export const Main = (props: IMainProps) => {
             width: '100%'
           }}
         >
-          <punica-row direction="column" gap={12}>
+          <punica-row direction="column" spacing={1.5}>
             <punica-col>{childMap['example']}</punica-col>
             <punica-col>{childMap['code']}</punica-col>
           </punica-row>
