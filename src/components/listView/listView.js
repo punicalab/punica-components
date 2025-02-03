@@ -2,7 +2,7 @@
   const template = document.createElement('template');
 
   template.innerHTML = `
-    <punica-row gap="16">
+    <punica-row spacing="2">
       <slot></slot>
     </punica-row>
     <style></style>

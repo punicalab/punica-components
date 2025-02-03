@@ -2,7 +2,7 @@
   const template = document.createElement('template');
 
   template.innerHTML = `
-    <punica-row gap="16" wrap="nowrap" alignitems="center">
+    <punica-row spacing="2" wrap="nowrap" alignitems="center">
       <punica-col>
         <slot name="startAdornment"></slot>
       </punica-col>
