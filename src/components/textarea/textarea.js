@@ -125,7 +125,6 @@
 
       this.#shadow.appendChild(template.content.cloneNode(true));
       this.#textarea = this.#shadow.querySelector('textarea');
-      this.#textarea.rows = this.rows;
     }
 
     /**
@@ -137,6 +136,7 @@
       this.#textarea.addEventListener('input', this.textareaChange);
 
       this.#textarea.value = this.value;
+      this.#textarea.rows = this.rows;
 
       if (this.placeholder) {
         this.#textarea.placeholder = this.placeholder;
