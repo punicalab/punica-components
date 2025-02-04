@@ -22,7 +22,7 @@
      *
      */
      get disabled() {
-      return this.getAttribute('disabled');
+      return this.getAttribute('disabled') == 'true';
     }
 
     /**
@@ -111,7 +111,6 @@
       const label = this.#shadow.querySelector('label');
 
       this.#input.setAttribute('indeterminate', this.indeterminate);
-      this.#input.disabled = this.disabled;
 
       if (this.checked) {
         this.#input.setAttribute('checked', '');
