@@ -55,3 +55,8 @@ input[indeterminate='true'] + label:before {
 :host([disabled='true']) label {
   color: #a0a0a0;
 }
+
+input:disabled:checked + label:before {
+  background-color: var(--primary-light);
+  border-color: var(--primary-light);
+}

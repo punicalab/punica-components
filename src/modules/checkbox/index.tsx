@@ -12,7 +12,7 @@ const Module = () => {
           <punica-col xs={12}>
             <punica-row wrap="nowrap" spacing={2}>
               <punica-col>
-                <punica-checkbox label="Checkbox" disabled />
+                <punica-checkbox label="Checkbox" disabled checked />
               </punica-col>
               <punica-col>
                 <punica-checkbox label="Checkbox" checked />
