@@ -278,6 +278,13 @@
         case 'value':
           this.#input.value = newValue;
           break;
+        case 'disabled':
+          if (newValue === 'true') {
+            this.#input.disabled = true;
+          } else {
+            this.#input.disabled = false;
+          }
+          break;
       }
     }
   }
