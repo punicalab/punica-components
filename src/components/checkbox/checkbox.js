@@ -153,7 +153,6 @@
      * @param {*} newValue
      */
       attributeChangedCallback(name, oldValue, newValue) {
-        debugger;
         switch (name) {
           case 'checked':
             if (this.checked) {
