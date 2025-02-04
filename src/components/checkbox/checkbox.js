@@ -146,6 +146,32 @@
       }
     }
 
+     /**
+     *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+      attributeChangedCallback(name, oldValue, newValue) {
+        debugger;
+        switch (name) {
+          case 'checked':
+            if (this.checked) {
+              this.#input.setAttribute('checked', '');
+              this.#input.removeAttribute('indeterminate');
+            } else {
+              this.#input.removeAttribute('checked');
+            }
+            break;
+          case 'disabled':
+            if (newValue === 'true') {
+              this.#input.disabled = true;
+            } else {
+              this.#input.disabled = false;
+            }
+            break;
+        }
+      }
 
     
   }
