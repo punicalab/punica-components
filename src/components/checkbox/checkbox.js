@@ -9,6 +9,7 @@
 
   class Checkbox extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
+    #input = null;
 
     /**
      *
@@ -20,11 +21,30 @@
     /**
      *
      */
+     get disabled() {
+      return this.getAttribute('disabled');
+    }
+
+    /**
+     * 
+     */
+    set disabled(value) {
+      if (value) {
+        this.setAttribute('disabled', 'true');
+      } else {
+        this.removeAttribute('disabled');
+      }
+      this.update();
+    }
+
+    /**
+     *
+     */
     set checked(value) {
       this.removeAttribute('indeterminate');
 
       if (value) {
-        this.setAttribute('checked', value);
+        this.setAttribute('checked', 'true');
       } else {
         this.removeAttribute('checked');
       }
@@ -32,6 +52,7 @@
       this.update();
     }
 
+  
     /**
      *
      */
@@ -47,33 +68,56 @@
     }
 
     /**
-     *
+     * 
+     * @param {*} event 
+     * @returns 
      */
-    handleClick = () => {
+    handleClick = (event) => {
+      if (this.disabled) {
+        event.preventDefault(); 
+        return;
+      }
       this.checked = !this.checked;
+      this.fireOnChange();
     };
 
     /**
      *
      */
+     fireOnChange() {
+      this.dispatchEvent(
+        new CustomEvent('change', {
+          detail: {
+            value: this.checked
+          },
+          bubbles: false,
+          cancelable: false,
+          composed: true
+        })
+      );
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
-      return ['checked', 'label', 'indeterminate'];
+        return ['checked', 'label', 'indeterminate', 'disabled'];
     }
 
     /**
      *
      */
     update() {
-      const input = this.#shadow.querySelector('input');
       const label = this.#shadow.querySelector('label');
 
-      input.setAttribute('indeterminate', this.indeterminate);
+      this.#input.setAttribute('indeterminate', this.indeterminate);
+      this.#input.disabled = this.disabled;
 
       if (this.checked) {
-        input.setAttribute('checked', '');
-        input.removeAttribute('indeterminate');
+        this.#input.setAttribute('checked', '');
+        this.#input.removeAttribute('indeterminate');
       } else {
-        input.removeAttribute('checked');
+        this.#input.removeAttribute('checked');
       }
 
       label.innerText = this.label;
@@ -85,17 +129,26 @@
     constructor() {
       super();
 
+      this.#shadow.appendChild(template.content.cloneNode(true));
+      this.#input = this.#shadow.querySelector('input');
+
       this.addEventListener('click', this.handleClick);
+
     }
 
     /**
      *
      */
     connectedCallback() {
-      this.#shadow.appendChild(template.content.cloneNode(true));
-
       this.update();
+
+      if(this.disabled){
+        this.#input.disabled = true; 
+      }
     }
+
+
+    
   }
 
   customElements.define('punica-checkbox', Checkbox);

@@ -423,6 +423,7 @@ declare global {
         checked?: boolean;
         indeterminate?: boolean;
         label?: string;
+        disabled?: boolean;
       };
       'punica-menu': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
