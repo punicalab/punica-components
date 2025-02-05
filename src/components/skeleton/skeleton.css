@@ -1,5 +1,5 @@
 :host {
-  background: rgba(125, 125, 125, 0.15);
+  background: var(--neutral-main);
   display: block;
   -webkit-animation: wave 2s ease-in-out 0.5s infinite;
   animation: wave 2s ease-in-out 0.5s infinite;
