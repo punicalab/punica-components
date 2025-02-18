@@ -250,9 +250,7 @@
         this.size = 'medium';
       }
 
-      if(this.disabled){
-        this.#input.disabled = true; 
-      }
+      this.#input.disabled = this.disabled === 'true' || this.disabled === true;
 
     }
 
@@ -279,11 +277,7 @@
           this.#input.value = newValue;
           break;
         case 'disabled':
-          if (newValue === 'true') {
-            this.#input.disabled = true;
-          } else {
-            this.#input.disabled = false;
-          }
+          this.#input.disabled = newValue === 'true' || newValue === true;
           break;
       }
     }
