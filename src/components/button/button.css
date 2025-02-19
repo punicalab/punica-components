@@ -49,11 +49,6 @@
 
 :host([color='primary']):host([variant='text']):host(:hover) {
   background-color: var(--primary-light);
-  color: var(--white);
-}
-
-:host([variant='filled']) {
-  color: var(--white);
 }
 
 :host([variant='outlined']) {
@@ -63,50 +58,62 @@
 
 :host([color='primary']):host([variant='filled']) {
   background-color: var(--primary-main);
+  color: var(--white);
 }
 
 :host([color='primary']):host([variant='filled']):host(:hover) {
   background-color: var(--primary-dark);
+  color: var(--white);
 }
 
 :host([color='secondary']):host([variant='filled']) {
   background-color: var(--secondary-main);
+  color: var(--white);
 }
 
 :host([color='secondary']):host([variant='filled']):host(:hover) {
   background-color: var(--secondary-dark);
+  color: var(--white);
 }
 
 :host([color='error']):host([variant='filled']) {
   background-color: var(--error-main);
+  color: var(--white);
 }
 
 :host([color='error']):host([variant='filled']):host(:hover) {
   background-color: var(--error-dark);
+  color: var(--white);
 }
 
 :host([color='warning']):host([variant='filled']) {
   background-color: var(--warning-main);
+  color: var(--white);
 }
 
 :host([color='warning']):host([variant='filled']):host(:hover) {
   background-color: var(--warning-dark);
+  color: var(--white);
 }
 
 :host([color='info']):host([variant='filled']) {
   background-color: var(--info-main);
+  color: var(--white);
 }
 
 :host([color='info']):host([variant='filled']):host(:hover) {
   background-color: var(--info-dark);
+  color: var(--white);
 }
 
 :host([color='success']):host([variant='filled']) {
   background-color: var(--success-main);
+  color: var(--white);
 }
 
 :host([color='success']):host([variant='filled']):host(:hover) {
   background-color: var(--success-dark);
+  color: var(--white);
 }
 
 :host([color='ghost']):host([variant='filled']) {

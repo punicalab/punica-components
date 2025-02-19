@@ -1,4 +1,9 @@
 :root {
+  --root-border-radius: 8px;
+  --root-padding: 16px;
+}
+
+:root {
   --break-points-xs: 0px;
   --break-points-sm: 600px;
   --break-points-md: 900px;

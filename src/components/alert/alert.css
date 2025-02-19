@@ -8,13 +8,10 @@
   border-radius: var(--alert-border-radius);
   width: fit-content;
   display: grid;
-  align-items: center;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto;
+  align-items: baseline;
+  grid-template-columns: auto 1fr auto;
   column-gap: var(--spacing-12);
-  grid-template-areas:
-    'icon title'
-    '. description';
+  grid-template-areas: 'icon content action';
 }
 
 :host[class*='variant-outlined'] {

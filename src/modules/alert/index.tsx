@@ -14,15 +14,14 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-check" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum is simply dummy text of the printing and
+                typesetting industry.
+              </punica-alert-content>
+              <punica-alert-action>
+                <i className="fa-xl fa-solid fa-xmark"></i>
+              </punica-alert-action>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -30,15 +29,13 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-info" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
+              <punica-alert-action>
+                <i className="fa-xl fa-sharp-duotone fa-solid fa-circle-xmark"></i>
+              </punica-alert-action>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -46,15 +43,10 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-xmark" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -62,15 +54,10 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-exclamation" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -78,15 +65,10 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-check" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -94,15 +76,10 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-info" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -110,15 +87,10 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-xmark" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -126,15 +98,10 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-exclamation" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -142,15 +109,10 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-check" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -158,15 +120,10 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-info" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -174,15 +131,10 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-xmark" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -190,15 +142,10 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-exclamation" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
             </punica-alert>
           </punica-col>
           <punica-col xs={12}>
@@ -206,15 +153,10 @@ const Module = () => {
               <punica-alert-icon>
                 <i className="fa-xl fa-duotone fa-circle-exclamation" />
               </punica-alert-icon>
-              <punica-alert-title>
-                <span>Lorem ipsum</span>
-              </punica-alert-title>
-              <punica-alert-description>
-                <span>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </span>
-              </punica-alert-description>
+              <punica-alert-content>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-alert-content>
             </punica-alert>
           </punica-col>
         </punica-row>

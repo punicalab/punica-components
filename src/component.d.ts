@@ -142,19 +142,19 @@ declare global {
         variant?: 'standard' | 'filled' | 'outlined';
         severity?: 'error' | 'info' | 'warning' | 'success';
       };
+      'punica-alert-action': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+      };
       'punica-alert-icon': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
         class?: string;
       };
-      'punica-alert-title': React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      > & {
-        class?: string;
-      };
-      'punica-alert-description': React.DetailedHTMLProps<
+      'punica-alert-content': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {

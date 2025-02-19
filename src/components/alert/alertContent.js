@@ -3,7 +3,7 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class AlertDescription extends HTMLElement {
+  class AlertContent extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -16,5 +16,5 @@
     }
   }
 
-  customElements.define('punica-alert-description', AlertDescription);
+  customElements.define('punica-alert-content', AlertContent);
 })();

@@ -1,0 +1,4 @@
+:host {
+  grid-area: action;
+  cursor: pointer;
+}
