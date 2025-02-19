@@ -318,26 +318,39 @@
     }
 
     /**
-     *
-     * @param {*} name
-     * @param {*} oldValue
-     * @param {*} newValue
-     */
-    attributeChangedCallback(name, oldValue, newValue) {
-      switch (name) {
-        case 'value':
-          if (newValue == null) {
-            if (this.#selected) {
-              this.#selected.selected = false;
-            }
+ *
+ * @param {*} name
+ * @param {*} oldValue
+ * @param {*} newValue
+ */
+attributeChangedCallback(name, oldValue, newValue) {
+  switch (name) {
+    case 'value':
+      if (newValue == null) {
+        if (this.#selected) {
+          this.#selected.selected = false;
+        }
 
-            this.#selected = null;
+        this.#selected = null;
+        this.#content.innerHTML = '';
+      } else {
+        const item = Array.from(this.children).find(
+          (child) => child.nodeName === 'PUNICA-SELECT-ITEM' && child.getAttribute('value') === newValue
+        );
 
-            this.#content.innerHTML = '';
+        if (item) {
+          if (this.#selected) {
+            this.#selected.selected = false;
           }
-          break;
+
+          this.#selected = item;
+          this.#selected.selected = true;
+          this.#content.innerHTML = this.#selected.innerHTML;
+        }
       }
-    }
+      break;
+  }
+}
 
     /**
      *
