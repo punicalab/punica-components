@@ -318,39 +318,41 @@
     }
 
     /**
- *
- * @param {*} name
- * @param {*} oldValue
- * @param {*} newValue
- */
-attributeChangedCallback(name, oldValue, newValue) {
-  switch (name) {
-    case 'value':
-      if (newValue == null) {
-        if (this.#selected) {
-          this.#selected.selected = false;
-        }
+     *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case 'value':
+          if (newValue == null) {
+            if (this.#selected) {
+              this.#selected.selected = false;
+            }
 
-        this.#selected = null;
-        this.#content.innerHTML = '';
-      } else {
-        const item = Array.from(this.children).find(
-          (child) => child.nodeName === 'PUNICA-SELECT-ITEM' && child.getAttribute('value') === newValue
-        );
+            this.#selected = null;
+            this.#content.innerHTML = '';
+          } else {
+            const item = Array.from(this.children).find(
+              (child) =>
+                child.nodeName === 'PUNICA-SELECT-ITEM' &&
+                child.getAttribute('value') === newValue
+            );
 
-        if (item) {
-          if (this.#selected) {
-            this.#selected.selected = false;
+            if (item) {
+              if (this.#selected) {
+                this.#selected.selected = false;
+              }
+
+              this.#selected = item;
+              this.#selected.selected = true;
+              this.#content.innerHTML = this.#selected.innerHTML;
+            }
           }
-
-          this.#selected = item;
-          this.#selected.selected = true;
-          this.#content.innerHTML = this.#selected.innerHTML;
-        }
+          break;
       }
-      break;
-  }
-}
+    }
 
     /**
      *

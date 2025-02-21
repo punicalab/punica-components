@@ -61,6 +61,6 @@ input {
   margin: 0;
   -webkit-tap-highlight-color: transparent;
   font-size: 0.875rem;
-  font-family: var(--fontFamily);
-  color: var(--input-color);
+  font-family: inherit;
+  color: inherit;
 }
