@@ -23,7 +23,6 @@
      *
      */
     get width() {
-      debugger;
       return this.getAttribute('width') || 440;
     }
 
@@ -71,7 +70,7 @@
       switch (name) {
         case 'open':
           if (newValue == 'true') {
-            this.#dialog.style.width = this.width;
+            this.#dialog.style.width = `${this.width}px`;
             this.#dialog.showModal();
           } else {
             this.#dialog.close();
