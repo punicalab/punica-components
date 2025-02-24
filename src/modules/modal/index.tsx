@@ -41,8 +41,18 @@ const Module = () => {
       <Layout.Content>
         <punica-row spacing={2}>
           <punica-col xs={12}>
-            <punica-button onClick={handleClick}>Show Modal</punica-button>
             <punica-button
+              variant="filled"
+              size="medium"
+              color="primary"
+              onClick={handleClick}
+            >
+              Show Modal
+            </punica-button>
+            <punica-button
+              variant="filled"
+              size="medium"
+              color="primary"
               onClick={handleRoundedClick}
               style={{ marginLeft: 12 }}
             >
@@ -96,13 +106,22 @@ const Module = () => {
               </punica-modal-content>
               <punica-modal-footer>
                 <punica-button
+                  size="medium"
+                  color="primary"
                   style={{ width: '100px' }}
                   variant="outlined"
                   onClick={handleClose}
                 >
                   Action 1
                 </punica-button>
-                <punica-button onClick={handleClose}>Action 2</punica-button>
+                <punica-button
+                  variant="filled"
+                  size="medium"
+                  color="primary"
+                  onClick={handleClose}
+                >
+                  Action 2
+                </punica-button>
               </punica-modal-footer>
             </punica-modal>
             <punica-modal rounded open={openRounded} width={600} height={500}>
@@ -127,6 +146,8 @@ const Module = () => {
               </punica-modal-content>
               <punica-modal-footer>
                 <punica-button
+                  size="medium"
+                  color="primary"
                   rounded
                   style={{ width: '100px' }}
                   variant="outlined"
@@ -134,7 +155,13 @@ const Module = () => {
                 >
                   Action 1
                 </punica-button>
-                <punica-button rounded onClick={handleRoundedClose}>
+                <punica-button
+                  variant="filled"
+                  size="medium"
+                  color="primary"
+                  rounded
+                  onClick={handleRoundedClose}
+                >
                   Action 2
                 </punica-button>
               </punica-modal-footer>

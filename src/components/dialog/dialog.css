@@ -13,8 +13,7 @@ dialog {
   display: none;
   border: none;
   outline: none;
-  min-width: 400px;
-  max-width: 500px;
+  box-sizing: border-box;
   padding: var(--dialog-padding);
   background-color: inherit;
   overflow: hidden;

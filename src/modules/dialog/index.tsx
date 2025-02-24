@@ -16,6 +16,10 @@ const Module = () => {
             <punica-row spacing={2}>
               <punica-col>
                 <punica-button
+                  rounded
+                  variant="filled"
+                  size="medium"
+                  color="primary"
                   onClick={() => {
                     setOpen(true);
                   }}
@@ -23,6 +27,10 @@ const Module = () => {
                   Show Dialog
                 </punica-button>
                 <punica-button
+                  rounded
+                  variant="filled"
+                  size="medium"
+                  color="primary"
                   style={{ marginLeft: 12 }}
                   onClick={() => {
                     setOpenRounded(true);
@@ -30,7 +38,7 @@ const Module = () => {
                 >
                   Show Dialog Rounded
                 </punica-button>
-                <punica-dialog open={open}>
+                <punica-dialog open={open} width={500}>
                   <punica-dialog-header>
                     <punica-typography variant="headline6">
                       Lorem Ipsum.
@@ -53,6 +61,10 @@ const Module = () => {
                   </punica-dialog-content>
                   <punica-dialog-footer>
                     <punica-button
+                      rounded
+                      variant="filled"
+                      size="medium"
+                      color="primary"
                       onClick={() => {
                         setOpen(false);
                       }}
@@ -60,6 +72,10 @@ const Module = () => {
                       Action 1
                     </punica-button>
                     <punica-button
+                      rounded
+                      variant="filled"
+                      size="medium"
+                      color="primary"
                       onClick={() => {
                         setOpen(false);
                       }}
@@ -92,6 +108,9 @@ const Module = () => {
                   <punica-dialog-footer>
                     <punica-button
                       rounded
+                      variant="filled"
+                      size="medium"
+                      color="primary"
                       onClick={() => {
                         setOpenRounded(false);
                       }}
@@ -100,6 +119,9 @@ const Module = () => {
                     </punica-button>
                     <punica-button
                       rounded
+                      variant="filled"
+                      size="medium"
+                      color="primary"
                       onClick={() => {
                         setOpenRounded(false);
                       }}

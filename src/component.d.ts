@@ -392,7 +392,7 @@ declare global {
       'punica-dialog': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
-      > & { class?: string; open: boolean; rounded?: boolean };
+      > & { class?: string; open: boolean; rounded?: boolean; width?: number };
       'punica-dialog-header': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement

@@ -22,6 +22,21 @@
     /**
      *
      */
+    get width() {
+      debugger;
+      return this.getAttribute('width') || 440;
+    }
+
+    /**
+     *
+     */
+    set width(val) {
+      this.setAttribute('width', val);
+    }
+
+    /**
+     *
+     */
     get rounded() {
       const value = this.getAttribute('rounded');
 
@@ -32,7 +47,7 @@
      *
      */
     static get observedAttributes() {
-      return ['open'];
+      return ['open', 'width'];
     }
 
     /**
@@ -56,6 +71,7 @@
       switch (name) {
         case 'open':
           if (newValue == 'true') {
+            this.#dialog.style.width = this.width;
             this.#dialog.showModal();
           } else {
             this.#dialog.close();
