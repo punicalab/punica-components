@@ -55,7 +55,7 @@
 }
 
 :host([variant='body1']) {
-  font-weight: var(--weight-regular);
+  font-weight: var(--weight-light);
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;
@@ -63,13 +63,13 @@
 
 :host([variant='body2']) {
   font-size: 0.875rem;
-  font-weight: var(--weight-regular);
+  font-weight: var(--weight-light);
   line-height: 1.43;
   letter-spacing: 0.01071em;
 }
 
 :host([variant='button']) {
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
   font-size: 0.875rem;
   line-height: 1.75;
   letter-spacing: 0.02857em;
