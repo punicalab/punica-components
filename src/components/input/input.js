@@ -149,6 +149,17 @@
      *
      */
     inputOnKeyDown = (e) => {
+      this.dispatchEvent(
+        new CustomEvent('keydown', {
+          detail: {
+            key: e.key
+          },
+          bubbles: true,
+          cancelable: false,
+          composed: true
+        })
+      );
+
       e.stopImmediatePropagation();
     };
 
@@ -251,10 +262,9 @@
       }
 
       this.#input.disabled = this.disabled === 'true' || this.disabled === true;
-
     }
 
-  /**
+    /**
      *
      */
     disconnectedCallback() {
