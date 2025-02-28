@@ -1,3 +1,7 @@
+:host * {
+  font-family: inherit;
+}
+
 :host([variant='headline1']) {
   font-size: 6rem;
   font-weight: var(--weight-light);
