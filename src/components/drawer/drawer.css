@@ -9,6 +9,10 @@
   visibility: hidden;
 }
 
+:host([open='true']) {
+  visibility: visible;
+}
+
 :host([open='true']) .backdrop {
   position: fixed;
   inset: 0px;
