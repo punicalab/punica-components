@@ -22,7 +22,7 @@
 }
 
 :host punica-paper {
-  transition: transform 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  transition: transform 300ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   background-color: var(--paper-background-color);
   overflow-y: auto;
   display: flex;

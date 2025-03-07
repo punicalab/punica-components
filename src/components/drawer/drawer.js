@@ -10,10 +10,12 @@
   `;
 
   const SIZES = {
-    small: '400px',
-    medium: '650px',
+    small: '480px',
+    medium: '600px',
     large: '900px',
-    xlarge: '90%'
+    xlarge: '1160px',
+    '2xlarge': '1280px',
+    fullSize: '100%'
   };
 
   class Drawer extends HTMLElement {
@@ -63,8 +65,11 @@
      * @param {*} transform
      */
     #updateContentStyles(isOpen, size, transform, wasOpen) {
-      this.#content.style.visibility = isOpen ? 'visible' : 'hidden';
       this.#content.style.pointerEvents = isOpen ? 'all' : 'none';
+
+      if (isOpen) {
+        this.#content.style.visibility = 'visible';
+      }
 
       if (this.direction === 'left' || this.direction === 'right') {
         this.#content.style.width = size;
@@ -79,6 +84,7 @@
           this.#content.style.visibility = 'hidden';
           this.#content.removeEventListener('transitionend', transitionHandler);
         };
+
         this.#content.addEventListener('transitionend', transitionHandler);
       }
     }
@@ -131,25 +137,27 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
-      if (name !== 'open') return;
+      switch (name) {
+        case 'open':
+          const size = SIZES[this.size];
+          const isOpen = newValue === 'true';
+          const wasOpen = oldValue === 'true';
 
-      const size = SIZES[this.size];
-      const isOpen = newValue === 'true';
-      const wasOpen = oldValue === 'true';
+          const transformMap = {
+            left: isOpen ? `translateX(0)` : `translateX(-${size})`,
+            right: isOpen ? `translateX(0)` : `translateX(${size})`,
+            top: isOpen ? `translateY(0)` : `translateY(-${size})`,
+            bottom: isOpen ? `translateY(0)` : `translateY(${size})`
+          };
 
-      const transformMap = {
-        left: isOpen ? `translateX(0)` : `translateX(-${size})`,
-        right: isOpen ? `translateX(0)` : `translateX(${size})`,
-        top: isOpen ? `translateY(0)` : `translateY(-${size})`,
-        bottom: isOpen ? `translateY(0)` : `translateY(${size})`
-      };
-
-      this.#updateContentStyles(
-        isOpen,
-        size,
-        transformMap[this.direction],
-        wasOpen
-      );
+          this.#updateContentStyles(
+            isOpen,
+            size,
+            transformMap[this.direction],
+            wasOpen
+          );
+          break;
+      }
     }
 
     /**

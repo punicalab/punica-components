@@ -298,7 +298,7 @@ declare global {
         HTMLElement
       > & {
         class?: string;
-        size: 'small' | 'medium' | 'large' | 'xlarge';
+        size: 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge' | 'fullSize';
         direction?: 'top' | 'left' | 'bottom' | 'right';
         open?: boolean;
       };
