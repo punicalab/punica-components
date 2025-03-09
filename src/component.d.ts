@@ -29,6 +29,7 @@ declare global {
         size?: 'small' | 'medium' | 'large';
         class?: string;
         rounded?: boolean;
+        disabled?: boolean;
         fullwidth?: boolean;
       };
       'punica-select-item': React.DetailedHTMLProps<

@@ -1,6 +1,6 @@
 import { Module as Layout } from '@/layouts/module';
 import { useTranslation } from 'react-i18next';
-import { Advanced, Basic, Rounded, Size } from './variants';
+import { Advanced, Basic, Rounded, Size, Disabled } from './variants';
 
 const Module = () => {
   const { t } = useTranslation();
@@ -21,6 +21,9 @@ const Module = () => {
           </punica-col>
           <punica-col xs={12}>
             <Size />
+          </punica-col>
+          <punica-col xs={12}>
+            <Disabled />
           </punica-col>
         </punica-row>
       </Layout.Content>
