@@ -30,6 +30,20 @@
     /**
      *
      */
+    get defaultvalue() {
+      return this.getAttribute('defaultvalue');
+    }
+
+    /**
+     *
+     */
+    set defaultvalue(val) {
+      this.setAttribute('defaultvalue', val);
+    }
+
+    /**
+     *
+     */
     get size() {
       return this.getAttribute('size') || 'medium';
     }
@@ -73,7 +87,14 @@
      *
      */
     static get observedAttributes() {
-      return ['value', 'size', 'color', 'disabled', 'fullwidth, orientation'];
+      return [
+        'defaultvalue',
+        'value',
+        'size',
+        'color',
+        'disabled',
+        'fullwidth, orientation'
+      ];
     }
 
     /**
@@ -87,46 +108,6 @@
           composed: true
         })
       );
-    }
-
-    /**
-     *
-     * @param {*} children
-     * @param {*} index
-     * @returns
-     */
-    getButtonPositionClassName(children, index) {
-      const isFirstButton = index === 0;
-      const isLastButton = index === children.length - 1;
-
-      if (isFirstButton && isLastButton) {
-        return null;
-      }
-
-      if (isFirstButton) {
-        return 'first-button';
-      }
-
-      if (isLastButton) {
-        return 'last-button';
-      }
-
-      return 'middle-button';
-    }
-
-    /**
-     *
-     */
-    applyButtonStyles() {
-      const slot = this.#shadow.querySelector('slot');
-      const children = slot.assignedElements();
-
-      if (children.length > 0) {
-        children.forEach((_, i) => {
-          const className = this.getButtonPositionClassName(children, i);
-          children[i].classList.add(className);
-        });
-      }
     }
 
     /**
@@ -159,10 +140,19 @@
         clickedButton.tagName.toLowerCase() === 'punica-toggle-button'
       ) {
         const selectedvalue = clickedButton.getAttribute('value');
-        this.value = selectedvalue;
+
+        if (this.defaultvalue) {
+          if ((this.value = selectedvalue)) {
+            this.value = this.defaultvalue;
+          } else {
+            this.value = selectedvalue;
+          }
+        } else {
+          this.value = selectedvalue;
+        }
 
         this.fireOnChange();
-        this.updateSelectedButton(selectedvalue);
+        this.updateSelectedButton();
       }
     }
 
@@ -170,12 +160,12 @@
      *
      * @param {*} clickedButton
      */
-    updateSelectedButton(value) {
+    updateSelectedButton() {
       const slot = this.#shadow.querySelector('slot');
       const buttons = slot.assignedElements();
 
       buttons.forEach((button) => {
-        if (button.getAttribute('value') === value) {
+        if (button.getAttribute('value') === this.value) {
           button.setAttribute('selected', true);
         } else {
           button.removeAttribute('selected');
@@ -194,9 +184,26 @@
 
     /**
      *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case 'value':
+          if (oldValue != newValue) {
+            this.value = newValue;
+
+            this.updateSelectedButton();
+          }
+          break;
+      }
+    }
+
+    /**
+     *
      */
     connectedCallback() {
-      this.applyButtonStyles();
       this.setAttribute('role', 'group');
 
       this.applyNewStyle('disabled', this.disabled ? 'true' : 'false');
@@ -210,7 +217,7 @@
       }
 
       if (this.value) {
-        this.updateSelectedButton(this.value);
+        this.updateSelectedButton();
       }
     }
 

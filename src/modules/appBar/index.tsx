@@ -19,10 +19,12 @@ const Module = () => {
                   News
                 </punica-typography>
                 <punica-toggle-button value="delete">
-                  <i className="fa-duotone fa-trash" />
+                  <i slot="active" className="fa-duotone fa-trash" />
+                  <i slot="passive" className="fa-duotone fa-trash" />
                 </punica-toggle-button>
                 <punica-toggle-button value="delete">
-                  <i className="fa-duotone fa-trash" />
+                  <i slot="active" className="fa-duotone fa-trash" />
+                  <i slot="passive" className="fa-duotone fa-trash" />
                 </punica-toggle-button>
                 <punica-button>Login</punica-button>
               </punica-toolbar>

@@ -582,6 +582,7 @@ declare global {
         HTMLElement
       > & {
         value?: any;
+        defaultvalue?: any;
         class?: string;
         size?: 'small' | 'medium' | 'large';
         disabled?: boolean;

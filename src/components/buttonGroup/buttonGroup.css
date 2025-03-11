@@ -3,32 +3,40 @@
   display: inline-flex;
 }
 
-::slotted(.first-button),
-::slotted(.middle-button) {
+/* İlk buton stilleri */
+::slotted(punica-button:first-child) {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
 
-::slotted(.last-button),
-::slotted(.middle-button) {
+/* Son buton stilleri */
+::slotted(punica-button:last-child) {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
 
+/* Orta butonların stilleri */
+::slotted(punica-button:not(:first-child):not(:last-child)) {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
 /* Outlined */
-::slotted([variant='outlined'].first-button),
-::slotted([variant='outlined'].middle-button) {
+::slotted(punica-button:first-child[variant='outlined']),
+::slotted(punica-button:not(:last-child)[variant='outlined']) {
   border-right-color: transparent;
 }
 
 /* Outlined */
-::slotted([variant='outlined'].last-button),
-::slotted([variant='outlined'].middle-button) {
+::slotted(punica-button:last-child[variant='outlined']),
+::slotted(punica-button:not(:first-child)[variant='outlined']) {
   margin-left: -1px;
 }
 
 /* Filled */
-::slotted([variant='filled'].first-button),
-::slotted([variant='filled'].middle-button) {
+::slotted(punica-button:first-child[variant='filled']),
+::slotted(punica-button:not(:last-child)[variant='filled']) {
   border-right: 1px solid lightgrey;
 }

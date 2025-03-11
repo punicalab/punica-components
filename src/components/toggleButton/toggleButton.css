@@ -120,3 +120,11 @@
 :host([color='success']):host(:hover) {
   background-color: rgb(from var(--success-main) r g b / 6%);
 }
+
+::slotted([slot='active']) {
+  display: none;
+}
+
+::slotted([slot='passive']) {
+  display: inline-flex;
+}

@@ -78,46 +78,6 @@
 
     /**
      *
-     * @param {*} children
-     * @param {*} index
-     * @returns
-     */
-    getButtonPositionClassName(children, index) {
-      const isFirstButton = index === 0;
-      const isLastButton = index === children.length - 1;
-
-      if (isFirstButton && isLastButton) {
-        return null;
-      }
-
-      if (isFirstButton) {
-        return 'first-button';
-      }
-
-      if (isLastButton) {
-        return 'last-button';
-      }
-
-      return 'middle-button';
-    }
-
-    /**
-     *
-     */
-    applyButtonStyles() {
-      const slot = this.#shadow.querySelector('slot');
-      const children = slot.assignedElements();
-
-      if (children.length > 0) {
-        children.forEach((_, i) => {
-          const className = this.getButtonPositionClassName(children, i);
-          children[i].classList.add(className);
-        });
-      }
-    }
-
-    /**
-     *
      * @param {*} attribute
      * @param {*} newAttributeType
      */
@@ -147,7 +107,6 @@
      *
      */
     connectedCallback() {
-      this.applyButtonStyles();
       this.setAttribute('role', 'group');
 
       this.applyNewStyle('disabled', this.disabled ? 'true' : 'false');

@@ -1,7 +1,11 @@
 (function () {
   const template = document.createElement('template');
 
-  template.innerHTML = `<slot></slot><style></style>`;
+  template.innerHTML = `
+    <slot name="active"></slot>
+    <slot name="passive"></slot>
+    <style></style>
+  `;
 
   class ToggleButton extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
@@ -43,8 +47,12 @@
       } else {
         this.removeAttribute('selected');
       }
+      this.updateSlotVisibility();
     }
 
+    /**
+     *
+     */
     toggle() {
       this.selected = !this.selected;
       this.fireOnChange();
@@ -78,7 +86,6 @@
      */
     constructor() {
       super();
-
       this.#shadow.appendChild(template.content.cloneNode(true));
     }
 
@@ -89,6 +96,7 @@
       if (this.disabled === null) {
         this.addEventListener('click', this.toggle);
       }
+      this.updateSlotVisibility();
     }
 
     /**
@@ -96,6 +104,31 @@
      */
     disconnectedCallback() {
       this.removeEventListener('click', this.toggle);
+    }
+
+    /**
+     *
+     */
+    updateSlotVisibility() {
+      const activeSlot = this.#shadow.querySelector('slot[name="active"]');
+      const passiveSlot = this.#shadow.querySelector('slot[name="passive"]');
+
+      if (this.selected) {
+        this.applyStyles(activeSlot, passiveSlot, 'inline-flex', 'none');
+      } else {
+        this.applyStyles(activeSlot, passiveSlot, 'none', 'inline-flex');
+      }
+    }
+
+    /**
+     *
+     */
+    applyStyles(activeSlot, passiveSlot, activeDisplay, passiveDisplay) {
+      const activeElements = activeSlot.assignedElements();
+      const passiveElements = passiveSlot.assignedElements();
+
+      activeElements.forEach((el) => (el.style.display = activeDisplay));
+      passiveElements.forEach((el) => (el.style.display = passiveDisplay));
     }
 
     /**
@@ -110,8 +143,11 @@
           if (newValue) {
             this.addEventListener('click', this.toggle);
           } else {
-            this.removeEventListener('click');
+            this.removeEventListener('click', this.toggle);
           }
+          break;
+        case 'selected':
+          this.updateSlotVisibility(); // Seçili durumu değiştiğinde slotları güncelle
           break;
       }
     }
