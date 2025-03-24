@@ -66,6 +66,13 @@
     /**
      *
      */
+    set value(data) {
+      this.setAttribute('value', data);
+    }
+
+    /**
+     *
+     */
     textareaFocus = () => {
       if (!this.error) {
         this.setAttribute('focus', true);
