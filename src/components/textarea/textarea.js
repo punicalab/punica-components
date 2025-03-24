@@ -90,10 +90,12 @@
      *
      */
     fireOnChange() {
+      this.value = this.#textarea.value;
+
       this.dispatchEvent(
         new CustomEvent('change', {
           detail: {
-            value: this.#textarea.value
+            value: this.value
           },
           bubbles: true,
           cancelable: false,

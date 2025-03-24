@@ -4,6 +4,7 @@
   template.innerHTML = `
     <slot name="icon"></slot>
     <slot name="content"></slot>
+    <slot name="actions"></slot>
     <slot name="expandIcon"></slot>
     <style></style>
   `;
