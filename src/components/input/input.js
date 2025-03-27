@@ -139,8 +139,8 @@
      *
      */
     inputChange = (e) => {
-      this.fireOnChange();
       this.value = this.#input.value;
+      this.fireOnChange();
 
       e.stopPropagation();
     };
@@ -200,9 +200,9 @@
      */
     fireOnChange() {
       this.dispatchEvent(
-        new CustomEvent('change', {
+        new CustomEvent('input', {
           detail: {
-            value: this.#input.value
+            value: this.value
           },
           bubbles: true,
           cancelable: false,

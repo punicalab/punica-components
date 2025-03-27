@@ -13,6 +13,13 @@ const Module = () => {
     input.inputFocus();
   }, [inputRef]);
 
+  /**
+   *
+   */
+  const moveToNext = (event) => {
+    console.log(event);
+  };
+
   return (
     <Layout.Main>
       <Layout.Header title={t('component.input')} />
@@ -27,7 +34,11 @@ const Module = () => {
                 ></punica-input>
               </punica-col>
               <punica-col>
-                <punica-input placeholder="Lorem Ipsum...">
+                <punica-input
+                  placeholder="Lorem Ipsum..."
+                  data-next="input2"
+                  onInput={moveToNext}
+                >
                   <i slot="startAdornment" className="fa-duotone fa-house" />
                 </punica-input>
               </punica-col>
