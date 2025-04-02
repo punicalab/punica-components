@@ -37,6 +37,7 @@
   "component.toggleButton": "ToggleButton",
   "component.toggleButtonGroup": "ToggleButtonGroup",
   "component.toolbar": "Toolbar",
+  "component.tooltip": "Tooltip",
   "component.typography": "Typography",
   "component.splitButton": "SplitButton"
 }

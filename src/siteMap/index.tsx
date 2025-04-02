@@ -210,6 +210,11 @@ export const SiteMap: Array<CustomRouteObject> = [
         element: <ModuleLoader module="toolbar" />
       },
       {
+        translateKey: 'component.tooltip',
+        path: '/tooltip',
+        element: <ModuleLoader module="tooltip" />
+      },
+      {
         translateKey: 'component.typography',
         path: '/typography',
         element: <ModuleLoader module="typography" />

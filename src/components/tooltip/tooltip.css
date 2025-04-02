@@ -1,0 +1,29 @@
+:host {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: max-content;
+  max-width: 200px;
+  background-color: var(--background-paper);
+  color: var(--text-primary);
+  box-shadow: var(--box-shadow-xs);
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+
+:host(:hover) .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}

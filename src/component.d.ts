@@ -354,6 +354,12 @@ declare global {
         fullwidth?: boolean;
         fullheight?: boolean;
       };
+      'punica-tooltip': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        text: string;
+      };
       'punica-divider': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
