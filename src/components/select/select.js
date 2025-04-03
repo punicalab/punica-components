@@ -156,7 +156,14 @@
 
       const childrenClones = Array.from(this.children)
         .filter((child) => child.nodeName == 'PUNICA-SELECT-ITEM')
-        .map((child) => child.cloneNode(true));
+        .map((child) => {
+          const clone = child.cloneNode(true);
+          const existingInlineStyle = child.getAttribute('style');
+
+          clone.setAttribute('style', existingInlineStyle);
+
+          return clone;
+        });
 
       const position = this.getBoundingClientRect();
       const select = document.createElement('div');
