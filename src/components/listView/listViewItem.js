@@ -18,7 +18,9 @@
               </punica-col>
             </punica-row>  
           </punica-col>
-          <slot name="content"></slot>
+          <punica-col xs="12">
+            <slot name="content"></slot>
+          </punica-col>
         </punica-row>
       </punica-col>
     </punica-row>
