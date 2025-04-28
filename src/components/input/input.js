@@ -15,6 +15,13 @@
     /**
      *
      */
+    get tabIndex() {
+      return this.getAttribute('tabindex');
+    }
+
+    /**
+     *
+     */
     get rounded() {
       return this.getAttribute('rounded') == 'true';
     }
@@ -252,6 +259,10 @@
 
       this.#input.setAttribute('type', this.type);
       this.#input.value = this.value;
+
+      if (this.tabIndex) {
+        this.#input.setAttribute('tabindex', this.tabIndex);
+      }
 
       if (this.placeholder) {
         this.#input.placeholder = this.placeholder;
