@@ -1,10 +1,14 @@
-.badge {
+:host {
   display: inline-flex;
   position: relative;
   transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.badge .content {
+:host .wrapper {
+  position: relative;
+}
+
+:host .content {
   display: flex;
   flex-flow: wrap;
   -webkit-box-pack: center;
@@ -19,35 +23,38 @@
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.badge-is-color-primary {
+:host([color='primary']) .content {
   background-color: var(--primary-main);
 }
-.badge-is-color-error {
+
+:host([color='error']) .content {
   background-color: var(--error-main);
 }
-.badge-is-color-info {
+
+:host([color='info']) .content {
   background-color: var(--info-main);
 }
-.badge-is-color-warning {
+
+:host([color='warning']) .content {
   background-color: var(--warning-main);
 }
-.badge-is-color-success {
+
+:host([color='success']) .content {
   background-color: var(--success-main);
 }
 
-.badge-is-size-small {
-  width: 6px;
-  height: 6px;
+:host([size='small']) .content {
+  width: 8px;
+  height: 8px;
   transform-origin: 100% 0%;
   transform: scale(1) translate(50%, 0);
   border-radius: 6px;
 }
 
-.badge-is-size-large {
+:host([size='medium']) .content {
   transform-origin: 100% 0%;
   transform: scale(1) translate(50%, -50%);
   height: 20px;
-  min-width: 20px;
   line-height: 1;
   padding: 0px 6px;
   font-weight: 500;

@@ -3,7 +3,9 @@
 
   template.innerHTML = `
     <slot></slot>
-    <span class="content"></span>
+    <div class="wrapper">
+      <span class="content"></span>
+    </div>
     <style></style>
   `;
 
@@ -41,7 +43,7 @@
      *
      */
     get badgeContent() {
-      const badgeContent = this.getAttribute('badgeContent');
+      const badgeContent = this.getAttribute('badgecontent');
 
       if (badgeContent) {
         return parseInt(badgeContent);
@@ -54,7 +56,7 @@
      *
      */
     static get observedAttributes() {
-      return ['color', 'size', 'badgeContent', 'max'];
+      return ['color', 'size', 'badgecontent', 'max'];
     }
 
     /**
@@ -68,14 +70,21 @@
      *
      */
     connectedCallback() {
-      const wrapper = document.createElement('div');
-
-      wrapper.setAttribute('class', 'badge');
-      wrapper.appendChild(template.content.cloneNode(true));
-
-      this.#shadow.appendChild(wrapper);
+      this.#shadow.appendChild(template.content.cloneNode(true));
 
       this.update();
+    }
+
+    /**
+     *
+     * @param {*} name
+     */
+    attributeChangedCallback(name) {
+      switch (name) {
+        case 'badgecontent':
+          this.update();
+          break;
+      }
     }
 
     /**
@@ -84,14 +93,11 @@
     update() {
       const content = this.#shadow.querySelector('.content');
 
-      const classNames = generateClassNames('content', {
-        [`badge-is-color-${this.color}`]: true,
-        [`badge-is-size-${this.size}`]: true
-      });
+      if (!content) {
+        return;
+      }
 
-      content.setAttribute('class', classNames);
-
-      if (this.size == 'large') {
+      if (this.size == 'medium') {
         if (this.badgeContent < this.max) {
           content.innerText = this.badgeContent;
         } else {

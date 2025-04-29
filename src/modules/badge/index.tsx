@@ -12,32 +12,32 @@ const Module = () => {
           <punica-col xs={12}>
             <punica-row wrap="nowrap" spacing={2}>
               <punica-col>
-                <punica-badge badgeContent={8}>
+                <punica-badge size="medium" badgecontent={8} color="primary">
                   <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>
               <punica-col>
-                <punica-badge badgeContent={10} color="error">
+                <punica-badge size="medium" badgecontent={10} color="error">
                   <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>
               <punica-col>
-                <punica-badge badgeContent={8} color="success">
+                <punica-badge size="medium" badgecontent={8} color="success">
                   <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>
               <punica-col>
-                <punica-badge badgeContent={8} color="info">
+                <punica-badge size="medium" badgecontent={8} color="info">
                   <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>
               <punica-col>
-                <punica-badge badgeContent={8} color="warning">
+                <punica-badge size="medium" badgecontent={8} color="warning">
                   <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>
               <punica-col>
-                <punica-badge badgeContent={8} color="error" size="small">
+                <punica-badge size="small" badgecontent={8} color="error">
                   <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
               </punica-col>

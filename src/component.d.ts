@@ -181,10 +181,10 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
+        size: 'small' | 'medium';
+        badgecontent: number;
+        color: 'primary' | 'error' | 'info' | 'warning' | 'success';
         class?: string;
-        color?: 'primary' | 'error' | 'info' | 'warning' | 'success';
-        size?: 'small' | 'large';
-        badgeContent?: number;
         max?: number;
       };
       'punica-chip': React.DetailedHTMLProps<

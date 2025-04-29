@@ -21,12 +21,12 @@
     /**
      *
      */
-     get disabled() {
+    get disabled() {
       return this.getAttribute('disabled') == 'true';
     }
 
     /**
-     * 
+     *
      */
     set disabled(value) {
       if (value) {
@@ -52,7 +52,6 @@
       this.update();
     }
 
-  
     /**
      *
      */
@@ -68,23 +67,25 @@
     }
 
     /**
-     * 
-     * @param {*} event 
-     * @returns 
+     *
+     * @param {*} event
+     * @returns
      */
     handleClick = (event) => {
       if (this.disabled) {
-        event.preventDefault(); 
+        event.preventDefault();
         return;
       }
+
       this.checked = !this.checked;
+
       this.fireOnChange();
     };
 
     /**
      *
      */
-     fireOnChange() {
+    fireOnChange() {
       this.dispatchEvent(
         new CustomEvent('change', {
           detail: {
@@ -101,7 +102,7 @@
      *
      */
     static get observedAttributes() {
-        return ['checked', 'label', 'indeterminate', 'disabled'];
+      return ['checked', 'label', 'indeterminate', 'disabled'];
     }
 
     /**
@@ -132,7 +133,6 @@
       this.#input = this.#shadow.querySelector('input');
 
       this.addEventListener('click', this.handleClick);
-
     }
 
     /**
@@ -141,38 +141,36 @@
     connectedCallback() {
       this.update();
 
-      if(this.disabled){
-        this.#input.disabled = true; 
+      if (this.disabled) {
+        this.#input.disabled = true;
       }
     }
 
-     /**
+    /**
      *
      * @param {*} name
      * @param {*} oldValue
      * @param {*} newValue
      */
-      attributeChangedCallback(name, oldValue, newValue) {
-        switch (name) {
-          case 'checked':
-            if (this.checked) {
-              this.#input.setAttribute('checked', '');
-              this.#input.removeAttribute('indeterminate');
-            } else {
-              this.#input.removeAttribute('checked');
-            }
-            break;
-          case 'disabled':
-            if (newValue === 'true') {
-              this.#input.disabled = true;
-            } else {
-              this.#input.disabled = false;
-            }
-            break;
-        }
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case 'checked':
+          if (this.checked) {
+            this.#input.setAttribute('checked', '');
+            this.#input.removeAttribute('indeterminate');
+          } else {
+            this.#input.removeAttribute('checked');
+          }
+          break;
+        case 'disabled':
+          if (newValue === 'true') {
+            this.#input.disabled = true;
+          } else {
+            this.#input.disabled = false;
+          }
+          break;
       }
-
-    
+    }
   }
 
   customElements.define('punica-checkbox', Checkbox);
