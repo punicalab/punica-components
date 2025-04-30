@@ -42,7 +42,7 @@
     /**
      *
      */
-    get badgeContent() {
+    get badgecontent() {
       const badgeContent = this.getAttribute('badgecontent');
 
       if (badgeContent) {
