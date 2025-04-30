@@ -182,8 +182,8 @@ declare global {
         HTMLElement
       > & {
         size: 'small' | 'medium';
-        badgecontent: number;
         color: 'primary' | 'error' | 'info' | 'warning' | 'success';
+        badgecontent?: number;
         class?: string;
         max?: number;
       };

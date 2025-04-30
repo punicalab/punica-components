@@ -97,12 +97,18 @@
         return;
       }
 
-      if (this.size == 'medium') {
-        if (this.badgeContent < this.max) {
-          content.innerText = this.badgeContent;
-        } else {
-          content.innerText = `${this.max}+`;
+      if (this.badgeContent) {
+        content.classList.add('has-content');
+
+        if (this.size == 'medium') {
+          if (this.badgeContent < this.max) {
+            content.innerText = this.badgeContent;
+          } else {
+            content.innerText = `${this.max}+`;
+          }
         }
+      } else {
+        content.classList.remove('has-content');
       }
     }
   }

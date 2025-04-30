@@ -9,7 +9,7 @@
 }
 
 :host .content {
-  display: flex;
+  display: none;
   flex-flow: wrap;
   -webkit-box-pack: center;
   place-content: center;
@@ -21,6 +21,10 @@
   top: 0px;
   right: 0px;
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+:host .content.has-content {
+  display: flex;
 }
 
 :host([color='primary']) .content {

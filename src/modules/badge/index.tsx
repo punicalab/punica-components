@@ -12,6 +12,16 @@ const Module = () => {
           <punica-col xs={12}>
             <punica-row wrap="nowrap" spacing={2}>
               <punica-col>
+                <punica-badge size="medium" color="primary">
+                  <i className="fa-duotone fa-envelope fa-xl" />
+                </punica-badge>
+              </punica-col>
+              <punica-col>
+                <punica-badge size="medium" badgecontent={0} color="primary">
+                  <i className="fa-duotone fa-envelope fa-xl" />
+                </punica-badge>
+              </punica-col>
+              <punica-col>
                 <punica-badge size="medium" badgecontent={8} color="primary">
                   <i className="fa-duotone fa-envelope fa-xl" />
                 </punica-badge>
