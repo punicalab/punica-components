@@ -43,13 +43,20 @@
      *
      */
     get badgecontent() {
-      const badgeContent = this.getAttribute('badgecontent');
+      const value = this.getAttribute('badgecontent');
 
-      if (badgeContent) {
-        return parseInt(badgeContent);
+      if (value) {
+        return parseInt(value);
       }
 
       return 0;
+    }
+
+    /**
+     *
+     */
+    set badgecontent(val) {
+      this.setAttribute('badgecontent', val);
     }
 
     /**
@@ -97,12 +104,12 @@
         return;
       }
 
-      if (this.badgeContent) {
+      if (this.badgecontent) {
         content.classList.add('has-content');
 
         if (this.size == 'medium') {
-          if (this.badgeContent < this.max) {
-            content.innerText = this.badgeContent;
+          if (this.badgecontent < this.max) {
+            content.innerText = this.badgecontent;
           } else {
             content.innerText = `${this.max}+`;
           }
