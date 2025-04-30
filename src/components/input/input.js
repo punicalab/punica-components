@@ -22,6 +22,13 @@
     /**
      *
      */
+    get readonly() {
+      return this.getAttribute('readonly');
+    }
+
+    /**
+     *
+     */
     get rounded() {
       return this.getAttribute('rounded') == 'true';
     }
@@ -264,6 +271,10 @@
         this.#input.setAttribute('tabindex', this.tabIndex);
       }
 
+      if (this.readonly) {
+        this.#input.setAttribute('readonly', this.readonly);
+      }
+
       if (this.placeholder) {
         this.#input.placeholder = this.placeholder;
       }
@@ -299,6 +310,17 @@
           break;
         case 'disabled':
           this.#input.disabled = newValue === 'true' || newValue === true;
+          break;
+        case 'tabindex':
+          if (newValue) {
+            this.#input.setAttribute('tabindex', newValue);
+          } else break;
+        case 'readonly':
+          if (newValue) {
+            this.#input.setAttribute('readonly', newValue);
+          } else if (readonly) {
+            this.#input.removeAttribute('readonly');
+          }
           break;
       }
     }
