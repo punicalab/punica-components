@@ -151,7 +151,7 @@
 
       const initStateValue = this.initState;
 
-      if (initStateValue !== null && this._switcher) {
+      if (initStateValue == 'true' && this._switcher) {
         this._switcher.click();
       }
     }

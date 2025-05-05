@@ -51,7 +51,6 @@
   align-items: center;
   width: 3.75em; /*60px*/
   height: 1.25em; /*20px*/
-  margin: 0 0.625em; /*0 10px*/
   border-radius: 1.25em;
   vertical-align: middle;
   --lever-position: 0%;
@@ -111,6 +110,10 @@
   color: var(--switch--on-text-color, rgb(158, 158, 158));
 }
 
+.switch__on-text:not(:empty) {
+  margin-left: 0 0.625em;
+}
+
 [type='checkbox']:checked ~ .switch__on-text {
   color: var(--switch_checked--on-text-color, rgb(112, 179, 173));
 }
@@ -122,6 +125,10 @@
 /**switch off-text**/
 .switch__off-text {
   color: var(--switch--off-text-color, rgb(205, 92, 92));
+}
+
+.switch__off-text:not(:empty) {
+  margin-right: 0 0.625em;
 }
 
 [type='checkbox']:checked ~ .switch__off-text {
