@@ -16,7 +16,7 @@
     }
 
     get initState() {
-      return this.getAttribute('init-state');
+      return this.getAttribute('initstate');
     }
 
     get state() {
@@ -149,13 +149,9 @@
       this._upgradeProperty('onLabel');
       this._upgradeProperty('offLabel');
 
-      const initStateValue = this.getAttribute('init-state');
+      const initStateValue = this.initState;
 
-      if (
-        initStateValue !== null &&
-        this._switcher &&
-        initStateValue === this.onLabel
-      ) {
+      if (initStateValue !== null && this._switcher) {
         this._switcher.click();
       }
     }
@@ -257,7 +253,9 @@
         detail: {
           state: this.state
         },
-        bubbles: true
+        bubbles: true,
+        cancelable: false,
+        composed: true
       };
 
       const customChangeEvent = new CustomEvent('change', customEventArgs);
@@ -270,9 +268,11 @@
     =============================*/
     _onSwitcherChange(e) {
       const switcher = e.currentTarget;
-      this.setAttribute('aria-checked', switcher.checked);
-      const newState = switcher.checked ? this.onLabel : this.offLabel;
-      this.setAttribute('state', newState);
+      const checked = !switcher.checked;
+
+      this.setAttribute('aria-checked', checked);
+      this.setAttribute('state', checked);
+
       this._dispatchCustomChangeEvent();
     }
 

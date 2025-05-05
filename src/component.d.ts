@@ -373,6 +373,7 @@ declare global {
         HTMLElement
       > & {
         class?: string;
+        initstate?: boolean;
       };
       'punica-modal': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
