@@ -4,7 +4,7 @@
   template.innerHTML = `
     <slot></slot>
     <div class="wrapper">
-      <span class="content"></span>
+      <span class="content" part="badge-content"></span>
     </div>
     <style></style>
   `;
