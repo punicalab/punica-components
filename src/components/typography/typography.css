@@ -1,5 +1,5 @@
-:host * {
-  font-family: inherit;
+::slotted(*) {
+  font-family: inherit !important;
 }
 
 :host([variant='headline1']) {
