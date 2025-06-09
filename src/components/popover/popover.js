@@ -131,8 +131,8 @@
     /**
      *
      */
-    get minimumTargetWidth() {
-      return this.getAttribute('minimumTargetWidth') == 'true';
+    get minimumtargetwidth() {
+      return this.getAttribute('minimumtargetwidth') == 'true';
     }
 
     /**
@@ -199,7 +199,7 @@
         'height',
         'bottom',
         'placement',
-        'minimumTargetWidth'
+        'minimumtargetwidth'
       ];
     }
 
@@ -237,7 +237,7 @@
       const position = {
         ...newPosition,
         zIndex: 999999999,
-        ...(this.minimumTargetWidth
+        ...(this.minimumtargetwidth
           ? { width: targetRect.width }
           : { width: contentRect.width })
       };

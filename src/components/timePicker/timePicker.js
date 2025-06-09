@@ -6,7 +6,7 @@
     <slot name="endAdornment" slot="endAdornment">
     </slot> 
   </punica-input>
-  <punica-popover open="false" minimumTargetWidth="true">
+  <punica-popover open="false" minimumtargetwidth="true">
       <punica-paper id="calendar-container">
           <punica-toggle-button-group value="AM" orientation="vertical">
             <punica-toggle-button value="AM">

@@ -13,7 +13,7 @@
 
   templateMenu.innerHTML = `
     <div id="backdrop"></div>
-    <punica-popover open="false" placement="bottom" minimumTargetWidth="true">
+    <punica-popover open="false" placement="bottom">
       <div id="option-wrapper">
         <slot></slot>
       </div>
@@ -59,6 +59,20 @@
      */
     get placeholder() {
       return this.getAttribute('placeholder');
+    }
+
+    /**
+     *
+     */
+    get minimumtargetwidth() {
+      return this.getAttribute('minimumtargetwidth') == 'true';
+    }
+
+    /**
+     *
+     */
+    get selecteditemdisplayitem() {
+      return this.getAttribute('selecteditemdisplayitem');
     }
 
     /**
@@ -144,8 +158,24 @@
         'clear-button',
         'loading',
         'value',
-        'size'
+        'size',
+        'minimumtargetwidth',
+        'selecteditemdisplayitem'
       ];
+    }
+
+    /**
+     *
+     */
+    setSelectedItemContent() {
+      if (this.selecteditemdisplayitem) {
+        const displayContent = this.#selected.querySelector(
+          this.selecteditemdisplayitem
+        );
+        this.#content.innerHTML = displayContent.innerHTML;
+      } else {
+        this.#content.innerHTML = this.#selected.innerHTML;
+      }
     }
 
     /**
@@ -178,6 +208,10 @@
       const popover = select.querySelector('punica-popover');
       const backdrop = select.querySelector('#backdrop');
       const optionWrapper = select.querySelector('#option-wrapper');
+
+      if (this.minimumtargetwidth != null) {
+        popover.setAttribute('minimumtargetwidth', this.minimumtargetwidth);
+      }
 
       childrenClones.forEach((clone) => {
         clone.addEventListener('click', this.onClickItemHandler);
@@ -286,11 +320,11 @@
         this.#selected.selected = false;
       }
 
-      this.#selected = event.target;
+      this.#selected = event.currentTarget;
       this.#selected.selected = true;
       this.value = this.#selected.value;
 
-      this.#content.innerHTML = this.#selected.innerHTML;
+      this.setSelectedItemContent();
 
       this.hide();
       this.fireOnChange();
@@ -320,7 +354,7 @@
         this.#selected.selected = true;
         this.value = this.#selected.value;
 
-        this.#content.innerHTML = this.#selected.innerHTML;
+        this.setSelectedItemContent();
       }
     }
 

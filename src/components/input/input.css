@@ -20,6 +20,16 @@
   border-radius: var(--input-border-radius);
 }
 
+:host([type='number'][hidespinbutton]) input::-webkit-inner-spin-button,
+:host([type='number'][hidespinbutton]) input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+:host([type='number'][hidespinbutton]) input {
+  -moz-appearance: textfield;
+}
+
 :host([fullwidth='true']) {
   width: 100%;
 }

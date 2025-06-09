@@ -238,7 +238,9 @@
         'startadornment',
         'endadornment',
         'value',
-        'type'
+        'type',
+        'inputmode',
+        'pattern'
       ];
     }
 
@@ -308,6 +310,15 @@
         case 'value':
           this.#input.value = newValue;
           break;
+        case 'type':
+          this.#input.type = newValue || 'text';
+          break;
+        case 'inputmode':
+          this.#input.inputmode = newValue;
+          break;
+        case 'pattern':
+          this.#input.pattern = newValue;
+          break;
         case 'disabled':
           this.#input.disabled = newValue === 'true' || newValue === true;
           break;
@@ -320,6 +331,13 @@
             this.#input.setAttribute('readonly', newValue);
           } else if (readonly) {
             this.#input.removeAttribute('readonly');
+          }
+          break;
+        case 'placeholder':
+          if (newValue) {
+            this.#input.setAttribute('placeholder', newValue);
+          } else {
+            this.#input.removeAttribute('placeholder');
           }
           break;
       }
