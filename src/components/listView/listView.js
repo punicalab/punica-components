@@ -2,7 +2,7 @@
   const template = document.createElement('template');
 
   template.innerHTML = `
-    <punica-row spacing="2">
+    <punica-row>
       <slot></slot>
     </punica-row>
     <style></style>
@@ -11,12 +11,20 @@
   class ListView extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
     #observer;
+    #row;
 
     /**
      *
      */
     get enabledivider() {
       return this.getAttribute('enabledivider');
+    }
+
+    /**
+     *
+     */
+    get spacing() {
+      return this.getAttribute('spacing') || 2;
     }
 
     /**
@@ -29,7 +37,7 @@
     /**
      */
     static get observedAttributes() {
-      return ['enabledivider'];
+      return ['enabledivider', 'spacing'];
     }
 
     /**
@@ -47,9 +55,12 @@
 
       const slot = this.#shadow.querySelector('slot');
 
+      this.#row = this.#shadow.querySelector('punica-row');
       this.#observer = new MutationObserver(() => {
         this.#processSlotItems(slot);
       });
+
+      this.#row.setAttribute('spacing', this.spacing);
 
       this.#observer.observe(slot, {
         childList: true,
@@ -75,6 +86,10 @@
       if (name === 'enabledivider') {
         const slot = this.#shadow.querySelector('slot');
         this.#processSlotItems(slot);
+      }
+
+      if (name === 'spacing') {
+        this.#row.setAttribute('spacing', this.spacing);
       }
     }
 

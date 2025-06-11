@@ -487,6 +487,7 @@ declare global {
       > & {
         class?: string;
         enabledivider?: boolean;
+        spacing?: number;
       };
       'punica-list-view-item': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

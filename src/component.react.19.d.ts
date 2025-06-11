@@ -1,23 +1,32 @@
 /// <reference types="react" />
 import * as React from 'react';
 
-interface PunicaAccordionProps extends React.HTMLAttributes<HTMLElement> {
+type NativeHTMLElementProps = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLElement>,
+  HTMLElement
+>;
+
+interface PunicaAccordionProps extends NativeHTMLElementProps {
   expanded: boolean;
   rounded?: boolean;
   class?: string;
+  key?: string | number;
+  ref?: React.RefObject<HTMLElement>;
 }
 
-interface PunicaAccordionSummaryProps
-  extends React.HTMLAttributes<HTMLElement> {
+interface PunicaAccordionSummaryProps extends NativeHTMLElementProps {
   class?: string;
+  key?: string | number;
+  ref?: React.RefObject<HTMLElement>;
 }
 
-interface PunicaAccordionDetailsProps
-  extends React.HTMLAttributes<HTMLElement> {
+interface PunicaAccordionDetailsProps extends NativeHTMLElementProps {
   class?: string;
+  key?: string | number;
+  ref?: React.RefObject<HTMLElement>;
 }
 
-interface PunicaSelectProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaSelectProps extends NativeHTMLElementProps {
   value: string | number | Date;
   size?: 'small' | 'medium' | 'large';
   class?: string;
@@ -26,14 +35,16 @@ interface PunicaSelectProps extends React.HTMLAttributes<HTMLElement> {
   fullwidth?: boolean;
   selecteditemdisplayitem?: string;
   minimumtargetwidth?: string;
+  key?: string | number;
+  ref?: React.RefObject<HTMLElement>;
 }
 
-interface PunicaSelectItemProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaSelectItemProps extends NativeHTMLElementProps {
   value: string | number | Date;
   class?: string;
 }
 
-interface PunicaPopoverProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaPopoverProps extends NativeHTMLElementProps {
   class?: string;
   open: boolean;
   minimumtargetwidth?: boolean;
@@ -45,14 +56,14 @@ interface PunicaPopoverProps extends React.HTMLAttributes<HTMLElement> {
   placement: 'top' | 'left' | 'right' | 'bottom';
 }
 
-interface PunicaPaginationProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaPaginationProps extends NativeHTMLElementProps {
   class?: string;
   page: number;
   totalCount: number;
   size?: number;
 }
 
-interface PunicaButtonProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaButtonProps extends NativeHTMLElementProps {
   class?: string;
   size?: 'small' | 'medium' | 'large';
   variant?: 'text' | 'filled' | 'outlined';
@@ -71,7 +82,7 @@ interface PunicaButtonProps extends React.HTMLAttributes<HTMLElement> {
     | 'ghost';
 }
 
-interface PunicaButtonGroupProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaButtonGroupProps extends NativeHTMLElementProps {
   class?: string;
   size?: 'small' | 'medium' | 'large';
   variant?: 'filled' | 'outlined' | 'text';
@@ -87,7 +98,7 @@ interface PunicaButtonGroupProps extends React.HTMLAttributes<HTMLElement> {
   fullwidth?: boolean;
 }
 
-interface PunicaIconButtonProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaIconButtonProps extends NativeHTMLElementProps {
   class?: string;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   loading?: boolean;
@@ -95,7 +106,7 @@ interface PunicaIconButtonProps extends React.HTMLAttributes<HTMLElement> {
   color?: 'primary' | 'secondary' | 'error' | 'info' | 'warning' | 'success';
 }
 
-interface PunicaAvatarProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaAvatarProps extends NativeHTMLElementProps {
   class?: string;
   variant?: 'circular' | 'rounded' | 'square';
   color?:
@@ -109,25 +120,25 @@ interface PunicaAvatarProps extends React.HTMLAttributes<HTMLElement> {
     | string;
 }
 
-interface PunicaAlertProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaAlertProps extends NativeHTMLElementProps {
   class?: string;
   variant?: 'standard' | 'filled' | 'outlined';
   severity?: 'error' | 'info' | 'warning' | 'success';
 }
 
-interface PunicaAlertActionProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaAlertActionProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaAlertIconProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaAlertIconProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaAlertContentProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaAlertContentProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaAppBarProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaAppBarProps extends NativeHTMLElementProps {
   class?: string;
   position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
   color?:
@@ -141,7 +152,7 @@ interface PunicaAppBarProps extends React.HTMLAttributes<HTMLElement> {
     | 'success';
 }
 
-interface PunicaBadgeProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaBadgeProps extends NativeHTMLElementProps {
   size: 'small' | 'medium';
   color: 'primary' | 'error' | 'info' | 'warning' | 'success';
   badgecontent?: number;
@@ -149,14 +160,14 @@ interface PunicaBadgeProps extends React.HTMLAttributes<HTMLElement> {
   max?: number;
 }
 
-interface PunicaChipProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaChipProps extends NativeHTMLElementProps {
   class?: string;
   size?: 'small' | 'medium';
   variant?: 'filled' | 'outlined';
   color?: 'default' | 'primary' | 'error' | 'info' | 'warning' | 'success';
 }
 
-interface PunicaInputProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaInputProps extends NativeHTMLElementProps {
   class?: string;
   placeholder?: string;
   fullwidth?: boolean;
@@ -193,7 +204,7 @@ interface PunicaInputProps extends React.HTMLAttributes<HTMLElement> {
     | 'week';
 }
 
-interface PunicaTextareaProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaTextareaProps extends NativeHTMLElementProps {
   class?: string;
   placeholder?: string;
   fullwidth?: boolean;
@@ -204,25 +215,25 @@ interface PunicaTextareaProps extends React.HTMLAttributes<HTMLElement> {
   rows?: number;
 }
 
-interface PunicaContainerProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaContainerProps extends NativeHTMLElementProps {
   class?: string;
   maxwidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   disablegutters?: boolean;
 }
 
-interface PunicaHiddenProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaHiddenProps extends NativeHTMLElementProps {
   class?: string;
   breakPoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   direction: 'up' | 'down';
 }
 
-interface PunicaIconProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaIconProps extends NativeHTMLElementProps {
   class?: string;
   size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge';
   color?: 'default' | 'primary' | 'error' | 'info' | 'warning' | 'success';
 }
 
-interface PunicaDatePickerProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaDatePickerProps extends NativeHTMLElementProps {
   class?: string;
   open?: boolean;
   value?: Date | string;
@@ -231,41 +242,41 @@ interface PunicaDatePickerProps extends React.HTMLAttributes<HTMLElement> {
   maxDate?: Date | string;
 }
 
-interface PunicaDrawerProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaDrawerProps extends NativeHTMLElementProps {
   class?: string;
   size: 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge' | 'fullSize';
   direction?: 'top' | 'left' | 'bottom' | 'right';
   open?: boolean;
 }
 
-interface PunicaPaperProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaPaperProps extends NativeHTMLElementProps {
   class?: string;
   rounded?: boolean;
 }
 
-interface PunicaSplitButtonProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaSplitButtonProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaCardProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaCardProps extends NativeHTMLElementProps {
   class?: string;
   rounded?: boolean;
   fullwidth?: boolean;
 }
 
-interface PunicaCardMediaProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaCardMediaProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaCardContentProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaCardContentProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaCardActionsProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaCardActionsProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaBoxProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaBoxProps extends NativeHTMLElementProps {
   class?: string;
   rounded?: boolean;
   error?: boolean;
@@ -274,22 +285,22 @@ interface PunicaBoxProps extends React.HTMLAttributes<HTMLElement> {
   fullheight?: boolean;
 }
 
-interface PunicaTooltipProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaTooltipProps extends NativeHTMLElementProps {
   text: string;
 }
 
-interface PunicaDividerProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaDividerProps extends NativeHTMLElementProps {
   class?: string;
   flexItem?: boolean;
   orientation?: 'horizontal' | 'vertical';
 }
 
-interface PunicaSwitchProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaSwitchProps extends NativeHTMLElementProps {
   class?: string;
   initstate?: boolean;
 }
 
-interface PunicaModalProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaModalProps extends NativeHTMLElementProps {
   class?: string;
   rounded?: boolean;
   open: boolean;
@@ -297,38 +308,38 @@ interface PunicaModalProps extends React.HTMLAttributes<HTMLElement> {
   height: number | string;
 }
 
-interface PunicaModalHeaderProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaModalHeaderProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaModalContentProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaModalContentProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaModalFooterProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaModalFooterProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaDialogProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaDialogProps extends NativeHTMLElementProps {
   class?: string;
   open: boolean;
   rounded?: boolean;
   width?: number;
 }
 
-interface PunicaDialogHeaderProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaDialogHeaderProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaDialogContentProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaDialogContentProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaDialogFooterProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaDialogFooterProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaSkeletonProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaSkeletonProps extends NativeHTMLElementProps {
   class?: string;
   variant: 'text' | 'circular' | 'rectangular';
   width: string;
@@ -336,7 +347,7 @@ interface PunicaSkeletonProps extends React.HTMLAttributes<HTMLElement> {
   rounded?: boolean;
 }
 
-interface PunicaCheckboxProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaCheckboxProps extends NativeHTMLElementProps {
   class?: string;
   checked?: boolean;
   indeterminate?: boolean;
@@ -344,7 +355,7 @@ interface PunicaCheckboxProps extends React.HTMLAttributes<HTMLElement> {
   disabled?: boolean;
 }
 
-interface PunicaMenuProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaMenuProps extends NativeHTMLElementProps {
   class?: string;
   open: boolean;
   left: number;
@@ -355,12 +366,12 @@ interface PunicaMenuProps extends React.HTMLAttributes<HTMLElement> {
   placement: 'top' | 'left' | 'right' | 'bottom';
 }
 
-interface PunicaMenuItemProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaMenuItemProps extends NativeHTMLElementProps {
   class?: string;
   disabled?: boolean;
 }
 
-interface PunicaTabProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaTabProps extends NativeHTMLElementProps {
   class?: string;
   orientation: 'horizontal' | 'vertical';
   fullwidth?: boolean;
@@ -368,55 +379,53 @@ interface PunicaTabProps extends React.HTMLAttributes<HTMLElement> {
   value?: string;
 }
 
-interface PunicaTabItemProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaTabItemProps extends NativeHTMLElementProps {
   class?: string;
   value: string | number;
 }
 
-interface PunicaTabPanelProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaTabPanelProps extends NativeHTMLElementProps {
   class?: string;
   value: string | number;
   selectedvalue: string | number;
 }
 
-interface PunicaListViewProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaListViewProps extends NativeHTMLElementProps {
   class?: string;
   enabledivider?: boolean;
+  spacing?: number;
 }
 
-interface PunicaListViewItemProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaListViewItemProps extends NativeHTMLElementProps {
   class?: string;
 }
 
-interface PunicaSingleSelectListProps
-  extends React.HTMLAttributes<HTMLElement> {
-  class?: string;
-  value: string | number | Date;
-}
-
-interface PunicaSingleSelectListItemProps
-  extends React.HTMLAttributes<HTMLElement> {
+interface PunicaSingleSelectListProps extends NativeHTMLElementProps {
   class?: string;
   value: string | number | Date;
 }
 
-interface PunicaMultiSelectListProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaSingleSelectListItemProps extends NativeHTMLElementProps {
+  class?: string;
+  value: string | number | Date;
+}
+
+interface PunicaMultiSelectListProps extends NativeHTMLElementProps {
   class?: string;
   value: Array<string | number | Date>;
 }
 
-interface PunicaMultiSelectListItemProps
-  extends React.HTMLAttributes<HTMLElement> {
+interface PunicaMultiSelectListItemProps extends NativeHTMLElementProps {
   class?: string;
   value: string | number | Date;
 }
 
-interface PunicaTimePickerProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaTimePickerProps extends NativeHTMLElementProps {
   class?: string;
   open?: boolean;
 }
 
-interface PunicaTypographyProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaTypographyProps extends NativeHTMLElementProps {
   class?: string;
   truncate?: number;
   textalign?: 'left' | 'right' | 'center' | 'justify';
@@ -453,7 +462,7 @@ interface PunicaTypographyProps extends React.HTMLAttributes<HTMLElement> {
     | 'overline';
 }
 
-interface PunicaToggleButtonProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaToggleButtonProps extends NativeHTMLElementProps {
   value: any;
   selected?: boolean;
   class?: string;
@@ -462,8 +471,7 @@ interface PunicaToggleButtonProps extends React.HTMLAttributes<HTMLElement> {
   color?: 'primary' | 'secondary' | 'error' | 'info' | 'warning' | 'success';
 }
 
-interface PunicaToggleButtonGroupProps
-  extends React.HTMLAttributes<HTMLElement> {
+interface PunicaToggleButtonGroupProps extends NativeHTMLElementProps {
   value?: any;
   defaultvalue?: any;
   class?: string;
@@ -473,13 +481,13 @@ interface PunicaToggleButtonGroupProps
   orientation?: 'horizontal' | 'vertical';
 }
 
-interface PunicaToolbarProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaToolbarProps extends NativeHTMLElementProps {
   class?: string;
   variant?: 'dense' | 'regular';
   disablegutters?: boolean;
 }
 
-interface PunicaColProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaColProps extends NativeHTMLElementProps {
   class?: string;
   xs?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   sm?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
@@ -488,7 +496,7 @@ interface PunicaColProps extends React.HTMLAttributes<HTMLElement> {
   xl?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 }
 
-interface PunicaRowProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaRowProps extends NativeHTMLElementProps {
   class?: string;
   fullheight?: boolean;
   wrap?: 'nowrap' | 'wrap-reverse' | 'wrap';
@@ -545,18 +553,17 @@ interface PunicaRowProps extends React.HTMLAttributes<HTMLElement> {
     | 'inherit';
 }
 
-interface PunicaMultiSelectListItemProps
-  extends React.HTMLAttributes<HTMLElement> {
+interface PunicaMultiSelectListItemProps extends NativeHTMLElementProps {
   class?: string;
   value: string | number | Date;
 }
 
-interface PunicaTimePickerProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaTimePickerProps extends NativeHTMLElementProps {
   class?: string;
   open?: boolean;
 }
 
-interface PunicaTypographyProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaTypographyProps extends NativeHTMLElementProps {
   class?: string;
   truncate?: number;
   textalign?: 'left' | 'right' | 'center' | 'justify';
@@ -593,7 +600,7 @@ interface PunicaTypographyProps extends React.HTMLAttributes<HTMLElement> {
     | 'overline';
 }
 
-interface PunicaToggleButtonProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaToggleButtonProps extends NativeHTMLElementProps {
   value: any;
   selected?: boolean;
   class?: string;
@@ -602,8 +609,7 @@ interface PunicaToggleButtonProps extends React.HTMLAttributes<HTMLElement> {
   color?: 'primary' | 'secondary' | 'error' | 'info' | 'warning' | 'success';
 }
 
-interface PunicaToggleButtonGroupProps
-  extends React.HTMLAttributes<HTMLElement> {
+interface PunicaToggleButtonGroupProps extends NativeHTMLElementProps {
   value?: any;
   defaultvalue?: any;
   class?: string;
@@ -613,13 +619,13 @@ interface PunicaToggleButtonGroupProps
   orientation?: 'horizontal' | 'vertical';
 }
 
-interface PunicaToolbarProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaToolbarProps extends NativeHTMLElementProps {
   class?: string;
   variant?: 'dense' | 'regular';
   disablegutters?: boolean;
 }
 
-interface PunicaColProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaColProps extends NativeHTMLElementProps {
   class?: string;
   xs?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   sm?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
@@ -628,7 +634,7 @@ interface PunicaColProps extends React.HTMLAttributes<HTMLElement> {
   xl?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 }
 
-interface PunicaRowProps extends React.HTMLAttributes<HTMLElement> {
+interface PunicaRowProps extends NativeHTMLElementProps {
   class?: string;
   fullheight?: boolean;
   wrap?: 'nowrap' | 'wrap-reverse' | 'wrap';
