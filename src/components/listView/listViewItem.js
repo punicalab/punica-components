@@ -9,7 +9,7 @@
       <punica-col style="flex-grow: 1;">
         <punica-row>
           <punica-col xs="12">
-            <punica-row wrap="nowrap" alignitems="center" justifycontent="space-between">
+            <punica-row wrap="nowrap" justifycontent="space-between">
               <punica-col>
                 <slot name="label"></slot>
               </punica-col>

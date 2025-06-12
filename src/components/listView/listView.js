@@ -83,6 +83,8 @@
      *
      */
     attributeChangedCallback(name) {
+      if (!this.#row) return;
+
       if (name === 'enabledivider') {
         const slot = this.#shadow.querySelector('slot');
         this.#processSlotItems(slot);
