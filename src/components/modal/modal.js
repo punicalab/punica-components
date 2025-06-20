@@ -26,6 +26,13 @@
     /**
      *
      */
+    set rounded(val) {
+      this.setAttribute('rounded', val);
+    }
+
+    /**
+     *
+     */
     get open() {
       return this.getAttribute('open');
     }
@@ -47,6 +54,13 @@
     /**
      *
      */
+    set width(val) {
+      this.setAttribute('width', val);
+    }
+
+    /**
+     *
+     */
     get height() {
       return this.getAttribute('height');
     }
@@ -54,8 +68,15 @@
     /**
      *
      */
+    set height(val) {
+      this.setAttribute('height', val);
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
-      return ['open'];
+      return ['open', 'width', 'height', 'rounded'];
     }
 
     /**

@@ -16,6 +16,13 @@
     /**
      *
      */
+    set value(val) {
+      this.setAttribute('value', val);
+    }
+
+    /**
+     *
+     */
     get selected() {
       return this.getAttribute('selected');
     }
@@ -25,6 +32,13 @@
      */
     set selected(val) {
       this.setAttribute('selected', val);
+    }
+
+    /**
+     *
+     */
+    static get observedAttributes() {
+      return ['value', 'selected'];
     }
 
     /**

@@ -65,6 +65,13 @@
     /**
      *
      */
+    set disabled(val) {
+      this.setAttribute('disabled', val);
+    }
+
+    /**
+     *
+     */
     get fullwidth() {
       return this.getAttribute('fullwidth') == 'true';
     }
@@ -74,6 +81,22 @@
      */
     set fullwidth(val) {
       return this.getAttribute('fullwidth', val);
+    }
+
+    /**
+     *
+     */
+    static get observedAttributes() {
+      return ['color', 'size', 'variant', 'fullwidth', 'disabled'];
+    }
+
+    /**
+     *
+     */
+    constructor() {
+      super();
+
+      this.#shadow.appendChild(template.content.cloneNode(true));
     }
 
     /**
@@ -92,15 +115,6 @@
           child.setAttribute(attribute, newAttributeType);
         }
       });
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
     }
 
     /**

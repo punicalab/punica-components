@@ -13,11 +13,26 @@
     get direction() {
       return this.getAttribute('direction');
     }
+
+    /**
+     *
+     */
+    set direction(val) {
+      this.setAttribute('direction', val);
+    }
+
     /**
      *
      */
     get breakPoint() {
       return this.getAttribute('breakPoint');
+    }
+
+    /**
+     *
+     */
+    set breakPoint(val) {
+      this.setAttribute('breakPoint', val);
     }
 
     /**

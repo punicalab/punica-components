@@ -17,6 +17,13 @@
     /**
      *
      */
+    set orientation(val) {
+      this.setAttribute('orientation', val);
+    }
+
+    /**
+     *
+     */
     get fullwidth() {
       return this.getAttribute('fullwidth');
     }
@@ -24,8 +31,22 @@
     /**
      *
      */
+    set fullwidth(val) {
+      this.setAttribute('fullwidth', val);
+    }
+
+    /**
+     *
+     */
     get disabled() {
       return this.getAttribute('disabled');
+    }
+
+    /**
+     *
+     */
+    set disabled(val) {
+      this.setAttribute('disabled', val);
     }
 
     /**

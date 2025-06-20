@@ -22,6 +22,13 @@
     /**
      *
      */
+    set color(value) {
+      this.setAttribute('color', value);
+    }
+
+    /**
+     *
+     */
     get max() {
       const max = this.getAttribute('max');
 
@@ -35,8 +42,22 @@
     /**
      *
      */
+    set max(value) {
+      this.setAttribute('max', value);
+    }
+
+    /**
+     *
+     */
     get size() {
       return this.getAttribute('size') || 'large';
+    }
+
+    /**
+     *
+     */
+    set size(value) {
+      this.setAttribute('size', value);
     }
 
     /**

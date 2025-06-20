@@ -23,6 +23,13 @@
     /**
      *
      */
+    set enabledivider(val) {
+      this.setAttribute('enabledivider', val);
+    }
+
+    /**
+     *
+     */
     get spacing() {
       return this.getAttribute('spacing') || 2;
     }
@@ -30,8 +37,8 @@
     /**
      *
      */
-    set enabledivider(val) {
-      this.setAttribute('enabledivider', val);
+    set spacing(val) {
+      this.setAttribute('spacing', val);
     }
 
     /**

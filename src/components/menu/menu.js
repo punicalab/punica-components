@@ -46,8 +46,22 @@
     /**
      *
      */
+    set open(val) {
+      this.setAttribute('open', val);
+    }
+
+    /**
+     *
+     */
     get left() {
       return this.getAttribute('left');
+    }
+
+    /**
+     *
+     */
+    set left(val) {
+      this.setAttribute('left', val);
     }
 
     /**
@@ -60,8 +74,22 @@
     /**
      *
      */
+    set top(val) {
+      this.setAttribute('top', val);
+    }
+
+    /**
+     *
+     */
     get bottom() {
       return this.getAttribute('bottom');
+    }
+
+    /**
+     *
+     */
+    set bottom(val) {
+      this.setAttribute('bottom', val);
     }
 
     /**
@@ -74,6 +102,13 @@
     /**
      *
      */
+    set width(val) {
+      this.setAttribute('width', val);
+    }
+
+    /**
+     *
+     */
     get height() {
       return this.getAttribute('height');
     }
@@ -81,8 +116,22 @@
     /**
      *
      */
+    set height(val) {
+      this.setAttribute('height', val);
+    }
+
+    /**
+     *
+     */
     get placement() {
       return this.getAttribute('placement');
+    }
+
+    /**
+     *
+     */
+    set placement(val) {
+      this.setAttribute('placement', val);
     }
 
     /**
@@ -175,8 +224,8 @@
     };
 
     /**
-     * 
-     * @param {*} event 
+     *
+     * @param {*} event
      */
     handleMenuItemClick = (event) => {
       const menuItem = event.currentTarget;
@@ -187,7 +236,7 @@
             bubbles: true,
             cancelable: true,
             composed: true,
-            detail: { value: menuItem.textContent, data: itemData  },
+            detail: { value: menuItem.textContent, data: itemData }
           })
         );
       }

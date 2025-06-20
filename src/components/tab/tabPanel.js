@@ -17,6 +17,13 @@
     /**
      *
      */
+    set value(val) {
+      this.setAttribute('value', val);
+    }
+
+    /**
+     *
+     */
     get selectedvalue() {
       return this.getAttribute('selectedvalue');
     }

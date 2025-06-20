@@ -16,8 +16,22 @@
     /**
      *
      */
+    set variant(value) {
+      this.setAttribute('variant', value);
+    }
+
+    /**
+     *
+     */
     get severity() {
       return this.getAttribute('severity');
+    }
+
+    /**
+     *
+     */
+    set severity(value) {
+      this.setAttribute('severity', value);
     }
 
     /**

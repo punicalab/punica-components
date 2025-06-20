@@ -66,6 +66,13 @@
     /**
      *
      */
+    set page(val) {
+      this.setAttribute('page', val);
+    }
+
+    /**
+     *
+     */
     get totalCount() {
       return parseInt(this.getAttribute('totalCount'));
     }
@@ -73,8 +80,22 @@
     /**
      *
      */
+    set totalCount(val) {
+      this.setAttribute('totalCount', val);
+    }
+
+    /**
+     *
+     */
     get size() {
       return this.getAttribute('size') || 20;
+    }
+
+    /**
+     *
+     */
+    set size(val) {
+      this.setAttribute('size', val);
     }
 
     /**

@@ -16,8 +16,22 @@
     /**
      *
      */
+    set rounded(val) {
+      this.setAttribute('rounded', val);
+    }
+
+    /**
+     *
+     */
     get class() {
       return this.getAttribute('class');
+    }
+
+    /**
+     *
+     */
+    set class(val) {
+      this.setAttribute('class', val);
     }
 
     /**

@@ -16,6 +16,13 @@
     /**
      *
      */
+    set orientation(val) {
+      this.setAttribute('orientation', val);
+    }
+
+    /**
+     *
+     */
     get value() {
       return this.getAttribute('value');
     }
@@ -79,8 +86,22 @@
     /**
      *
      */
+    set disabled(val) {
+      this.setAttribute('disabled', val);
+    }
+
+    /**
+     *
+     */
     get fullwidth() {
       return this.getAttribute('fullwidth');
+    }
+
+    /**
+     *
+     */
+    set fullwidth(val) {
+      this.setAttribute('fullwidth', val);
     }
 
     /**
@@ -95,6 +116,15 @@
         'disabled',
         'fullwidth, orientation'
       ];
+    }
+
+    /**
+     *
+     */
+    constructor() {
+      super();
+
+      this.#shadow.appendChild(template.content.cloneNode(true));
     }
 
     /**
@@ -171,15 +201,6 @@
           button.removeAttribute('selected');
         }
       });
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
     }
 
     /**

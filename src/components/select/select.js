@@ -57,8 +57,22 @@
     /**
      *
      */
+    set rounded(val) {
+      this.setAttribute('rounded', val);
+    }
+
+    /**
+     *
+     */
     get placeholder() {
       return this.getAttribute('placeholder');
+    }
+
+    /**
+     *
+     */
+    set placeholder(val) {
+      this.setAttribute('placeholder', val);
     }
 
     /**
@@ -71,8 +85,22 @@
     /**
      *
      */
+    set minimumtargetwidth(val) {
+      this.setAttribute('minimumtargetwidth', val);
+    }
+
+    /**
+     *
+     */
     get selecteditemdisplayitem() {
       return this.getAttribute('selecteditemdisplayitem');
+    }
+
+    /**
+     *
+     */
+    set selecteditemdisplayitem(val) {
+      this.setAttribute('selecteditemdisplayitem', val);
     }
 
     /**
@@ -85,8 +113,22 @@
     /**
      *
      */
+    set error(val) {
+      this.setAttribute('error', val);
+    }
+
+    /**
+     *
+     */
     get fullwidth() {
       return this.getAttribute('fullwidth');
+    }
+
+    /**
+     *
+     */
+    set fullwidth(val) {
+      this.setAttribute('fullwidth', val);
     }
 
     /**
@@ -99,6 +141,13 @@
     /**
      *
      */
+    set disabled(val) {
+      this.setAttribute('disabled', val);
+    }
+
+    /**
+     *
+     */
     get adornment() {
       return this.getAttribute('adornment');
     }
@@ -106,8 +155,22 @@
     /**
      *
      */
-    get ['clear-button']() {
-      return this.getAttribute('clear-button');
+    set adornment(val) {
+      this.setAttribute('adornment', val);
+    }
+
+    /**
+     *
+     */
+    get clearbutton() {
+      return this.getAttribute('clearbutton');
+    }
+
+    /**
+     *
+     */
+    set clearbutton(val) {
+      this.setAttribute('clearbutton', val);
     }
 
     /**
@@ -115,6 +178,13 @@
      */
     get loading() {
       return this.getAttribute('loading');
+    }
+
+    /**
+     *
+     */
+    set loading(val) {
+      this.setAttribute('loading', val);
     }
 
     /**

@@ -22,8 +22,22 @@
     /**
      *
      */
+    set tabIndex(val) {
+      this.setAttribute('tabindex', val);
+    }
+
+    /**
+     *
+     */
     get readonly() {
       return this.getAttribute('readonly');
+    }
+
+    /**
+     *
+     */
+    set readonly(val) {
+      this.setAttribute('readonly', val);
     }
 
     /**
@@ -50,8 +64,22 @@
     /**
      *
      */
+    set placeholder(val) {
+      this.setAttribute('placeholder', val);
+    }
+
+    /**
+     *
+     */
     get error() {
       return this.getAttribute('error') == 'true';
+    }
+
+    /**
+     *
+     */
+    set error(val) {
+      this.setAttribute('error', val);
     }
 
     /**
@@ -64,8 +92,22 @@
     /**
      *
      */
+    set type(val) {
+      this.setAttribute('type', val);
+    }
+
+    /**
+     *
+     */
     get fullwidth() {
       return this.getAttribute('fullwidth');
+    }
+
+    /**
+     *
+     */
+    set fullwidth(val) {
+      this.setAttribute('fullwidth', val);
     }
 
     /**
@@ -78,6 +120,13 @@
     /**
      *
      */
+    set disabled(val) {
+      this.setAttribute('disabled', val);
+    }
+
+    /**
+     *
+     */
     get startadornment() {
       return this.getAttribute('startadornment');
     }
@@ -85,8 +134,22 @@
     /**
      *
      */
+    set startadornment(val) {
+      this.setAttribute('startadornment', val);
+    }
+
+    /**
+     *
+     */
     get endadornment() {
       return this.getAttribute('endadornment');
+    }
+
+    /**
+     *
+     */
+    set endadornment(val) {
+      this.setAttribute('endadornment', val);
     }
 
     /**

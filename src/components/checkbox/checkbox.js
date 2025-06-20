@@ -21,6 +21,21 @@
     /**
      *
      */
+    set checked(value) {
+      this.removeAttribute('indeterminate');
+
+      if (value) {
+        this.setAttribute('checked', 'true');
+      } else {
+        this.removeAttribute('checked');
+      }
+
+      this.update();
+    }
+
+    /**
+     *
+     */
     get disabled() {
       return this.getAttribute('disabled') == 'true';
     }
@@ -40,21 +55,6 @@
     /**
      *
      */
-    set checked(value) {
-      this.removeAttribute('indeterminate');
-
-      if (value) {
-        this.setAttribute('checked', 'true');
-      } else {
-        this.removeAttribute('checked');
-      }
-
-      this.update();
-    }
-
-    /**
-     *
-     */
     get label() {
       return this.getAttribute('label');
     }
@@ -62,8 +62,41 @@
     /**
      *
      */
+    set label(value) {
+      this.setAttribute('label', value);
+    }
+
+    /**
+     *
+     */
     get indeterminate() {
       return this.getAttribute('indeterminate');
+    }
+
+    /**
+     *
+     */
+    set indeterminate(value) {
+      this.setAttribute('indeterminate', value);
+    }
+
+    /**
+     *
+     */
+    static get observedAttributes() {
+      return ['checked', 'label', 'indeterminate', 'disabled'];
+    }
+
+    /**
+     *
+     */
+    constructor() {
+      super();
+
+      this.#shadow.appendChild(template.content.cloneNode(true));
+      this.#input = this.#shadow.querySelector('input');
+
+      this.addEventListener('click', this.handleClick);
     }
 
     /**
@@ -101,8 +134,12 @@
     /**
      *
      */
-    static get observedAttributes() {
-      return ['checked', 'label', 'indeterminate', 'disabled'];
+    connectedCallback() {
+      this.update();
+
+      if (this.disabled) {
+        this.#input.disabled = true;
+      }
     }
 
     /**
@@ -121,29 +158,6 @@
       }
 
       label.innerText = this.label;
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#input = this.#shadow.querySelector('input');
-
-      this.addEventListener('click', this.handleClick);
-    }
-
-    /**
-     *
-     */
-    connectedCallback() {
-      this.update();
-
-      if (this.disabled) {
-        this.#input.disabled = true;
-      }
     }
 
     /**

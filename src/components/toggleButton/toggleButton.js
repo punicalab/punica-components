@@ -20,6 +20,13 @@
     /**
      *
      */
+    set value(val) {
+      this.setAttribute('value', val);
+    }
+
+    /**
+     *
+     */
     get size() {
       return this.getAttribute('size');
     }
@@ -27,8 +34,22 @@
     /**
      *
      */
+    set size(val) {
+      this.setAttribute('size', val);
+    }
+
+    /**
+     *
+     */
     get disabled() {
       return this.getAttribute('disabled');
+    }
+
+    /**
+     *
+     */
+    set disabled(val) {
+      this.setAttribute('disabled', val);
     }
 
     /**
@@ -53,6 +74,21 @@
     /**
      *
      */
+    static get observedAttributes() {
+      return ['color', 'size', 'disabled', 'selected', 'value'];
+    }
+
+    /**
+     *
+     */
+    constructor() {
+      super();
+      this.#shadow.appendChild(template.content.cloneNode(true));
+    }
+
+    /**
+     *
+     */
     toggle() {
       this.selected = !this.selected;
       this.fireOnChange();
@@ -72,21 +108,6 @@
           composed: true
         })
       );
-    }
-
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return ['color', 'size', 'disabled', 'selected', 'value'];
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-      this.#shadow.appendChild(template.content.cloneNode(true));
     }
 
     /**

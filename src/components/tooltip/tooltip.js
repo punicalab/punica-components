@@ -13,6 +13,20 @@
     /**
      *
      */
+    get text() {
+      return this.getAttribute('text');
+    }
+
+    /**
+     *
+     */
+    set text(val) {
+      this.setAttribute('text', val);
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
       return ['text'];
     }

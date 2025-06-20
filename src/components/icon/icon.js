@@ -16,8 +16,22 @@
     /**
      *
      */
+    set size(val) {
+      this.setAttribute('size', val);
+    }
+
+    /**
+     *
+     */
     get color() {
       return this.getAttribute('color');
+    }
+
+    /**
+     *
+     */
+    set color(val) {
+      this.setAttribute('color', val);
     }
 
     /**

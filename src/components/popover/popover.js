@@ -131,8 +131,22 @@
     /**
      *
      */
+    set open(val) {
+      this.setAttribute('open', val);
+    }
+
+    /**
+     *
+     */
     get minimumtargetwidth() {
       return this.getAttribute('minimumtargetwidth') == 'true';
+    }
+
+    /**
+     *
+     */
+    set minimumtargetwidth(val) {
+      this.setAttribute('minimumtargetwidth', val);
     }
 
     /**
@@ -147,10 +161,24 @@
     /**
      *
      */
+    set left(val) {
+      this.setAttribute('left', val);
+    }
+
+    /**
+     *
+     */
     get top() {
       const top = this.getAttribute('top');
 
       return top ? parseInt(top) : 0;
+    }
+
+    /**
+     *
+     */
+    set top(val) {
+      this.setAttribute('top', val);
     }
 
     /**
@@ -165,10 +193,24 @@
     /**
      *
      */
+    set bottom(val) {
+      this.setAttribute('bottom', val);
+    }
+
+    /**
+     *
+     */
     get width() {
       const width = this.getAttribute('width');
 
       return width ? parseInt(width) : 0;
+    }
+
+    /**
+     *
+     */
+    set width(val) {
+      this.setAttribute('width', val);
     }
 
     /**
@@ -183,8 +225,22 @@
     /**
      *
      */
+    set height(val) {
+      this.setAttribute('height', val);
+    }
+
+    /**
+     *
+     */
     get placement() {
       return this.getAttribute('placement');
+    }
+
+    /**
+     *
+     */
+    set placement(val) {
+      this.setAttribute('placement', val);
     }
 
     /**

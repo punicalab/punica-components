@@ -16,8 +16,22 @@
     /**
      *
      */
+    set error(value) {
+      this.setAttribute('error', value);
+    }
+
+    /**
+     *
+     */
     get fullwidth() {
       return this.getAttribute('fullwidth');
+    }
+
+    /**
+     *
+     */
+    set fullwidth(value) {
+      this.setAttribute('fullwidth', value);
     }
 
     /**
@@ -30,8 +44,22 @@
     /**
      *
      */
+    set fullheight(value) {
+      this.setAttribute('fullheight', value);
+    }
+
+    /**
+     *
+     */
     get border() {
       return this.getAttribute('border');
+    }
+
+    /**
+     *
+     */
+    set border(value) {
+      this.setAttribute('border', value);
     }
 
     /**
@@ -41,6 +69,13 @@
       const value = this.getAttribute('rounded');
 
       return value || true;
+    }
+
+    /**
+     *
+     */
+    set rounded(value) {
+      this.setAttribute('rounded', value);
     }
 
     /**

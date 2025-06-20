@@ -17,8 +17,22 @@
     /**
      *
      */
+    set wrap(val) {
+      this.setAttribute('wrap', val);
+    }
+
+    /**
+     *
+     */
     get direction() {
       return this.getAttribute('direction') || 'row';
+    }
+
+    /**
+     *
+     */
+    set direction(val) {
+      this.setAttribute('direction', val);
     }
 
     /**
@@ -31,8 +45,22 @@
     /**
      *
      */
+    set spacing(val) {
+      this.setAttribute('spacing', val);
+    }
+
+    /**
+     *
+     */
     get rowspacing() {
       return this.getAttribute('rowspacing') || this.spacing;
+    }
+
+    /**
+     *
+     */
+    set rowspacing(val) {
+      this.setAttribute('rowspacing', val);
     }
 
     /**
@@ -45,8 +73,22 @@
     /**
      *
      */
+    set columnspacing(val) {
+      this.setAttribute('columnspacing', val);
+    }
+
+    /**
+     *
+     */
     get fullheight() {
       return this.getAttribute('fullheight');
+    }
+
+    /**
+     *
+     */
+    set fullheight(val) {
+      this.setAttribute('fullheight', val);
     }
 
     /**
@@ -59,8 +101,22 @@
     /**
      *
      */
+    set justifyitems(val) {
+      this.setAttribute('justifyitems', val);
+    }
+
+    /**
+     *
+     */
     get justifycontent() {
       return this.getAttribute('justifycontent') || 'inherit';
+    }
+
+    /**
+     *
+     */
+    set justifycontent(val) {
+      this.setAttribute('justifycontent', val);
     }
 
     /**
@@ -73,8 +129,22 @@
     /**
      *
      */
+    set aligncontent(val) {
+      this.setAttribute('aligncontent', val);
+    }
+
+    /**
+     *
+     */
     get alignitems() {
       return this.getAttribute('alignitems') || 'inherit';
+    }
+
+    /**
+     *
+     */
+    set alignitems(val) {
+      this.setAttribute('alignitems', val);
     }
 
     /**

@@ -31,8 +31,22 @@
     /**
      *
      */
+    set placeholder(val) {
+      this.setAttribute('placeholder', val);
+    }
+
+    /**
+     *
+     */
     get rows() {
       return this.getAttribute('rows') || 3;
+    }
+
+    /**
+     *
+     */
+    set rows(val) {
+      this.setAttribute('rows', val);
     }
 
     /**
@@ -45,6 +59,13 @@
     /**
      *
      */
+    set error(val) {
+      this.setAttribute('error', val);
+    }
+
+    /**
+     *
+     */
     get fullwidth() {
       return this.getAttribute('fullwidth');
     }
@@ -52,8 +73,22 @@
     /**
      *
      */
+    set fullwidth(val) {
+      this.setAttribute('fullwidth', val);
+    }
+
+    /**
+     *
+     */
     get disabled() {
       return this.getAttribute('disabled');
+    }
+
+    /**
+     *
+     */
+    set disabled(val) {
+      this.setAttribute('disabled', val);
     }
 
     /**
@@ -68,6 +103,31 @@
      */
     set value(data) {
       this.setAttribute('value', data);
+    }
+
+    /**
+     *
+     */
+    static get observedAttributes() {
+      return [
+        'placeholder',
+        'rows',
+        'fullwidth',
+        'disabled',
+        'error',
+        'value',
+        'rounded'
+      ];
+    }
+
+    /**
+     *
+     */
+    constructor() {
+      super();
+
+      this.#shadow.appendChild(template.content.cloneNode(true));
+      this.#textarea = this.#shadow.querySelector('textarea');
     }
 
     /**
@@ -109,31 +169,6 @@
           composed: true
         })
       );
-    }
-
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return [
-        'placeholder',
-        'rows',
-        'fullwidth',
-        'disabled',
-        'error',
-        'value',
-        'rounded'
-      ];
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#textarea = this.#shadow.querySelector('textarea');
     }
 
     /**

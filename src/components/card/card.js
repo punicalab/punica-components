@@ -32,6 +32,20 @@
     /**
      *
      */
+    set rounded(val) {
+      this.setAttribute('rounded', val);
+    }
+
+    /**
+     *
+     */
+    static get observedAttributes() {
+      return ['fullwidth', 'rounded'];
+    }
+
+    /**
+     *
+     */
     constructor() {
       super();
 

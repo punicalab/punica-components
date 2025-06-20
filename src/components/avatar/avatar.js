@@ -30,8 +30,22 @@
     /**
      *
      */
+    set variant(value) {
+      this.setAttribute('variant', value);
+    }
+
+    /**
+     *
+     */
     get color() {
       return this.getAttribute('color');
+    }
+
+    /**
+     *
+     */
+    set color(value) {
+      this.setAttribute('color', value);
     }
 
     /**

@@ -9,13 +9,6 @@
     /**
      *
      */
-    static get observedAttributes() {
-      return ['color', 'position'];
-    }
-
-    /**
-     *
-     */
     get color() {
       return this.getAttribute('color') || 'primary';
     }
@@ -30,15 +23,22 @@
     /**
      *
      */
-    get color() {
+    get position() {
       return this.getAttribute('position') || 'fixed';
     }
 
     /**
      *
      */
-    set color(val) {
+    set position(val) {
       this.setAttribute('position', val);
+    }
+
+    /**
+     *
+     */
+    static get observedAttributes() {
+      return ['color', 'position'];
     }
 
     /**

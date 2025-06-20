@@ -16,8 +16,22 @@
     /**
      *
      */
+    set size(val) {
+      this.setAttribute('size', val);
+    }
+
+    /**
+     *
+     */
     get xs() {
       return this.getAttribute('xs');
+    }
+
+    /**
+     *
+     */
+    set xs(val) {
+      this.setAttribute('xs', val);
     }
 
     /**
@@ -30,8 +44,22 @@
     /**
      *
      */
+    set sm(val) {
+      this.setAttribute('sm', val);
+    }
+
+    /**
+     *
+     */
     get md() {
       return this.getAttribute('md');
+    }
+
+    /**
+     *
+     */
+    set md(val) {
+      this.setAttribute('md', val);
     }
 
     /**
@@ -44,8 +72,22 @@
     /**
      *
      */
+    set lg(val) {
+      this.setAttribute('lg', val);
+    }
+
+    /**
+     *
+     */
     get xl() {
       return this.getAttribute('xl');
+    }
+
+    /**
+     *
+     */
+    set xl(val) {
+      this.setAttribute('xl', val);
     }
 
     /**

@@ -47,8 +47,22 @@
     /**
      *
      */
+    set direction(val) {
+      this.setAttribute('direction', val);
+    }
+
+    /**
+     *
+     */
     get size() {
       return this.getAttribute('size');
+    }
+
+    /**
+     *
+     */
+    set size(val) {
+      this.setAttribute('size', val);
     }
 
     /**

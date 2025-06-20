@@ -16,8 +16,22 @@
     /**
      *
      */
+    set variant(val) {
+      this.setAttribute('variant', val);
+    }
+
+    /**
+     *
+     */
     get width() {
       return this.getAttribute('width');
+    }
+
+    /**
+     *
+     */
+    set width(val) {
+      this.setAttribute('width', val);
     }
 
     /**
@@ -30,8 +44,22 @@
     /**
      *
      */
+    set height(val) {
+      this.setAttribute('height', val);
+    }
+
+    /**
+     *
+     */
     get rounded() {
       return this.getAttribute('rounded');
+    }
+
+    /**
+     *
+     */
+    set rounded(val) {
+      this.setAttribute('rounded', val);
     }
 
     /**

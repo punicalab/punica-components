@@ -10,28 +10,28 @@
     #shadow;
 
     /**
-     * Gets the value of the `value` attribute.
+     *
      */
     get value() {
       return this.getAttribute('value') || '';
     }
 
     /**
-     * Sets the value of the `value` attribute.
+     *
      */
     set value(newValue) {
       this.setAttribute('value', newValue);
     }
 
     /**
-     * Checks if the item is disabled.
+     *
      */
     get disabled() {
       return this.hasAttribute('disabled');
     }
 
     /**
-     * Enables or disables the item.
+     *
      */
     set disabled(isDisabled) {
       if (isDisabled) {
@@ -42,14 +42,14 @@
     }
 
     /**
-     * Observed attributes for the component.
+     *
      */
     static get observedAttributes() {
-      return ['disabled'];
+      return ['disabled', 'value'];
     }
 
     /**
-     * Constructor: initializes the shadow DOM and appends the template.
+     *
      */
     constructor() {
       super();
@@ -74,7 +74,6 @@
         this.setAttribute('role', 'menuitem');
       }
     }
-
   }
 
   // Define the custom element

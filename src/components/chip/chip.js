@@ -20,8 +20,22 @@
     /**
      *
      */
+    set color(value) {
+      this.setAttribute('color', value);
+    }
+
+    /**
+     *
+     */
     get variant() {
       return this.getAttribute('variant');
+    }
+
+    /**
+     *
+     */
+    set variant(value) {
+      this.setAttribute('variant', value);
     }
 
     /**
@@ -34,14 +48,8 @@
     /**
      *
      */
-    get badgeContent() {
-      const badgeContent = this.getAttribute('badgeContent');
-
-      if (badgeContent) {
-        return parseInt(badgeContent);
-      }
-
-      return 0;
+    set size(value) {
+      this.setAttribute('size', value);
     }
 
     /**

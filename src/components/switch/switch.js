@@ -11,18 +11,44 @@
       </label>`;
 
   class Switch extends HTMLElement {
+    /**
+     *
+     */
     get name() {
       return this.getAttribute('name');
     }
 
+    /**
+     *
+     */
+    set name(val) {
+      this.setAttribute('name', val);
+    }
+
+    /**
+     *
+     */
     get initState() {
       return this.getAttribute('initstate');
     }
 
+    /**
+     *
+     */
+    set initState(val) {
+      this.setAttribute('initstate', val);
+    }
+
+    /**
+     *
+     */
     get state() {
       return this.getAttribute('state') || this.offLabel;
     }
 
+    /**
+     *
+     */
     set state(val) {
       if (!val || val === this.state) return;
 
@@ -33,10 +59,16 @@
       }
     }
 
+    /**
+     *
+     */
     get disabled() {
       return this.hasAttribute('disabled');
     }
 
+    /**
+     *
+     */
     set disabled(val) {
       if (val !== true && val !== false) return;
 
@@ -47,10 +79,16 @@
       }
     }
 
+    /**
+     *
+     */
     get elastic() {
       return this.hasAttribute('elastic');
     }
 
+    /**
+     *
+     */
     set elastic(val) {
       if (val) {
         this.setAttribute('elastic', '');
@@ -59,6 +97,9 @@
       }
     }
 
+    /**
+     *
+     */
     get onLabel() {
       const onTextElem = this.shadowRoot.querySelector('.switch__on-text');
       if (onTextElem) {
@@ -66,6 +107,9 @@
       }
     }
 
+    /**
+     *
+     */
     set onLabel(val) {
       if (val) {
         const onTextElem = this.shadowRoot.querySelector('.switch__on-text');
@@ -75,6 +119,9 @@
       }
     }
 
+    /**
+     *
+     */
     get offLabel() {
       const offTextElem = this.shadowRoot.querySelector('.switch__off-text');
       if (offTextElem) {
@@ -82,6 +129,9 @@
       }
     }
 
+    /**
+     *
+     */
     set offLabel(val) {
       if (val) {
         const offTextElem = this.shadowRoot.querySelector('.switch__off-text');

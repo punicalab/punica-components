@@ -58,13 +58,6 @@
     /**
      *
      */
-    static get observedAttributes() {
-      return ['open'];
-    }
-
-    /**
-     *
-     */
     get open() {
       return this.hasAttribute('open') || false;
     }
@@ -78,6 +71,41 @@
       } else {
         this.removeAttribute('open');
       }
+    }
+
+    /**
+     *
+     */
+    static get observedAttributes() {
+      return ['open'];
+    }
+
+    /**
+     *
+     */
+    constructor() {
+      super();
+
+      this.#shadow.appendChild(template.content.cloneNode(true));
+      this.#popover = this.#shadow.querySelector('punica-popover');
+      this.#hourDisplay = this.#shadow.querySelector('#hour-display');
+      this.#minutesDisplay = this.#shadow.querySelector('#minutes-display');
+
+      this.#hourUpButton = this.#shadow.querySelector('slot[name="hour-up"]');
+      this.#hourDownButton = this.#shadow.querySelector(
+        'slot[name="hour-down"]'
+      );
+      this.#minutesUpButton = this.#shadow.querySelector(
+        'slot[name="minutes-up"]'
+      );
+      this.#minutesDownButton = this.#shadow.querySelector(
+        'slot[name="minutes-down"]'
+      );
+
+      this.incrementHour = this.incrementHour.bind(this);
+      this.decrementHour = this.decrementHour.bind(this);
+      this.incrementMinutes = this.incrementMinutes.bind(this);
+      this.decrementMinutes = this.decrementMinutes.bind(this);
     }
 
     /**
@@ -140,34 +168,6 @@
       this.#minutesDisplay.textContent = currentMinutes
         .toString()
         .padStart(2, '0');
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#popover = this.#shadow.querySelector('punica-popover');
-      this.#hourDisplay = this.#shadow.querySelector('#hour-display');
-      this.#minutesDisplay = this.#shadow.querySelector('#minutes-display');
-
-      this.#hourUpButton = this.#shadow.querySelector('slot[name="hour-up"]');
-      this.#hourDownButton = this.#shadow.querySelector(
-        'slot[name="hour-down"]'
-      );
-      this.#minutesUpButton = this.#shadow.querySelector(
-        'slot[name="minutes-up"]'
-      );
-      this.#minutesDownButton = this.#shadow.querySelector(
-        'slot[name="minutes-down"]'
-      );
-
-      this.incrementHour = this.incrementHour.bind(this);
-      this.decrementHour = this.decrementHour.bind(this);
-      this.incrementMinutes = this.incrementMinutes.bind(this);
-      this.decrementMinutes = this.decrementMinutes.bind(this);
     }
 
     /**
