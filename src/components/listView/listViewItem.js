@@ -2,26 +2,33 @@
   const template = document.createElement('template');
 
   template.innerHTML = `
-    <punica-row spacing="2" wrap="nowrap" alignitems="center">
-      <punica-col>
-        <slot name="startAdornment"></slot>
-      </punica-col>
-      <punica-col style="flex-grow: 1;">
-        <punica-row>
-          <punica-col xs="12">
-            <punica-row wrap="nowrap" alignitems="center" justifycontent="space-between">
-              <punica-col>
-                <slot name="label"></slot>
-              </punica-col>
-              <punica-col>
-                <slot name="icon"></slot>
-              </punica-col>
-            </punica-row>  
+    <punica-row>
+      <punica-col xs="12">
+        <punica-row spacing="2" wrap="nowrap" alignitems="center">
+          <punica-col>
+            <slot name="startAdornment"></slot>
           </punica-col>
-          <punica-col xs="12">
-            <slot name="content"></slot>
+          <punica-col style="flex-grow: 1;">
+            <punica-row>
+              <punica-col xs="12">
+                <punica-row wrap="nowrap" alignitems="center" justifycontent="space-between">
+                  <punica-col>
+                    <slot name="label"></slot>
+                  </punica-col>
+                  <punica-col>
+                    <slot name="icon"></slot>
+                  </punica-col>
+                </punica-row>  
+              </punica-col>
+              <punica-col xs="12">
+                <slot name="content"></slot>
+              </punica-col>
+            </punica-row>
           </punica-col>
         </punica-row>
+      </punica-col>
+      <punica-col xs="12">
+        <slot name="context"></slot>
       </punica-col>
     </punica-row>
     <style></style>
