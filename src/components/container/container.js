@@ -17,7 +17,7 @@
      *
      */
     set maxwidth(val) {
-      this.aetAttribute('maxwidth', val);
+      this.setAttribute('maxwidth', val);
     }
 
     /**

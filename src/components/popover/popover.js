@@ -38,10 +38,7 @@
   const getPlacementBottom = ({ targetRect, contentRect }) => {
     if (targetRect.left + contentRect.width > window.innerWidth) {
       return {
-        left:
-          window.innerWidth -
-          contentRect.width -
-          (window.innerWidth - targetRect.right),
+        right: window.innerWidth - targetRect.left - targetRect.width,
         top: targetRect.top + targetRect.height
       };
     }
@@ -168,6 +165,22 @@
     /**
      *
      */
+    get right() {
+      const right = this.getAttribute('right');
+
+      return right ? parseInt(right) : 0;
+    }
+
+    /**
+     *
+     */
+    set right(val) {
+      this.setAttribute('right', val);
+    }
+
+    /**
+     *
+     */
     get top() {
       const top = this.getAttribute('top');
 
@@ -250,6 +263,7 @@
       return [
         'open',
         'left',
+        'right',
         'top',
         'width',
         'height',
@@ -266,10 +280,11 @@
     getTargetRect() {
       return {
         left: this.left,
+        right: this.right,
         top: this.top,
+        bottom: this.bottom,
         width: this.width,
-        height: this.height,
-        bottom: this.bottom
+        height: this.height
       };
     }
 

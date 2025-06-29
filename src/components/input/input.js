@@ -329,21 +329,6 @@
       this.#input.addEventListener('input', this.inputChange);
       this.#input.addEventListener('keydown', this.inputOnKeyDown);
 
-      this.#input.setAttribute('type', this.type);
-      this.#input.value = this.value;
-
-      if (this.tabIndex) {
-        this.#input.setAttribute('tabindex', this.tabIndex);
-      }
-
-      if (this.readonly) {
-        this.#input.setAttribute('readonly', this.readonly);
-      }
-
-      if (this.placeholder) {
-        this.#input.placeholder = this.placeholder;
-      }
-
       if (!this.size) {
         this.size = 'medium';
       }
@@ -388,7 +373,7 @@
         case 'tabindex':
           if (newValue) {
             this.#input.setAttribute('tabindex', newValue);
-          } else break;
+          }
         case 'readonly':
           if (newValue) {
             this.#input.setAttribute('readonly', newValue);

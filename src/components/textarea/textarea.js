@@ -24,6 +24,34 @@
     /**
      *
      */
+    get maxlength() {
+      return this.getAttribute('maxlength');
+    }
+
+    /**
+     *
+     */
+    set maxlength(val) {
+      this.setAttribute('maxlength', val);
+    }
+
+    /**
+     *
+     */
+    get minlength() {
+      return this.getAttribute('minlength');
+    }
+
+    /**
+     *
+     */
+    set minlength(val) {
+      this.setAttribute('minlength', val);
+    }
+
+    /**
+     *
+     */
     get placeholder() {
       return this.getAttribute('placeholder');
     }
@@ -88,7 +116,11 @@
      *
      */
     set disabled(val) {
-      this.setAttribute('disabled', val);
+      if (val) {
+        this.setAttribute('disabled', '');
+      } else {
+        this.removeAttribute('disabled');
+      }
     }
 
     /**
@@ -114,6 +146,8 @@
         'rows',
         'fullwidth',
         'disabled',
+        'minlength',
+        'maxlength',
         'error',
         'value',
         'rounded'
@@ -171,6 +205,31 @@
       );
     }
 
+    attributeChangedCallback(name, oldValue, newValue) {
+      if (!this.#textarea) return;
+
+      switch (name) {
+        case 'placeholder':
+          this.#textarea.placeholder = newValue || '';
+          break;
+        case 'rows':
+          this.#textarea.rows = parseInt(newValue) || 3;
+          break;
+        case 'maxlength':
+          this.#textarea.maxLength = parseInt(newValue) || undefined;
+          break;
+        case 'minlength':
+          this.#textarea.minlength = parseInt(newValue) || undefined;
+          break;
+        case 'disabled':
+          this.#textarea.disabled = newValue != null;
+          break;
+        case 'value':
+          this.#textarea.value = newValue || '';
+          break;
+      }
+    }
+
     /**
      *
      */
@@ -178,13 +237,6 @@
       this.#textarea.addEventListener('focus', this.textareaFocus);
       this.#textarea.addEventListener('blur', this.textareaBlur);
       this.#textarea.addEventListener('input', this.textareaChange);
-
-      this.#textarea.value = this.value;
-      this.#textarea.rows = this.rows;
-
-      if (this.placeholder) {
-        this.#textarea.placeholder = this.placeholder;
-      }
     }
 
     /**
