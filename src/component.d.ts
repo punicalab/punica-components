@@ -32,7 +32,7 @@ declare global {
         disabled?: boolean;
         fullwidth?: boolean;
         selecteditemdisplayitem?: string;
-        minimumtargetwidth?: string;
+        minimumtargetwidth?: boolean;
       };
       'punica-select-item': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -215,6 +215,9 @@ declare global {
         disabled?: boolean;
         rounded?: boolean;
         error?: boolean;
+        minlength?: number;
+        maxlength?: number;
+        tabindex?: number;
         startadornment?: HTMLElement;
         endadornment?: HTMLElement;
         value?: string;

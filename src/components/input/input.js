@@ -15,14 +15,14 @@
     /**
      *
      */
-    get tabIndex() {
+    get tabindex() {
       return this.getAttribute('tabindex');
     }
 
     /**
      *
      */
-    set tabIndex(val) {
+    set tabindex(val) {
       this.setAttribute('tabindex', val);
     }
 
@@ -183,6 +183,34 @@
     /**
      *
      */
+    get maxlength() {
+      return this.getAttribute('maxlength');
+    }
+
+    /**
+     *
+     */
+    set maxlength(val) {
+      this.setAttribute('maxlength', val);
+    }
+
+    /**
+     *
+     */
+    get minlength() {
+      return this.getAttribute('minlength');
+    }
+
+    /**
+     *
+     */
+    set minlength(val) {
+      this.setAttribute('minlength', val);
+    }
+
+    /**
+     *
+     */
     inputFocus = () => {
       if (!this.error) {
         this.setAttribute('focus', true);
@@ -300,10 +328,13 @@
         'error',
         'startadornment',
         'endadornment',
+        'minlength',
+        'maxlength',
         'value',
         'type',
         'inputmode',
-        'pattern'
+        'pattern',
+        'tabindex'
       ];
     }
 
@@ -366,6 +397,12 @@
           break;
         case 'pattern':
           this.#input.pattern = newValue;
+          break;
+        case 'maxlength':
+          this.#input.maxLength = parseInt(newValue) || undefined;
+          break;
+        case 'minlength':
+          this.#input.minlength = parseInt(newValue) || undefined;
           break;
         case 'disabled':
           this.#input.disabled = newValue === 'true' || newValue === true;

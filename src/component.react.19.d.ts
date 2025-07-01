@@ -34,7 +34,7 @@ interface PunicaSelectProps extends NativeHTMLElementProps {
   disabled?: boolean;
   fullwidth?: boolean;
   selecteditemdisplayitem?: string;
-  minimumtargetwidth?: string;
+  minimumtargetwidth?: boolean;
   key?: string | number;
   ref?: React.RefObject<HTMLElement>;
 }
@@ -175,6 +175,9 @@ interface PunicaInputProps extends NativeHTMLElementProps {
   disabled?: boolean;
   rounded?: boolean;
   error?: boolean;
+  minlength?: number;
+  maxlength?: number;
+  tabindex?: number;
   startadornment?: HTMLElement;
   endadornment?: HTMLElement;
   value?: string;
@@ -213,6 +216,8 @@ interface PunicaTextareaProps extends NativeHTMLElementProps {
   value?: string;
   rounded?: boolean;
   rows?: number;
+  minlength?: number;
+  maxlength?: number;
 }
 
 interface PunicaContainerProps extends NativeHTMLElementProps {

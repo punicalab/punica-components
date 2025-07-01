@@ -150,7 +150,9 @@
         'maxlength',
         'error',
         'value',
-        'rounded'
+        'rounded',
+        'minlength',
+        'maxlength'
       ];
     }
 
