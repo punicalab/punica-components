@@ -411,6 +411,7 @@
           if (newValue) {
             this.#input.setAttribute('tabindex', newValue);
           }
+          break;
         case 'readonly':
           if (newValue) {
             this.#input.setAttribute('readonly', newValue);
