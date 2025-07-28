@@ -1,8 +1,8 @@
 :host {
   display: inline-block;
   contain: layout;
-  --switch-lever--background: rgb(230, 230, 230);
-  --switch-lever_checked--background: var(--primary-main);
+  --switch-lever--background: rgb(132 132 132);
+  --switch-lever_checked--background: rgb(132 132 132);
   --switch-lever--handle-background: rgb(193, 191, 191);
   --switch-lever_checked--handle-background: var(--primary-light);
   --switch--on-text-color: rgb(158, 158, 158);
