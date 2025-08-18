@@ -71,6 +71,7 @@ declare global {
         class?: string;
         size?: 'small' | 'medium' | 'large';
         variant?: 'text' | 'filled' | 'outlined';
+        type?: 'button' | 'submit' | 'reset';
         fullwidth?: boolean;
         loading?: boolean;
         underline?: boolean;
@@ -308,6 +309,7 @@ declare global {
         size: 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge' | 'fullSize';
         direction?: 'top' | 'left' | 'bottom' | 'right';
         open?: boolean;
+        rounded?: boolean;
       };
       'punica-paper': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

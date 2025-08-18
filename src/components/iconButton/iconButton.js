@@ -38,28 +38,36 @@
      *
      */
     get disabled() {
-      return this.getAttribute('disabled');
+      return this.hasAttribute('disabled');
     }
 
     /**
      *
      */
     set disabled(val) {
-      this.setAttribute('disabled', val);
+      if (val) {
+        this.setAttribute('disabled', '');
+      } else {
+        this.removeAttribute('disabled');
+      }
     }
 
     /**
      *
      */
     get loading() {
-      return this.getAttribute('loading');
+      return this.hasAttribute('loading');
     }
 
     /**
      *
      */
     set loading(val) {
-      this.setAttribute('loading', val);
+      if (val) {
+        this.setAttribute('loading', '');
+      } else {
+        this.removeAttribute('loading');
+      }
     }
 
     /**
@@ -87,6 +95,35 @@
       }
 
       this.setAttribute('role', 'button');
+    }
+
+    /**
+     *
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+      this.updateComponent();
+    }
+
+    /**
+     * Update component styles based on attributes
+     * and properties.
+     */
+    updateComponent() {
+      if (this.disabled) {
+        this.style.pointerEvents = 'none';
+        this.style.opacity = '0.5';
+      } else {
+        this.style.pointerEvents = 'auto';
+        this.style.opacity = '1';
+      }
+
+      if (this.loading) {
+        this.style.pointerEvents = 'none';
+      }
+
+      if (this.color) {
+        this.style.setProperty('--icon-color', this.color);
+      }
     }
   }
 

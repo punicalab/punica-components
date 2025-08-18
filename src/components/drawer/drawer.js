@@ -68,8 +68,22 @@
     /**
      *
      */
+    get rounded() {
+      return this.getAttribute('rounded') == 'true';
+    }
+
+    /**
+     *
+     */
+    set rounded(val) {
+      this.setAttribute('rounded', val);
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
-      return ['size', 'direction', 'open'];
+      return ['size', 'direction', 'open', 'rounded'];
     }
 
     /**

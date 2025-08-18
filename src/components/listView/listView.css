@@ -1,7 +1,13 @@
 :host {
   --list-view-border-radius: var(--root-border-radius);
+  --list-view-spacing: 8px;
 }
 
 :host {
   display: block;
+}
+
+:host([enabledivider]) ::slotted(punica-list-view-item[data-divider]) {
+  border-top: 1px solid var(--divider, rgba(0, 0, 0, 0.12));
+  padding-top: var(--list-view-spacing);
 }

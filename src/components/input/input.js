@@ -211,6 +211,20 @@
     /**
      *
      */
+    get name() {
+      return this.getAttribute('name');
+    }
+
+    /**
+     *
+     */
+    set name(val) {
+      this.setAttribute('name', val);
+    }
+
+    /**
+     *
+     */
     inputFocus = () => {
       if (!this.error) {
         this.setAttribute('focus', true);
@@ -334,7 +348,8 @@
         'type',
         'inputmode',
         'pattern',
-        'tabindex'
+        'tabindex',
+        'name'
       ];
     }
 
@@ -388,6 +403,9 @@
       switch (name) {
         case 'value':
           this.#input.value = newValue;
+          break;
+        case 'name':
+          this.#input.name = newValue;
           break;
         case 'type':
           this.#input.type = newValue || 'text';

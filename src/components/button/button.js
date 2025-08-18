@@ -126,6 +126,20 @@
     /**
      *
      */
+    get type() {
+      return this.getAttribute('type') || 'button';
+    }
+
+    /**
+     *
+     */
+    set type(val) {
+      this.setAttribute('type', val);
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
       return [
         'color',
@@ -134,7 +148,9 @@
         'fullwidth',
         'loading',
         'underline',
-        'disabled'
+        'disabled',
+        'rounded',
+        'type'
       ];
     }
 
