@@ -82,6 +82,20 @@
     /**
      *
      */
+    get customsize() {
+      return this.getAttribute('customsize');
+    }
+
+    /**
+     *
+     */
+    set customsize(val) {
+      this.setAttribute('customsize', val);
+    }
+
+    /**
+     *
+     */
     static get observedAttributes() {
       return ['size', 'direction', 'open', 'rounded'];
     }
@@ -167,7 +181,7 @@
     attributeChangedCallback(name, oldValue, newValue) {
       switch (name) {
         case 'open':
-          const size = SIZES[this.size];
+          const size = this.customsize || SIZES[this.size];
           const isOpen = newValue === 'true';
           const wasOpen = oldValue === 'true';
 

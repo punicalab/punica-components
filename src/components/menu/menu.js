@@ -241,6 +241,7 @@
         );
       }
       this.hide();
+
       event.stopPropagation();
     };
 

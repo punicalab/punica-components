@@ -49,11 +49,11 @@
   position: relative;
   display: flex;
   align-items: center;
-  width: 3.75em; /*60px*/
-  height: 1.25em; /*20px*/
+  width: 4em;
+  height: 2em;
   border-radius: 1.25em;
   vertical-align: middle;
-  --lever-position: 0%;
+  --lever-position: 4%;
   --dirLTR: 1;
   background: var(--switch-lever--background, rgb(230 230 230));
   transition: background 0.1s;
@@ -94,8 +94,8 @@
 }
 
 [type='checkbox']:checked ~ .switch__lever {
-  background: var(--switch-lever_checked--background, rgb(125, 200, 193));
-  --lever-position: 111%;
+  background: rgb(150, 210, 25);
+  --lever-position: 108%;
 }
 
 [type='checkbox']:checked ~ .switch__lever:before {

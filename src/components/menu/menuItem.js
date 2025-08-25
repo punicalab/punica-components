@@ -53,6 +53,7 @@
      */
     constructor() {
       super();
+
       this.#shadow = this.attachShadow({ mode: 'open' });
       this.#shadow.appendChild(template.content.cloneNode(true));
     }

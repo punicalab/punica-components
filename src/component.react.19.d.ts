@@ -255,6 +255,7 @@ interface PunicaDrawerProps extends NativeHTMLElementProps {
   direction?: 'top' | 'left' | 'bottom' | 'right';
   open?: boolean;
   rounded?: boolean;
+  customsize?: string;
 }
 
 interface PunicaPaperProps extends NativeHTMLElementProps {

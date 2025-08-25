@@ -310,6 +310,7 @@ declare global {
         direction?: 'top' | 'left' | 'bottom' | 'right';
         open?: boolean;
         rounded?: boolean;
+        customsize?: string;
       };
       'punica-paper': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
