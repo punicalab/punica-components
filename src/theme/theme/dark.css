@@ -3,7 +3,7 @@
   --background-paper: #3c4143;
 
   --backdrop-light: rgba(111, 126, 140, 0.1);
-  --backdrop-main: rgba(44, 50, 60, 0.5);
+  --background-backdrop: rgba(44, 50, 60, 0.5);
 
   --text-primary: #d3dadf;
   --text-placeholder: #a7b6be;

@@ -17,7 +17,7 @@
 :host([open='true']) .backdrop {
   position: fixed;
   inset: 0px;
-  background-color: var(--backdrop-main);
+  background-color: var(--background-backdrop);
   -webkit-tap-highlight-color: transparent;
   z-index: -1;
 }

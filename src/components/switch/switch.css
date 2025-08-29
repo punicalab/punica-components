@@ -99,10 +99,7 @@
 }
 
 [type='checkbox']:checked ~ .switch__lever:before {
-  background: var(
-    --switch-lever_checked--handle-background,
-    rgb(112, 179, 173)
-  );
+  background: white;
 }
 
 /**switch on-text**/

@@ -251,7 +251,7 @@ interface PunicaDatePickerProps extends NativeHTMLElementProps {
 
 interface PunicaDrawerProps extends NativeHTMLElementProps {
   class?: string;
-  size: 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge' | 'fullSize';
+  size?: 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge' | 'fullSize';
   direction?: 'top' | 'left' | 'bottom' | 'right';
   open?: boolean;
   rounded?: boolean;
