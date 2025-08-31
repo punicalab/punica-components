@@ -4,7 +4,7 @@
   template.innerHTML = `<slot></slot><style></style>`;
 
   class CardMedia extends HTMLElement {
-    #shadow = this.attachShadow({ mode: 'open' });
+    #shadow = null;
 
     /**
      *
@@ -12,6 +12,7 @@
     constructor() {
       super();
 
+      this.#shadow = this.attachShadow({ mode: 'open' });
       this.#shadow.appendChild(template.content.cloneNode(true));
     }
   }

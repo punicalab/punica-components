@@ -273,6 +273,10 @@ interface PunicaCardProps extends NativeHTMLElementProps {
   fullwidth?: boolean;
 }
 
+interface PunicaCardHeaderProps extends NativeHTMLElementProps {
+  class?: string;
+}
+
 interface PunicaCardMediaProps extends NativeHTMLElementProps {
   class?: string;
 }
@@ -731,6 +735,7 @@ declare module 'react/jsx-runtime' {
       'punica-paper': PunicaPaperProps;
       'punica-split-button': PunicaSplitButtonProps;
       'punica-card': PunicaCardProps;
+      'punica-card-header': PunicaCardHeaderProps;
       'punica-card-media': PunicaCardMediaProps;
       'punica-card-content': PunicaCardContentProps;
       'punica-card-actions': PunicaCardActionsProps;

@@ -3,7 +3,7 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class CardActions extends HTMLElement {
+  class CardHeader extends HTMLElement {
     #shadow = null;
 
     /**
@@ -17,5 +17,5 @@
     }
   }
 
-  customElements.define('punica-card-actions', CardActions);
+  customElements.define('punica-card-header', CardHeader);
 })();

@@ -334,6 +334,12 @@ declare global {
         rounded?: boolean;
         fullwidth?: boolean;
       };
+      'punica-card-header': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+      };
       'punica-card-media': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement

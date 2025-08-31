@@ -11,6 +11,10 @@ const Module = () => {
         <punica-row spacing={2}>
           <punica-col xs={12}>
             <punica-card>
+              <punica-card-header>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.
+              </punica-card-header>
               <punica-card-media>
                 <img src="https://mui.com/static/images/cards/contemplative-reptile.jpg" />
               </punica-card-media>
