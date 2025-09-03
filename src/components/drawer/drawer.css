@@ -5,54 +5,64 @@
 
 :host {
   position: fixed;
-  inset: 0px;
+  inset: 0;
   z-index: var(--zindex-drawer);
   visibility: hidden;
+  pointer-events: none;
 }
 
 :host([open='true']) {
   visibility: visible;
+  pointer-events: auto;
 }
 
-:host([open='true']) .backdrop {
+:host .backdrop {
   position: fixed;
-  inset: 0px;
+  inset: 0;
   background-color: var(--background-backdrop);
   -webkit-tap-highlight-color: transparent;
   z-index: -1;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+:host([open='true']) .backdrop {
+  opacity: 1;
 }
 
 :host punica-paper {
-  transition: transform 300ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-  background-color: var(--paper-background-color);
+  position: fixed;
+  z-index: var(--zindex-drawer);
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
-  z-index: var(--zindex-drawer);
-  position: fixed;
-  outline: 0px;
+  outline: 0;
   padding: 0;
+  background-color: var(--paper-background-color);
+  transition: transform 300ms cubic-bezier(0, 0, 0.2, 1), opacity 220ms ease;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  opacity: 0;
 }
 
 :host([direction='left']) punica-paper {
   height: 100vh;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
 }
-
 :host([direction='right']) punica-paper {
   height: 100vh;
-  top: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
 }
-
 :host([direction='top']) punica-paper {
-  left: 0px;
-  right: 0px;
+  left: 0;
+  right: 0;
   max-height: 100%;
   width: 100vw;
+  top: 0;
 }
-
 :host([direction='bottom']) punica-paper {
   max-height: 100%;
   bottom: 0;
