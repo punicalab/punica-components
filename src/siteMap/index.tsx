@@ -19,6 +19,12 @@ export const SiteMap: Array<CustomRouteObject> = [
         element: <ModuleLoader module="listView" />
       },
       {
+        translateKey: 'component.toast',
+        index: true,
+        path: '/toast',
+        element: <ModuleLoader module="toast" />
+      },
+      {
         translateKey: 'component.accordion',
         index: true,
         path: '/accordion',

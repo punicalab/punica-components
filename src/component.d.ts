@@ -621,6 +621,18 @@ declare global {
         variant?: 'dense' | 'regular';
         disablegutters?: boolean;
       };
+      'punica-toast': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+      };
+      'punica-toaster': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+      };
       'punica-col': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement

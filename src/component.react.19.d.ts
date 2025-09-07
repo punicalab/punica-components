@@ -14,6 +14,14 @@ interface PunicaAccordionProps extends NativeHTMLElementProps {
   ref?: React.RefObject<HTMLElement>;
 }
 
+interface PunicaToastProps extends NativeHTMLElementProps {
+  class?: string;
+}
+
+interface PunicaToasterProps extends NativeHTMLElementProps {
+  class?: string;
+}
+
 interface PunicaAccordionSummaryProps extends NativeHTMLElementProps {
   class?: string;
   key?: string | number;
@@ -771,6 +779,8 @@ declare module 'react/jsx-runtime' {
       'punica-toolbar': PunicaToolbarProps;
       'punica-col': PunicaColProps;
       'punica-row': PunicaRowProps;
+      'punica-toast': PunicaToastProps;
+      'punica-toaster': PunicaToasterProps;
     }
   }
 }

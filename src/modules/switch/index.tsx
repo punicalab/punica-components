@@ -7,9 +7,7 @@ const Module = () => {
   /**
    *
    */
-  const handleChange = (event) => {
-    debugger;
-  };
+  const handleChange = (event) => {};
 
   return (
     <Layout.Main>

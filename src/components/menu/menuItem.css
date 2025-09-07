@@ -10,7 +10,7 @@
   background-color: var(--neutral-main);
 }
 
-:host([disabled='true']) {
+:host([disabled]) {
   pointer-events: none;
   opacity: var(--disabled-opacity);
 }
