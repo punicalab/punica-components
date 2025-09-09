@@ -10,67 +10,18 @@
   will-change: transform, opacity, height;
 }
 
-.card {
-  position: relative;
-  border-radius: var(--toast-border-radius);
-  background-color: var(--toast-background);
-  color: var(--toast-color);
-  padding: 10px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 10px;
-  align-items: center;
-  overflow: hidden;
-}
-.icon {
-  width: 18px;
-  height: 18px;
-  line-height: 0;
-  opacity: 0.9;
-}
-.body {
-  min-width: 0;
-}
-.title {
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1.1;
-  margin: 0 0 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.msg {
-  font-size: 13px;
-  margin: 0;
-  opacity: 0.95;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-button.close {
-  appearance: none;
-  border: 0;
-  background: transparent;
-  color: currentColor;
-  opacity: 0.85;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-button.close:hover {
-  opacity: 1;
-}
 :host([enter-from='top']) .card {
   animation: slideDown var(--toast-duration) cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
+
 :host([enter-from='bottom']) .card {
   animation: slideUp var(--toast-duration) cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
+
 :host([leaving]) .card {
   animation: fadeOut var(--toast-duration) ease both;
 }
+
 @keyframes slideDown {
   from {
     transform: translateY(-8px);
@@ -97,6 +48,24 @@ button.close:hover {
     opacity: 0;
   }
 }
+
+.card {
+  background-color: var(--toast-background);
+  color: var(--toast-color);
+}
+
+.card punica-card-header {
+  padding: 8px 8px 4px 8px;
+}
+
+.card punica-card-content {
+  padding: 4px 8px 8px 8px;
+}
+
+.card punica-card-actions {
+  padding: 0;
+}
+
 .progress {
   position: absolute;
   left: 0;
@@ -106,6 +75,7 @@ button.close:hover {
   background: rgba(255, 255, 255, 0.25);
   overflow: hidden;
 }
+
 .progress > i {
   display: block;
   height: 100%;
@@ -115,6 +85,7 @@ button.close:hover {
   transform-origin: left center;
   animation: shrink linear forwards;
 }
+
 @keyframes shrink {
   from {
     transform: scaleX(1);

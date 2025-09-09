@@ -2,15 +2,26 @@
   const template = document.createElement('template');
 
   template.innerHTML = `
-    <div class="card" part="card" role="status" aria-live="polite">
-      <slot name="icon" class="icon"></slot>
-      <div class="body">
-        <p class="title" part="title"></p>
-        <p class="msg" part="message"></p>
-      </div>
-      <button class="close" part="close" aria-label="Close" title="Close">✕</button>
-      <div class="progress" hidden><i></i></div>
-    </div>
+    <punica-card class="card" rounded="true">
+      <punica-card-header>
+        <punica-row wrap="nowrap" alignitems="center" justifycontent="space-between">
+          <punica-col>
+            <punica-typography variant="body2" class="title"></punica-typography>
+          </punica-col>
+          <punica-col>
+            <punica-icon-button size="xsmall" class="close" style="padding:4px">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path fill="#fff" d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/></svg>
+            </punica-icon-button>
+          </punica-col>
+        </punica-row>
+      </punica-card-header>
+      <punica-card-content>
+        <punica-typography variant="body2" class="msg"></punica-typography>
+      </punica-card-content>
+      <punica-card-actions>
+        <div class="progress" hidden><i></i></div>
+      </punica-card-actions>
+    </punica-card>
     <style></style>
   `;
 
@@ -104,7 +115,7 @@
       super();
       this.#shadow.appendChild(template.content.cloneNode(true));
       this.#shadow
-        .querySelector('button.close')
+        .querySelector('punica-icon-button.close')
         ?.addEventListener('click', () => this.hide());
     }
 

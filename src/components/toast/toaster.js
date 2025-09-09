@@ -39,8 +39,7 @@
         variant = 'neutral',
         duration = 1000,
         dismissible = true,
-        placement = 'top-right',
-        icon = null
+        placement = 'top-right'
       } = opts;
 
       const region =
@@ -59,11 +58,6 @@
         'enter-from',
         placement.startsWith('top') ? 'top' : 'bottom'
       );
-
-      if (icon instanceof HTMLElement) {
-        icon.setAttribute('slot', 'icon');
-        toast.appendChild(icon);
-      }
 
       region.prepend(toast);
 
