@@ -1,0 +1,41 @@
+:host {
+  --progress-height: 4px;
+  --progress-color: var(--primary-main);
+  --progress-bg: var(--neutral-main);
+  --indeterminate-duration: 1400ms;
+}
+
+:host {
+  display: block;
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  height: var(--progress-height);
+  background: var(--progress-bg);
+  overflow: hidden;
+  border-radius: 998px;
+}
+
+.indeterminate {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: var(--progress-color);
+  transform: translateX(-100%);
+  border-radius: 998px;
+  animation: sweep var(--indeterminate-duration) cubic-bezier(0.4, 0, 0.2, 1)
+    infinite;
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

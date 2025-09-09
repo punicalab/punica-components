@@ -633,6 +633,14 @@ declare global {
       > & {
         class?: string;
       };
+      'punica-progress-line': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+        height?: string;
+        color?: string;
+      };
       'punica-col': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement

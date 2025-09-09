@@ -22,6 +22,12 @@ interface PunicaToasterProps extends NativeHTMLElementProps {
   class?: string;
 }
 
+interface PunicaProgressLine extends NativeHTMLElementProps {
+  class?: string;
+  height?: string;
+  color?: string;
+}
+
 interface PunicaAccordionSummaryProps extends NativeHTMLElementProps {
   class?: string;
   key?: string | number;
@@ -781,6 +787,7 @@ declare module 'react/jsx-runtime' {
       'punica-row': PunicaRowProps;
       'punica-toast': PunicaToastProps;
       'punica-toaster': PunicaToasterProps;
+      'punica-progress-line': PunicaProgressLine;
     }
   }
 }

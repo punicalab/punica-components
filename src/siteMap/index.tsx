@@ -25,6 +25,12 @@ export const SiteMap: Array<CustomRouteObject> = [
         element: <ModuleLoader module="toast" />
       },
       {
+        translateKey: 'component.progress.line',
+        index: true,
+        path: '/progress-line',
+        element: <ModuleLoader module="progressLine" />
+      },
+      {
         translateKey: 'component.accordion',
         index: true,
         path: '/accordion',

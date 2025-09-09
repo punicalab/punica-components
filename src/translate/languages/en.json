@@ -1,6 +1,7 @@
 {
   "component.accordion": "Accordion",
   "component.alert": "Alert",
+  "component.progress.line": "Progress Line",
   "component.appBar": "AppBar",
   "component.avatar": "Avatar",
   "component.badge": "Badge",
