@@ -1,0 +1,37 @@
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 0;
+}
+
+.demo {
+  height: 360px; /* yatay için */
+  min-height: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.demo-vertical {
+  height: 360px; /* dikey için */
+}
+
+.pane-demo {
+  padding: 12px;
+  border: 1px dashed #e5e7eb;
+  background: #fbfbfd;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.muted {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+punica-split {
+  height: 100%;
+}

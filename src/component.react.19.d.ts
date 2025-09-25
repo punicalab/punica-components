@@ -34,6 +34,23 @@ interface PunicaAccordionSummaryProps extends NativeHTMLElementProps {
   ref?: React.RefObject<HTMLElement>;
 }
 
+export interface PunicaSplitProps extends NativeHTMLElementProps {
+  class?: string;
+  orientation?: 'horizontal' | 'vertical';
+  sizes?: number[];
+  min?: number | number[];
+  setSizes?: (sizes: number[]) => void;
+  getSizes?: () => number[];
+  reset?: () => void;
+  onSplitChange?: (event: CustomEvent<{ sizes: number[] }>) => void;
+}
+
+interface PunicaAccordionSummaryProps extends NativeHTMLElementProps {
+  class?: string;
+  key?: string | number;
+  ref?: React.RefObject<HTMLElement>;
+}
+
 interface PunicaAccordionDetailsProps extends NativeHTMLElementProps {
   class?: string;
   key?: string | number;
@@ -788,6 +805,7 @@ declare module 'react/jsx-runtime' {
       'punica-toast': PunicaToastProps;
       'punica-toaster': PunicaToasterProps;
       'punica-progress-line': PunicaProgressLine;
+      'punica-split': PunicaSplitProps;
     }
   }
 }

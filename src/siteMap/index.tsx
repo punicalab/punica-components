@@ -19,6 +19,12 @@ export const SiteMap: Array<CustomRouteObject> = [
         element: <ModuleLoader module="listView" />
       },
       {
+        translateKey: 'component.split',
+        index: true,
+        path: '/split',
+        element: <ModuleLoader module="split" />
+      },
+      {
         translateKey: 'component.toast',
         index: true,
         path: '/toast',
