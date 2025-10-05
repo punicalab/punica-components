@@ -2,9 +2,9 @@
   const template = document.createElement('template');
   template.innerHTML = `
     <div class="backdrop"></div>
-    <punica-paper>
+    <punica-box>
       <slot></slot>
-    </punica-paper>
+    </punica-box>
     <style></style>
   `;
 
@@ -64,7 +64,7 @@
     constructor() {
       super();
       this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#content = this.#shadow.querySelector('punica-paper');
+      this.#content = this.#shadow.querySelector('punica-box');
       this.#backdrop = this.#shadow.querySelector('.backdrop');
     }
 

@@ -1,6 +1,6 @@
 :host {
-  --paper-background-color: var(--background-paper);
-  --button-border-radius: var(--root-border-radius);
+  --drawer-background-color: var(--background-main);
+  --drawer-border-radius: var(--root-border-radius);
 }
 
 :host {
@@ -30,7 +30,7 @@
   opacity: 1;
 }
 
-:host punica-paper {
+:host punica-box {
   position: fixed;
   z-index: var(--zindex-drawer);
   display: flex;
@@ -38,7 +38,7 @@
   flex: 1 0 auto;
   outline: 0;
   padding: 0;
-  background-color: var(--paper-background-color);
+  background-color: var(--drawer-background-color);
   transition: transform 300ms cubic-bezier(0, 0, 0.2, 1), opacity 220ms ease;
   will-change: transform, opacity;
   backface-visibility: hidden;
@@ -46,29 +46,29 @@
   opacity: 0;
 }
 
-:host([direction='left']) punica-paper {
+:host([direction='left']) punica-box {
   height: 100vh;
   top: 0;
   left: 0;
 }
-:host([direction='right']) punica-paper {
+:host([direction='right']) punica-box {
   height: 100vh;
   top: 0;
   right: 0;
 }
-:host([direction='top']) punica-paper {
+:host([direction='top']) punica-box {
   left: 0;
   right: 0;
   max-height: 100%;
   width: 100vw;
   top: 0;
 }
-:host([direction='bottom']) punica-paper {
+:host([direction='bottom']) punica-box {
   max-height: 100%;
   bottom: 0;
   width: 100vw;
 }
 
-:host([direction='bottom'][rounded='true']) punica-paper {
-  border-radius: var(--button-border-radius) var(--button-border-radius) 0 0;
+:host([direction='bottom'][rounded='true']) punica-box {
+  border-radius: var(--drawer-border-radius) var(--drawer-border-radius) 0 0;
 }
