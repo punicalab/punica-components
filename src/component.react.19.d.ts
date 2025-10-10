@@ -18,6 +18,25 @@ interface PunicaToastProps extends NativeHTMLElementProps {
   class?: string;
 }
 
+interface PunicaContextMenuProps extends NativeHTMLElementProps {
+  class?: string;
+  target: string;
+  disabled?: boolean;
+}
+
+interface PunicaContextMenuItemProps extends NativeHTMLElementProps {
+  class?: string;
+  label: string;
+  value?: string;
+  keyboard?: string;
+  icon?: string;
+  disabled?: boolean;
+}
+
+interface PunicaContextMenuSperatorProps extends NativeHTMLElementProps {
+  class?: string;
+}
+
 interface PunicaToasterProps extends NativeHTMLElementProps {
   class?: string;
 }
@@ -806,6 +825,9 @@ declare module 'react/jsx-runtime' {
       'punica-toaster': PunicaToasterProps;
       'punica-progress-line': PunicaProgressLine;
       'punica-split': PunicaSplitProps;
+      'punica-context-menu': PunicaContextMenuProps;
+      'punica-context-menu-item': PunicaContextMenuItemProps;
+      'punica-context-menu-separator': PunicaContextMenuSperatorProps;
     }
   }
 }

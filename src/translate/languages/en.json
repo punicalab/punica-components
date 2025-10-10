@@ -42,5 +42,6 @@
   "component.typography": "Typography",
   "component.splitButton": "SplitButton",
   "component.toast": "Toast",
-  "component.split": "Split"
+  "component.split": "Split",
+  "component.context.menu": "Context Menu"
 }

@@ -64,7 +64,6 @@
   width: calc(var(--split-gutter-hitbox) / 2);
 }
 :host([orientation='vertical']) .gutter {
-  height: var(--split-gutter-size);
   cursor: row-resize;
 }
 :host([orientation='vertical']) .gutter::before {

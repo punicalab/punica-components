@@ -613,6 +613,26 @@ declare global {
         fullwidth?: boolean;
         orientation?: 'horizontal' | 'vertical';
       };
+      'punica-context-menu': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+        target: string;
+        disabled?: boolean;
+      };
+      'punica-context-menu-item': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+      };
+      'punica-context-menu-sperator': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+      };
       'punica-toolbar': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement

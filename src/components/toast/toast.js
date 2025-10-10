@@ -28,23 +28,23 @@
   const VARIANTS = {
     info: {
       bg: 'var(--info-main)',
-      fg: 'var(--info-light)'
+      fg: '#fff'
     },
     success: {
       bg: 'var(--success-main)',
-      fg: 'var(--success-light)'
+      fg: '#fff'
     },
     warning: {
       bg: 'var(--warning-main)',
-      fg: 'var(--warning-light)'
+      fg: '#fff'
     },
     error: {
       bg: 'var(--error-main)',
-      fg: 'var(--error-light)'
+      fg: '#fff'
     },
     neutral: {
       bg: 'var(--neutral-error)',
-      fg: 'var(--neutral-light)'
+      fg: '#fff'
     }
   };
 

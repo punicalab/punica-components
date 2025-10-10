@@ -15,7 +15,7 @@ const Module = () => {
       message: `This is a ${variant} toast (${placement})`,
       variant,
       placement,
-      duration: 100000
+      duration: 4000
     });
   };
 

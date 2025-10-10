@@ -1,7 +1,7 @@
 :host {
   --toast-border-radius: var(--root-border-radius);
   --toast-padding: var(--root-padding);
-  --toast-duration: 1000ms;
+  --toast-duration: 600ms;
 }
 
 :host {

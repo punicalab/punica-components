@@ -25,6 +25,12 @@ export const SiteMap: Array<CustomRouteObject> = [
         element: <ModuleLoader module="split" />
       },
       {
+        translateKey: 'component.context.menu',
+        index: true,
+        path: '/context-menu',
+        element: <ModuleLoader module="contextMenu" />
+      },
+      {
         translateKey: 'component.toast',
         index: true,
         path: '/toast',
