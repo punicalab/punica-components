@@ -6,7 +6,7 @@
 
   const template = document.createElement('template');
 
-  template.innerHTML = `<div class="punica-context-menu-root" part="root"></div><style></style>`;
+  template.innerHTML = `<slot></slot><style></style>`;
 
   class PunicaContextMenu extends HTMLElement {
     #shadow = this.attachShadow({ mode: 'open' });
@@ -28,10 +28,6 @@
      */
     constructor() {
       super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#root = this.#shadow.querySelector('.punica-context-menu-root');
-      this.addEventListener('keydown', this.#onKeydown.bind(this));
 
       window.addEventListener('scroll', () => this.close(), true);
       window.addEventListener('resize', () => this.close());
@@ -76,6 +72,10 @@
 
       this.close();
 
+      this.#root = document.createElement('div');
+      this.#root.classList.add('punica-context-menu-root');
+
+      this.#root.appendChild(template.content.cloneNode(true));
       const menu = this.#renderMenu(this, 0, null);
 
       this.#root.appendChild(menu);
@@ -83,18 +83,19 @@
       this.#openChain = [menu];
       this.#position(menu, x, y);
 
-      const first = menu.querySelector(
-        '.punica-context-menu-item[role="menuitem"]:not([aria-disabled="true"])'
-      );
-      first?.setAttribute('aria-current', 'true');
-      menu.focus();
+      this.#root.focus();
+
+      document.body.appendChild(this.#root);
     }
 
     /**
      *
      */
     close() {
-      this.#root.innerHTML = '';
+      if (this.#root) {
+        this.#root.innerHTML = '';
+        this.#root.remove();
+      }
       this.#openMenuEl = null;
       this.#openChain = [];
 
@@ -464,116 +465,6 @@
         }
 
         this.#openChain.pop();
-      }
-    }
-
-    /**
-     *
-     * @param {*} menuEl
-     * @returns
-     */
-    #itemsIn(menuEl) {
-      return Array.from(
-        menuEl.querySelectorAll(
-          '.punica-context-menu-item[role="menuitem"]:not([aria-disabled="true"])'
-        )
-      );
-    }
-
-    /**
-     *
-     * @param {*} e
-     * @returns
-     */
-    #onKeydown(e) {
-      const root = this.#openMenuEl;
-      if (!root) {
-        return;
-      }
-
-      const focusedMenu =
-        e.target.closest?.('.punica-context-menu') ||
-        this.#openChain[this.#openChain.length - 1];
-      const items = this.#itemsIn(focusedMenu);
-      const curIndex = items.findIndex(
-        (el) => el.getAttribute('aria-current') === 'true'
-      );
-      const setCurrent = (el) => {
-        focusedMenu
-          .querySelectorAll('.punica-context-menu-item[aria-current="true"]')
-          .forEach((x) => x.removeAttribute('aria-current'));
-        el?.setAttribute('aria-current', 'true');
-      };
-
-      switch (e.key) {
-        case 'Escape':
-          e.preventDefault();
-          this.close();
-          return;
-        case 'ArrowDown':
-          e.preventDefault();
-          {
-            const next = items[(curIndex + 1 + items.length) % items.length];
-            setCurrent(next);
-            next?.focus();
-          }
-          return;
-        case 'ArrowUp':
-          e.preventDefault();
-          {
-            const prev = items[(curIndex - 1 + items.length) % items.length];
-            setCurrent(prev);
-            prev?.focus();
-          }
-          return;
-        case 'Home':
-          e.preventDefault();
-          setCurrent(items[0]);
-          items[0]?.focus();
-          return;
-        case 'End':
-          e.preventDefault();
-          setCurrent(items[items.length - 1]);
-          items[items.length - 1]?.focus();
-          return;
-        case 'Enter':
-        case ' ':
-          (items[curIndex] || items[0])?.click();
-          e.preventDefault();
-          return;
-        case 'ArrowLeft':
-          {
-            const d = focusedMenu.__depth ?? 0;
-            if (d > 0) {
-              const trigger = focusedMenu.__triggerBtn;
-              this.#closeDeeperThan(d - 1);
-              if (trigger) {
-                const parent = trigger.closest('.punica-context-menu') || root;
-                parent
-                  .querySelectorAll(
-                    '.punica-context-menu-item[aria-current="true"]'
-                  )
-                  .forEach((x) => x.removeAttribute('aria-current'));
-                trigger.setAttribute('aria-current', 'true');
-                trigger.focus();
-              }
-              e.preventDefault();
-            }
-          }
-          return;
-        case 'ArrowRight':
-          {
-            const el = items[curIndex] || items[0];
-            if (el && el._pcmOpenSub) {
-              e.preventDefault();
-              el._pcmOpenSub();
-              const submenu = el._pcmSubmenu;
-              const first = this.#itemsIn(submenu)[0];
-              first?.setAttribute('aria-current', 'true');
-              first?.focus();
-            }
-          }
-          return;
       }
     }
   }

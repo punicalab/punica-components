@@ -16,6 +16,10 @@
     #sizes = [];
     #mins = [];
     #drag = null;
+    #isDragging = false; // drag süreci
+
+    // Light DOM çocuk değişimini takip
+    #mo = null;
 
     static get observedAttributes() {
       return ['orientation', 'sizes', 'min'];
@@ -62,44 +66,55 @@
     connectedCallback() {
       this.#shadow.appendChild(template.content.cloneNode(true));
       this.#layoutEl = this.#shadow.querySelector('.layout');
+
       this.#adoptChildrenToSlots();
       this.#buildLayout();
       this.#initSizes();
+
+      // Light DOM çocukları izle (ekleme/çıkarma/sıra değişimi)
+      this.#mo = new MutationObserver(() => this.#onChildrenMutated());
+      this.#mo.observe(this, { childList: true });
     }
+
     disconnectedCallback() {
       window.removeEventListener('pointermove', this.#onPointerMove);
       window.removeEventListener('pointerup', this.#onPointerUp);
+      this.#mo?.disconnect();
+      this.#mo = null;
     }
+
     attributeChangedCallback(name) {
       if (!this.isConnected) return;
       if (name === 'orientation') this.#applyFlexDirections();
-      if (name === 'sizes') this.#initSizes(true);
+      if (name === 'sizes') this.#initSizes(true); // attr'tan geldi -> final bayrağını #isDragging belirleyecek
       if (name === 'min') this.#initMins();
     }
 
+    // --- Public API ---
     setSizes(arr) {
       if (!Array.isArray(arr) || arr.length !== this.#panes.length) return;
       const sum = arr.reduce((a, b) => a + b, 0);
       if (Math.abs(sum - 100) > 0.01) return;
       this.#sizes = [...arr];
       this.#applySizes();
-      this.#emitChange();
+      this.#emitChange(!this.#isDragging); // programatik set: drag sırasında final=false
     }
     getSizes() {
       return [...this.#sizes];
     }
     reset() {
       this.removeAttribute('sizes');
-      this.#initSizes(true);
-      this.#emitChange();
+      this.#initSizes(true); // final bayrağı içeride yönetiliyor
     }
 
+    // --- Internals ---
     #adoptChildrenToSlots() {
       const kids = Array.from(this.children).filter(
         (n) => n.nodeType === Node.ELEMENT_NODE
       );
       kids.forEach((el, i) => {
-        if (!el.hasAttribute('slot')) el.setAttribute('slot', `pane-${i}`);
+        // sıra değişmiş olsa bile slot adını güncelle
+        el.setAttribute('slot', `pane-${i}`);
       });
     }
 
@@ -107,6 +122,7 @@
       this.#layoutEl.innerHTML = '';
       this.#panes = [];
       this.#gutters = [];
+
       const lightChildren = Array.from(this.children).filter(
         (n) => n.nodeType === Node.ELEMENT_NODE
       );
@@ -185,7 +201,7 @@
       sizes = this.#constrainAndNormalize(sizes);
       this.#sizes = sizes;
       this.#applySizes();
-      if (fromAttr) this.#emitChange();
+      if (fromAttr) this.#emitChange(!this.#isDragging); // attr ile değişti; drag varsa final=false
     }
 
     #constrainAndNormalize(sizes) {
@@ -220,23 +236,64 @@
       return adjusted.map((v) => (v * 100) / total);
     }
 
+    // 🔧 Tek-pane modunda %100; çokluda 0 0 X% + doğru gutter görünürlüğü
     #applySizes() {
-      this.#panes.forEach(
-        (p, i) => (p.el.style.flex = `0 0 ${this.#sizes[i]}%`)
-      );
+      if (!this.#panes.length) return;
+
+      const safe = (v) => (Number.isFinite(v) ? v : 0);
+
+      // görünür panelleri topla (0'dan büyük olanlar)
+      const visibleIdx = [];
+      this.#panes.forEach((p, i) => {
+        const v = safe(this.#sizes[i]);
+        if (v > 0.0001) visibleIdx.push(i);
+      });
+
+      if (visibleIdx.length <= 1) {
+        // TEK PANE MODU
+        const idx = visibleIdx[0] ?? 0;
+        this.#panes.forEach((p, i) => {
+          if (i === idx) {
+            p.el.style.display = '';
+            p.el.style.flex = '0 0 100%';
+          } else {
+            p.el.style.display = 'none';
+            p.el.style.flex = '0 0 0%';
+          }
+        });
+        this.#gutters.forEach((g) => (g.style.display = 'none'));
+        return;
+      }
+
+      // ÇOKLU PANE MODU
+      this.#panes.forEach((p, i) => {
+        const v = safe(this.#sizes[i]);
+        p.el.style.display = v <= 0.0001 ? 'none' : '';
+        p.el.style.flex = `0 0 ${v}%`;
+      });
+
+      // sadece iki görünür pane arasında gutter göster
+      this.#gutters.forEach((g, i) => {
+        const leftVisible = safe(this.#sizes[i]) > 0.0001;
+        const rightVisible = safe(this.#sizes[i + 1]) > 0.0001;
+        g.style.display = leftVisible && rightVisible ? '' : 'none';
+      });
     }
 
-    #emitChange() {
+    #emitChange(final = false) {
       this.dispatchEvent(
         new CustomEvent('split-change', {
           bubbles: true,
           composed: true,
-          detail: { sizes: this.getSizes() }
+          detail: { sizes: this.getSizes(), final }
         })
       );
     }
 
+    // === Drag/Keyboard ===
     #onPointerDown = (ev) => {
+      this.#isDragging = true; // drag başladı
+
       const gutter = ev.currentTarget;
       const index = Number(gutter.dataset.index);
       if (Number.isNaN(index)) return;
@@ -304,7 +361,7 @@
         sizes[b] = newB;
         this.#sizes = sizes;
         this.#applySizes();
-        this.#emitChange();
+        this.#emitChange(false); // canlı (drag sırasında)
       }
     };
 
@@ -317,6 +374,8 @@
       window.removeEventListener('pointermove', this.#onPointerMove);
       window.removeEventListener('pointerup', this.#onPointerUp);
       this.#drag = null;
+      this.#isDragging = false; // drag bitti
+      this.#emitChange(true); // nihai
     };
 
     #onGutterKeydown = (ev) => {
@@ -366,9 +425,72 @@
         sizes[b] = newB;
         this.#sizes = sizes;
         this.#applySizes();
-        this.#emitChange();
+        this.#emitChange(true); // klavye adımı: her adımı final sayıyoruz
       }
     };
+
+    // Çocuklar değişince: slot+layout+sizes tazele
+    #onChildrenMutated() {
+      const prevSizes = [...this.#sizes];
+      const prevCount = this.#panes.length;
+
+      // 1) slot adlarını sıraya göre güncelle
+      this.#adoptChildrenToSlots();
+
+      // 2) layout’u yeniden kur
+      this.#buildLayout();
+
+      // 3) boyutları yeni sayıya uyarla ve uygula
+      const nextCount = this.#panes.length;
+      if (nextCount === 0) return;
+
+      // 🔑 ÖNCE attr’tan oku (eğer dışarıdan güncellendiyse onu temel al)
+      if (this.hasAttribute('sizes')) {
+        this.#initSizes(true); // final: drag esnasında false olacak
+        return;
+      }
+
+      // attr yoksa: önceki değerleri yeni sayıya orantıla
+      if (prevSizes.length && prevCount > 0) {
+        const next = this.#reflowSizesToNewCount(
+          prevSizes,
+          prevCount,
+          nextCount
+        );
+        this.#sizes = next;
+        this.#applySizes();
+        this.#emitChange(!this.#isDragging); // drag sürüyorsa final=false
+      } else {
+        this.#initSizes(true); // final bayrağı içeride
+      }
+    }
+
+    // Önceki yüzdeleri yeni panel sayısına orantılı uyarla
+    #reflowSizesToNewCount(prev, prevCount, nextCount) {
+      const clean = (a) =>
+        a.map((v) => {
+          const n = Number(v);
+          return Number.isFinite(n) && n > 0 ? n : 0;
+        });
+
+      prev = clean(prev);
+      const sumPrev = prev.reduce((a, b) => a + b, 0) || 1;
+      prev = prev.map((v) => (v * 100) / sumPrev);
+
+      if (nextCount === prevCount) return [...prev];
+
+      if (nextCount < prevCount) {
+        const cut = prev.slice(0, nextCount);
+        const s = cut.reduce((a, b) => a + b, 0) || 1;
+        return cut.map((v) => (v * 100) / s);
+      }
+
+      // nextCount > prevCount: kalan yüzdeyi yeni panellere eşit dağıt
+      const used = prev.reduce((a, b) => a + b, 0);
+      const remain = Math.max(0, 100 - used);
+      const extraEach = remain / (nextCount - prevCount || 1);
+      return [...prev, ...Array(nextCount - prevCount).fill(extraEach)];
+    }
   }
 
   customElements.define('punica-split', Split);
