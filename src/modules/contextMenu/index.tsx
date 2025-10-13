@@ -1,8 +1,27 @@
 import { Module as Layout } from '@/layouts/module';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Module = () => {
+  const ref = useRef(null);
   const { t } = useTranslation();
+
+  /**
+   *
+   */
+  useEffect(() => {
+    if (ref.current == null) {
+      return;
+    }
+
+    ref.current.addEventListener('punica-context-menu-select', (e) => {
+      const { value, labels, path, originalEvent } = e.detail;
+
+      console.log('Clicked item:', value);
+      console.log('Full label path:', labels.join(' > '));
+      console.log('Original pointer event:', originalEvent);
+    });
+  }, [ref.current]);
 
   return (
     <Layout.Main>
@@ -59,6 +78,7 @@ const Module = () => {
           </punica-col>
         </punica-row>
         <punica-context-menu
+          ref={ref}
           id="ctx"
           target="#file-area, #editor-area, #blank-area"
         >

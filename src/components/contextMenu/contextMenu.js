@@ -9,9 +9,7 @@
   template.innerHTML = `<slot></slot><style></style>`;
 
   class PunicaContextMenu extends HTMLElement {
-    #shadow = this.attachShadow({ mode: 'open' });
     #root;
-    #openMenuEl = null;
     #openChain = [];
     #delegatedTargets = new Set();
     #hoverTimer = null;
@@ -33,7 +31,8 @@
       window.addEventListener('resize', () => this.close());
       window.addEventListener('pointerdown', (e) => {
         if (!this.isConnected) return;
-        if (!this.#shadow.contains(e.target)) this.close();
+        const within = e.composedPath().includes(this.#root);
+        if (!within) this.close();
       });
     }
 
@@ -74,12 +73,12 @@
 
       this.#root = document.createElement('div');
       this.#root.classList.add('punica-context-menu-root');
+      this.#root.tabIndex = -1;
 
       this.#root.appendChild(template.content.cloneNode(true));
       const menu = this.#renderMenu(this, 0, null);
 
       this.#root.appendChild(menu);
-      this.#openMenuEl = menu;
       this.#openChain = [menu];
       this.#position(menu, x, y);
 
@@ -96,7 +95,6 @@
         this.#root.innerHTML = '';
         this.#root.remove();
       }
-      this.#openMenuEl = null;
       this.#openChain = [];
 
       if (this.#hoverTimer) {
@@ -104,6 +102,14 @@
         this.#hoverTimer = null;
       }
     }
+
+    /**
+     *
+     * @param {*} event
+     */
+    #itemClick = (event) => {
+      debugger;
+    };
 
     /**
      *
@@ -164,6 +170,7 @@
       list.className = 'punica-context-menu-group';
 
       menu.appendChild(list);
+
       const children = Array.from(source.children).filter(
         (n) => !(n instanceof HTMLTemplateElement)
       );
@@ -172,7 +179,7 @@
         const tag = node.tagName.toLowerCase();
         if (tag === 'punica-context-menu-separator') {
           const sep = document.createElement('div');
-          sep.className = 'punica-context-menu-sep';
+          sep.className = 'punica-context-menu-seperator';
           list.appendChild(sep);
         } else if (tag === 'punica-context-menu-item') {
           list.appendChild(this.#renderItem(node, depth));
@@ -308,10 +315,11 @@
         if (keyboard) right.textContent = keyboard;
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
+
           if (btn.getAttribute('aria-disabled') === 'true') return;
           const path = this.#collectPath(btn);
           this.dispatchEvent(
-            new CustomEvent('punica-select', {
+            new CustomEvent('punica-context-menu-select', {
               bubbles: true,
               composed: true,
               detail: {

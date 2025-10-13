@@ -55,6 +55,7 @@
   border-radius: 8px;
   cursor: default;
   outline: none;
+  pointer-events: all;
 }
 
 .punica-context-menu-item[aria-disabled='true'] {
