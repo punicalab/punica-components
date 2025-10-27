@@ -112,6 +112,80 @@
       button:hover {
         background: #f1f5f9;
       }
+      .row-inline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        height: var(--row-height);
+        padding: 8px 12px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+      .row-inline + .row-inline {
+        margin-top: 12px;
+      }
+      .avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        background: #dbe0e4;
+        color: #000;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .labels {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px 10px;
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+      }
+      .name {
+        font-weight: 700;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .company,
+      .title {
+        font-size: 12px;
+        color: #6b7280;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .dot::before {
+        content: '•';
+        margin: 0 4px;
+        color: #9ca3af;
+      }
+      .icon-btn {
+        all: unset;
+        cursor: pointer;
+        opacity: 0.35;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        flex-shrink: 0;
+      }
+      .icon-btn:hover {
+        opacity: 0.6;
+      }
+      .icon-btn:focus-visible {
+        outline: 2px solid #4a90e2;
+        outline-offset: 2px;
+      }
     </style>
     <script src="assets/build.min.js"></script>
   </head>

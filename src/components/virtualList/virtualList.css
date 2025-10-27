@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  position: relative;
+  overflow: auto;
+  height: 100%;
+}
+
+.viewport {
+  position: relative;
+}
+
+.spacer {
+  height: var(--total-height, 0px);
+}
+
+.pool {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  contain: content;
+}
+
+.rowhost {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--row-height);
+}
+
+.rowhost > * {
+  height: 100%;
+  margin: 0;
+}

@@ -43,5 +43,8 @@
   "component.splitButton": "SplitButton",
   "component.toast": "Toast",
   "component.split": "Split",
-  "component.context.menu": "Context Menu"
+  "component.context.menu": "Context Menu",
+  "component.qrCode": "QR Code",
+  "component.virtual.list": "Virtual List",
+  "component.virtual.table": "Virtual Table"
 }

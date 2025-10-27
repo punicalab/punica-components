@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  position: relative;
+  overflow: auto;
+  height: 100%;
+}
+
+.viewport {
+  min-height: 100%;
+}
+
+.vtable {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  background: #fff;
+}
+.vtable th,
+.vtable td {
+  border-bottom: 1px solid #eee;
+  padding: 8px 12px;
+}
+
+.row {
+  height: var(--row-height, 48px);
+}
+
+.pad td {
+  padding: 0 !important;
+  border: 0 !important;
+}

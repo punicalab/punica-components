@@ -13,9 +13,21 @@ export const SiteMap: Array<CustomRouteObject> = [
     ),
     children: [
       {
-        translateKey: 'component.listView',
+        translateKey: 'component.virtual.list',
         index: true,
         path: '/',
+        element: <ModuleLoader module="virtualList" />
+      },
+      {
+        translateKey: 'component.virtual.table',
+        index: true,
+        path: '/virtual-table',
+        element: <ModuleLoader module="virtualTable" />
+      },
+      {
+        translateKey: 'component.listView',
+        index: true,
+        path: '/list-view',
         element: <ModuleLoader module="listView" />
       },
       {
@@ -177,6 +189,11 @@ export const SiteMap: Array<CustomRouteObject> = [
         translateKey: 'component.popover',
         path: '/popover',
         element: <ModuleLoader module="popover" />
+      },
+      {
+        translateKey: 'component.qrCode',
+        path: '/qrCode',
+        element: <ModuleLoader module="qrCode" />
       },
       {
         translateKey: 'component.select',

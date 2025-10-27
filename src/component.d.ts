@@ -55,6 +55,16 @@ declare global {
         height: number;
         placement: 'top' | 'left' | 'right' | 'bottom';
       };
+      'punica-qr-code': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        value?: string;
+        size?: string | number;
+        background?: string;
+        foreground?: string;
+        class?: string;
+      };
       'punica-pagination': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
@@ -660,6 +670,22 @@ declare global {
         class?: string;
         height?: string;
         color?: string;
+      };
+      'punica-virtual-list': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+        itemheight: number;
+        overscan: number;
+      };
+      'punica-virtual-table': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        class?: string;
+        itemheight: number;
+        overscan: number;
       };
       'punica-col': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

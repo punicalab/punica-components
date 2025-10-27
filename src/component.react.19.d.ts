@@ -37,6 +37,18 @@ interface PunicaContextMenuSperatorProps extends NativeHTMLElementProps {
   class?: string;
 }
 
+interface PunicaVirtualList extends NativeHTMLElementProps {
+  class?: string;
+  itemheight: number;
+  overscan: number;
+}
+
+interface PunicaVirtualTable extends NativeHTMLElementProps {
+  class?: string;
+  itemheight: number;
+  overscan: number;
+}
+
 interface PunicaToasterProps extends NativeHTMLElementProps {
   class?: string;
 }
@@ -828,6 +840,8 @@ declare module 'react/jsx-runtime' {
       'punica-context-menu': PunicaContextMenuProps;
       'punica-context-menu-item': PunicaContextMenuItemProps;
       'punica-context-menu-separator': PunicaContextMenuSperatorProps;
+      'punica-virtual-list': PunicaVirtualList;
+      'punica-virtual-table': PunicaVirtualTable;
     }
   }
 }

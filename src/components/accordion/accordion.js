@@ -18,7 +18,11 @@
      *
      */
     set rounded(value) {
-      this.setAttribute('rounded', value);
+      if (value) {
+        this.setAttribute('rounded', 'true');
+      } else {
+        this.removeAttribute('rounded');
+      }
     }
 
     /**
@@ -32,7 +36,11 @@
      *
      */
     set expanded(value) {
-      this.setAttribute('expanded', value);
+      if (value) {
+        this.setAttribute('expanded', 'true');
+      } else {
+        this.removeAttribute('expanded');
+      }
     }
 
     /**
