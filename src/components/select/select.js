@@ -279,9 +279,7 @@
       const backdrop = select.querySelector('#backdrop');
       const optionWrapper = select.querySelector('#option-wrapper');
 
-      if (this.minimumtargetwidth != null) {
-        popover.setAttribute('minimumtargetwidth', this.minimumtargetwidth);
-      }
+      popover.setAttribute('minimumtargetwidth', true);
 
       childrenClones.forEach((clone) => {
         clone.addEventListener('click', this.onClickItemHandler);
