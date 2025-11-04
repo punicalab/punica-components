@@ -24,14 +24,18 @@
      *
      */
     get flexItem() {
-      return this.getAttribute('flexItem');
+      return this.hasAttribute('flexItem');
     }
 
     /**
      *
      */
-    set flexItem(val) {
-      this.setAttribute('flexItem', val);
+    set flexItem(value) {
+      if (value) {
+        this.setAttribute('flexItem', '');
+      } else {
+        this.removeAttribute('flexItem');
+      }
     }
 
     /**

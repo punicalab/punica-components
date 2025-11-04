@@ -1,50 +1,64 @@
-const { readdir } = require('fs/promises');
-const fs = require('fs');
+const { readdir, readFile, writeFile } = require('fs/promises');
 const chokidar = require('chokidar');
+const { minify } = require('terser');
 const root = './src/components/';
 
 /**
  *
  */
-function main() {
-  let minify = '';
+async function main() {
+  try {
+    const bundle = await bundleComponents();
+    const result = await minify(bundle, { compress: true, mangle: true });
+    await writeFile('./src/assets/build.min.js', result.code || bundle, 'utf8');
+    console.log('build.min.js generated.');
+  } catch (err) {
+    console.error('Build failed:', err);
+  }
+}
 
-  getDirectories().then((dir) => {
-    dir.forEach((d) => {
-      fs.readdir(`${root}${d}`, (err, files) => {
-        files.forEach(async (file) => {
-          if (file.includes('js')) {
-            const fileName = file.split('.')[0];
-            const jsPath = `${root}${d}/${fileName}.js`;
-            const cssPath = `${root}${d}/${fileName}.css`;
+async function bundleComponents() {
+  const dirNames = await getDirectories();
+  let output = '';
 
-            fs.readFile(jsPath, 'utf8', (err, jsData) => {
-              fs.readFile(cssPath, 'utf8', (err, cssData) => {
-                if (cssData) {
-                  minify += jsData.replace(
-                    /(<style\b[^>]*>)[^<>]*(<\/style>)/i,
-                    '<style>' + cssData.replace(/\n/g, ' ') + '</style>'
-                  );
-                } else {
-                  minify += jsData;
-                }
-              });
-            });
-          }
-        });
-      });
-    });
-  });
+  for (const d of dirNames.sort()) {
+    const entries = await readdir(`${root}${d}`, { withFileTypes: true });
+    const files = entries
+      .filter((e) => e.isFile() && e.name.endsWith('.js'))
+      .map((e) => e.name)
+      .sort();
 
-  setTimeout(() => {
-    fs.writeFile('./src/assets/build.min.js', minify, function (err) {
-      if (err) {
-        console.log(err);
+    for (const file of files) {
+      const fileName = file.slice(0, -3); // strip .js
+      const jsPath = `${root}${d}/${fileName}.js`;
+      const cssPath = `${root}${d}/${fileName}.css`;
+
+      const jsData = await readSafe(jsPath);
+      const cssData = await readSafe(cssPath);
+
+      if (!jsData) continue;
+
+      if (cssData) {
+        output += jsData.replace(
+          /(<style\b[^>]*>)[\s\S]*?(<\/style>)/i,
+          '<style>' + cssData.replace(/\n/g, ' ') + '</style>'
+        );
       } else {
-        console.log('The file was saved!');
+        output += jsData;
       }
-    });
-  }, 3000);
+      output += '\n';
+    }
+  }
+
+  return output;
+}
+
+async function readSafe(path) {
+  try {
+    return await readFile(path, 'utf8');
+  } catch {
+    return '';
+  }
 }
 
 /**
@@ -56,4 +70,8 @@ const getDirectories = async () =>
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name);
 
-chokidar.watch(`${root}`).on('change', main);
+// initial build
+main();
+
+// watch for changes
+chokidar.watch(`${root}`).on('change', () => main());

@@ -49,16 +49,18 @@
      *
      */
     get rounded() {
-      const value = this.getAttribute('rounded');
-
-      return value || true;
+      return this.hasAttribute('rounded');
     }
 
     /**
      *
      */
-    set rounded(val) {
-      this.setAttribute('rounded', val);
+    set rounded(value) {
+      if (value) {
+        this.setAttribute('rounded', '');
+      } else {
+        this.removeAttribute('rounded');
+      }
     }
 
     /**
@@ -79,14 +81,18 @@
      *
      */
     get minimumtargetwidth() {
-      return this.getAttribute('minimumtargetwidth') == 'true';
+      return this.hasAttribute('minimumtargetwidth');
     }
 
     /**
      *
      */
-    set minimumtargetwidth(val) {
-      this.setAttribute('minimumtargetwidth', val);
+    set minimumtargetwidth(value) {
+      if (value) {
+        this.setAttribute('minimumtargetwidth', '');
+      } else {
+        this.removeAttribute('minimumtargetwidth');
+      }
     }
 
     /**
@@ -107,42 +113,54 @@
      *
      */
     get error() {
-      return this.getAttribute('error') == 'true';
+      return this.hasAttribute('error');
     }
 
     /**
      *
      */
-    set error(val) {
-      this.setAttribute('error', val);
+    set error(value) {
+      if (value) {
+        this.setAttribute('error', '');
+      } else {
+        this.removeAttribute('error');
+      }
     }
 
     /**
      *
      */
     get fullwidth() {
-      return this.getAttribute('fullwidth');
+      return this.hasAttribute('fullwidth');
     }
 
     /**
      *
      */
-    set fullwidth(val) {
-      this.setAttribute('fullwidth', val);
+    set fullwidth(value) {
+      if (value) {
+        this.setAttribute('fullwidth', '');
+      } else {
+        this.removeAttribute('fullwidth');
+      }
     }
 
     /**
      *
      */
     get disabled() {
-      return this.getAttribute('disabled');
+      return this.hasAttribute('disabled');
     }
 
     /**
      *
      */
-    set disabled(val) {
-      this.setAttribute('disabled', val);
+    set disabled(value) {
+      if (value) {
+        this.setAttribute('disabled', '');
+      } else {
+        this.removeAttribute('disabled');
+      }
     }
 
     /**
@@ -163,28 +181,36 @@
      *
      */
     get clearbutton() {
-      return this.getAttribute('clearbutton');
+      return this.hasAttribute('clearbutton');
     }
 
     /**
      *
      */
-    set clearbutton(val) {
-      this.setAttribute('clearbutton', val);
+    set clearbutton(value) {
+      if (value) {
+        this.setAttribute('clearbutton', '');
+      } else {
+        this.removeAttribute('clearbutton');
+      }
     }
 
     /**
      *
      */
     get loading() {
-      return this.getAttribute('loading');
+      return this.hasAttribute('loading');
     }
 
     /**
      *
      */
-    set loading(val) {
-      this.setAttribute('loading', val);
+    set loading(value) {
+      if (value) {
+        this.setAttribute('loading', '');
+      } else {
+        this.removeAttribute('loading');
+      }
     }
 
     /**
@@ -242,7 +268,10 @@
         const displayContent = this.#selected.querySelector(
           this.selecteditemdisplayitem
         );
-        this.#content.innerHTML = displayContent.innerHTML;
+
+        if (displayContent) {
+          this.#content.innerHTML = displayContent.innerHTML;
+        }
       } else {
         this.#content.innerHTML = this.#selected.innerHTML;
       }
@@ -268,7 +297,7 @@
       const position = this.getBoundingClientRect();
       const select = document.createElement('div');
 
-      this.setAttribute('focus', true);
+      this.setAttribute('focus', '');
 
       select.style = this.style;
 
@@ -279,7 +308,7 @@
       const backdrop = select.querySelector('#backdrop');
       const optionWrapper = select.querySelector('#option-wrapper');
 
-      popover.setAttribute('minimumtargetwidth', true);
+      popover.setAttribute('minimumtargetwidth', '');
 
       childrenClones.forEach((clone) => {
         clone.addEventListener('click', this.onClickItemHandler);
@@ -292,7 +321,7 @@
       popover.setAttribute('width', position.width);
       popover.setAttribute('height', position.height);
       popover.setAttribute('bottom', position.bottom);
-      popover.setAttribute('open', true);
+      popover.setAttribute('open', '');
 
       backdrop.addEventListener('click', this.backdropClick);
 

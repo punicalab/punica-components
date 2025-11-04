@@ -10,6 +10,6 @@
   gap: var(--row-spacing) var(--column-spacing);
 }
 
-:host([fullheight='true']) {
+:host([fullheight]) {
   height: 100%;
 }

@@ -24,14 +24,18 @@
      *
      */
     get selected() {
-      return this.getAttribute('selected');
+      return this.hasAttribute('selected');
     }
 
     /**
      *
      */
-    set selected(val) {
-      this.setAttribute('selected', val);
+    set selected(value) {
+      if (value) {
+        this.setAttribute('selected', '');
+      } else {
+        this.removeAttribute('selected');
+      }
     }
 
     /**

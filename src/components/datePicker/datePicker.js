@@ -109,7 +109,7 @@
      *
      */
     get open() {
-      return this.hasAttribute('open') || false;
+      return this.hasAttribute('open');
     }
 
     /**
@@ -117,7 +117,7 @@
      */
     set open(value) {
       if (value) {
-        this.setAttribute('open', value);
+        this.setAttribute('open', '');
       } else {
         this.removeAttribute('open');
       }
@@ -251,12 +251,12 @@
     show() {
       const position = this.getBoundingClientRect();
 
-      this.setAttribute('focus', true);
+      this.setAttribute('focus', '');
       this.#popover.setAttribute('top', position.top + 46);
       this.#popover.setAttribute('left', position.left);
       this.#popover.setAttribute('width', 320);
       this.#popover.setAttribute('bottom', position.bottom);
-      this.#popover.setAttribute('open', true);
+      this.#popover.setAttribute('open', '');
 
       if (this.selectedDate) {
         this.month = this.selectedDate.getMonth();
@@ -396,7 +396,7 @@
     attributeChangedCallback(name, oldValue, newValue) {
       switch (name) {
         case 'open':
-          if (newValue == 'true') {
+          if (newValue != null) {
             this.show();
           } else {
             this.hide();

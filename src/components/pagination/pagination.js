@@ -164,18 +164,18 @@
 
       if (prev) {
         this.#prevButton.addEventListener('click', this.prevButtonClick);
-        this.#prevButton.setAttribute('disabled', false);
+        this.#prevButton.removeAttribute('disabled');
       } else {
         this.#prevButton.removeEventListener('click', this.nextButtonClick);
-        this.#prevButton.setAttribute('disabled', true);
+        this.#prevButton.setAttribute('disabled', '');
       }
 
       if (next) {
         this.#nextButton.addEventListener('click', this.nextButtonClick);
-        this.#nextButton.setAttribute('disabled', false);
+        this.#nextButton.removeAttribute('disabled');
       } else {
         this.#nextButton.removeEventListener('click', this.prevButtonClick);
-        this.#nextButton.setAttribute('disabled', true);
+        this.#nextButton.setAttribute('disabled', '');
       }
 
       items.forEach((item) => {

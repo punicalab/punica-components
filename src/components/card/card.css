@@ -9,10 +9,10 @@
   overflow: hidden;
 }
 
-:host([rounded='true']) {
+:host([rounded]) {
   border-radius: var(--card-border-radius);
 }
 
-:host([fullwidth='true']) {
+:host([fullwidth]) {
   width: 100%;
 }

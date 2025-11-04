@@ -59,28 +59,36 @@
      *
      */
     get disabled() {
-      return this.hasAttribute('disabled') == 'true';
+      return this.hasAttribute('disabled');
     }
 
     /**
      *
      */
-    set disabled(val) {
-      this.setAttribute('disabled', val);
+    set disabled(value) {
+      if (value) {
+        this.setAttribute('disabled', '');
+      } else {
+        this.removeAttribute('disabled');
+      }
     }
 
     /**
      *
      */
     get fullwidth() {
-      return this.getAttribute('fullwidth') == 'true';
+      return this.hasAttribute('fullwidth');
     }
 
     /**
      *
      */
-    set fullwidth(val) {
-      return this.getAttribute('fullwidth', val);
+    set fullwidth(value) {
+      if (value) {
+        this.setAttribute('fullwidth', '');
+      } else {
+        this.removeAttribute('fullwidth');
+      }
     }
 
     /**
@@ -110,7 +118,12 @@
       const children = slot.assignedElements();
 
       children.forEach((child) => {
-        if (attributeValue === newAttributeType) {
+        if (newAttributeType === null || newAttributeType === undefined) {
+          child.removeAttribute(attribute);
+        } else if (
+          attributeValue === newAttributeType ||
+          (newAttributeType === '' && this.hasAttribute(attribute))
+        ) {
           child.classList.remove(attribute);
           child.setAttribute(attribute, newAttributeType);
         }
@@ -123,8 +136,8 @@
     connectedCallback() {
       this.setAttribute('role', 'group');
 
-      this.applyNewStyle('disabled', this.disabled ? 'true' : 'false');
-      this.applyNewStyle('fullwidth', this.fullwidth ? 'true' : 'false');
+      this.applyNewStyle('disabled', this.disabled ? '' : null);
+      this.applyNewStyle('fullwidth', this.fullwidth ? '' : null);
       this.applyNewStyle('color', this.color);
       this.applyNewStyle('size', this.size);
       this.applyNewStyle('variant', this.variant);

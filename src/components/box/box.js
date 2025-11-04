@@ -10,72 +10,90 @@
      *
      */
     get error() {
-      return this.getAttribute('error');
+      return this.hasAttribute('error');
     }
 
     /**
      *
      */
     set error(value) {
-      this.setAttribute('error', value);
+      if (value) {
+        this.setAttribute('error', '');
+      } else {
+        this.removeAttribute('error');
+      }
     }
 
     /**
      *
      */
     get fullwidth() {
-      return this.getAttribute('fullwidth');
+      return this.hasAttribute('fullwidth');
     }
 
     /**
      *
      */
     set fullwidth(value) {
-      this.setAttribute('fullwidth', value);
+      if (value) {
+        this.setAttribute('fullwidth', '');
+      } else {
+        this.removeAttribute('fullwidth');
+      }
     }
 
     /**
      *
      */
     get fullheight() {
-      return this.getAttribute('fullheight');
+      return this.hasAttribute('fullheight');
     }
 
     /**
      *
      */
     set fullheight(value) {
-      this.setAttribute('fullheight', value);
+      if (value) {
+        this.setAttribute('fullheight', '');
+      } else {
+        this.removeAttribute('fullheight');
+      }
     }
 
     /**
      *
      */
     get border() {
-      return this.getAttribute('border');
+      return this.hasAttribute('border');
     }
 
     /**
      *
      */
     set border(value) {
-      this.setAttribute('border', value);
+      if (value) {
+        this.setAttribute('border', '');
+      } else {
+        this.removeAttribute('border');
+      }
     }
 
     /**
      *
      */
     get rounded() {
-      const value = this.getAttribute('rounded');
-
-      return value || true;
+      return this.hasAttribute('rounded');
     }
 
     /**
      *
      */
     set rounded(value) {
-      this.setAttribute('rounded', value);
+      if (value) {
+        this.setAttribute('rounded', '');
+      } else {
+        this.removeAttribute('rounded');
+      }
     }
 
     /**

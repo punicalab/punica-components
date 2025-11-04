@@ -86,22 +86,30 @@
     /**
      *
      */
-    set disabled(val) {
-      this.setAttribute('disabled', val);
+    set disabled(value) {
+      if (value) {
+        this.setAttribute('disabled', '');
+      } else {
+        this.removeAttribute('disabled');
+      }
     }
 
     /**
      *
      */
     get fullwidth() {
-      return this.getAttribute('fullwidth');
+      return this.hasAttribute('fullwidth');
     }
 
     /**
      *
      */
-    set fullwidth(val) {
-      this.setAttribute('fullwidth', val);
+    set fullwidth(value) {
+      if (value) {
+        this.setAttribute('fullwidth', '');
+      } else {
+        this.removeAttribute('fullwidth');
+      }
     }
 
     /**
@@ -151,7 +159,12 @@
       const children = slot.assignedElements();
 
       children.forEach((child) => {
-        if (attributeValue === newAttributeType) {
+        if (newAttributeType === null || newAttributeType === undefined) {
+          child.removeAttribute(attribute);
+        } else if (
+          attributeValue === newAttributeType ||
+          (newAttributeType === '' && this.hasAttribute(attribute))
+        ) {
           child.classList.remove(attribute);
           child.setAttribute(attribute, newAttributeType);
         }
@@ -196,7 +209,7 @@
 
       buttons.forEach((button) => {
         if (button.getAttribute('value') === this.value) {
-          button.setAttribute('selected', true);
+          button.setAttribute('selected', '');
         } else {
           button.removeAttribute('selected');
         }
@@ -227,8 +240,8 @@
     connectedCallback() {
       this.setAttribute('role', 'group');
 
-      this.applyNewStyle('disabled', this.disabled ? 'true' : 'false');
-      this.applyNewStyle('fullwidth', this.fullwidth ? 'true' : 'false');
+      this.applyNewStyle('disabled', this.disabled ? '' : null);
+      this.applyNewStyle('fullwidth', this.fullwidth ? '' : null);
       this.applyNewStyle('color', this.color);
       this.applyNewStyle('size', this.size);
       this.addEventListener('click', this.handleToggleButtonClick);

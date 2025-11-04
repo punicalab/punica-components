@@ -40,7 +40,7 @@
   background-color: rgb(from var(--text-primary) r g b / 10%);
 }
 
-:host([disabled='true']) {
+:host([disabled]) {
   pointer-events: none;
   opacity: var(--disabled-opacity);
 }

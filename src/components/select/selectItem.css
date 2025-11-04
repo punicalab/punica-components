@@ -11,6 +11,6 @@
   background-color: var(--neutral-main);
 }
 
-:host([selected='true']) {
+:host([selected]) {
   background-color: var(--neutral-main);
 }

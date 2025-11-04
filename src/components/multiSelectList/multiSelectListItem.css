@@ -8,6 +8,6 @@
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-:host([selected='true']) {
+:host([selected]) {
   background-color: rgba(0, 0, 0, 0.04);
 }

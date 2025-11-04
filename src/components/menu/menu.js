@@ -40,14 +40,18 @@
      *
      */
     get open() {
-      return this.getAttribute('open');
+      return this.hasAttribute('open');
     }
 
     /**
      *
      */
-    set open(val) {
-      this.setAttribute('open', val);
+    set open(value) {
+      if (value) {
+        this.setAttribute('open', '');
+      } else {
+        this.removeAttribute('open');
+      }
     }
 
     /**
@@ -170,7 +174,7 @@
       popover.setAttribute('height', this.height);
       popover.setAttribute('bottom', this.bottom);
       popover.setAttribute('placement', this.placement);
-      popover.setAttribute('open', true);
+      popover.setAttribute('open', '');
 
       backdrop.addEventListener('click', this.#backdropClick);
 
@@ -263,7 +267,7 @@
     attributeChangedCallback(name, oldValue, newValue) {
       switch (name) {
         case 'open':
-          if (newValue == 'true') {
+          if (newValue != null) {
             document.addEventListener('keydown', this.#hosContainerKeyDown);
             this.show();
           } else {

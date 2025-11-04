@@ -69,10 +69,8 @@
     /**
      *
      */
-    set disabled(val) {
-      if (val !== true && val !== false) return;
-
-      if (val === true) {
+    set disabled(value) {
+      if (value) {
         this.setAttribute('disabled', '');
       } else {
         this.removeAttribute('disabled');
@@ -89,8 +87,8 @@
     /**
      *
      */
-    set elastic(val) {
-      if (val) {
+    set elastic(value) {
+      if (value) {
         this.setAttribute('elastic', '');
       } else {
         this.removeAttribute('elastic');

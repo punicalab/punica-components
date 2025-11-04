@@ -9,6 +9,6 @@
   padding: var(--paper-padding);
 }
 
-:host([rounded='true']) {
+:host([rounded]) {
   border-radius: var(--paper-border-radius);
 }

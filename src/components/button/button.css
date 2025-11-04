@@ -15,11 +15,11 @@
   transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-:host([rounded='true']) {
+:host([rounded]) {
   border-radius: var(--button-border-radius);
 }
 
-:host([disabled='true']) {
+:host([disabled]) {
   pointer-events: none;
   opacity: var(--disabled-opacity);
 }
@@ -181,15 +181,15 @@
   background-color: var(--success-dark);
 }
 
-:host([fullwidth='true']) {
+:host([fullwidth]) {
   width: 100%;
 }
 
-:host([disabled='true']):host([variant='filled']) {
+:host([disabled]):host([variant='filled']) {
   background: var(--disabled);
 }
 
-:host([disabled='true']) {
+:host([disabled]) {
   cursor: default;
 }
 
@@ -197,7 +197,7 @@
   background: var(--disabled);
 }
 
-:host([loading='true']) {
+:host([loading]) {
   pointer-events: none !important;
   cursor: default;
 }

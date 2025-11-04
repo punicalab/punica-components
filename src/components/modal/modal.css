@@ -11,7 +11,7 @@
   outline: none;
 }
 
-:host([open='true']) {
+:host([open]) {
   display: grid;
   justify-items: center;
   align-items: center;
@@ -20,7 +20,7 @@
   z-index: var(--zindex-backdrop);
 }
 
-:host([open='true']) .modal {
+:host([open]) .modal {
   overflow: hidden;
   padding: var(--modal-padding);
   background-color: var(--modal-background-color);
@@ -35,7 +35,7 @@
     'footer';
 }
 
-:host([open='true']) .backdrop {
+:host([open]) .backdrop {
   position: fixed;
   inset: 0px;
   background-color: var(--background-backdrop);
@@ -43,6 +43,6 @@
   z-index: var(--zindex-backdrop);
 }
 
-:host([rounded='true']) .modal {
+:host([rounded]) .modal {
   border-radius: var(--modal-border-radius);
 }

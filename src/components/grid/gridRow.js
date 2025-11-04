@@ -81,14 +81,18 @@
      *
      */
     get fullheight() {
-      return this.getAttribute('fullheight');
+      return this.hasAttribute('fullheight');
     }
 
     /**
      *
      */
-    set fullheight(val) {
-      this.setAttribute('fullheight', val);
+    set fullheight(value) {
+      if (value) {
+        this.setAttribute('fullheight', '');
+      } else {
+        this.removeAttribute('fullheight');
+      }
     }
 
     /**

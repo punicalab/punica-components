@@ -16,11 +16,11 @@
   color: var(--text-primary);
 }
 
-:host([fullwidth='true']) {
+:host([fullwidth]) {
   width: 100%;
 }
 
-:host([error='true']) {
+:host([error]) {
   border-color: var(--error-main);
 }
 
@@ -28,7 +28,7 @@
   border-color: var(--primary-main);
 }
 
-:host([rounded='true']) {
+:host([rounded]) {
   border-radius: var(--select-border-radius);
 }
 
@@ -47,7 +47,7 @@
   height: 48px;
 }
 
-:host([disabled='true']) {
+:host([disabled]) {
   background-color: #f0f0f0;
   color: #a0a0a0;
   pointer-events: none;

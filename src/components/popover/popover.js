@@ -122,28 +122,36 @@
      *
      */
     get open() {
-      return this.getAttribute('open');
+      return this.hasAttribute('open');
     }
 
     /**
      *
      */
-    set open(val) {
-      this.setAttribute('open', val);
+    set open(value) {
+      if (value) {
+        this.setAttribute('open', '');
+      } else {
+        this.removeAttribute('open');
+      }
     }
 
     /**
      *
      */
     get minimumtargetwidth() {
-      return this.getAttribute('minimumtargetwidth') == 'true';
+      return this.hasAttribute('minimumtargetwidth');
     }
 
     /**
      *
      */
-    set minimumtargetwidth(val) {
-      this.setAttribute('minimumtargetwidth', val);
+    set minimumtargetwidth(value) {
+      if (value) {
+        this.setAttribute('minimumtargetwidth', '');
+      } else {
+        this.removeAttribute('minimumtargetwidth');
+      }
     }
 
     /**
@@ -336,7 +344,7 @@
     attributeChangedCallback(name, oldValue, newValue) {
       switch (name) {
         case 'open':
-          if (newValue == 'true') {
+          if (newValue != null) {
             this.style.display = 'block';
             this.getPopoverPosition();
           } else {

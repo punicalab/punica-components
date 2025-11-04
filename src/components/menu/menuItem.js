@@ -33,8 +33,8 @@
     /**
      *
      */
-    set disabled(isDisabled) {
-      if (isDisabled) {
+    set disabled(value) {
+      if (value) {
         this.setAttribute('disabled', '');
       } else {
         this.removeAttribute('disabled');

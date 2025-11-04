@@ -11,7 +11,7 @@
   pointer-events: none;
 }
 
-:host([open='true']) {
+:host([open]) {
   visibility: visible;
   pointer-events: auto;
 }
@@ -26,7 +26,7 @@
   transition: opacity 220ms ease;
 }
 
-:host([open='true']) .backdrop {
+:host([open]) .backdrop {
   opacity: 1;
 }
 
@@ -69,6 +69,6 @@
   width: 100vw;
 }
 
-:host([direction='bottom'][rounded='true']) punica-box {
+:host([direction='bottom'][rounded]) punica-box {
   border-radius: var(--drawer-border-radius) var(--drawer-border-radius) 0 0;
 }

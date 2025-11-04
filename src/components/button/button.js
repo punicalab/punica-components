@@ -15,14 +15,18 @@
      *
      */
     get rounded() {
-      return this.getAttribute('rounded') == 'true';
+      return this.hasAttribute('rounded');
     }
 
     /**
      *
      */
-    set rounded(val) {
-      this.setAttribute('rounded', val);
+    set rounded(value) {
+      if (value) {
+        this.setAttribute('rounded', '');
+      } else {
+        this.removeAttribute('rounded');
+      }
     }
 
     /**
@@ -71,14 +75,18 @@
      *
      */
     get fullwidth() {
-      return this.getAttribute('fullwidth');
+      return this.hasAttribute('fullwidth');
     }
 
     /**
      *
      */
-    set fullwidth(val) {
-      return this.setAttribute('fullwidth', val);
+    set fullwidth(value) {
+      if (value) {
+        this.setAttribute('fullwidth', '');
+      } else {
+        this.removeAttribute('fullwidth');
+      }
     }
 
     /**
@@ -91,22 +99,30 @@
     /**
      *
      */
-    set disabled(val) {
-      this.setAttribute('disabled', val);
+    set disabled(value) {
+      if (value) {
+        this.setAttribute('disabled', '');
+      } else {
+        this.removeAttribute('disabled');
+      }
     }
 
     /**
      *
      */
     get loading() {
-      return this.getAttribute('loading');
+      return this.hasAttribute('loading');
     }
 
     /**
      *
      */
-    set loading(val) {
-      this.setAttribute('loading', val);
+    set loading(value) {
+      if (value) {
+        this.setAttribute('loading', '');
+      } else {
+        this.removeAttribute('loading');
+      }
     }
 
     /**
@@ -168,6 +184,9 @@
      */
     connectedCallback() {
       this.setAttribute('role', 'button');
+      if (!this.hasAttribute('size')) this.setAttribute('size', 'medium');
+      if (!this.hasAttribute('color')) this.setAttribute('color', 'primary');
+      if (!this.hasAttribute('variant')) this.setAttribute('variant', 'filled');
     }
   }
 

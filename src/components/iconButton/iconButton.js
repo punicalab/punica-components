@@ -44,8 +44,8 @@
     /**
      *
      */
-    set disabled(val) {
-      if (val) {
+    set disabled(value) {
+      if (value) {
         this.setAttribute('disabled', '');
       } else {
         this.removeAttribute('disabled');
@@ -62,8 +62,8 @@
     /**
      *
      */
-    set loading(val) {
-      if (val) {
+    set loading(value) {
+      if (value) {
         this.setAttribute('loading', '');
       } else {
         this.removeAttribute('loading');

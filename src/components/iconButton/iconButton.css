@@ -23,7 +23,7 @@
   padding: 12px;
 }
 
-:host([disabled='true']) {
+:host([disabled]) {
   pointer-events: none;
   opacity: var(--disabled-opacity);
 }

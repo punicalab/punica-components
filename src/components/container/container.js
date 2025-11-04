@@ -24,14 +24,18 @@
      *
      */
     get disablegutters() {
-      return this.getAttribute('disablegutters');
+      return this.hasAttribute('disablegutters');
     }
 
     /**
      *
      */
-    set disablegutters(val) {
-      return this.setAttribute('disablegutters', val);
+    set disablegutters(value) {
+      if (value) {
+        this.setAttribute('disablegutters', '');
+      } else {
+        this.removeAttribute('disablegutters');
+      }
     }
 
     /**

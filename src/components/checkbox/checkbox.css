@@ -52,7 +52,7 @@ input[indeterminate='true'] + label:before {
   background-position: center center;
 }
 
-:host([disabled='true']) label {
+:host([disabled]) label {
   color: #a0a0a0;
 }
 

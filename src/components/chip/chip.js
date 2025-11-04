@@ -67,6 +67,15 @@
 
       this.#shadow.appendChild(template.content.cloneNode(true));
     }
+
+    /**
+     *
+     */
+    connectedCallback() {
+      if (!this.hasAttribute('size')) this.setAttribute('size', 'medium');
+      if (!this.hasAttribute('color')) this.setAttribute('color', 'primary');
+      if (!this.hasAttribute('variant')) this.setAttribute('variant', 'filled');
+    }
   }
 
   customElements.define('punica-chip', Chip);

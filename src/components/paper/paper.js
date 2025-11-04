@@ -10,14 +10,18 @@
      *
      */
     get rounded() {
-      return this.getAttribute('rounded');
+      return this.hasAttribute('rounded');
     }
 
     /**
      *
      */
-    set rounded(val) {
-      this.setAttribute('rounded', val);
+    set rounded(value) {
+      if (value) {
+        this.setAttribute('rounded', '');
+      } else {
+        this.removeAttribute('rounded');
+      }
     }
 
     /**

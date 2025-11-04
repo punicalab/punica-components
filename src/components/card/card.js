@@ -10,30 +10,36 @@
      *
      */
     get fullwidth() {
-      return this.getAttribute('fullwidth');
+      return this.hasAttribute('fullwidth');
     }
 
     /**
      *
      */
-    set fullwidth(val) {
-      return this.setAttribute('fullwidth', val);
+    set fullwidth(value) {
+      if (value) {
+        this.setAttribute('fullwidth', '');
+      } else {
+        this.removeAttribute('fullwidth');
+      }
     }
 
     /**
      *
      */
     get rounded() {
-      const value = this.getAttribute('rounded');
-
-      return value || true;
+      return this.hasAttribute('rounded');
     }
 
     /**
      *
      */
-    set rounded(val) {
-      this.setAttribute('rounded', val);
+    set rounded(value) {
+      if (value) {
+        this.setAttribute('rounded', '');
+      } else {
+        this.removeAttribute('rounded');
+      }
     }
 
     /**

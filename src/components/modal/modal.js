@@ -18,30 +18,36 @@
      *
      */
     get rounded() {
-      const value = this.getAttribute('rounded');
-
-      return value || true;
+      return this.hasAttribute('rounded');
     }
 
     /**
      *
      */
-    set rounded(val) {
-      this.setAttribute('rounded', val);
+    set rounded(value) {
+      if (value) {
+        this.setAttribute('rounded', '');
+      } else {
+        this.removeAttribute('rounded');
+      }
     }
 
     /**
      *
      */
     get open() {
-      return this.getAttribute('open');
+      return this.hasAttribute('open');
     }
 
     /**
      *
      */
-    set open(val) {
-      this.setAttribute('open', val);
+    set open(value) {
+      if (value) {
+        this.setAttribute('open', '');
+      } else {
+        this.removeAttribute('open');
+      }
     }
 
     /**
@@ -120,7 +126,7 @@
     attributeChangedCallback(name, oldValue, newValue) {
       switch (name) {
         case 'open':
-          if (newValue == 'true') {
+          if (newValue != null) {
             this.#modal.style.width = this.width;
             this.#modal.style.height = this.height;
 

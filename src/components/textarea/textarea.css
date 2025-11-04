@@ -14,11 +14,11 @@
   border-color: var(--textarea-border-color);
 }
 
-:host([fullwidth='true']) {
+:host([fullwidth]) {
   width: 100%;
 }
 
-:host([error='true']) {
+:host([error]) {
   border-color: var(--error-main);
 }
 
@@ -26,7 +26,7 @@
   border-color: var(--primary-main);
 }
 
-:host([rounded='true']) {
+:host([rounded]) {
   border-radius: var(--textarea-border-radius);
 }
 

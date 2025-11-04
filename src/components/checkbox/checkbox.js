@@ -15,7 +15,7 @@
      *
      */
     get checked() {
-      return this.getAttribute('checked') == 'true';
+      return this.hasAttribute('checked');
     }
 
     /**
@@ -25,7 +25,7 @@
       this.removeAttribute('indeterminate');
 
       if (value) {
-        this.setAttribute('checked', 'true');
+        this.setAttribute('checked', '');
       } else {
         this.removeAttribute('checked');
       }
@@ -37,7 +37,7 @@
      *
      */
     get disabled() {
-      return this.getAttribute('disabled') == 'true';
+      return this.hasAttribute('disabled');
     }
 
     /**
@@ -45,7 +45,7 @@
      */
     set disabled(value) {
       if (value) {
-        this.setAttribute('disabled', 'true');
+        this.setAttribute('disabled', '');
       } else {
         this.removeAttribute('disabled');
       }
@@ -177,7 +177,7 @@
           }
           break;
         case 'disabled':
-          if (newValue === 'true') {
+          if (newValue != null) {
             this.#input.disabled = true;
           } else {
             this.#input.disabled = false;

@@ -23,10 +23,14 @@
     #backdrop = null;
 
     get open() {
-      return this.getAttribute('open');
+      return this.hasAttribute('open');
     }
-    set open(val) {
-      this.setAttribute('open', val);
+    set open(value) {
+      if (value) {
+        this.setAttribute('open', '');
+      } else {
+        this.removeAttribute('open');
+      }
     }
 
     get direction() {
@@ -44,10 +48,14 @@
     }
 
     get rounded() {
-      return this.getAttribute('rounded') == 'true';
+      return this.hasAttribute('rounded');
     }
-    set rounded(val) {
-      this.setAttribute('rounded', val);
+    set rounded(value) {
+      if (value) {
+        this.setAttribute('rounded', '');
+      } else {
+        this.removeAttribute('rounded');
+      }
     }
 
     get customsize() {
@@ -128,8 +136,8 @@
       if (name !== 'open') return;
 
       const size = this.customsize || SIZES[this.size];
-      const isOpen = newValue === 'true';
-      const wasOpen = oldValue === 'true';
+      const isOpen = newValue != null;
+      const wasOpen = oldValue != null;
 
       const transformMap = {
         left: isOpen ? 'translate3d(0,0,0)' : `translate3d(-${size}, 0, 0)`,

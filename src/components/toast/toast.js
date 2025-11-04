@@ -90,12 +90,14 @@
         : this.setAttribute('duration', v);
     }
     get dismissible() {
-      return this.getAttribute('dismissible') ?? 'true';
+      return this.hasAttribute('dismissible');
     }
-    set dismissible(v) {
-      v == null
-        ? this.removeAttribute('dismissible')
-        : this.setAttribute('dismissible', v);
+    set dismissible(value) {
+      if (value) {
+        this.setAttribute('dismissible', '');
+      } else {
+        this.removeAttribute('dismissible');
+      }
     }
 
     /**
@@ -130,7 +132,7 @@
       this.#shadow.querySelector('.msg').textContent = this.message || '';
       this.#shadow.querySelector('.msg').hidden = !this.message;
 
-      if (this.dismissible === 'false')
+      if (!this.dismissible)
         this.#shadow.querySelector('.close').style.display = 'none';
       if (!this.hasAttribute('enter-from'))
         this.setAttribute('enter-from', 'top');
@@ -167,8 +169,9 @@
       if (name === 'message')
         this.#shadow.querySelector('.msg').textContent = n || '';
       if (name === 'dismissible')
-        this.#shadow.querySelector('.close').style.display =
-          n === 'false' ? 'none' : '';
+        this.#shadow.querySelector('.close').style.display = !this.dismissible
+          ? 'none'
+          : '';
     }
 
     /**

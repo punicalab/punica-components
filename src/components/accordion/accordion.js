@@ -11,7 +11,7 @@
      *
      */
     get rounded() {
-      return this.getAttribute('rounded') == 'true';
+      return this.hasAttribute('rounded');
     }
 
     /**
@@ -19,7 +19,7 @@
      */
     set rounded(value) {
       if (value) {
-        this.setAttribute('rounded', 'true');
+        this.setAttribute('rounded', '');
       } else {
         this.removeAttribute('rounded');
       }
@@ -29,7 +29,7 @@
      *
      */
     get expanded() {
-      return this.getAttribute('expanded') == 'true';
+      return this.hasAttribute('expanded');
     }
 
     /**
@@ -37,7 +37,7 @@
      */
     set expanded(value) {
       if (value) {
-        this.setAttribute('expanded', 'true');
+        this.setAttribute('expanded', '');
       } else {
         this.removeAttribute('expanded');
       }

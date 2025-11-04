@@ -17,6 +17,6 @@
   align-self: stretch;
 }
 
-:host([flexItem='true']) {
+:host([flexItem]) {
   margin: 8px 0px;
 }

@@ -52,10 +52,14 @@
     }
 
     get rounded() {
-      return this.getAttribute('rounded') == 'true';
+      return this.hasAttribute('rounded');
     }
-    set rounded(val) {
-      this.setAttribute('rounded', val);
+    set rounded(value) {
+      if (value) {
+        this.setAttribute('rounded', '');
+      } else {
+        this.removeAttribute('rounded');
+      }
     }
 
     get placeholder() {
@@ -66,10 +70,14 @@
     }
 
     get error() {
-      return this.getAttribute('error') == 'true';
+      return this.hasAttribute('error');
     }
-    set error(val) {
-      this.setAttribute('error', val);
+    set error(value) {
+      if (value) {
+        this.setAttribute('error', '');
+      } else {
+        this.removeAttribute('error');
+      }
     }
 
     get type() {
@@ -80,17 +88,25 @@
     }
 
     get fullwidth() {
-      return this.getAttribute('fullwidth');
+      return this.hasAttribute('fullwidth');
     }
-    set fullwidth(val) {
-      this.setAttribute('fullwidth', val);
+    set fullwidth(value) {
+      if (value) {
+        this.setAttribute('fullwidth', '');
+      } else {
+        this.removeAttribute('fullwidth');
+      }
     }
 
     get disabled() {
-      return this.getAttribute('disabled');
+      return this.hasAttribute('disabled');
     }
-    set disabled(val) {
-      this.setAttribute('disabled', val);
+    set disabled(value) {
+      if (value) {
+        this.setAttribute('disabled', '');
+      } else {
+        this.removeAttribute('disabled');
+      }
     }
 
     get startadornment() {
@@ -156,7 +172,7 @@
     // ---- Events ----
     inputFocus = () => {
       if (!this.error) {
-        this.setAttribute('focus', 'true');
+        this.setAttribute('focus', '');
         this.#input.focus();
       }
     };
@@ -165,7 +181,7 @@
       e.target.focus();
       e.stopPropagation();
       this.fireOnFocus();
-      if (!this.error) this.setAttribute('focus', 'true');
+      if (!this.error) this.setAttribute('focus', '');
     };
 
     inputBlur = () => {
@@ -242,7 +258,7 @@
       if (!this.size) this.size = 'medium';
 
       // disabled/readonly
-      this.#input.disabled = this.disabled === 'true' || this.disabled === true;
+      this.#input.disabled = this.disabled;
       if (this.readonly) this.#input.setAttribute('readonly', this.readonly);
 
       // autocomplete pass-through
@@ -309,8 +325,7 @@
           this.#input.minLength = newValue ? parseInt(newValue) : undefined;
           break;
         case 'disabled': {
-          const on =
-            newValue === 'true' || newValue === true || newValue === '';
+          const on = newValue != null;
           this.#input.disabled = !!on;
           this.formDisabledCallback?.(!!on);
           break;

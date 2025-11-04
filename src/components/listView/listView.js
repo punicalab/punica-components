@@ -17,24 +17,18 @@
      *
      */
     get enabledivider() {
-      if (!this.hasAttribute('enabledivider')) {
-        return false;
-      }
-
-      const value = this.getAttribute('enabledivider');
-
-      if (value === '' || value?.toLowerCase() === 'true') {
-        return true;
-      }
-
-      return false;
+      return this.hasAttribute('enabledivider');
     }
 
     /**
      *
      */
-    set enabledivider(val) {
-      this.setAttribute('enabledivider', val);
+    set enabledivider(value) {
+      if (value) {
+        this.setAttribute('enabledivider', '');
+      } else {
+        this.removeAttribute('enabledivider');
+      }
     }
 
     /**

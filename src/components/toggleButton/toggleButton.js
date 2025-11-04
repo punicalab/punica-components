@@ -42,14 +42,18 @@
      *
      */
     get disabled() {
-      return this.getAttribute('disabled');
+      return this.hasAttribute('disabled');
     }
 
     /**
      *
      */
-    set disabled(val) {
-      this.setAttribute('disabled', val);
+    set disabled(value) {
+      if (value) {
+        this.setAttribute('disabled', '');
+      } else {
+        this.removeAttribute('disabled');
+      }
     }
 
     /**
@@ -64,7 +68,7 @@
      */
     set selected(value) {
       if (value) {
-        this.setAttribute('selected', true);
+        this.setAttribute('selected', '');
       } else {
         this.removeAttribute('selected');
       }
