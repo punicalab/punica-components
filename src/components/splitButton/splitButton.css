@@ -1,2 +1,41 @@
 :host {
+  display: inline-block;
+  position: relative;
+  font: inherit;
+}
+
+.group {
+  display: inline-grid;
+  grid-auto-flow: column;
+  align-items: stretch;
+}
+
+.btn-main {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.btn-toggle {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.caret,
+.caret-up {
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  display: inline-block;
+}
+
+.caret {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid white;
+}
+
+.caret-up {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 6px solid white;
 }

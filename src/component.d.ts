@@ -335,6 +335,22 @@ declare global {
         HTMLElement
       > & {
         class?: string;
+        size?: 'small' | 'medium' | 'large';
+        variant?: 'text' | 'filled' | 'outlined';
+        color?:
+          | 'primary'
+          | 'secondary'
+          | 'error'
+          | 'info'
+          | 'warning'
+          | 'success'
+          | 'ghost';
+        rounded?: boolean;
+        disabled?: boolean;
+        open?: boolean;
+        placement?: 'top' | 'bottom' | 'left' | 'right';
+        label?: string;
+        icon?: string;
       };
       'punica-card': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
@@ -597,7 +613,7 @@ declare global {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
-        value: any;
+        value?: string | number;
         selected?: boolean;
         class?: string;
         size?: 'xsmall' | 'small' | 'medium' | 'large';
@@ -609,6 +625,12 @@ declare global {
           | 'info'
           | 'warning'
           | 'success';
+        'on-change'?: (
+          e: CustomEvent<{ selected: boolean; value: string | number }>
+        ) => void;
+        onChange?: (
+          e: CustomEvent<{ selected: boolean; value: string | number }>
+        ) => void;
       };
       'punica-toggle-button-group': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,

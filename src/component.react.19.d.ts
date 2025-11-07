@@ -327,6 +327,22 @@ interface PunicaPaperProps extends NativeHTMLElementProps {
 
 interface PunicaSplitButtonProps extends NativeHTMLElementProps {
   class?: string;
+  size?: 'small' | 'medium' | 'large';
+  variant?: 'text' | 'filled' | 'outlined';
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'error'
+    | 'info'
+    | 'warning'
+    | 'success'
+    | 'ghost';
+  rounded?: boolean;
+  disabled?: boolean;
+  open?: boolean;
+  placement?: 'top' | 'bottom' | 'left' | 'right';
+  label?: string;
+  icon?: string;
 }
 
 interface PunicaCardProps extends NativeHTMLElementProps {
@@ -432,13 +448,13 @@ interface PunicaCheckboxProps extends NativeHTMLElementProps {
 
 interface PunicaMenuProps extends NativeHTMLElementProps {
   class?: string;
-  open: boolean;
-  left: number;
-  top: number;
-  bottom: number;
-  width: number;
-  height: number;
-  placement: 'top' | 'left' | 'right' | 'bottom';
+  open?: boolean;
+  left?: number;
+  top?: number;
+  bottom?: number;
+  width?: number;
+  height?: number;
+  placement?: 'top' | 'left' | 'right' | 'bottom';
 }
 
 interface PunicaMenuItemProps extends NativeHTMLElementProps {

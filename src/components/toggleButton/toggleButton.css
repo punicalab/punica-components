@@ -1,130 +1,125 @@
 :host {
-  --toggle-button-border-color: var(--neutral-main);
-  --toggle-border-radius: var(--root-border-radius);
+  --toggle-button-border-radius: var(--root-border-radius);
 }
 
 :host {
-  pointer-events: all;
   display: inline-flex;
-  -webkit-box-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  position: relative;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0px;
-  margin: 0px;
   cursor: pointer;
-  vertical-align: middle;
-  appearance: none;
-  text-decoration: none;
-  text-align: center;
-  flex: 0 0 auto;
-  overflow: visible;
-  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  padding: 12px;
-  border: 1px solid var(--toggle-button-border-color);
-  border-radius: var(--toggle-border-radius);
+  user-select: none;
+  outline: none;
+  transition: background 0.15s ease, opacity 0.15s ease, transform 0.08s ease;
+}
+
+:host(:focus-visible) {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--toggle-color) 35%, #fff);
 }
 
 :host([selected]) {
-  background: rgb(from var(--text-primary) r g b / 20%);
-}
-
-:host([selected]:hover) {
-  background: rgb(from var(--text-primary) r g b / 6%);
-}
-
-:host(:hover) {
-  background-color: rgb(from var(--text-primary) r g b / 10%);
+  background: var(--bg-on);
+  color: var(--fg);
 }
 
 :host([disabled]) {
+  cursor: not-allowed;
+  opacity: 0.6;
   pointer-events: none;
-  opacity: var(--disabled-opacity);
 }
 
-:host([size='xsmall']) {
-  width: 24px;
-  height: 24px;
-  font-size: medium;
+.dot {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.25;
+  transform: translateX(0);
+  transition: 0.15s ease;
 }
 
-:host([size='small']) {
-  width: 32px;
-  height: 32px;
-  font-size: medium;
-}
-
-:host([size='medium']) {
-  width: 40px;
-  height: 40px;
-  font-size: large;
-}
-
-:host([size='large']) {
-  width: 48px;
-  height: 48px;
-  font-size: xx-large;
-}
-
-:host(:hover) {
-  background-color: rgb(from var(--text-primary) r g b / 6%);
+:host([selected]) .dot {
+  opacity: 1;
 }
 
 :host([color='primary']) {
-  color: var(--primary-main);
+  background-color: var(--primary-main);
+  color: var(--white);
 }
 
 :host([color='primary']):host(:hover) {
-  background-color: rgb(from var(--primary-main) r g b / 6%);
+  background-color: var(--primary-dark);
+  color: var(--white);
 }
 
 :host([color='secondary']) {
-  color: var(--secondary-main);
+  background-color: var(--secondary-main);
+  color: var(--white);
 }
 
 :host([color='secondary']):host(:hover) {
-  background-color: rgb(from var(--secondary-main) r g b / 6%);
+  background-color: var(--secondary-dark);
+  color: var(--white);
 }
 
 :host([color='error']) {
-  color: var(--error-main);
+  background-color: var(--error-main);
+  color: var(--white);
 }
 
 :host([color='error']):host(:hover) {
-  background-color: rgb(from var(--error-main) r g b / 6%);
+  background-color: var(--error-dark);
+  color: var(--white);
 }
 
 :host([color='warning']) {
-  color: var(--warning-main);
+  background-color: var(--warning-main);
+  color: var(--white);
 }
 
 :host([color='warning']):host(:hover) {
-  background-color: rgb(from var(--warning-main) r g b / 6%);
+  background-color: var(--warning-dark);
+  color: var(--white);
 }
 
 :host([color='info']) {
-  color: var(--info-main);
+  background-color: var(--info-main);
+  color: var(--white);
 }
 
 :host([color='info']):host(:hover) {
-  background-color: rgb(from var(--info-main) r g b / 6%);
+  background-color: var(--info-dark);
+  color: var(--white);
 }
 
 :host([color='success']) {
-  color: var(--success-main);
+  background-color: var(--success-main);
+  color: var(--white);
 }
 
 :host([color='success']):host(:hover) {
-  background-color: rgb(from var(--success-main) r g b / 6%);
+  background-color: var(--success-dark);
+  color: var(--white);
 }
 
-::slotted([slot='active']) {
-  display: none;
+:host([color='ghost']) {
+  background-color: transparent;
+  color: var(--secondary-main);
 }
 
-::slotted([slot='passive']) {
-  display: inline-flex;
+:host([size='small']) {
+  padding: var(--spacing-6) var(--spacing-8);
+  height: 32px;
+}
+
+:host([size='medium']) {
+  padding: var(--spacing-8) var(--spacing-16);
+  height: 40px;
+}
+
+:host([size='large']) {
+  padding: var(--spacing-12) var(--spacing-28);
+  height: 48px;
+}
+
+:host([rounded]) {
+  border-radius: var(--toggle-button-border-radius);
 }

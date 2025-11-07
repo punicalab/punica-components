@@ -8,10 +8,10 @@
   padding: var(--accordion-details-padding);
 }
 
-:host-context(punica-accordion[expanded='true']) {
+:host-context(punica-accordion[expanded]) {
   display: block;
 }
 
-:host-context(punica-accordion[expanded='false']) {
+:host-context(punica-accordion) {
   display: none;
 }

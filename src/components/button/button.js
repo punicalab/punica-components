@@ -184,7 +184,8 @@
      */
     connectedCallback() {
       this.setAttribute('role', 'button');
-      if (!this.hasAttribute('size')) this.setAttribute('size', 'medium');
+
+      if (!this.hasAttribute('size')) this.setAttribute('size', 'small');
       if (!this.hasAttribute('color')) this.setAttribute('color', 'primary');
       if (!this.hasAttribute('variant')) this.setAttribute('variant', 'filled');
     }

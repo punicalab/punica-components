@@ -6,7 +6,7 @@
 :host {
   position: fixed;
   inset: 0;
-  z-index: var(--zindex-drawer);
+  z-index: var(--zindex-drawer, 1300);
   visibility: hidden;
   pointer-events: none;
 }
@@ -19,7 +19,7 @@
 :host .backdrop {
   position: fixed;
   inset: 0;
-  background-color: var(--background-backdrop);
+  background-color: var(--background-backdrop, rgba(0, 0, 0, 0.32));
   -webkit-tap-highlight-color: transparent;
   z-index: -1;
   opacity: 0;
@@ -32,43 +32,57 @@
 
 :host punica-box {
   position: fixed;
-  z-index: var(--zindex-drawer);
+  z-index: calc(var(--zindex-drawer, 1300) + 1);
   display: flex;
   flex-direction: column;
-  flex: 1 0 auto;
   outline: 0;
-  padding: 0;
   background-color: var(--drawer-background-color);
   transition: transform 300ms cubic-bezier(0, 0, 0.2, 1), opacity 220ms ease;
   will-change: transform, opacity;
-  backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
   opacity: 0;
+  visibility: hidden;
 }
 
 :host([direction='left']) punica-box {
   height: 100vh;
   top: 0;
   left: 0;
+  transform: translate3d(-100%, 0, 0);
 }
 :host([direction='right']) punica-box {
   height: 100vh;
   top: 0;
   right: 0;
+  transform: translate3d(100%, 0, 0);
 }
 :host([direction='top']) punica-box {
-  left: 0;
-  right: 0;
-  max-height: 100%;
   width: 100vw;
   top: 0;
+  left: 0;
+  transform: translate3d(0, -100%, 0);
 }
 :host([direction='bottom']) punica-box {
-  max-height: 100%;
-  bottom: 0;
   width: 100vw;
+  bottom: 0;
+  left: 0;
+  transform: translate3d(0, 100%, 0);
+}
+
+:host([open]) punica-box {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
 }
 
 :host([direction='bottom'][rounded]) punica-box {
   border-radius: var(--drawer-border-radius) var(--drawer-border-radius) 0 0;
+}
+:host([direction='top'][rounded]) punica-box {
+  border-radius: 0 0 var(--drawer-border-radius) var(--drawer-border-radius);
+}
+:host([direction='left'][rounded]) punica-box {
+  border-radius: 0 var(--drawer-border-radius) var(--drawer-border-radius) 0;
+}
+:host([direction='right'][rounded]) punica-box {
+  border-radius: var(--drawer-border-radius) 0 0 var(--drawer-border-radius);
 }
