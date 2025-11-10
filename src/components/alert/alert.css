@@ -4,7 +4,6 @@
 }
 
 :host {
-  box-sizing: border-box;
   padding: var(--alert-padding);
   border-radius: var(--alert-border-radius);
   width: fit-content;

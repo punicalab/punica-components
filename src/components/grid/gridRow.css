@@ -1,5 +1,4 @@
 :host {
-  box-sizing: border-box;
   display: flex;
   min-width: 0px;
   align-items: var(--align-items);

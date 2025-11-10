@@ -5,7 +5,6 @@
 }
 
 :host {
-  box-sizing: border-box;
   display: inline-flex;
   gap: var(--spacing-8);
   border-width: 1px;

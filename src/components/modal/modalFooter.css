@@ -1,5 +1,4 @@
 :host {
-  box-sizing: border-box;
   grid-area: footer;
   display: flex;
   flex-wrap: nowrap;

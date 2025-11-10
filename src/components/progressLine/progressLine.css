@@ -6,14 +6,15 @@
 }
 
 :host {
-  box-sizing: border-box;
+  width: 100%;
+  height: var(--progress-height);
   display: block;
 }
 
 .track {
   position: relative;
   width: 100%;
-  height: var(--progress-height);
+  height: 100%;
   background: var(--progress-bg);
   overflow: hidden;
   border-radius: 998px;
