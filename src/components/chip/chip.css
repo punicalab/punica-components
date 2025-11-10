@@ -1,4 +1,5 @@
 :host {
+  box-sizing: border-box;
   position: relative;
   appearance: none;
   max-width: 100%;

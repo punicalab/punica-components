@@ -5,6 +5,7 @@
 }
 
 :host {
+  box-sizing: border-box;
   display: block;
   pointer-events: auto;
   will-change: transform, opacity, height;

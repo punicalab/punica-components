@@ -3,7 +3,10 @@
 
   template.innerHTML = `<textarea></textarea><style></style>`;
 
-  class Textarea extends HTMLElement {
+  class Textarea extends PunicaBase {
+    static get booleanAttributes() {
+      return ['rounded', 'error', 'fullwidth', 'disabled'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #textarea = null;
 
@@ -222,6 +225,10 @@
     attributeChangedCallback(name, oldValue, newValue) {
       if (!this.#textarea) return;
 
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
+
       switch (name) {
         case 'placeholder':
           this.#textarea.placeholder = newValue || '';
@@ -248,6 +255,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.#textarea.addEventListener('focus', this.textareaFocus);
       this.#textarea.addEventListener('blur', this.textareaBlur);
       this.#textarea.addEventListener('input', this.textareaChange);

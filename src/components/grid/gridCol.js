@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class GridCol extends HTMLElement {
+  class GridCol extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**

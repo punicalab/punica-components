@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class Paper extends HTMLElement {
+  class Paper extends PunicaBase {
+    static get booleanAttributes() {
+      return ['rounded'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -56,6 +59,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.#shadow.appendChild(template.content.cloneNode(true));
     }
 
@@ -66,6 +71,10 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
+
       switch (name) {
         case 'class':
           if (oldValue != newValue) {

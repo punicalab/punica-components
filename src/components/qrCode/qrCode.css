@@ -1,4 +1,5 @@
 :host {
+  box-sizing: border-box;
   display: inline-block;
 }
 
@@ -8,4 +9,3 @@ canvas {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
-

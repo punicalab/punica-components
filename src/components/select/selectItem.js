@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class SelectItem extends HTMLElement {
+  class SelectItem extends PunicaBase {
+    static get booleanAttributes() {
+      return ['selected'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -58,6 +61,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (this.parentElement.localName == 'punica-select') {
         this.parentElement.itemAdd(this);
       }

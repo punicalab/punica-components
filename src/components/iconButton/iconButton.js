@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class IconButton extends HTMLElement {
+  class IconButton extends PunicaBase {
+    static get booleanAttributes() {
+      return ['disabled', 'loading'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -90,6 +93,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (!this.size) {
         this.size = 'medium';
       }
@@ -101,6 +106,11 @@
      *
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        this.updateComponent();
+        return;
+      }
+
       this.updateComponent();
     }
 

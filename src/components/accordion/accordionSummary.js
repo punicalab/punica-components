@@ -9,7 +9,10 @@
     <style></style>
   `;
 
-  class AccordionSummary extends HTMLElement {
+  class AccordionSummary extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -25,6 +28,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (this.parentElement.localName == 'punica-accordion') {
         this.parentElement.addSummary(this);
       }

@@ -18,8 +18,11 @@ async function main() {
 }
 
 async function bundleComponents() {
+  // Include base class first
+  const baseClass = await readSafe('./src/components/base.js');
+  let output = baseClass ? baseClass + '\n' : '';
+
   const dirNames = await getDirectories();
-  let output = '';
 
   for (const d of dirNames.sort()) {
     const entries = await readdir(`${root}${d}`, { withFileTypes: true });

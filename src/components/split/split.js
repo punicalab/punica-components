@@ -8,7 +8,10 @@
       <style></style>
     `;
 
-  class Split extends HTMLElement {
+  class Split extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #layoutEl;
     #panes = [];
@@ -64,6 +67,8 @@
     }
 
     connectedCallback() {
+      super.connectedCallback();
+
       this.#shadow.appendChild(template.content.cloneNode(true));
       this.#layoutEl = this.#shadow.querySelector('.layout');
 

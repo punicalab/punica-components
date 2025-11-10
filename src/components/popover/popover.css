@@ -1,4 +1,5 @@
 :host {
+  box-sizing: border-box;
   position: fixed;
   z-index: var(--zindex-popover);
 }

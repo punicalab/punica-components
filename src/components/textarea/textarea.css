@@ -5,6 +5,7 @@
 }
 
 :host {
+  box-sizing: border-box;
   display: inline-flex;
   gap: var(--spacing-8);
   border-width: 1px;
@@ -22,7 +23,7 @@
   border-color: var(--error-main);
 }
 
-:host([focus='true']) {
+:host([focus]) {
   border-color: var(--primary-main);
 }
 

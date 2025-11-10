@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class AlertIcon extends HTMLElement {
+  class AlertIcon extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**

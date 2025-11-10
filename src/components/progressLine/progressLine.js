@@ -7,7 +7,10 @@
       </div>
       <style></style>`;
 
-  class ProgressLine extends HTMLElement {
+  class ProgressLine extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -47,6 +50,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.#shadow.appendChild(template.content.cloneNode(true));
       this.#applyHeight();
       this.#applyColor();

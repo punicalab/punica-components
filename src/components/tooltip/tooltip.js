@@ -7,7 +7,10 @@
       <style></style>
     `;
 
-  class Tooltip extends HTMLElement {
+  class Tooltip extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -42,6 +45,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.#shadow.appendChild(template.content.cloneNode(true));
 
       const tooltip = this.#shadow.querySelector('.tooltip-text');

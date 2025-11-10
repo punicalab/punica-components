@@ -16,7 +16,10 @@ const SIZES = {
   fullSize: '100%'
 };
 
-class Drawer extends HTMLElement {
+class Drawer extends PunicaBase {
+  static get booleanAttributes() {
+    return ['open', 'rounded'];
+  }
   #shadow = this.attachShadow({ mode: 'open' });
   #content = null;
   #backdrop = null;
@@ -86,6 +89,7 @@ class Drawer extends HTMLElement {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#normalizeOpenAttr();
     this.#applySizeBox();
 
@@ -101,6 +105,13 @@ class Drawer extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
+    if (this.normalizeBooleanAttributeIfNeeded(name, newVal)) {
+      if (name === 'open') {
+        document.body.style.overflow = '';
+      }
+      return;
+    }
+
     if (name === 'open') {
       if (newVal != null && !this.#isTruthy(newVal)) {
         this.removeAttribute('open');

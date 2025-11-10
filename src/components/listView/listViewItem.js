@@ -34,7 +34,10 @@
     <style></style>
   `;
 
-  class ListViewItem extends HTMLElement {
+  class ListViewItem extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**

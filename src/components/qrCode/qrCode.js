@@ -6,7 +6,10 @@
     <style></style>
   `;
 
-  class QRCode extends HTMLElement {
+  class QRCode extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #canvas;
     #ctx;
@@ -94,6 +97,8 @@
      * Connected callback
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.#shadow.appendChild(template.content.cloneNode(true));
       this.#canvas = this.#shadow.querySelector('canvas');
       this.#ctx = this.#canvas.getContext('2d');

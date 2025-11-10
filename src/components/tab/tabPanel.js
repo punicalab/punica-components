@@ -3,7 +3,10 @@
 
   template.innerHTML = `<style></style>`;
 
-  class TabPanel extends HTMLElement {
+  class TabPanel extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #slot = null;
 
@@ -80,6 +83,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (this.selectedvalue == this.value) {
         this.style.display = 'block!important';
       } else {

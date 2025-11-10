@@ -8,8 +8,11 @@
     <style></style>
   `;
 
-  class Input extends HTMLElement {
+  class Input extends PunicaBase {
     static formAssociated = true;
+    static get booleanAttributes() {
+      return ['rounded', 'error', 'fullwidth', 'disabled'];
+    }
     static get observedAttributes() {
       return [
         'size',
@@ -17,6 +20,7 @@
         'fullwidth',
         'disabled',
         'error',
+        'rounded',
         'startadornment',
         'endadornment',
         'minlength',
@@ -249,6 +253,8 @@
     }
 
     connectedCallback() {
+      super.connectedCallback();
+
       this.#input.addEventListener('mousedown', this.inputMouseDown);
       this.#input.addEventListener('focus', this.inputMouseDown);
       this.#input.addEventListener('blur', this.inputBlur);
@@ -297,6 +303,10 @@
 
     attributeChangedCallback(name, oldValue, newValue) {
       if (!this.#input) return;
+
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
 
       switch (name) {
         case 'value': {

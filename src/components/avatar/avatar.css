@@ -1,4 +1,5 @@
 :host {
+  box-sizing: border-box;
   overflow: hidden;
   width: 36px;
   height: 36px;

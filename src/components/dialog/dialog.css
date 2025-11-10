@@ -6,6 +6,7 @@
 }
 
 :host {
+  box-sizing: border-box;
   background-color: var(--dialog-background-color);
 }
 
@@ -13,7 +14,6 @@ dialog {
   display: none;
   border: none;
   outline: none;
-  box-sizing: border-box;
   padding: var(--dialog-padding);
   background-color: inherit;
   overflow: hidden;

@@ -26,7 +26,10 @@
 
   <slot></slot>`;
 
-  class PunicaSplitButton extends HTMLElement {
+  class PunicaSplitButton extends PunicaBase {
+    static get booleanAttributes() {
+      return ['disabled', 'rounded', 'open'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #btnMain;
     #btnToggle;
@@ -52,6 +55,8 @@
     }
 
     connectedCallback() {
+      super.connectedCallback();
+
       this.#btnMain = this.#shadow.querySelector('[data-role="main"]');
       this.#btnToggle = this.#shadow.querySelector('[data-role="toggle"]');
       this.#menu = this.querySelector('punica-menu');
@@ -87,7 +92,11 @@
       this.#menu?.removeEventListener('close', this.close);
     }
 
-    attributeChangedCallback(name) {
+    attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
+
       if (name === 'disabled') {
         const dis = this.disabled;
         dis

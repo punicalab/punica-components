@@ -4,6 +4,7 @@
 }
 
 :host {
+  box-sizing: border-box;
   position: fixed;
   inset: 0;
   z-index: var(--zindex-drawer, 1300);

@@ -8,7 +8,10 @@
     <style></style>
   `;
 
-  class ListView extends HTMLElement {
+  class ListView extends PunicaBase {
+    static get booleanAttributes() {
+      return ['enabledivider'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #slotEl;
     #row;
@@ -81,8 +84,13 @@
     /**
      *
      */
-    attributeChangedCallback(name) {
+    attributeChangedCallback(name, oldValue, newValue) {
       if (!this.#row) return;
+
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        this.#onSlotChange();
+        return;
+      }
 
       if (name === 'spacing') {
         this.#row.setAttribute('spacing', this.spacing);
@@ -94,6 +102,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.#shadow.appendChild(template.content.cloneNode(true));
       this.#slotEl = this.#shadow.querySelector('slot');
 

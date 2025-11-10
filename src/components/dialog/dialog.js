@@ -8,7 +8,10 @@
     <style></style>
   `;
 
-  class Dialog extends HTMLElement {
+  class Dialog extends PunicaBase {
+    static get booleanAttributes() {
+      return ['open', 'rounded'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #dialog = null;
 
@@ -87,6 +90,10 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
+
       switch (name) {
         case 'open':
           if (newValue != null) {

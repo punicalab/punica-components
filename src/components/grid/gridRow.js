@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class GridRow extends HTMLElement {
+  class GridRow extends PunicaBase {
+    static get booleanAttributes() {
+      return ['fullheight'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #style = null;
 
@@ -218,13 +221,20 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.update();
     }
 
     /**
      *
      */
-    attributeChangedCallback() {
+    attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        this.update();
+        return;
+      }
+
       this.update();
     }
   }

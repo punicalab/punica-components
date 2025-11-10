@@ -6,6 +6,7 @@
 }
 
 :host {
+  box-sizing: border-box;
   display: none;
   border: none;
   outline: none;

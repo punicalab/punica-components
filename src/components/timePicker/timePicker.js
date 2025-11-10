@@ -45,7 +45,10 @@
       </punica-popover>
   <style></style>`;
 
-  class TimePicker extends HTMLElement {
+  class TimePicker extends PunicaBase {
+    static get booleanAttributes() {
+      return ['open'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #popover = null;
     #hourDisplay = null;
@@ -174,6 +177,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.show();
       this.#hourUpButton.addEventListener('click', this.incrementHour);
       this.#hourDownButton.addEventListener('click', this.decrementHour);

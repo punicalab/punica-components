@@ -3,7 +3,10 @@
 
   template.innerHTML = `<style></style>`;
 
-  class Divider extends HTMLElement {
+  class Divider extends PunicaBase {
+    static get booleanAttributes() {
+      return ['flexItem'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -58,6 +61,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (!this.orientation) {
         this.orientation = 'horizontal';
       }

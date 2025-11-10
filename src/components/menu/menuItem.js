@@ -6,7 +6,10 @@
     <style></style>
   `;
 
-  class MenuItem extends HTMLElement {
+  class MenuItem extends PunicaBase {
+    static get booleanAttributes() {
+      return ['disabled'];
+    }
     #shadow;
 
     /**
@@ -62,6 +65,11 @@
      * Lifecycle callback: called when an observed attribute changes.
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        this.toggleAttribute('aria-disabled', false);
+        return;
+      }
+
       if (name === 'disabled') {
         this.toggleAttribute('aria-disabled', this.disabled);
       }
@@ -71,6 +79,8 @@
      * Lifecycle callback: called when the element is connected to the DOM.
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (!this.hasAttribute('role')) {
         this.setAttribute('role', 'menuitem');
       }

@@ -1,6 +1,4 @@
 :host {
-  display: inline-block;
-  contain: layout;
   --switch-lever--background: rgb(132 132 132);
   --switch-lever_checked--background: rgb(132 132 132);
   --switch-lever--handle-background: rgb(193, 191, 191);
@@ -13,6 +11,12 @@
   --switch_focus--outline-color: rgb(100, 149, 237);
   --switch_disabled--off-text-color: rgb(158, 158, 158);
   --switch_disabled--on-text-color: rgb(158, 158, 158);
+}
+
+:host {
+  box-sizing: border-box;
+  display: inline-block;
+  contain: layout;
 }
 
 :host([hidden]) {

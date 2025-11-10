@@ -7,7 +7,10 @@
     <style></style>
   `;
 
-  class Checkbox extends HTMLElement {
+  class Checkbox extends PunicaBase {
+    static get booleanAttributes() {
+      return ['checked', 'disabled'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #input = null;
 
@@ -135,6 +138,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.update();
 
       if (this.disabled) {
@@ -167,6 +172,10 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
+
       switch (name) {
         case 'checked':
           if (this.checked) {

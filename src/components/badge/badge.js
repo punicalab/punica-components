@@ -9,7 +9,10 @@
     <style></style>
   `;
 
-  class Badge extends HTMLElement {
+  class Badge extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -98,6 +101,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.#shadow.appendChild(template.content.cloneNode(true));
 
       this.update();

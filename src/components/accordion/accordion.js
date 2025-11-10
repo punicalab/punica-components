@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class Accordion extends HTMLElement {
+  class Accordion extends PunicaBase {
+    static get booleanAttributes() {
+      return ['rounded', 'expanded'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #summary = null;
 
@@ -98,6 +101,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (this.getAttribute('expanded') === null) this.expanded = false;
       if (this.getAttribute('rounded') === null) this.rounded = false;
     }

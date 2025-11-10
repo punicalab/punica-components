@@ -40,7 +40,18 @@
     </style>
   `;
 
-  class Select extends HTMLElement {
+  class Select extends PunicaBase {
+    static get booleanAttributes() {
+      return [
+        'rounded',
+        'error',
+        'fullwidth',
+        'disabled',
+        'clearbutton',
+        'loading',
+        'minimumtargetwidth'
+      ];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #selected = null;
     #content = null;
@@ -256,7 +267,9 @@
         'value',
         'size',
         'minimumtargetwidth',
-        'selecteditemdisplayitem'
+        'selecteditemdisplayitem',
+        'rounded',
+        'clearbutton'
       ];
     }
 
@@ -462,6 +475,10 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
+
       switch (name) {
         case 'value':
           if (newValue == null) {
@@ -496,6 +513,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (!this.size) {
         this.size = 'medium';
       }

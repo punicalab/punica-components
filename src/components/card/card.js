@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class Card extends HTMLElement {
+  class Card extends PunicaBase {
+    static get booleanAttributes() {
+      return ['fullwidth', 'rounded'];
+    }
     #shadow = null;
 
     /**
@@ -57,6 +60,13 @@
 
       this.#shadow = this.attachShadow({ mode: 'open' });
       this.#shadow.appendChild(template.content.cloneNode(true));
+    }
+
+    /**
+     *
+     */
+    connectedCallback() {
+      super.connectedCallback();
     }
   }
 

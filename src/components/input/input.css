@@ -5,6 +5,7 @@
 }
 
 :host {
+  box-sizing: border-box;
   display: inline-flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -38,7 +39,7 @@
   border-color: var(--error-main);
 }
 
-:host([focus='true']) {
+:host([focus]) {
   border-color: var(--primary-main);
 }
 

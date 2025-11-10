@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class ButtonGroup extends HTMLElement {
+  class ButtonGroup extends PunicaBase {
+    static get booleanAttributes() {
+      return ['disabled', 'fullwidth'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -134,6 +137,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.setAttribute('role', 'group');
 
       this.applyNewStyle('disabled', this.disabled ? '' : null);

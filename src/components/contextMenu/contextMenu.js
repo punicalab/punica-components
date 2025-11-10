@@ -1,14 +1,25 @@
 (function () {
-  class PCMItem extends HTMLElement {}
+  class PCMItem extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
+  }
   customElements.define('punica-context-menu-item', PCMItem);
-  class PCMSeparator extends HTMLElement {}
+  class PCMSeparator extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
+  }
   customElements.define('punica-context-menu-separator', PCMSeparator);
 
   const template = document.createElement('template');
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class PunicaContextMenu extends HTMLElement {
+  class PunicaContextMenu extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #root;
     #openChain = [];
     #delegatedTargets = new Set();
@@ -40,6 +51,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.#setupDelegatedTargets();
     }
 

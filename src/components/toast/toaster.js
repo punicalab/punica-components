@@ -11,7 +11,10 @@
     <style></style>
   `;
 
-  class Toaster extends HTMLElement {
+  class Toaster extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     /**
      *

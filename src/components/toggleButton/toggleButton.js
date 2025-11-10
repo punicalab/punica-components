@@ -7,8 +7,11 @@
     <style></style>
   `;
 
-  class ToggleButton extends HTMLElement {
+  class ToggleButton extends PunicaBase {
     static formAssociated = true;
+    static get booleanAttributes() {
+      return ['disabled', 'selected'];
+    }
     static get observedAttributes() {
       return ['disabled', 'selected', 'color', 'mode', 'name', 'value'];
     }
@@ -118,11 +121,13 @@
     }
 
     connectedCallback() {
+      super.connectedCallback();
+
       this.#applyA11yRole();
 
       if (!this.hasAttribute('tabindex')) this.tabIndex = 0;
       if (!this.hasAttribute('color')) this.setAttribute('color', 'primary');
-      if (!this.hasAttribute('size')) this.setAttribute('size', 'small');
+      if (!this.hasAttribute('size')) this.setAttribute('size', 'medium');
 
       this.#defaultSelected = this.selected;
 
@@ -144,6 +149,10 @@
 
     attributeChangedCallback(name, oldV, newV) {
       if (oldV === newV) return;
+
+      if (this.normalizeBooleanAttributeIfNeeded(name, newV)) {
+        return;
+      }
 
       if (name === 'disabled') {
         if (this.disabled) {

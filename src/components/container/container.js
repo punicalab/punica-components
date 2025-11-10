@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class Container extends HTMLElement {
+  class Container extends PunicaBase {
+    static get booleanAttributes() {
+      return ['disablegutters'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -52,6 +55,13 @@
       super();
 
       this.#shadow.appendChild(template.content.cloneNode(true));
+    }
+
+    /**
+     *
+     */
+    connectedCallback() {
+      super.connectedCallback();
     }
   }
 

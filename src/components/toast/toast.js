@@ -48,7 +48,10 @@
     }
   };
 
-  class Toast extends HTMLElement {
+  class Toast extends PunicaBase {
+    static get booleanAttributes() {
+      return ['dismissible'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #timer = null;
 
@@ -125,6 +128,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.#applyVariant(this.variant || 'neutral');
 
       this.#shadow.querySelector('.title').textContent = this.title || '';
@@ -163,6 +168,14 @@
      */
     attributeChangedCallback(name, _o, n) {
       if (!this.isConnected) return;
+
+      if (this.normalizeBooleanAttributeIfNeeded(name, n)) {
+        if (name === 'dismissible') {
+          this.#shadow.querySelector('.close').style.display = 'none';
+        }
+        return;
+      }
+
       if (name === 'variant') this.#applyVariant(n);
       if (name === 'title')
         this.#shadow.querySelector('.title').textContent = n || '';

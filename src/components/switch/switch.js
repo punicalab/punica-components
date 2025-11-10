@@ -10,7 +10,10 @@
         <span class="switch__on-text"></span>
       </label>`;
 
-  class Switch extends HTMLElement {
+  class Switch extends PunicaBase {
+    static get booleanAttributes() {
+      return ['disabled', 'elastic'];
+    }
     /**
      *
      */
@@ -166,6 +169,8 @@
      *
      */
     connectedCallback(e) {
+      super.connectedCallback();
+
       if (!this.hasAttribute('role')) {
         this.setAttribute('role', 'switch');
       }
@@ -237,6 +242,10 @@
      *
      */
     attributeChangedCallback(name, prevVal, curVal) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, curVal)) {
+        return;
+      }
+
       if (name === 'elastic') {
         this._handleElasticAttributeChange(this.elastic);
       }

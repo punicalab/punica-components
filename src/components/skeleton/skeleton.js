@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class Skeleton extends HTMLElement {
+  class Skeleton extends PunicaBase {
+    static get booleanAttributes() {
+      return ['rounded'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -86,6 +89,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       const sheet = new CSSStyleSheet();
 
       sheet.replaceSync(

@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class CardContent extends HTMLElement {
+  class CardContent extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = null;
 
     /**

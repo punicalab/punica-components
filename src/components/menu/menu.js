@@ -33,8 +33,12 @@
     </style>
   `;
 
-  class Menu extends HTMLElement {
+  class Menu extends PunicaBase {
+    static get booleanAttributes() {
+      return ['open'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
+    #isHiding = false;
 
     /**
      *
@@ -185,15 +189,29 @@
      *
      */
     hide() {
+      // Prevent multiple simultaneous hide() calls
+      if (this.#isHiding) {
+        return;
+      }
+
       const clone = document.body.querySelector('#menu');
 
       if (!clone) {
         return;
       }
 
-      this.fireOnClose();
+      this.#isHiding = true;
 
-      document.body.removeChild(clone);
+      try {
+        // Check if the element is actually a child of document.body before removing
+        if (clone.parentNode === document.body) {
+          document.body.removeChild(clone);
+        }
+
+        this.fireOnClose();
+      } finally {
+        this.#isHiding = false;
+      }
     }
 
     /**
@@ -265,6 +283,10 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
+
       switch (name) {
         case 'open':
           if (newValue != null) {

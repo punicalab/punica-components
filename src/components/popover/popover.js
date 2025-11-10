@@ -115,7 +115,10 @@
     }
   };
 
-  class Popover extends HTMLElement {
+  class Popover extends PunicaBase {
+    static get booleanAttributes() {
+      return ['open', 'minimumtargetwidth'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -342,6 +345,10 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
+
       switch (name) {
         case 'open':
           if (newValue != null) {

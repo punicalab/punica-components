@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class SingleSelectListItem extends HTMLElement {
+  class SingleSelectListItem extends PunicaBase {
+    static get booleanAttributes() {
+      return ['selected'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #parent = null;
 
@@ -59,6 +62,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (this.parentElement.localName == 'punica-single-select-list') {
         this.#parent = this.parentElement;
         this.#parent.itemAdded(this);

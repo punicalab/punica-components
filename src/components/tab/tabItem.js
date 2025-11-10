@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class TabItem extends HTMLElement {
+  class TabItem extends PunicaBase {
+    static get booleanAttributes() {
+      return ['selected'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #parent = null;
 
@@ -59,6 +62,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (this.parentElement.localName == 'punica-tab') {
         this.#parent = this.parentElement;
         this.#parent.itemAdd(this);

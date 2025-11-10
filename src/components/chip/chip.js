@@ -7,7 +7,10 @@
     <style></style>
   `;
 
-  class Chip extends HTMLElement {
+  class Chip extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -72,6 +75,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (!this.hasAttribute('size')) this.setAttribute('size', 'medium');
       if (!this.hasAttribute('color')) this.setAttribute('color', 'primary');
       if (!this.hasAttribute('variant')) this.setAttribute('variant', 'filled');

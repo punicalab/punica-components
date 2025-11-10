@@ -17,7 +17,10 @@
     success: 'var(--success-main)'
   };
 
-  class Avatar extends HTMLElement {
+  class Avatar extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**

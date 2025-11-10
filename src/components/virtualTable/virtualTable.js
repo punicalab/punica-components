@@ -15,7 +15,10 @@
     </div>
     <style></style>`;
 
-  class VirtualTable extends HTMLElement {
+  class VirtualTable extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #tbody;
     #padTop;
@@ -92,6 +95,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (this.hasAttribute('itemheight'))
         this.itemHeight = this.getAttribute('itemheight');
       if (this.hasAttribute('overscan'))

@@ -53,7 +53,10 @@
     'December'
   ];
 
-  class DatePicker extends HTMLElement {
+  class DatePicker extends PunicaBase {
+    static get booleanAttributes() {
+      return ['open'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #popover = null;
     #selectedDate = null;
@@ -394,6 +397,11 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        this.hide();
+        return;
+      }
+
       switch (name) {
         case 'open':
           if (newValue != null) {
@@ -429,6 +437,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (isValidDate(this.value)) {
         const date = new Date(this.value);
         date.setHours(3);

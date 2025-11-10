@@ -9,7 +9,10 @@
     <style></style>
   `;
 
-  class Modal extends HTMLElement {
+  class Modal extends PunicaBase {
+    static get booleanAttributes() {
+      return ['rounded', 'open'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #modal = null;
     #backdrop = null;
@@ -124,6 +127,10 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
+
       switch (name) {
         case 'open':
           if (newValue != null) {

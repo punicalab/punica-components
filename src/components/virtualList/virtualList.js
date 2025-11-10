@@ -8,7 +8,10 @@
     </div>
     <style></style>`;
 
-  class VirtualList extends HTMLElement {
+  class VirtualList extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #poolWrap;
     #spacer;
@@ -91,6 +94,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       if (this.hasAttribute('itemheight'))
         this.itemHeight = Math.max(
           1,

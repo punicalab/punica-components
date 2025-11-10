@@ -3,6 +3,7 @@
 }
 
 :host {
+  box-sizing: border-box;
   outline: none;
   border: none;
   flex-wrap: nowrap;

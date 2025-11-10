@@ -21,7 +21,10 @@
     success: 'var(--success-main)'
   };
 
-  class Typography extends HTMLElement {
+  class Typography extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -135,6 +138,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       const areaLevel = defaultVariantLevelMapping[this.variant];
 
       if (this.variant == null) {

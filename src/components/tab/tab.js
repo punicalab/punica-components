@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class Tab extends HTMLElement {
+  class Tab extends PunicaBase {
+    static get booleanAttributes() {
+      return ['fullwidth', 'disabled'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #selected = null;
 
@@ -133,6 +136,10 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
+
       switch (name) {
         case 'value':
           if (this.#selected && this.#selected.value == newValue) {

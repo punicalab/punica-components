@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class Box extends HTMLElement {
+  class Box extends PunicaBase {
+    static get booleanAttributes() {
+      return ['error', 'fullwidth', 'fullheight', 'border', 'rounded'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -114,6 +117,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.#shadow.appendChild(template.content.cloneNode(true));
     }
   }

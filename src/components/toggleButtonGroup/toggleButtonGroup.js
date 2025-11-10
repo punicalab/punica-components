@@ -3,7 +3,10 @@
 
   template.innerHTML = `<slot></slot><style></style>`;
 
-  class ToggleButtonGroup extends HTMLElement {
+  class ToggleButtonGroup extends PunicaBase {
+    static get booleanAttributes() {
+      return ['disabled', 'fullwidth'];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
 
     /**
@@ -223,6 +226,10 @@
      * @param {*} newValue
      */
     attributeChangedCallback(name, oldValue, newValue) {
+      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
+        return;
+      }
+
       switch (name) {
         case 'value':
           if (oldValue != newValue) {
@@ -238,6 +245,8 @@
      *
      */
     connectedCallback() {
+      super.connectedCallback();
+
       this.setAttribute('role', 'group');
 
       this.applyNewStyle('disabled', this.disabled ? '' : null);

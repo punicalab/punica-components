@@ -18,7 +18,10 @@
     <style></style>
   `;
 
-  class Pagination extends HTMLElement {
+  class Pagination extends PunicaBase {
+    static get booleanAttributes() {
+      return [];
+    }
     #shadow = this.attachShadow({ mode: 'open' });
     #prevButton = null;
     #nextButton = null;
