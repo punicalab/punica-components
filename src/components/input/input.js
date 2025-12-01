@@ -259,7 +259,7 @@
       this.#input.addEventListener('focus', this.inputMouseDown);
       this.#input.addEventListener('blur', this.inputBlur);
       this.#input.addEventListener('input', this.inputChange);
-      this.#input.addEventListener('change', this.inputChange); // autofill bazı tarayıcılarda change tetikler
+      //this.#input.addEventListener('change', this.inputChange);
 
       if (!this.size) this.size = 'medium';
 

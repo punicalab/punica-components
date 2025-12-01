@@ -9,10 +9,10 @@
   `;
 
   class Button extends PunicaBase {
+    #shadow = this.attachShadow({ mode: 'open' });
     static get booleanAttributes() {
       return ['rounded', 'fullwidth', 'disabled', 'loading'];
     }
-    #shadow = this.attachShadow({ mode: 'open' });
 
     /**
      *
