@@ -190,9 +190,19 @@
 
       this.setAttribute('role', 'button');
 
-      if (!this.hasAttribute('size')) this.setAttribute('size', 'medium');
-      if (!this.hasAttribute('color')) this.setAttribute('color', 'primary');
-      if (!this.hasAttribute('variant')) this.setAttribute('variant', 'filled');
+      //if (!this.hasAttribute('size')) this.setAttribute('size', 'medium');
+      //if (!this.hasAttribute('color')) this.setAttribute('color', 'primary');
+      //if (!this.hasAttribute('variant')) this.setAttribute('variant', 'filled');
+    }
+
+    /**
+     *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+      this.normalizeBooleanAttributeIfNeeded(name, newValue);
     }
   }
 

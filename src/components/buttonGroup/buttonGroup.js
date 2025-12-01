@@ -147,6 +147,16 @@
       this.applyNewStyle('size', this.size);
       this.applyNewStyle('variant', this.variant);
     }
+
+    /**
+     *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+      this.normalizeBooleanAttributeIfNeeded(name, newValue);
+    }
   }
 
   customElements.define('punica-button-group', ButtonGroup);

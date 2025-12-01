@@ -126,8 +126,8 @@
       this.#applyA11yRole();
 
       if (!this.hasAttribute('tabindex')) this.tabIndex = 0;
-      if (!this.hasAttribute('color')) this.setAttribute('color', 'primary');
-      if (!this.hasAttribute('size')) this.setAttribute('size', 'medium');
+      //if (!this.hasAttribute('color')) this.setAttribute('color', 'primary');
+      //if (!this.hasAttribute('size')) this.setAttribute('size', 'medium');
 
       this.#defaultSelected = this.selected;
 
@@ -283,7 +283,7 @@
           el.style.display = 'none';
           el.style.visibility = 'hidden';
         } else {
-          el.style.display = '';
+          el.style.display = 'flex';
           el.style.visibility = '';
         }
       });
@@ -294,7 +294,7 @@
           el.style.display = 'none';
           el.style.visibility = 'hidden';
         } else {
-          el.style.display = '';
+          el.style.display = 'flex';
           el.style.visibility = '';
         }
       });
