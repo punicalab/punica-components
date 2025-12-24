@@ -23,5 +23,10 @@
       "@/*": ["*"]
     }
   },
-  "include": ["src", "src/custom.d.ts", "src/component.d.ts"]
+  "include": [
+    "src",
+    "src/custom.d.ts",
+    "src/types/index.d.ts",
+    "src/types/react.d.ts"
+  ]
 }
