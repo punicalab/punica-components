@@ -29,6 +29,7 @@ dialog[open] {
 }
 
 :host([rounded]) dialog {
+  color: inherit;
   border-radius: var(--dialog-border-radius);
 }
 
