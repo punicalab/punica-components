@@ -118,14 +118,6 @@
 
     /**
      *
-     * @param {*} event
-     */
-    #itemClick = (event) => {
-      debugger;
-    };
-
-    /**
-     *
      * @returns
      */
     #setupDelegatedTargets() {

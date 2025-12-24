@@ -25,7 +25,7 @@
     #attrWriting = false;
 
     static get observedAttributes() {
-      return ['orientation', 'sizes', 'min'];
+      return ['orientation', 'sizes', 'min', 'step'];
     }
 
     get orientation() {
@@ -60,6 +60,18 @@
       if (Array.isArray(v)) this.setAttribute('min', v.join(','));
       else if (typeof v === 'number') this.setAttribute('min', String(v));
       else this.removeAttribute('min');
+    }
+
+    get step() {
+      const s = this.getAttribute('step');
+      if (!s) return null;
+      const num = Number(s);
+      return Number.isNaN(num) ? null : num;
+    }
+
+    set step(v) {
+      if (v != null && v !== '') this.setAttribute('step', String(v));
+      else this.removeAttribute('step');
     }
 
     constructor() {
@@ -139,10 +151,12 @@
         pane.className = 'pane';
         pane.setAttribute('part', 'pane');
         pane.style.flex = '1 1 0%';
+        pane.style.position = 'relative';
 
         const s = document.createElement('slot');
         s.name = `pane-${i}`;
         pane.appendChild(s);
+
         this.#layoutEl.appendChild(pane);
         this.#panes.push({ el: pane, slotName: `pane-${i}` });
 
@@ -164,6 +178,7 @@
           gutter.addEventListener('keydown', this.#onGutterKeydown);
         }
       }
+
       this.#applyFlexDirections();
       this.#initMins();
     }
@@ -336,7 +351,12 @@
       const isRTL = getComputedStyle(this).direction === 'rtl';
       if (!isVert && isRTL) deltaPx = -deltaPx;
 
-      const deltaPercent = (deltaPx / sizePx) * 100;
+      let deltaPercent = (deltaPx / sizePx) * 100;
+
+      // Snap to step if step is defined
+      if (this.step) {
+        deltaPercent = Math.round(deltaPercent / this.step) * this.step;
+      }
 
       const sizes = [...initialSizes];
       const a = index,
@@ -388,7 +408,7 @@
 
       const isVert = this.orientation === 'vertical';
       const isRTL = getComputedStyle(this).direction === 'rtl';
-      const step = ev.shiftKey ? 5 : 1;
+      const keyboardStep = ev.shiftKey ? 5 : 1;
 
       const incKeys = isVert
         ? ['ArrowDown']
@@ -406,7 +426,14 @@
       const sizes = [...this.#sizes];
       const a = index,
         b = index + 1;
-      let delta = incKeys.includes(ev.key) ? step : -step;
+      let delta = incKeys.includes(ev.key) ? keyboardStep : -keyboardStep;
+
+      // Snap to step attribute if defined
+      if (this.step) {
+        delta = Math.round(delta / this.step) * this.step;
+        if (delta === 0)
+          delta = incKeys.includes(ev.key) ? this.step : -this.step;
+      }
 
       const minA = this.#mins[a],
         minB = this.#mins[b];
