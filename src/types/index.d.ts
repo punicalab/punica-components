@@ -596,6 +596,7 @@ export interface PunicaSplitAttributes {
   orientation?: 'horizontal' | 'vertical';
   sizes?: number[];
   min?: number | number[];
+  step?: string | number;
   setSizes?: (sizes: number[]) => void;
   getSizes?: () => number[];
   reset?: () => void;
