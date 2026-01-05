@@ -2,9 +2,7 @@
   const template = document.createElement('template');
 
   template.innerHTML = `
-    <punica-typography color="white">
-      <slot></slot>
-    </punica-typography>
+    <slot></slot>
     <style></style>
   `;
 
