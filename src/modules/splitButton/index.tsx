@@ -15,6 +15,7 @@ const Module = () => {
               variant="filled"
               color="primary"
               rounded
+              size="small"
             >
               <span slot="label">Actions</span>
 

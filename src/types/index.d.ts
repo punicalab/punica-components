@@ -29,6 +29,7 @@ export interface PunicaSelectAttributes {
   class?: string;
   rounded?: boolean;
   disabled?: boolean;
+  placeholder?: string;
   fullwidth?: boolean;
   selecteditemdisplayitem?: string;
   minimumtargetwidth?: boolean;
