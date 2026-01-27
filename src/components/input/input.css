@@ -57,7 +57,7 @@
 }
 
 :host([disabled]) {
-  background-color: #f0f0f0;
+  background-color: var(--disabled);
   color: #a0a0a0;
 }
 
