@@ -1,7 +1,7 @@
 :host {
   position: relative;
   appearance: none;
-  max-width: 100%;
+  max-width: fit-content;
   display: inline-flex;
   align-items: center;
   justify-content: center;

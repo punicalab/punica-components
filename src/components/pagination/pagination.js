@@ -188,9 +188,15 @@
 
           if (page == item) {
             element.setAttribute('color', 'primary');
+            element.style.opacity = '.3';
           } else {
             element.setAttribute('variant', 'text');
+            element.style.fontWeight = '500';
+            element.style.opacity = '1';
           }
+          element.rounded = true;
+          element.style.height = '24px';
+          element.style.padding = '6px 12px';
         } else {
           element = document.createElement('punica-typography');
         }
