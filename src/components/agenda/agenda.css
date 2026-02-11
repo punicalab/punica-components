@@ -1,0 +1,414 @@
+* {
+  box-sizing: border-box;
+}
+
+.agenda-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.agenda-content {
+  flex: 1;
+  overflow: auto;
+}
+
+/* Day View */
+.day-view {
+  position: relative;
+}
+
+.hours {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(24, 120px);
+}
+
+.hour {
+  display: contents;
+}
+
+.hour-label {
+  border: 1px solid #f0f0f0;
+  height: 100%;
+}
+
+.clock-wrapper {
+  padding: 8px 4px;
+  width: 60px;
+  height: 100%;
+  border-right: 1px solid #e0e0e0;
+}
+
+.clock-text {
+  text-align: right;
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.clock-period {
+  text-align: right;
+  font-size: 10px;
+  color: #999;
+}
+
+.event-wrapper {
+  position: absolute;
+  right: 0;
+  left: 60px;
+  top: 0;
+}
+
+.events {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-flow: dense;
+}
+
+.event {
+  padding: 2px;
+  display: flex;
+}
+
+.event-content {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.event-content.clipped-start::before,
+.event-content.clipped-end::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 6px;
+  pointer-events: none;
+}
+
+.event-content.clipped-start::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+}
+
+.event-content.clipped-end::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+}
+
+.event-name {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event-time {
+  font-size: 11px;
+  color: #666;
+}
+
+/* Week View */
+.week-view {
+  padding: 16px;
+}
+
+.week-header {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.time-col {
+  background: #fafafa;
+}
+
+.day-header {
+  text-align: center;
+  padding: 12px;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+.day-header.today {
+  background: #1976d2;
+  color: #fff;
+}
+
+.day-name {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.day-number {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  gap: 2px;
+  min-height: 1200px;
+}
+
+.hours-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.hours-col .hour-label {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  font-size: 11px;
+  color: #666;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.day-column {
+  position: relative;
+  border-left: 1px solid #e0e0e0;
+  background: #fafafa;
+}
+
+.week-event {
+  position: absolute;
+  width: calc(100% - 4px);
+  left: 2px;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.week-event.clipped-start::before,
+.week-event.clipped-end::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 6px;
+  pointer-events: none;
+}
+
+.week-event.clipped-start::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+}
+
+.week-event.clipped-end::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+}
+
+.event-title {
+  font-weight: 600;
+  margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event-time-small {
+  font-size: 10px;
+  color: #666;
+}
+
+/* Month View */
+.month-view {
+  padding: 16px;
+}
+
+.month-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.month-day-name {
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px;
+  color: #666;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.month-cell {
+  min-height: 120px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px;
+  background: #fff;
+  transition: all 0.2s;
+}
+
+.month-cell:hover {
+  background: #fafafa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.month-cell.empty {
+  background: #fafafa;
+  border-color: transparent;
+}
+
+.month-cell.today {
+  background: #e3f2fd;
+  border-color: #1976d2;
+}
+
+.cell-header {
+  margin-bottom: 8px;
+}
+
+.day-number {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.month-cell.today .day-number {
+  color: #1976d2;
+}
+
+.cell-events {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.month-event {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.event-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.more-events {
+  font-size: 11px;
+  color: #666;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* Year View */
+.year-view {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.year-month {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff;
+}
+
+.year-month-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.year-day-names {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.year-day-names div {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+}
+
+.year-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.year-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.year-day:hover {
+  background: #f5f5f5;
+}
+
+.year-day.today {
+  background: #1976d2;
+  color: #fff;
+  font-weight: 700;
+}
+
+.year-day.has-events {
+  position: relative;
+}
+
+.year-day.has-events::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #1976d2;
+}
+
+.year-day.today.has-events::after {
+  background: #fff;
+}
+
+.year-day.empty {
+  cursor: default;
+  color: #ccc;
+}

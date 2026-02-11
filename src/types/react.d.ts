@@ -17,6 +17,7 @@ import * as React from 'react';
 // Import base attribute types
 import type {
   PunicaAccordionAttributes,
+  PunicaAgendaAttributes,
   PunicaAccordionSummaryAttributes,
   PunicaAccordionDetailsAttributes,
   PunicaSelectAttributes,
@@ -100,6 +101,11 @@ type ReactProps<T> = React.DetailedHTMLProps<
   T;
 
 interface PunicaAccordionProps extends ReactProps<PunicaAccordionAttributes> {
+  key?: string | number;
+  ref?: React.Ref<HTMLElement>;
+}
+
+interface PunicaAgendaProps extends ReactProps<PunicaAgendaAttributes> {
   key?: string | number;
   ref?: React.Ref<HTMLElement>;
 }
@@ -298,6 +304,7 @@ declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
       'punica-accordion': PunicaAccordionProps;
+      'punica-agenda': PunicaAgendaProps;
       'punica-accordion-summary': PunicaAccordionSummaryProps;
       'punica-accordion-details': PunicaAccordionDetailsProps;
       'punica-select': PunicaSelectProps;

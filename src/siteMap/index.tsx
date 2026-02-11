@@ -25,6 +25,12 @@ export const SiteMap: Array<CustomRouteObject> = [
         element: <ModuleLoader module="virtualTable" />
       },
       {
+        translateKey: 'component.agenda',
+        index: true,
+        path: '/agenda',
+        element: <ModuleLoader module="agenda" />
+      },
+      {
         translateKey: 'component.listView',
         index: true,
         path: '/list-view',

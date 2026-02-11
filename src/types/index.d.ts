@@ -285,6 +285,10 @@ export interface PunicaCardAttributes {
   fullwidth?: boolean;
 }
 
+export interface PunicaAgendaAttributes {
+  class?: string;
+}
+
 export interface PunicaCardHeaderAttributes {
   class?: string;
 }
@@ -647,6 +651,7 @@ export interface PunicaQrCodeAttributes {
 declare global {
   interface HTMLElementTagNameMap {
     'punica-accordion': HTMLElement & PunicaAccordionAttributes;
+    'punica-agenda': HTMLElement & PunicaAgendaAttributes;
     'punica-accordion-summary': HTMLElement & PunicaAccordionSummaryAttributes;
     'punica-accordion-details': HTMLElement & PunicaAccordionDetailsAttributes;
     'punica-select': HTMLElement & PunicaSelectAttributes;
