@@ -50,9 +50,18 @@
       new ResizeObserver(() => this.#scheduleUpdate()).observe(this);
     }
 
+    /**
+     *
+     * @returns
+     */
     get itemHeight() {
       return this.#itemHeight;
     }
+
+    /**
+     *
+     * @param {*} val
+     */
     set itemHeight(val) {
       const parsed = Math.max(1, parseInt(val, 10) || 48);
       if (this.#itemHeight !== parsed) {
@@ -62,9 +71,18 @@
       }
     }
 
+    /**
+     *
+     * @returns
+     */
     get overscan() {
       return this.#overscan;
     }
+
+    /**
+     *
+     * @param {*} val
+     */
     set overscan(val) {
       const parsed = Math.max(0, parseInt(val, 10) || 6);
       if (this.#overscan !== parsed) {

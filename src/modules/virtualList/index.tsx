@@ -112,19 +112,25 @@ const Module = () => {
         </header>
         <script id="row-template" type="text/template">
           {`<punica-list-view-item>
-              <div class="dynamic-content-user-avatar" slot="startAdornment"
-                  style="align-items:center;background-color:#DBE0E4;border-radius:24px;color:#000;display:flex;font-size:20px;height:36px;justify-content:center;overflow:hidden;width:36px;">
-                EE
-              </div>
-              <div slot="icon">
-                <svg aria-hidden="true" viewBox="0 0 576 512" width="18" height="18">
-                  <path fill="currentColor"
-                    d="M541 229.16 512 206.63V104a24 24 0 0 0-24-24h-56a24 24 0 0 0-24 24v24.6L314.52 43a35.34 35.34 0 0 0-45 0L35 229.16a12 12 0 0 0-1.6 16.9l25.5 31a12 12 0 0 0 16.9 1.6l22.1-18.2V456a24 24 0 0 0 24 24h112a24 24 0 0 0 24-24V360h96v96a24 24 0 0 0 24 24h112a24 24 0 0 0 24-24V260.46l22.1 18.2a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.6-16.9z"/>
-                </svg>
-              </div>
-              <punica-row slot="label" class="name">
-              sdfds
-              </punica-row>
+              <punica-row style="height: 100%;" alignitems="center" spacing="1">
+                <punica-col>
+                  <svg aria-hidden="true" viewBox="0 0 576 512" width="18" height="18">
+                    <path fill="currentColor"
+                      d="M541 229.16 512 206.63V104a24 24 0 0 0-24-24h-56a24 24 0 0 0-24 24v24.6L314.52 43a35.34 35.34 0 0 0-45 0L35 229.16a12 12 0 0 0-1.6 16.9l25.5 31a12 12 0 0 0 16.9 1.6l22.1-18.2V456a24 24 0 0 0 24 24h112a24 24 0 0 0 24-24V360h96v96a24 24 0 0 0 24 24h112a24 24 0 0 0 24-24V260.46l22.1 18.2a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.6-16.9z"/>
+                  </svg>
+                </punica-col>
+                <punica-col style="flex: 1;">
+                  <punica-typography variant="body2">
+                    sdfds
+                  </punica-typography>
+                </punica-col>
+                <punica-col>
+                  <svg aria-hidden="true" viewBox="0 0 576 512" width="18" height="18">
+                    <path fill="currentColor"
+                      d="M541 229.16 512 206.63V104a24 24 0 0 0-24-24h-56a24 24 0 0 0-24 24v24.6L314.52 43a35.34 35.34 0 0 0-45 0L35 229.16a12 12 0 0 0-1.6 16.9l25.5 31a12 12 0 0 0 16.9 1.6l22.1-18.2V456a24 24 0 0 0 24 24h112a24 24 0 0 0 24-24V360h96v96a24 24 0 0 0 24 24h112a24 24 0 0 0 24-24V260.46l22.1 18.2a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.6-16.9z"/>
+                  </svg>
+                </punica-col>
+              <punica-row>
             </punica-list-view-item>`}
         </script>
         <punica-virtual-list id="vlist" itemheight={48} overscan={6} />

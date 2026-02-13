@@ -61,7 +61,10 @@
       }
     }
 
-    // Public API
+    /**
+     *
+     * @param {*} events
+     */
     setEvents(events) {
       this.#events = events.map((e) => ({
         ...e,
@@ -71,6 +74,10 @@
       this.#render();
     }
 
+    /**
+     *
+     * @param {*} event
+     */
     addEvent(event) {
       this.#events.push({
         ...event,
@@ -80,10 +87,19 @@
       this.#render();
     }
 
+    /**
+     *
+     * @returns
+     */
     getView() {
       return this.#currentView;
     }
 
+    /**
+     *
+     * @param {*} view
+     * @returns
+     */
     setView(view) {
       const valid = ['day', 'week', 'month', 'year'];
       if (!valid.includes(view)) return;
@@ -91,19 +107,35 @@
       this.#render();
     }
 
+    /**
+     *
+     * @returns
+     */
     getCurrentDate() {
       return new Date(this.#currentDate.getTime());
     }
 
+    /**
+     *
+     * @param {*} date
+     */
     setCurrentDate(date) {
       this.#currentDate = new Date(date);
       this.#render();
     }
 
+    /**
+     *
+     * @param {*} direction
+     */
     navigate(direction) {
       if (direction === -1 || direction === 1) this.#navigateDate(direction);
     }
 
+    /**
+     *
+     * @returns
+     */
     getTimeRange() {
       const format = (minutes) => {
         const h = Math.floor(minutes / 60);
@@ -121,6 +153,10 @@
       };
     }
 
+    /**
+     *
+     * @param {*} range
+     */
     setTimeRange(range) {
       if (!range || typeof range !== 'object') return;
 
@@ -190,15 +226,27 @@
       this.#render();
     }
 
+    /**
+     *
+     * @returns
+     */
     getLocale() {
       return this.#locale;
     }
 
+    /**
+     *
+     * @param {*} locale
+     */
     setLocale(locale) {
       this.#locale = locale || 'en-US';
       this.#render();
     }
 
+    /**
+     *
+     * @param {*} direction
+     */
     #navigateDate(direction) {
       const date = new Date(this.#currentDate);
 
@@ -221,6 +269,10 @@
       this.#render();
     }
 
+    /**
+     *
+     * @private
+     */
     #render() {
       const content = this.#shadow.querySelector('.agenda-content');
 
@@ -240,6 +292,10 @@
       }
     }
 
+    /**
+     *
+     * @private
+     */
     #renderDayView() {
       const dayStart = new Date(this.#currentDate);
       dayStart.setHours(0, 0, 0, 0);
@@ -328,6 +384,10 @@
       return html;
     }
 
+    /**
+     *
+     * @private
+     */
     #renderWeekView() {
       const weekStart = this.#getWeekStart(this.#currentDate);
       const days = this.#getDayNames();
@@ -413,6 +473,10 @@
       return html;
     }
 
+    /**
+     *
+     * @private
+     */
     #renderMonthView() {
       const year = this.#currentDate.getFullYear();
       const month = this.#currentDate.getMonth();
@@ -478,6 +542,10 @@
       return html;
     }
 
+    /**
+     *
+     * @private
+     */
     #renderYearView() {
       const year = this.#currentDate.getFullYear();
       const months = this.#getMonthNames();
@@ -535,7 +603,12 @@
       return html;
     }
 
-    // Helper methods from React code
+    /**
+     *
+     * @param {*} event
+     * @param {*} allEvents
+     * @returns
+     */
     #getConcurrentCount(event, allEvents) {
       const timeline = [];
 
@@ -566,6 +639,12 @@
       return maxCount;
     }
 
+    /**
+     *
+     * @param {*} events
+     * @param {*} maxColumns
+     * @returns
+     */
     #assignGridSpans(events, maxColumns = 4) {
       return events.map((event) => {
         const concurrentCount = this.#getConcurrentCount(event, events);
@@ -578,6 +657,12 @@
       });
     }
 
+    /**
+     *
+     * @param {*} data
+     * @param {*} currentDay
+     * @returns
+     */
     #getSessionPosition(data, currentDay) {
       const aDayInMinutes = 24 * 60;
       const { startDate, endDate, overlapCount = 1 } = data;
@@ -671,6 +756,10 @@
       };
     }
 
+    /**
+     *
+     * @returns
+     */
     #getDayNames() {
       const formatter = new Intl.DateTimeFormat(this.#locale, {
         weekday: 'short'
@@ -685,6 +774,10 @@
       return days;
     }
 
+    /**
+     *
+     * @returns
+     */
     #getMonthNames() {
       const formatter = new Intl.DateTimeFormat(this.#locale, {
         month: 'long'
@@ -697,6 +790,10 @@
       return months;
     }
 
+    /**
+     *
+     * @returns
+     */
     #getMoreText() {
       const translations = {
         'en-US': 'more',
@@ -714,6 +811,11 @@
       return translations[this.#locale] || translations[lang] || 'more';
     }
 
+    /**
+     *
+     * @param {*} date
+     * @returns
+     */
     #getWeekStart(date) {
       const d = new Date(date);
       const day = d.getDay();
@@ -721,6 +823,12 @@
       return new Date(d.setDate(diff));
     }
 
+    /**
+     *
+     * @param {*} date1
+     * @param {*} date2
+     * @returns
+     */
     #isSameDay(date1, date2) {
       return (
         date1.getFullYear() === date2.getFullYear() &&
@@ -729,6 +837,11 @@
       );
     }
 
+    /**
+     *
+     * @param {*} index
+     * @returns
+     */
     #getEventColor(index) {
       const colors = [
         '#E3F2FD',
@@ -743,6 +856,11 @@
       return colors[index % colors.length];
     }
 
+    /**
+     *
+     * @param {*} color
+     * @returns
+     */
     #darkenColor(color) {
       const hex = color.replace('#', '');
       const r = Math.max(0, parseInt(hex.substr(0, 2), 16) - 40);
