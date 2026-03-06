@@ -50,16 +50,23 @@
     }
 
     /**
-     *
+     * Programmatic state changes should update UI but NOT simulate a user click.
+     * Custom change events are dispatched only from the native change handler.
      */
     set state(val) {
-      if (!val || val === this.state) return;
+      const boolVal = val === true || val === 'true';
+      const currentAttr = this.getAttribute('state');
+      const currentBool = currentAttr === 'true';
 
-      this.setAttribute('state', val);
+      if (boolVal === currentBool) return;
+
+      this.setAttribute('state', String(boolVal));
 
       if (this._switcher) {
-        this._switcher.click();
+        this._switcher.checked = boolVal;
       }
+
+      this.setAttribute('aria-checked', String(boolVal));
     }
 
     /**
@@ -325,10 +332,10 @@
     =============================*/
     _onSwitcherChange(e) {
       const switcher = e.currentTarget;
-      const checked = !switcher.checked;
+      const checked = switcher.checked;
 
-      this.setAttribute('aria-checked', checked);
-      this.setAttribute('state', checked);
+      this.setAttribute('aria-checked', String(checked));
+      this.setAttribute('state', String(checked));
 
       this._dispatchCustomChangeEvent();
     }
