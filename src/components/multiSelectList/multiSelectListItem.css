@@ -5,9 +5,11 @@
 }
 
 :host(:hover) {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: var(--highlight);
+  color: var(--white);
 }
 
 :host([selected]) {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: var(--highlight);
+  color: var(--white);
 }
