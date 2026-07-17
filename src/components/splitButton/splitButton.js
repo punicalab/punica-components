@@ -4,7 +4,7 @@
   template.innerHTML = `
   <style></style>
   <div class="group">
-    <punica-button class="btn-main" data-role="main" size="small" rounded>
+    <punica-button class="btn-main" data-role="main" rounded>
       <slot name="label"></slot>
     </punica-button>
 
@@ -13,7 +13,6 @@
       class="btn-toggle"
       data-role="toggle"
       mode="switch"
-      size="small"
       rounded
       aria-haspopup="menu"
       aria-expanded="false"
@@ -28,7 +27,7 @@
 
   class PunicaSplitButton extends PunicaBase {
     static get booleanAttributes() {
-      return ['disabled', 'rounded', 'open'];
+      return ['disabled', 'rounded', 'open', 'fullwidth'];
     }
     #shadow = this.attachShadow({ mode: 'open' });
     #btnMain;
@@ -44,6 +43,7 @@
         'size',
         'color',
         'rounded',
+        'fullwidth',
         'label',
         'icon'
       ];
@@ -60,6 +60,10 @@
       this.#btnMain = this.#shadow.querySelector('[data-role="main"]');
       this.#btnToggle = this.#shadow.querySelector('[data-role="toggle"]');
       this.#menu = this.querySelector('punica-menu');
+
+      if (!this.hasAttribute('size')) {
+        this.setAttribute('size', 'medium');
+      }
 
       this.#forwardButtonAttrs();
 
@@ -105,7 +109,15 @@
           : (this.#btnMain?.removeAttribute('disabled'),
             this.#btnToggle?.removeAttribute('disabled'));
       } else if (
-        ['variant', 'size', 'color', 'rounded', 'label', 'icon'].includes(name)
+        [
+          'variant',
+          'size',
+          'color',
+          'rounded',
+          'fullwidth',
+          'label',
+          'icon'
+        ].includes(name)
       ) {
         this.#forwardButtonAttrs();
       } else if (name === 'placement' && this.#menu) {
@@ -151,7 +163,7 @@
     }
 
     get size() {
-      return this.getAttribute('size') || undefined;
+      return this.getAttribute('size') || 'medium';
     }
     set size(v) {
       v ? this.setAttribute('size', v) : this.removeAttribute('size');
@@ -169,6 +181,13 @@
     }
     set rounded(v) {
       v ? this.setAttribute('rounded', '') : this.removeAttribute('rounded');
+    }
+
+    get fullwidth() {
+      return this.hasAttribute('fullwidth');
+    }
+    set fullwidth(v) {
+      v ? this.setAttribute('fullwidth', '') : this.removeAttribute('fullwidth');
     }
 
     get label() {
@@ -237,18 +256,27 @@
         'size',
         'color',
         'rounded',
+        'fullwidth',
         'disabled',
         'label',
         'icon'
       ];
       mainAttrs.forEach((a) => {
+        if (a === 'size') {
+          this.#btnMain?.setAttribute('size', this.size);
+          return;
+        }
         const v = this.getAttribute(a);
         if (v === null) this.#btnMain?.removeAttribute(a);
         else this.#btnMain?.setAttribute(a, v === '' ? '' : String(v));
       });
 
-      const toggleAttrs = ['size', 'color', 'rounded', 'rounded', 'disabled'];
+      const toggleAttrs = ['size', 'color', 'rounded', 'disabled'];
       toggleAttrs.forEach((a) => {
+        if (a === 'size') {
+          this.#btnToggle?.setAttribute('size', this.size);
+          return;
+        }
         const v = this.getAttribute(a);
         if (v === null) this.#btnToggle?.removeAttribute(a);
         else this.#btnToggle?.setAttribute(a, v === '' ? '' : String(v));

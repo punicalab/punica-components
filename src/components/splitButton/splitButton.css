@@ -4,15 +4,30 @@
   font: inherit;
 }
 
+:host([fullwidth]) {
+  display: block;
+  width: 100%;
+}
+
 .group {
   display: inline-grid;
   grid-auto-flow: column;
   align-items: stretch;
 }
 
+:host([fullwidth]) .group {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  width: 100%;
+}
+
 .btn-main {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+:host([fullwidth]) .btn-main {
+  width: 100%;
 }
 
 .btn-toggle {

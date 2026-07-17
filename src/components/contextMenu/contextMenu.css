@@ -12,20 +12,27 @@
 
 .punica-context-menu {
   position: fixed;
-  min-width: 200px;
-  max-width: 320px;
-  background: #fff;
-  color: #111;
-  border: 1px solid #e5e7eb;
+  min-width: var(--punica-context-menu-min-width, 200px);
+  max-width: var(--punica-context-menu-max-width, 320px);
+  background: var(--punica-context-menu-bg, #fff);
+  color: var(--punica-context-menu-color, #111);
+  border: 1px solid var(--punica-context-menu-border-color, #e5e7eb);
   border-radius: var(--punica-context-menu-radius, 12px);
   box-shadow: var(
     --punica-context-menu-shadow,
     0 10px 30px rgba(0, 0, 0, 0.12),
     0 2px 8px rgba(0, 0, 0, 0.08)
   );
-  padding: 6px;
+  padding: var(--punica-context-menu-padding, 6px);
   pointer-events: auto;
-  font: 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  font: var(
+    --punica-context-menu-font,
+    14px/1.4 system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial
+  );
   user-select: none;
   outline: none;
 }
@@ -42,17 +49,17 @@
 
 .punica-context-menu-seperator {
   height: 1px;
-  background: #eee;
-  margin: 6px 4px;
+  background: var(--punica-context-menu-separator-color, #eee);
+  margin: var(--punica-context-menu-separator-margin, 6px 4px);
 }
 
 .punica-context-menu-item {
   display: grid;
-  grid-template-columns: 24px 1fr auto;
+  grid-template-columns: var(--punica-context-menu-icon-column, 24px) 1fr auto;
   align-items: center;
-  gap: 8px;
-  padding: 6px 8px;
-  border-radius: 8px;
+  gap: var(--punica-context-menu-item-gap, 8px);
+  padding: var(--punica-context-menu-item-padding, 6px 8px);
+  border-radius: var(--punica-context-menu-item-radius, 8px);
   cursor: default;
   outline: none;
   pointer-events: all;
@@ -66,14 +73,24 @@
 .punica-context-menu-item:not([aria-disabled='true']):hover,
 .punica-context-menu-item[aria-current='true'] {
   background: var(--punica-context-menu-item-hover-bg, #f3f4f6);
+  color: var(
+    --punica-context-menu-item-hover-color,
+    var(--punica-context-menu-color, #111)
+  );
 }
 
 .punica-context-menu-item-icon {
-  width: 16px;
-  height: 16px;
+  width: var(--punica-context-menu-icon-size, 16px);
+  height: var(--punica-context-menu-icon-size, 16px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  opacity: var(--punica-context-menu-icon-opacity, 1);
+}
+
+.punica-context-menu-item:not([aria-disabled='true']):hover
+  .punica-context-menu-item-icon {
+  opacity: 1;
 }
 
 .punica-context-menu-item-label {
@@ -94,17 +111,21 @@
 
 @media (prefers-color-scheme: dark) {
   .punica-context-menu {
-    background: #0b0b0c;
-    color: #eaeaea;
-    border-color: #262626;
+    background: var(--punica-context-menu-bg, #0b0b0c);
+    color: var(--punica-context-menu-color, #eaeaea);
+    border-color: var(--punica-context-menu-border-color, #262626);
   }
 
-  .punica-context-menu-sep {
-    background: #1f2937;
+  .punica-context-menu-seperator {
+    background: var(--punica-context-menu-separator-color, #1f2937);
   }
 
   .punica-context-menu-item:not([aria-disabled='true']):hover,
   .punica-context-menu-item[aria-current='true'] {
-    background: #1f2937;
+    background: var(--punica-context-menu-item-hover-bg, #1f2937);
+    color: var(
+      --punica-context-menu-item-hover-color,
+      var(--punica-context-menu-color, #eaeaea)
+    );
   }
 }

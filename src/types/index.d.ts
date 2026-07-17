@@ -272,6 +272,7 @@ export interface PunicaSplitButtonAttributes {
     | 'success'
     | 'ghost';
   rounded?: boolean;
+  fullwidth?: boolean;
   disabled?: boolean;
   open?: boolean;
   placement?: 'top' | 'bottom' | 'left' | 'right';
