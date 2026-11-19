@@ -1,0 +1,62 @@
+/* audit-allow: pointer-without-focus-visible (focus is shown on the field box by field.css) */
+:host {
+  --punica-select-radius: var(--punica-radius);
+  --punica-select-height: var(--punica-size-md);
+  --punica-select-padding: var(--punica-space-16);
+  --punica-select-border-color: var(--punica-color-border);
+  --punica-select-background: transparent;
+  --punica-select-min-width: 200px;
+  --punica-select-listbox-max-height: 250px;
+
+  --_height: var(--punica-select-height);
+  --_pad: var(--punica-select-padding);
+  --_radius: var(--punica-select-radius);
+  --_border: var(--punica-select-border-color);
+  --_bg: var(--punica-select-background);
+  --_list-max-height: var(--punica-select-listbox-max-height);
+
+  display: inline-flex;
+  vertical-align: middle;
+  min-inline-size: var(--punica-select-min-width);
+}
+
+:host([size='small']) {
+  --punica-select-height: var(--punica-size-sm);
+  --punica-select-padding: var(--punica-space-12);
+}
+:host([size='large']) {
+  --punica-select-height: var(--punica-size-lg);
+  --punica-select-padding: var(--punica-space-28);
+}
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+
+[part='trigger'] {
+  gap: var(--punica-space-8);
+  cursor: pointer;
+  outline: none;
+}
+[part='trigger']:disabled {
+  cursor: default;
+}
+
+.value {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.caret {
+  flex: none;
+  display: inline-flex;
+  font-size: var(--punica-font-size);
+  color: var(--punica-color-text-muted);
+  transition: rotate var(--punica-duration) var(--punica-ease);
+}
+:host(:state(open)) .caret {
+  rotate: 180deg;
+}

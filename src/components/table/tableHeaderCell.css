@@ -1,0 +1,88 @@
+:host {
+  display: table-cell;
+  position: var(--_sticky, static);
+  inset-block-start: 0;
+  z-index: 1;
+  padding: var(--punica-table-cell-padding, var(--punica-space-12) var(--punica-space-16));
+  border-block-end: var(--punica-border-width) solid var(--punica-table-border-color, var(--punica-color-border));
+  border-inline-end: var(--_divider, 0 none transparent);
+  background: var(--punica-table-header-background, var(--punica-color-surface));
+  color: var(--punica-table-header-color, var(--punica-color-text));
+  font-weight: var(--punica-font-weight-semi-bold);
+  text-align: start;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+:host(:last-child) {
+  border-inline-end: 0;
+}
+:host([align='center']) {
+  text-align: center;
+}
+:host([align='end']) {
+  text-align: end;
+}
+/* The indicator goes on the side away from the column's edge, so the text
+   lines up with the cells under it. */
+:host([align='end']) button {
+  flex-direction: row-reverse;
+}
+
+/* A sortable header is pressed anywhere in the cell: the button carries the
+   cell's padding and fills it. */
+:host([sortable]) {
+  padding: 0;
+}
+button {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-4);
+  inline-size: 100%;
+  padding: var(--punica-table-cell-padding, var(--punica-space-12) var(--punica-space-16));
+  font: inherit;
+  cursor: pointer;
+}
+:host([align='center']) button {
+  justify-content: center;
+}
+button[hidden] {
+  display: none !important;
+}
+button:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
+}
+
+.sort-icon {
+  display: inline-flex;
+  flex-direction: column;
+  font-size: var(--punica-font-size-xs);
+  line-height: 0;
+  color: var(--punica-color-text-muted);
+}
+.up,
+.down {
+  display: inline-flex;
+  margin-block: calc(-1 * var(--punica-space-2));
+  opacity: var(--punica-disabled-opacity);
+  transition: opacity var(--punica-duration-fast) var(--punica-ease);
+}
+button:hover .up,
+button:hover .down {
+  opacity: 0.7;
+}
+:host([sort='ascending']) .up,
+:host([sort='descending']) .down {
+  opacity: 1;
+  color: var(--punica-color-text);
+}
+
+@media (forced-colors: active) {
+  :host([sort='ascending']) .down,
+  :host([sort='descending']) .up {
+    visibility: hidden;
+  }
+}

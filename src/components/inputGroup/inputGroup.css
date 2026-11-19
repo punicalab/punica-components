@@ -1,0 +1,151 @@
+:host {
+  --punica-input-group-radius: var(--punica-radius);
+
+  --_r: var(--punica-input-group-radius);
+  /* Physical corner lists (top-left, top-right, bottom-right, bottom-left)
+     for the first and last part, swapped right-to-left. */
+  --_first: var(--_r) 0 0 var(--_r);
+  --_last: 0 var(--_r) var(--_r) 0;
+
+  display: inline-flex;
+  vertical-align: middle;
+  max-inline-size: 100%;
+}
+
+:host(:dir(rtl)) {
+  --_first: 0 var(--_r) var(--_r) 0;
+  --_last: var(--_r) 0 0 var(--_r);
+}
+
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+
+.base {
+  display: flex;
+  flex: 1;
+  align-items: stretch;
+  min-inline-size: 0;
+  border-radius: var(--_r);
+}
+
+:host(:state(focus-visible)) .base {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+:host([disabled]) .base {
+  opacity: var(--punica-disabled-opacity);
+}
+
+/* Every part: square inner corners, borders that overlap by one width. */
+::slotted(*) {
+  --_corner: 0;
+  position: relative;
+  flex: none;
+  margin: 0;
+}
+::slotted(:not(:first-child)) {
+  margin-inline-start: calc(-1 * var(--punica-border-width));
+}
+::slotted(:first-child) {
+  --_corner: var(--_first);
+}
+::slotted(:last-child) {
+  --_corner: var(--_last);
+}
+::slotted(:only-child) {
+  --_corner: var(--_r);
+}
+::slotted(*) {
+  --punica-input-radius: var(--_corner);
+  --punica-number-input-radius: var(--_corner);
+  --punica-select-radius: var(--_corner);
+  --punica-autocomplete-radius: var(--_corner);
+  --punica-tokenizer-radius: var(--_corner);
+  --punica-date-picker-radius: var(--_corner);
+  --punica-time-picker-radius: var(--_corner);
+  --punica-button-radius: var(--_corner);
+  --punica-icon-button-radius: var(--_corner);
+  --punica-input-group-text-radius: var(--_corner);
+  border-radius: var(--_corner);
+}
+
+/* The field takes the room that is left. */
+::slotted(:is(punica-input, punica-number-input, punica-select, punica-autocomplete, punica-tokenizer, punica-date-picker, punica-time-picker, input, select)) {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  /* The group draws the focus ring; the field draws none of its own. */
+  --punica-focus-ring: 0 solid transparent;
+}
+
+/* A hovered or focused part's border lies over its neighbours'. */
+::slotted(:hover),
+::slotted(:focus-within) {
+  z-index: 1;
+}
+
+/* A button marks itself inside the group's ring. */
+::slotted(:is(punica-button, punica-icon-button)) {
+  --punica-focus-ring-offset: calc(-2 * var(--punica-focus-ring-width));
+}
+
+/* An icon button has no border of its own: draw the field's, inside its box. */
+::slotted(punica-icon-button) {
+  outline: var(--punica-border-width) solid var(--punica-color-border);
+  outline-offset: calc(-1 * var(--punica-border-width));
+  background: var(--punica-color-surface);
+}
+
+:host([size='small']) ::slotted(*) {
+  --punica-input-height: var(--punica-size-sm);
+  --punica-input-padding: var(--punica-space-8);
+  --punica-number-input-height: var(--punica-size-sm);
+  --punica-select-height: var(--punica-size-sm);
+  --punica-select-padding: var(--punica-space-12);
+  --punica-autocomplete-height: var(--punica-size-sm);
+  --punica-tokenizer-height: var(--punica-size-sm);
+  --punica-date-picker-height: var(--punica-size-sm);
+  --punica-time-picker-height: var(--punica-size-sm);
+  --punica-button-height: var(--punica-size-sm);
+  --punica-button-padding: var(--punica-space-8);
+  --punica-icon-button-size: var(--punica-size-sm);
+  --punica-input-group-text-height: var(--punica-size-sm);
+  --punica-input-group-text-padding: var(--punica-space-8);
+}
+:host([size='medium']) ::slotted(*) {
+  --punica-input-height: var(--punica-size-md);
+  --punica-number-input-height: var(--punica-size-md);
+  --punica-select-height: var(--punica-size-md);
+  --punica-autocomplete-height: var(--punica-size-md);
+  --punica-tokenizer-height: var(--punica-size-md);
+  --punica-date-picker-height: var(--punica-size-md);
+  --punica-time-picker-height: var(--punica-size-md);
+  --punica-button-height: var(--punica-size-md);
+  --punica-icon-button-size: var(--punica-size-md);
+  --punica-input-group-text-height: var(--punica-size-md);
+}
+:host([size='large']) ::slotted(*) {
+  --punica-input-height: var(--punica-size-lg);
+  --punica-number-input-height: var(--punica-size-lg);
+  --punica-select-height: var(--punica-size-lg);
+  --punica-autocomplete-height: var(--punica-size-lg);
+  --punica-tokenizer-height: var(--punica-size-lg);
+  --punica-date-picker-height: var(--punica-size-lg);
+  --punica-time-picker-height: var(--punica-size-lg);
+  --punica-button-height: var(--punica-size-lg);
+  --punica-button-padding: var(--punica-space-20);
+  --punica-icon-button-size: var(--punica-size-lg);
+  --punica-input-group-text-height: var(--punica-size-lg);
+  --punica-input-group-text-padding: var(--punica-space-16);
+}
+
+@media (forced-colors: active) {
+  :host(:state(focus-visible)) .base {
+    outline-color: Highlight;
+  }
+  ::slotted(punica-icon-button) {
+    outline-color: CanvasText;
+  }
+}

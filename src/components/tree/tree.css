@@ -1,0 +1,11 @@
+:host {
+  --punica-tree-indent: var(--punica-space-20);
+
+  display: block;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+::slotted(punica-tree-item) {
+  --punica-tree-item-indent: var(--punica-tree-indent);
+}

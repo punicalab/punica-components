@@ -1,0 +1,89 @@
+:host {
+  --punica-info-tip-color: var(--punica-color-text-muted);
+  --punica-info-tip-size: var(--punica-space-16);
+  --punica-info-tip-radius: var(--punica-radius-sm);
+  --punica-info-tip-padding: var(--punica-space-8) var(--punica-space-12);
+  --punica-info-tip-background: var(--punica-color-surface-raised);
+  --punica-info-tip-shadow: var(--punica-shadow-sm);
+  --punica-info-tip-max-width: 280px;
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([size='small']) {
+  --punica-info-tip-size: var(--punica-space-14);
+}
+:host([size='large']) {
+  --punica-info-tip-size: var(--punica-space-20);
+}
+
+.button {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  /* The target is at least 24 px, whatever the icon's size (WCAG 2.5.8). */
+  min-inline-size: var(--punica-space-24);
+  min-block-size: var(--punica-space-24);
+  margin-block: calc((var(--punica-info-tip-size) - var(--punica-space-24)) / 2);
+  border-radius: var(--punica-radius-full);
+  color: var(--punica-info-tip-color);
+  font-size: var(--punica-info-tip-size);
+  cursor: pointer;
+  transition: color var(--punica-duration-fast) var(--punica-ease),
+    background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.button:hover,
+:host(:state(pinned)) .button {
+  color: var(--punica-color-text);
+  background: var(--punica-color-hover);
+}
+
+.button:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: 0;
+}
+
+.panel {
+  inline-size: max-content;
+  max-inline-size: var(--punica-info-tip-max-width);
+  padding: var(--punica-info-tip-padding);
+  border: var(--punica-border-width) solid var(--punica-color-border);
+  border-radius: var(--punica-info-tip-radius);
+  background: var(--punica-info-tip-background);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  font-weight: var(--punica-font-weight-regular);
+  line-height: var(--punica-line-height);
+  text-align: start;
+  overflow-wrap: anywhere;
+  box-shadow: var(--punica-info-tip-shadow);
+  opacity: 0;
+  transition: opacity var(--punica-duration-fast) var(--punica-ease),
+    display var(--punica-duration-fast) allow-discrete,
+    overlay var(--punica-duration-fast) allow-discrete;
+}
+
+.panel:popover-open,
+.panel[data-open] {
+  opacity: 1;
+}
+
+@starting-style {
+  .panel:popover-open {
+    opacity: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .button {
+    color: ButtonText;
+  }
+  .panel {
+    border-color: CanvasText;
+  }
+}

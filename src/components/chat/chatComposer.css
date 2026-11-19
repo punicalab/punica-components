@@ -1,0 +1,141 @@
+:host {
+  --punica-chat-composer-background: var(--punica-color-surface);
+  --punica-chat-composer-border-color: var(--punica-color-border-strong);
+  --punica-chat-composer-radius: var(--punica-radius-lg);
+  --punica-chat-composer-padding: var(--punica-space-8);
+
+  display: block;
+  font-family: var(--punica-font-family);
+  color: var(--punica-color-text);
+}
+
+.base {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-6);
+}
+
+.field {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--punica-space-8);
+  padding: var(--punica-chat-composer-padding);
+  border: var(--punica-border-width) solid var(--punica-chat-composer-border-color);
+  border-radius: var(--punica-chat-composer-radius);
+  background: var(--punica-chat-composer-background);
+  transition: border-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.field:has(textarea:focus-visible) {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+:host(:state(dragover)) .field {
+  border-style: dashed;
+  border-color: var(--punica-color-focus);
+  background: var(--punica-color-selected);
+}
+
+textarea {
+  --_pad: var(--punica-space-6);
+
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  min-block-size: calc(1lh + 2 * var(--_pad));
+  max-block-size: calc(var(--_max-rows, 8) * 1lh + 2 * var(--_pad));
+  margin: 0;
+  padding: var(--_pad) var(--punica-space-4);
+  border: 0;
+  outline: 0;
+  resize: none;
+  overflow-y: auto;
+  field-sizing: content;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--punica-font-size);
+  line-height: var(--punica-line-height);
+}
+
+textarea::placeholder {
+  color: var(--punica-color-text-placeholder);
+  opacity: 1;
+}
+
+.send {
+  all: unset;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-size-md);
+  block-size: var(--punica-size-md);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-color-primary);
+  color: var(--punica-color-on-accent);
+  font-size: var(--punica-font-size-lg);
+  cursor: pointer;
+  transition: background-color var(--punica-duration) var(--punica-ease);
+}
+
+.send:hover {
+  background: var(--punica-color-primary-dark);
+}
+
+.send:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.send:disabled {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+.send-icon,
+.stop-icon {
+  display: inline-flex;
+}
+
+.stop-icon rect {
+  fill: currentColor;
+}
+
+.stop-icon,
+:host([busy]) .send-icon {
+  display: none;
+}
+
+:host([busy]) .stop-icon {
+  display: inline-flex;
+}
+
+:host(:state(disabled)) .field {
+  opacity: var(--punica-disabled-opacity);
+}
+
+:host(:state(disabled)) .send:disabled {
+  opacity: 1;
+}
+
+.footer {
+  color: var(--punica-color-text-muted);
+  font-size: var(--punica-font-size-xs);
+  line-height: var(--punica-line-height);
+}
+
+@media (forced-colors: active) {
+  .field {
+    border-color: CanvasText;
+  }
+  .send {
+    border-color: ButtonText;
+  }
+  .send:disabled {
+    color: GrayText;
+    border-color: GrayText;
+    opacity: 1;
+  }
+}

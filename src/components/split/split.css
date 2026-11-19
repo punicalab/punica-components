@@ -1,0 +1,101 @@
+:host {
+  --punica-split-divider-size: var(--punica-space-8);
+  --punica-split-divider-line: 2px;
+  --punica-split-divider-color: var(--punica-color-border-strong);
+  --punica-split-divider-active-color: var(--punica-color-focus);
+
+  display: block;
+}
+
+.base {
+  display: flex;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+}
+
+:host([orientation='vertical']) .base {
+  flex-direction: column;
+}
+
+.pane {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: auto;
+}
+
+/* A pane's content fills it, so a split nested in a pane fills that pane;
+   content taller than the pane makes it scroll. */
+.pane > slot::slotted(*) {
+  flex: 1 0 auto;
+}
+
+.start {
+  flex: 0 0 calc(var(--_position, 50%) - var(--punica-split-divider-size) / 2);
+}
+
+.end {
+  flex: 1 1 0;
+}
+
+.divider {
+  position: relative;
+  flex: 0 0 var(--punica-split-divider-size);
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+}
+
+:host([orientation='vertical']) .divider {
+  cursor: row-resize;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(50% - var(--punica-split-divider-line) / 2);
+  inline-size: var(--punica-split-divider-line);
+  background: var(--punica-split-divider-color);
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+:host([orientation='vertical']) .divider::before {
+  inset-inline: 0;
+  inset-block: calc(50% - var(--punica-split-divider-line) / 2) auto;
+  inline-size: auto;
+  block-size: var(--punica-split-divider-line);
+}
+
+.divider:hover::before,
+.divider:focus-visible::before,
+:host(:state(dragging)) .divider::before {
+  background: var(--punica-split-divider-active-color);
+}
+
+.divider:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(var(--punica-focus-ring-width) * -1);
+}
+
+.divider[aria-disabled='true'] {
+  cursor: default;
+}
+
+.divider[aria-disabled='true']:hover::before {
+  background: var(--punica-split-divider-color);
+}
+
+@media (forced-colors: active) {
+  .divider::before {
+    background: CanvasText;
+  }
+  .divider:hover::before,
+  .divider:focus-visible::before,
+  :host(:state(dragging)) .divider::before {
+    background: Highlight;
+  }
+}

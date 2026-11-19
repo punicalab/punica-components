@@ -1,0 +1,18 @@
+:host {
+  --punica-accordion-group-gap: var(--punica-space-0);
+  --punica-accordion-group-divider: var(--punica-border-width) solid var(--punica-color-border);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-accordion-group-gap);
+}
+
+::slotted(punica-accordion:not(:first-of-type)) {
+  border-block-start: var(--punica-accordion-group-divider);
+}
+
+@media (forced-colors: active) {
+  ::slotted(punica-accordion:not(:first-of-type)) {
+    border-block-start-color: CanvasText;
+  }
+}

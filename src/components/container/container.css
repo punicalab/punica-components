@@ -1,0 +1,39 @@
+:host {
+  --punica-container-max-width: 1200px;
+  --punica-container-gutter: var(--punica-space-16);
+
+  display: block;
+  inline-size: 100%;
+  max-inline-size: var(--punica-container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--punica-container-gutter);
+}
+
+@media (min-width: 1200px) {
+  :host {
+    --punica-container-gutter: var(--punica-space-24);
+  }
+}
+
+:host([max-width='sm']) {
+  --punica-container-max-width: 600px;
+}
+:host([max-width='md']) {
+  --punica-container-max-width: 900px;
+}
+:host([max-width='xl']) {
+  --punica-container-max-width: 1536px;
+}
+:host([max-width='full']) {
+  --punica-container-max-width: none;
+}
+
+:host([gutters='none']) {
+  --punica-container-gutter: var(--punica-space-0);
+}
+:host([gutters='small']) {
+  --punica-container-gutter: var(--punica-space-8);
+}
+:host([gutters='large']) {
+  --punica-container-gutter: var(--punica-space-32);
+}

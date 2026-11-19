@@ -1,0 +1,75 @@
+:host {
+  --punica-stack-gap: var(--punica-space-8);
+  --punica-stack-divider-color: var(--punica-color-border);
+  --_gap: var(--punica-stack-gap);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--_gap);
+}
+
+:host([direction='horizontal']) {
+  flex-direction: row;
+}
+
+:host([align='start']) {
+  align-items: flex-start;
+}
+:host([align='center']) {
+  align-items: center;
+}
+:host([align='end']) {
+  align-items: flex-end;
+}
+:host([align='stretch']) {
+  align-items: stretch;
+}
+:host([align='baseline']) {
+  align-items: baseline;
+}
+
+:host([justify='start']) {
+  justify-content: flex-start;
+}
+:host([justify='center']) {
+  justify-content: center;
+}
+:host([justify='end']) {
+  justify-content: flex-end;
+}
+:host([justify='between']) {
+  justify-content: space-between;
+}
+:host([justify='around']) {
+  justify-content: space-around;
+}
+:host([justify='evenly']) {
+  justify-content: space-evenly;
+}
+
+:host([wrap]) {
+  flex-wrap: wrap;
+}
+
+:host([divider]) ::slotted(:not(:first-child)) {
+  border-block-start: var(--punica-border-width) solid var(--punica-stack-divider-color);
+  padding-block-start: var(--_gap);
+}
+:host([divider][direction='horizontal']) ::slotted(:not(:first-child)) {
+  border-block-start: 0;
+  padding-block-start: 0;
+  border-inline-start: var(--punica-border-width) solid var(--punica-stack-divider-color);
+  padding-inline-start: var(--_gap);
+}
+
+@media (forced-colors: active) {
+  :host([divider]) ::slotted(:not(:first-child)) {
+    border-color: CanvasText;
+  }
+}
+
+/* The browser maps an `align` attribute to text-align; here it means
+   alignment of the children, so the text keeps what it inherits. */
+:host([align]) {
+  text-align: inherit;
+}

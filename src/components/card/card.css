@@ -1,0 +1,75 @@
+:host {
+  --punica-card-radius: var(--punica-radius);
+  /* Raised, so an elevated card still stands off a surface in dark mode. */
+  --punica-card-background: var(--punica-color-surface-raised);
+  --punica-card-shadow: var(--punica-shadow-sm);
+  --punica-card-border-color: transparent;
+
+  display: block;
+}
+
+:host([variant='outlined']) {
+  --punica-card-background: var(--punica-color-surface);
+  --punica-card-shadow: none;
+  --punica-card-border-color: var(--punica-color-border);
+}
+:host([variant='filled']) {
+  --punica-card-shadow: none;
+  --punica-card-background: var(--punica-color-neutral-light);
+}
+
+.base {
+  all: unset;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: 100%;
+  border: var(--punica-border-width) solid var(--punica-card-border-color);
+  border-radius: var(--punica-card-radius);
+  background: var(--punica-card-background);
+  box-shadow: var(--punica-card-shadow);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  text-align: start;
+  overflow: hidden;
+  transition: box-shadow var(--punica-duration) var(--punica-ease),
+    border-color var(--punica-duration) var(--punica-ease);
+}
+
+a.base,
+button.base {
+  cursor: pointer;
+}
+a.base:hover,
+button.base:not(:disabled):hover {
+  box-shadow: var(--punica-shadow-md);
+}
+:host([variant='outlined']) a.base:hover,
+:host([variant='outlined']) button.base:not(:disabled):hover,
+:host([variant='filled']) a.base:hover,
+:host([variant='filled']) button.base:not(:disabled):hover {
+  border-color: var(--punica-color-border-strong);
+  box-shadow: none;
+}
+
+.base:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+button.base:disabled {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+@media (forced-colors: active) {
+  .base {
+    border-color: CanvasText;
+  }
+  button.base:disabled {
+    border-color: GrayText;
+    color: GrayText;
+    opacity: 1;
+  }
+}

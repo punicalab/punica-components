@@ -1,0 +1,180 @@
+:host {
+  --punica-chat-tool-call-background: var(--punica-color-surface);
+  --punica-chat-tool-call-border-color: var(--punica-color-border);
+  --punica-chat-tool-call-radius: var(--punica-radius);
+
+  display: block;
+  font-family: var(--punica-font-family);
+  color: var(--punica-color-text);
+}
+
+.base {
+  border: var(--punica-border-width) solid var(--punica-chat-tool-call-border-color);
+  border-radius: var(--punica-chat-tool-call-radius);
+  background: var(--punica-chat-tool-call-background);
+}
+
+.header {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-8);
+  inline-size: 100%;
+  min-block-size: var(--punica-size-md);
+  padding: var(--punica-space-6) var(--punica-space-10);
+  border-radius: var(--punica-chat-tool-call-radius);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+  cursor: pointer;
+}
+
+.header:hover {
+  background: var(--punica-color-hover);
+}
+
+.header:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(var(--punica-focus-ring-width) * -1);
+}
+
+.chevron {
+  display: inline-flex;
+  flex: none;
+  transition: rotate var(--punica-duration-fast) var(--punica-ease);
+}
+
+.chevron:dir(rtl) {
+  scale: -1 1;
+}
+
+:host([open]) .chevron {
+  rotate: 90deg;
+}
+
+:host([open]) .chevron:dir(rtl) {
+  rotate: -90deg;
+}
+
+.name {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  font-family: var(--punica-font-family-mono);
+  font-weight: var(--punica-font-weight-semi-bold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--punica-space-4);
+  margin-inline-start: auto;
+  color: var(--punica-color-text-muted);
+}
+
+.glyph {
+  display: none;
+}
+
+.status[data-status='pending'] .glyph-pending,
+.status[data-status='running'] .glyph-running,
+.status[data-status='success'] .glyph-success,
+.status[data-status='error'] .glyph-error {
+  display: inline-flex;
+}
+
+.glyph-success {
+  color: var(--punica-color-success);
+}
+
+.glyph-error {
+  color: var(--punica-color-error);
+}
+
+.status[data-status='error'] {
+  color: var(--punica-color-error);
+}
+
+.spinner {
+  inline-size: 1em;
+  block-size: 1em;
+  border: 2px solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
+}
+
+.duration {
+  flex: none;
+  color: var(--punica-color-text-muted);
+  font-size: var(--punica-font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.duration:empty {
+  display: none;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-10);
+  padding: var(--punica-space-10);
+  border-block-start: var(--punica-border-width) solid var(--punica-chat-tool-call-border-color);
+}
+
+.panel[hidden],
+.section[hidden] {
+  display: none;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-4);
+  min-inline-size: 0;
+}
+
+.section-label {
+  color: var(--punica-color-text-muted);
+  font-size: var(--punica-font-size-xs);
+  font-weight: var(--punica-font-weight-semi-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+::slotted(pre) {
+  margin: 0;
+  padding: var(--punica-space-8);
+  overflow: auto;
+  border-radius: var(--punica-radius-sm);
+  background: var(--punica-color-neutral-light);
+  font-family: var(--punica-font-family-mono);
+  font-size: var(--punica-font-size-sm);
+}
+
+@media (forced-colors: active) {
+  .base {
+    border-color: CanvasText;
+  }
+  .status,
+  .glyph-success,
+  .glyph-error {
+    color: CanvasText;
+  }
+}

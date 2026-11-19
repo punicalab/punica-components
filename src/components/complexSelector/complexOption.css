@@ -1,0 +1,27 @@
+/* audit-allow: pointer-without-focus-visible (the row is never focused: the search field keeps focus and :state(active) marks the row) */
+.label {
+  display: flex;
+  flex-direction: column;
+  white-space: normal;
+}
+
+.text,
+.description {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.description {
+  color: var(--punica-color-text-muted);
+  font-size: var(--punica-font-size-xs);
+}
+
+.description[hidden] {
+  display: none;
+}
+
+::slotted([slot='start']) {
+  flex: none;
+}

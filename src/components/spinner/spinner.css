@@ -1,0 +1,75 @@
+:host {
+  --punica-spinner-size: var(--punica-space-24);
+  --punica-spinner-color: var(--punica-color-primary);
+  --punica-spinner-track-color: var(--punica-color-hover);
+  --punica-spinner-width: var(--punica-space-2);
+
+  display: inline-block;
+  flex: none;
+  inline-size: var(--punica-spinner-size);
+  block-size: var(--punica-spinner-size);
+  vertical-align: middle;
+}
+
+:host([size='small']) {
+  --punica-spinner-size: var(--punica-space-16);
+}
+:host([size='large']) {
+  --punica-spinner-size: var(--punica-space-40);
+  --punica-spinner-width: var(--punica-space-4);
+}
+
+:host([color='secondary']) {
+  --punica-spinner-color: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --punica-spinner-color: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --punica-spinner-color: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --punica-spinner-color: var(--punica-color-info);
+}
+:host([color='success']) {
+  --punica-spinner-color: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  --punica-spinner-color: var(--punica-color-text);
+}
+
+.ring {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border: var(--punica-spinner-width) solid var(--punica-spinner-track-color);
+  border-block-start-color: var(--punica-spinner-color);
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes breathe {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* Reduced motion: the ring stands still and fades in and out slowly. */
+@media (prefers-reduced-motion: reduce) {
+  .ring {
+    animation: breathe 2s ease-in-out infinite;
+  }
+}
+
+@media (forced-colors: active) {
+  .ring {
+    border-color: GrayText;
+    border-block-start-color: CanvasText;
+  }
+}

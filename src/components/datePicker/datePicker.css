@@ -1,0 +1,36 @@
+:host {
+  --punica-date-picker-radius: var(--punica-radius);
+  --punica-date-picker-height: var(--punica-size-md);
+  --punica-date-picker-padding: var(--punica-space-12);
+  --punica-date-picker-border-color: var(--punica-color-border);
+  --punica-date-picker-background: transparent;
+  --punica-date-picker-min-width: 250px;
+  --punica-date-picker-panel-padding: var(--punica-space-12);
+
+  --_height: var(--punica-date-picker-height);
+  --_pad: var(--punica-date-picker-padding);
+  --_radius: var(--punica-date-picker-radius);
+  --_border: var(--punica-date-picker-border-color);
+  --_bg: var(--punica-date-picker-background);
+
+  display: inline-flex;
+  vertical-align: middle;
+  min-inline-size: var(--punica-date-picker-min-width);
+}
+
+:host([size='small']) {
+  --punica-date-picker-height: var(--punica-size-sm);
+  --punica-date-picker-padding: var(--punica-space-8);
+}
+:host([size='large']) {
+  --punica-date-picker-height: var(--punica-size-lg);
+  --punica-date-picker-padding: var(--punica-space-16);
+}
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+
+[part='panel'] {
+  padding: var(--punica-date-picker-panel-padding);
+}

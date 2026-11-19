@@ -1,0 +1,107 @@
+{
+  "name": "@punica/components",
+  "version": "2.0.0",
+  "description": "Punica web components: framework-free custom elements on platform standards.",
+  "keywords": [
+    "web-components",
+    "custom-elements",
+    "design-system",
+    "ui",
+    "components",
+    "form-associated",
+    "accessibility",
+    "shadow-dom"
+  ],
+  "homepage": "https://components.punicalab.com",
+  "bugs": {
+    "url": "https://github.com/punicalab/punica-components/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/punicalab/punica-components.git"
+  },
+  "license": "MIT",
+  "author": "PunicaLab",
+  "type": "module",
+  "main": "./dist/esm/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "unpkg": "./dist/punica-components.min.js",
+  "customElements": "custom-elements.json",
+  "sideEffects": [
+    "./dist/**/*.js",
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/esm/index.js"
+    },
+    "./components/*": "./dist/esm/components/*",
+    "./core/*": "./dist/esm/core/*",
+    "./tokens.css": "./dist/tokens.css",
+    "./react": {
+      "types": "./dist/types/react.d.ts"
+    },
+    "./custom-elements.json": "./custom-elements.json",
+    "./global": "./dist/punica-components.min.js"
+  },
+  "files": [
+    "dist",
+    "custom-elements.json",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "docs/MIGRATION-2.0.md",
+    "docs/contract.md",
+    "docs/migration",
+    "scripts/codemod-2.0.mjs",
+    "scripts/codemod-rules.mjs"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs && npm run manifest",
+    "barrel": "node scripts/barrel.mjs",
+    "manifest": "cem analyze --config custom-elements-manifest.config.mjs && node scripts/types.mjs",
+    "audit": "node scripts/audit.mjs",
+    "lint": "eslint src scripts test",
+    "format": "prettier --write \"./**/*.{ts,js,mjs,json,md}\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "npm run build && changeset publish",
+    "prepublishOnly": "npm run lint && npm test && npm run build",
+    "pack:check": "npm pack --dry-run"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@types/react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.3",
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^22.0.0",
+    "@vitest/browser": "^5.1.1",
+    "@vitest/browser-playwright": "^5.1.1",
+    "axe-core": "^4.14.1",
+    "esbuild": "^0.28.2",
+    "eslint": "^9.39.5",
+    "globals": "^17.14.0",
+    "playwright": "^1.65.1",
+    "prettier": "^2.8.3",
+    "typescript": "^5.9.0",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
+  }
+}

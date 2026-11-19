@@ -1,0 +1,9 @@
+:host {
+  --punica-dialog-footer-gap: var(--punica-space-8);
+
+  display: flex;
+  grid-area: footer;
+  flex-wrap: wrap;
+  gap: var(--punica-dialog-footer-gap);
+  justify-content: flex-end;
+}

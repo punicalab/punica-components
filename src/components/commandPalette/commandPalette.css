@@ -1,0 +1,100 @@
+:host {
+  --punica-command-palette-radius: var(--punica-radius-lg);
+  --punica-command-palette-background: var(--punica-color-surface-raised);
+  --punica-command-palette-backdrop: var(--punica-color-backdrop);
+  --punica-command-palette-shadow: var(--punica-shadow-xl);
+  --punica-command-palette-width: 560px;
+  --punica-command-palette-max-height: min(420px, 70dvh);
+
+  display: contents;
+}
+
+dialog {
+  inset-block-start: 12dvh;
+  inline-size: var(--punica-command-palette-width);
+  max-inline-size: calc(100vw - 2 * var(--punica-space-16));
+  max-block-size: var(--punica-command-palette-max-height);
+  margin-block: 0;
+  margin-inline: auto;
+  padding: 0;
+  border: var(--punica-border-width) solid var(--punica-color-border);
+  border-radius: var(--punica-command-palette-radius);
+  background: var(--punica-command-palette-background);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  box-shadow: var(--punica-command-palette-shadow);
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity var(--punica-duration-fast) var(--punica-ease),
+    display var(--punica-duration-fast) allow-discrete,
+    overlay var(--punica-duration-fast) allow-discrete;
+}
+
+dialog[open] {
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+}
+
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+  }
+}
+
+dialog::backdrop {
+  background: var(--punica-command-palette-backdrop);
+}
+
+.search {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--punica-space-8);
+  padding-inline: var(--punica-space-16);
+  border-block-end: var(--punica-border-width) solid var(--punica-color-border);
+  font-size: var(--punica-font-size-lg);
+}
+
+.search:focus-within {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
+}
+
+input {
+  all: unset;
+  flex: 1;
+  min-inline-size: 0;
+  block-size: var(--punica-size-lg);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size);
+  color: var(--punica-color-text);
+}
+
+input::placeholder {
+  color: var(--punica-color-text-placeholder);
+}
+
+[part='list'] {
+  flex: 1;
+  min-block-size: 0;
+  padding: var(--punica-space-4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+[part='empty'] {
+  padding: var(--punica-space-24) var(--punica-space-16);
+  font-size: var(--punica-font-size-sm);
+  text-align: center;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (forced-colors: active) {
+  dialog {
+    border-color: CanvasText;
+  }
+}

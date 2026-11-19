@@ -1,0 +1,13 @@
+:host {
+  --punica-dialog-content-padding: var(--punica-space-32) 0;
+
+  display: block;
+  grid-area: content;
+  min-block-size: 0;
+  padding: var(--punica-dialog-content-padding);
+  overflow: auto;
+  overscroll-behavior: contain;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  line-height: var(--punica-line-height);
+}

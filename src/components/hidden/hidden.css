@@ -1,0 +1,67 @@
+:host {
+  display: contents;
+}
+
+:host([above='xs']) {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  :host([above='sm']) {
+    display: none;
+  }
+}
+@media (min-width: 900px) {
+  :host([above='md']) {
+    display: none;
+  }
+}
+@media (min-width: 1200px) {
+  :host([above='lg']) {
+    display: none;
+  }
+}
+@media (min-width: 1536px) {
+  :host([above='xl']),
+  :host([only='xl']) {
+    display: none;
+  }
+}
+
+@media (max-width: 599.98px) {
+  :host([below='sm']),
+  :host([only='xs']) {
+    display: none;
+  }
+}
+@media (max-width: 899.98px) {
+  :host([below='md']) {
+    display: none;
+  }
+}
+@media (max-width: 1199.98px) {
+  :host([below='lg']) {
+    display: none;
+  }
+}
+@media (max-width: 1535.98px) {
+  :host([below='xl']) {
+    display: none;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899.98px) {
+  :host([only='sm']) {
+    display: none;
+  }
+}
+@media (min-width: 900px) and (max-width: 1199.98px) {
+  :host([only='md']) {
+    display: none;
+  }
+}
+@media (min-width: 1200px) and (max-width: 1535.98px) {
+  :host([only='lg']) {
+    display: none;
+  }
+}

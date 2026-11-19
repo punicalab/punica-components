@@ -1,0 +1,128 @@
+import { PunicaElement, define } from '../../core/element.js';
+import { FormControl } from '../../core/form.js';
+import styles from './button.css';
+
+const FORWARDED = [
+  ['ariaExpanded', 'aria-expanded'],
+  ['ariaHasPopup', 'aria-haspopup'],
+  ['ariaPressed', 'aria-pressed'],
+  ['ariaDescription', 'aria-description']
+];
+
+/**
+ * A button: an action, or a form's submit or reset.
+ *
+ * @element punica-button
+ *
+ * @attr {'filled' | 'outlined' | 'text'} variant - Visual weight, `filled` by default.
+ * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Accent, `primary` by default.
+ * @attr {'small' | 'medium' | 'large'} size - Control height, `medium` by default.
+ * @attr {'button' | 'submit' | 'reset'} type - What a click does to the owning form, `button` by default.
+ * @attr {boolean} disabled - Takes no clicks and no focus.
+ * @attr {boolean} required - Part of the form control contract; a button never blocks a form.
+ * @attr {boolean} loading - Shows a spinner, keeps focus, ignores clicks.
+ * @attr {boolean} pill - Fully rounded ends.
+ * @attr {boolean} full-width - Fills its container's inline size.
+ * @attr {string} name - Submitted with `value` when this button submits the form.
+ * @attr {string} value - Submitted with `name`.
+ * @attr {string} label - Accessible name, for a button with no text.
+ *
+ * @slot - The label.
+ * @slot start - Content before the label, an icon.
+ * @slot end - Content after the label.
+ *
+ * @csspart base - The native button.
+ * @csspart label - The wrapper around the default slot.
+ * @csspart spinner - The loading indicator.
+ *
+ * @cssprop --punica-button-radius - Corner radius.
+ * @cssprop --punica-button-height - Minimum block size.
+ * @cssprop --punica-button-padding - Inline padding.
+ */
+export class PunicaButton extends FormControl(PunicaElement) {
+  static properties = {
+    variant: {},
+    color: {},
+    size: {},
+    type: { default: 'button' },
+    loading: { type: Boolean },
+    pill: { type: Boolean },
+    fullWidth: { type: Boolean },
+    value: {},
+    label: {},
+    // ARIA a wrapper (a popover, a menu) writes on the host is passed to
+    // the native button, which is what assistive technology reads.
+    ariaExpanded: { attribute: 'aria-expanded', reflect: false },
+    ariaHasPopup: { attribute: 'aria-haspopup', reflect: false },
+    ariaControls: { attribute: 'aria-controls', reflect: false },
+    ariaPressed: { attribute: 'aria-pressed', reflect: false },
+    ariaDescription: { attribute: 'aria-description', reflect: false }
+  };
+
+  static styles = styles;
+  static shadowOptions = { delegatesFocus: true };
+  static template = `
+    <button part="base" type="button">
+      <slot name="start"></slot>
+      <span part="label" class="label"><slot></slot></span>
+      <slot name="end"></slot>
+      <span part="spinner" class="spinner" aria-hidden="true"></span>
+    </button>
+  `;
+
+  #button = this.$('button');
+
+  constructor() {
+    super();
+    this.#button.addEventListener('click', (event) => this.#onClick(event));
+    // A click that lands on the host while it cannot act goes nowhere.
+    this.addEventListener(
+      'click',
+      (event) => {
+        if (this.isDisabled || this.loading) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+        }
+      },
+      { capture: true }
+    );
+  }
+
+  update() {
+    const button = this.#button;
+    button.disabled = this.isDisabled;
+    button.setAttribute('aria-busy', String(this.loading));
+    if (this.loading) button.setAttribute('aria-disabled', 'true');
+    else button.removeAttribute('aria-disabled');
+    if (this.label) button.setAttribute('aria-label', this.label);
+    else button.removeAttribute('aria-label');
+    for (const [prop, attribute] of FORWARDED) {
+      if (this[prop] == null) button.removeAttribute(attribute);
+      else button.setAttribute(attribute, this[prop]);
+    }
+  }
+
+  /** Moves focus to the button. */
+  focus(options) {
+    this.#button.focus(options);
+  }
+
+  /** Clicks the button the way a user would. */
+  click() {
+    this.#button.click();
+  }
+
+  #onClick() {
+    if (this.isDisabled || this.loading) return;
+    if (this.type === 'submit') {
+      // A native submitter carries its name and value into the form data.
+      this.internals.setFormValue(this.value ?? '');
+      this.formAction('submit');
+      this.internals.setFormValue(null);
+    } else if (this.type === 'reset') {
+      this.formAction('reset');
+    }
+  }
+}
+
+define('punica-button', PunicaButton);

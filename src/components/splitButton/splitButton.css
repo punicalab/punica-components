@@ -1,0 +1,155 @@
+:host {
+  --_accent: var(--punica-color-primary);
+  --_accent-strong: var(--punica-color-primary-dark);
+  --_accent-tint: color-mix(in srgb, var(--_accent) 12%, transparent);
+  --punica-split-button-radius: var(--punica-radius);
+  --punica-split-button-height: var(--punica-size-md);
+  --punica-split-button-padding: var(--punica-space-16);
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([color='secondary']) {
+  --_accent: var(--punica-color-secondary);
+  --_accent-strong: var(--punica-color-secondary-dark);
+}
+:host([color='error']) {
+  --_accent: var(--punica-color-error);
+  --_accent-strong: var(--punica-color-error-dark);
+}
+:host([color='warning']) {
+  --_accent: var(--punica-color-warning);
+  --_accent-strong: var(--punica-color-warning-dark);
+}
+:host([color='info']) {
+  --_accent: var(--punica-color-info);
+  --_accent-strong: var(--punica-color-info-dark);
+}
+:host([color='success']) {
+  --_accent: var(--punica-color-success);
+  --_accent-strong: var(--punica-color-success-dark);
+}
+:host([color='neutral']) {
+  --_accent: var(--punica-color-text);
+  --_accent-strong: var(--punica-color-text);
+}
+
+:host([size='small']) {
+  --punica-split-button-height: var(--punica-size-sm);
+  --punica-split-button-padding: var(--punica-space-8);
+}
+:host([size='large']) {
+  --punica-split-button-height: var(--punica-size-lg);
+  --punica-split-button-padding: var(--punica-space-28);
+}
+
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+
+.group {
+  display: inline-flex;
+  align-items: stretch;
+  inline-size: 100%;
+}
+
+button {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--punica-space-6);
+  min-block-size: var(--punica-split-button-height);
+  border: var(--punica-border-width) solid transparent;
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  font-weight: var(--punica-font-weight-semi-bold);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  background: var(--_accent);
+  color: var(--punica-color-on-accent);
+  transition: background-color var(--punica-duration) var(--punica-ease),
+    border-color var(--punica-duration) var(--punica-ease),
+    color var(--punica-duration) var(--punica-ease);
+}
+
+[part='primary'] {
+  flex: 1;
+  padding-inline: var(--punica-split-button-padding);
+  border-start-start-radius: var(--punica-split-button-radius);
+  border-end-start-radius: var(--punica-split-button-radius);
+}
+
+[part='toggle'] {
+  flex: none;
+  min-inline-size: var(--punica-split-button-height);
+  padding-inline: var(--punica-space-6);
+  border-inline-start-color: color-mix(in srgb, var(--punica-color-on-accent) 40%, transparent);
+  border-start-end-radius: var(--punica-split-button-radius);
+  border-end-end-radius: var(--punica-split-button-radius);
+}
+
+punica-menu {
+  display: flex;
+}
+
+button:hover,
+[part='toggle'][aria-expanded='true'] {
+  background: var(--_accent-strong);
+}
+
+:host([variant='outlined']) button {
+  background: transparent;
+  border-color: var(--_accent);
+  color: var(--_accent);
+}
+:host([variant='outlined']) [part='primary'] {
+  border-inline-end-width: 0;
+}
+:host([variant='text']) button {
+  background: transparent;
+  color: var(--_accent);
+}
+:host([variant='text']) [part='toggle'] {
+  border-inline-start-color: var(--_accent-tint);
+}
+:host([variant='outlined']) button:hover,
+:host([variant='text']) button:hover,
+:host([variant='outlined']) [part='toggle'][aria-expanded='true'],
+:host([variant='text']) [part='toggle'][aria-expanded='true'] {
+  background: var(--_accent-tint);
+}
+
+button:focus-visible {
+  position: relative;
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+button:disabled {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+.icon {
+  transition: transform var(--punica-duration) var(--punica-ease);
+}
+[part='toggle'][aria-expanded='true'] .icon {
+  transform: rotate(180deg);
+}
+
+@media (forced-colors: active) {
+  button {
+    border-color: ButtonText;
+  }
+  button:disabled {
+    color: GrayText;
+    border-color: GrayText;
+    opacity: 1;
+  }
+}

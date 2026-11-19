@@ -1,0 +1,79 @@
+:host {
+  --punica-chat-tool-calls-gap: var(--punica-space-6);
+  --punica-chat-tool-calls-color: var(--punica-color-text-muted);
+
+  display: block;
+  font-family: var(--punica-font-family);
+  color: var(--punica-color-text);
+}
+
+.header {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-6);
+  padding: var(--punica-space-4) var(--punica-space-6);
+  border-radius: var(--punica-radius-sm);
+  color: var(--punica-chat-tool-calls-color);
+  font-size: var(--punica-font-size-sm);
+  font-weight: var(--punica-font-weight-semi-bold);
+  line-height: var(--punica-line-height);
+  cursor: pointer;
+}
+
+.header:hover {
+  background: var(--punica-color-hover);
+}
+
+.header:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.chevron {
+  display: inline-flex;
+  transition: rotate var(--punica-duration-fast) var(--punica-ease);
+}
+
+.chevron:dir(rtl) {
+  scale: -1 1;
+}
+
+:host([open]) .chevron {
+  rotate: 90deg;
+}
+
+:host([open]) .chevron:dir(rtl) {
+  rotate: -90deg;
+}
+
+.count:empty {
+  display: none;
+}
+
+.count {
+  min-inline-size: var(--punica-space-20);
+  padding-inline: var(--punica-space-6);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-color-neutral-light);
+  color: var(--punica-color-text);
+  font-size: var(--punica-font-size-xs);
+  text-align: center;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-chat-tool-calls-gap);
+  margin-block-start: var(--punica-space-6);
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .count {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+}

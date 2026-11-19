@@ -1,0 +1,608 @@
+:host {
+  --punica-agenda-background: var(--punica-color-surface);
+  --punica-agenda-muted-background: var(--punica-color-bg);
+  --punica-agenda-border-color: var(--punica-color-border);
+  --punica-agenda-radius: var(--punica-radius);
+  --punica-agenda-today-color: var(--punica-color-primary);
+  --punica-agenda-gutter-width: var(--punica-space-64);
+  --punica-agenda-day-hour-height: calc(var(--punica-space-40) * 3);
+  --punica-agenda-week-hour-height: var(--punica-space-48);
+  --punica-agenda-month-cell-height: calc(var(--punica-space-40) * 3);
+
+  display: block;
+  block-size: 100%;
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  color: var(--punica-color-text);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Read out, not shown. */
+.sr {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.agenda {
+  container: agenda / inline-size;
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  background: var(--punica-agenda-background);
+}
+
+/* ---------------------------------------------------------------- toolbar */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--punica-space-8);
+  padding: var(--punica-space-8) var(--punica-space-16);
+  border-block-end: var(--punica-border-width) solid var(--punica-agenda-border-color);
+}
+
+.nav,
+.views {
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-4);
+}
+
+.title {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: var(--punica-font-size);
+  font-weight: var(--punica-font-weight-bold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toolbar button {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--punica-size-sm);
+  min-inline-size: var(--punica-size-sm);
+  border: var(--punica-border-width) solid var(--punica-agenda-border-color);
+  border-radius: var(--punica-radius);
+  font-size: var(--punica-font-size-sm);
+  font-weight: var(--punica-font-weight-semi-bold);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease),
+    border-color var(--punica-duration-fast) var(--punica-ease);
+}
+.toolbar .text-button {
+  padding-inline: var(--punica-space-12);
+}
+.toolbar button:hover {
+  background: var(--punica-color-hover);
+}
+/* The pressed view keeps the text colour: the accent on the selected tint
+   falls under 4.5:1 in the dark theme. */
+.toolbar button[aria-pressed='true'] {
+  background: var(--punica-color-selected);
+  border-color: var(--punica-agenda-today-color);
+  color: var(--punica-color-text);
+}
+:host(:dir(rtl)) .nav-button .icon {
+  transform: scaleX(-1);
+}
+
+button:focus-visible,
+[role='gridcell']:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.content {
+  flex: 1;
+  min-block-size: 0;
+  overflow: auto;
+}
+
+/* ------------------------------------------------------------------ events */
+
+.event,
+.month-event {
+  --_c: var(--punica-color-primary);
+  all: unset;
+  box-sizing: border-box;
+  border-radius: var(--punica-radius-sm);
+  background: color-mix(in srgb, var(--_c) 16%, var(--punica-agenda-background));
+  color: var(--punica-color-text);
+  cursor: pointer;
+  overflow: hidden;
+}
+[data-color='secondary'] {
+  --_c: var(--punica-color-secondary);
+}
+[data-color='error'] {
+  --_c: var(--punica-color-error);
+}
+[data-color='warning'] {
+  --_c: var(--punica-color-warning);
+}
+[data-color='info'] {
+  --_c: var(--punica-color-info);
+}
+[data-color='success'] {
+  --_c: var(--punica-color-success);
+}
+[data-color='neutral'] {
+  --_c: var(--punica-color-neutral-dark);
+}
+.event:hover,
+.month-event:hover {
+  background: color-mix(in srgb, var(--_c) 28%, var(--punica-agenda-background));
+}
+.event:focus-visible,
+.month-event:focus-visible,
+.more-events:focus-visible,
+.day-column:focus-visible {
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
+}
+
+.event-title {
+  font-weight: var(--punica-font-weight-semi-bold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------- day and week view */
+
+.timed {
+  --_hour: var(--punica-agenda-day-hour-height);
+  display: grid;
+  grid-template-columns: var(--punica-agenda-gutter-width) minmax(0, 1fr);
+}
+
+.hours {
+  grid-column: 1;
+}
+.hour {
+  block-size: var(--_hour);
+  padding: var(--punica-space-8) var(--punica-space-4);
+  border-block-start: var(--punica-border-width) solid var(--punica-agenda-border-color);
+  border-inline-end: var(--punica-border-width) solid var(--punica-agenda-border-color);
+  text-align: end;
+  font-size: var(--punica-font-size-xs);
+  color: var(--punica-color-text);
+}
+.clock-text {
+  display: block;
+  font-weight: var(--punica-font-weight-medium);
+}
+.clock-period {
+  display: block;
+  opacity: 0.8;
+}
+
+.timed .grid {
+  grid-column: 2;
+  min-inline-size: 0;
+}
+.columns,
+.week-header {
+  display: grid;
+  grid-template-columns: repeat(var(--_days), minmax(0, 1fr));
+}
+.timed {
+  /* The all-day lane above the hours: one row per all-day event of the fullest day. */
+  --_lane-row: calc(var(--punica-space-24) + var(--punica-space-2));
+  --_lane: calc(var(--_lane-rows, 0) * var(--_lane-row) + min(var(--_lane-rows, 0), 1) * var(--punica-space-6));
+}
+.columns {
+  block-size: calc(var(--_hour) * var(--_hours) + var(--_lane));
+}
+.hours {
+  padding-block-start: var(--_lane);
+}
+
+.day-column {
+  position: relative;
+  background-image: linear-gradient(to bottom, var(--punica-agenda-border-color) var(--punica-border-width), transparent var(--punica-border-width));
+  background-size: 100% var(--_hour);
+  background-position: 0 var(--_lane);
+  background-repeat: repeat-y;
+}
+
+.event {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  inset-block-start: calc(var(--_lane) + var(--_hour) * var(--_top) + var(--punica-space-2));
+  block-size: calc(var(--_hour) * var(--_size) - var(--punica-space-4));
+  inset-inline-start: calc(100% * var(--_column) / var(--_columns) + var(--punica-space-2));
+  inline-size: calc(100% / var(--_columns) - var(--punica-space-4));
+  padding: var(--punica-space-8);
+  border-inline-start: var(--punica-space-4) solid var(--_c);
+  font-size: var(--punica-font-size-sm);
+}
+.event-time {
+  font-size: var(--punica-font-size-xs);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event.all-day {
+  justify-content: center;
+  inset-block-start: calc(var(--_row) * var(--_lane-row) + var(--punica-space-2));
+  inset-inline: var(--punica-space-2);
+  inline-size: auto;
+  block-size: var(--punica-space-24);
+  padding-block: 0;
+  padding-inline: var(--punica-space-8);
+  font-size: var(--punica-font-size-xs);
+}
+
+/* A short event keeps its title and gives up its time line. */
+.event {
+  container-type: size;
+}
+@container (max-block-size: 30px) {
+  .event-time {
+    display: none;
+  }
+  .event-title {
+    margin-block-start: calc(-1 * var(--punica-space-4));
+    line-height: 1.2;
+  }
+}
+@container (max-block-size: 16px) {
+  .event-title {
+    font-size: var(--punica-font-size-xs);
+  }
+}
+
+/* An event cut by the hour range fades at the cut. */
+.event.clipped-start::before,
+.event.clipped-end::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  block-size: var(--punica-space-6);
+  pointer-events: none;
+}
+.event.clipped-start::before {
+  inset-block-start: 0;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--punica-color-black) 20%, transparent), transparent);
+}
+.event.clipped-end::after {
+  inset-block-end: 0;
+  background: linear-gradient(to top, color-mix(in srgb, var(--punica-color-black) 20%, transparent), transparent);
+}
+
+/* week */
+.week-view {
+  --_hour: var(--punica-agenda-week-hour-height);
+  grid-template-rows: auto auto;
+  gap: var(--punica-space-8) var(--punica-space-2);
+  padding: var(--punica-space-16);
+}
+.week-view .corner {
+  grid-area: 1 / 1;
+  background: var(--punica-agenda-muted-background);
+}
+/* The day headers stay while the hours scroll under them. */
+.week-view .corner,
+.week-view .week-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+}
+.week-view .week-header {
+  background: var(--punica-agenda-background);
+  box-shadow: 0 calc(-1 * var(--punica-space-16)) 0 var(--punica-agenda-background), 0 var(--punica-space-8) 0 var(--punica-agenda-background);
+}
+.week-view .hours {
+  grid-row: 2;
+}
+.week-view .grid {
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-rows: subgrid;
+}
+.week-view .columns,
+.week-header {
+  gap: var(--punica-space-2);
+}
+/* An hour's label sits at the line where the hour starts, as in the day view. */
+.week-view .hour {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: var(--punica-space-2);
+  padding: var(--punica-space-4) 0 0;
+  padding-inline-end: var(--punica-space-8);
+  border-inline-end: 0;
+  white-space: nowrap;
+}
+.week-view .clock-text,
+.week-view .clock-period {
+  display: inline;
+  font-weight: var(--punica-font-weight-regular);
+  opacity: 1;
+}
+.week-view .day-column {
+  border-inline-start: var(--punica-border-width) solid var(--punica-agenda-border-color);
+  background-color: var(--punica-agenda-muted-background);
+}
+.week-view .event {
+  padding: var(--punica-space-4) var(--punica-space-8);
+  font-size: var(--punica-font-size-xs);
+}
+
+.day-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-inline-size: 0;
+}
+.week-header .day-header {
+  padding: var(--punica-space-12);
+  background: var(--punica-agenda-muted-background);
+  border-radius: var(--punica-agenda-radius);
+}
+.week-header .day-header.today {
+  background: var(--punica-agenda-today-color);
+  color: var(--punica-color-on-accent);
+}
+.week-header .day-name {
+  font-size: var(--punica-font-size-xs);
+  font-weight: var(--punica-font-weight-medium);
+  margin-block-end: var(--punica-space-4);
+}
+.week-header .day-number {
+  font-size: var(--punica-font-size-xl);
+  font-weight: var(--punica-font-weight-bold);
+}
+
+/* -------------------------------------------------------------- month view */
+
+.month-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-8);
+  padding: var(--punica-space-16);
+}
+.month-header,
+.month-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--punica-space-8);
+}
+.month-header .day-header {
+  padding: var(--punica-space-12);
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+.month-cell {
+  min-inline-size: 0;
+  min-block-size: var(--punica-agenda-month-cell-height);
+  padding: var(--punica-space-8);
+  border: var(--punica-border-width) solid var(--punica-agenda-border-color);
+  border-radius: var(--punica-agenda-radius);
+  background: var(--punica-agenda-background);
+  transition: background-color var(--punica-duration) var(--punica-ease),
+    box-shadow var(--punica-duration) var(--punica-ease);
+}
+.month-cell:hover {
+  background: var(--punica-agenda-muted-background);
+  box-shadow: var(--punica-shadow-xs);
+}
+.month-cell.empty {
+  background: var(--punica-agenda-muted-background);
+  border-color: transparent;
+  box-shadow: none;
+}
+.month-cell.today {
+  background: color-mix(in srgb, var(--punica-agenda-today-color) 10%, var(--punica-agenda-background));
+  border-color: var(--punica-agenda-today-color);
+}
+.cell-header {
+  margin-block-end: var(--punica-space-8);
+}
+.month-cell .day-number {
+  font-size: var(--punica-font-size);
+  font-weight: var(--punica-font-weight-bold);
+}
+.month-cell.today .day-number {
+  color: var(--punica-agenda-today-color);
+}
+.cell-events {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-4);
+}
+.month-event {
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-4);
+  padding: var(--punica-space-4) var(--punica-space-8);
+  font-size: var(--punica-font-size-xs);
+}
+.month-event .event-title {
+  font-weight: var(--punica-font-weight-regular);
+}
+.event-dot {
+  flex: none;
+  inline-size: var(--punica-space-6);
+  block-size: var(--punica-space-6);
+  border-radius: 50%;
+  background: var(--_c);
+}
+.more-events {
+  all: unset;
+  box-sizing: border-box;
+  align-self: flex-start;
+  margin-block-start: var(--punica-space-4);
+  border-radius: var(--punica-radius-sm);
+  font-size: var(--punica-font-size-xs);
+  font-style: italic;
+  cursor: pointer;
+}
+.more-events:hover {
+  text-decoration: underline;
+}
+
+/* A narrow agenda gives its month days the room it has. */
+.month-cell .day-number {
+  white-space: nowrap;
+}
+@container agenda (max-width: 600px) {
+  .month-view {
+    gap: var(--punica-space-2);
+    padding: var(--punica-space-4);
+  }
+  .month-header,
+  .month-row {
+    gap: var(--punica-space-2);
+  }
+  .month-header .day-header {
+    padding: var(--punica-space-4) 0;
+    font-size: var(--punica-font-size-xs);
+  }
+  .month-cell {
+    padding: var(--punica-space-4) var(--punica-space-2);
+  }
+  .month-cell .day-number {
+    font-size: var(--punica-font-size-sm);
+  }
+  .month-event {
+    justify-content: center;
+    padding: var(--punica-space-4) var(--punica-space-2);
+  }
+  /* A dot per event; the title stays in the button's name. */
+  .month-event .event-title {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .month-event .event-dot {
+    inline-size: var(--punica-space-8);
+    block-size: var(--punica-space-8);
+  }
+  .week-view {
+    padding: var(--punica-space-4);
+  }
+  .week-header .day-header {
+    padding: var(--punica-space-6) 0;
+  }
+  .week-header .day-name {
+    max-inline-size: 100%;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+  }
+  .week-header .day-number {
+    font-size: var(--punica-font-size);
+  }
+}
+
+/* --------------------------------------------------------------- year view */
+
+.year-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--punica-space-128) * 2), 1fr));
+  gap: var(--punica-space-24);
+  padding: var(--punica-space-16);
+}
+.year-month {
+  padding: var(--punica-space-16);
+  border: var(--punica-border-width) solid var(--punica-agenda-border-color);
+  border-radius: var(--punica-agenda-radius);
+  background: var(--punica-agenda-background);
+}
+.year-month-name {
+  margin-block-end: var(--punica-space-12);
+  font-size: var(--punica-font-size);
+  font-weight: var(--punica-font-weight-bold);
+}
+.year-month-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-4);
+}
+.year-day-names,
+.year-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--punica-space-4);
+}
+.year-day-names {
+  margin-block-end: var(--punica-space-4);
+  font-size: var(--punica-font-size-xs);
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+.year-day {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border-radius: var(--punica-radius-sm);
+  font-size: var(--punica-font-size-xs);
+  cursor: pointer;
+  transition: background-color var(--punica-duration) var(--punica-ease);
+}
+.year-day:hover {
+  background: var(--punica-color-hover);
+}
+.year-day.today {
+  background: var(--punica-agenda-today-color);
+  color: var(--punica-color-on-accent);
+  font-weight: var(--punica-font-weight-bold);
+}
+.year-day.has-events::after {
+  content: '';
+  position: absolute;
+  inset-block-end: var(--punica-space-2);
+  inline-size: var(--punica-space-4);
+  block-size: var(--punica-space-4);
+  border-radius: 50%;
+  background: var(--punica-agenda-today-color);
+}
+.year-day.today.has-events::after {
+  background: var(--punica-color-on-accent);
+}
+.year-day.empty {
+  cursor: default;
+  background: none;
+}
+
+@media (forced-colors: active) {
+  .event,
+  .month-event {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+  .week-header .day-header.today,
+  .month-cell.today,
+  .year-day.today,
+  .toolbar button[aria-pressed='true'] {
+    outline: var(--punica-focus-ring-width) solid Highlight;
+    outline-offset: calc(-1 * var(--punica-focus-ring-width));
+  }
+  .year-day.has-events::after {
+    background: CanvasText;
+  }
+  button:focus-visible,
+  [role='gridcell']:focus-visible {
+    outline-color: Highlight;
+  }
+}

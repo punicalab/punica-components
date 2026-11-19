@@ -1,0 +1,57 @@
+/* audit-allow: pointer-without-focus-visible (the row is never focused: the input keeps focus and :state(active) marks the row) */
+:host {
+  --punica-command-item-radius: var(--punica-radius-sm);
+  --punica-command-item-padding: var(--punica-space-8) var(--punica-space-12);
+  --punica-command-item-highlight: var(--punica-color-selected);
+
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-8);
+  padding: var(--punica-command-item-padding);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-command-item-radius);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+  cursor: pointer;
+  user-select: none;
+}
+
+:host(:state(filtered-out)) {
+  display: none;
+}
+
+:host(:state(active)) {
+  background: var(--punica-command-item-highlight);
+}
+
+:host([disabled]) {
+  opacity: var(--punica-disabled-opacity);
+  cursor: default;
+  pointer-events: none;
+}
+
+.label {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+::slotted([slot='shortcut']) {
+  flex: none;
+  font-family: var(--punica-font-family-mono);
+  font-size: var(--punica-font-size-xs);
+}
+
+@media (forced-colors: active) {
+  :host(:state(active)) {
+    border-color: Highlight;
+  }
+  :host([disabled]) {
+    color: GrayText;
+    opacity: 1;
+  }
+}

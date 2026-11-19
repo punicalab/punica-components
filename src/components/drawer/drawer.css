@@ -1,0 +1,200 @@
+:host {
+  --punica-drawer-radius: 0;
+  --punica-drawer-padding: var(--punica-padding);
+  --punica-drawer-background: var(--punica-color-bg);
+  --punica-drawer-backdrop: var(--punica-color-backdrop);
+  --punica-drawer-shadow: var(--punica-shadow-xl);
+  --punica-drawer-size: 600px;
+  --_x: 100%;
+  --_y: 0;
+
+  display: contents;
+}
+
+:host([size='small']) {
+  --punica-drawer-size: 480px;
+}
+:host([size='large']) {
+  --punica-drawer-size: 900px;
+}
+
+:host(:dir(rtl)),
+:host([side='inline-start']) {
+  --_x: -100%;
+}
+:host([side='inline-start']:dir(rtl)) {
+  --_x: 100%;
+}
+:host([side='block-start']) {
+  --_x: 0;
+  --_y: -100%;
+}
+:host([side='block-end']) {
+  --_x: 0;
+  --_y: 100%;
+}
+
+dialog {
+  position: fixed;
+  inset-block: 0;
+  inset-inline: auto 0;
+  inline-size: var(--punica-drawer-size);
+  block-size: 100dvh;
+  max-inline-size: 100vw;
+  max-block-size: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0 solid transparent;
+  border-inline-start-width: var(--punica-border-width);
+  border-start-start-radius: var(--punica-drawer-radius);
+  border-end-start-radius: var(--punica-drawer-radius);
+  background: var(--punica-drawer-background);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  box-shadow: var(--punica-drawer-shadow);
+  overflow: hidden;
+  transform: translate(var(--_x), var(--_y));
+  transition: transform var(--punica-duration-slow) var(--punica-ease),
+    display var(--punica-duration-slow) allow-discrete,
+    overlay var(--punica-duration-slow) allow-discrete;
+}
+
+:host([side='inline-start']) dialog {
+  inset-inline: 0 auto;
+  border-width: 0;
+  border-inline-end-width: var(--punica-border-width);
+  border-radius: 0;
+  border-start-end-radius: var(--punica-drawer-radius);
+  border-end-end-radius: var(--punica-drawer-radius);
+}
+
+:host([side='block-start']) dialog,
+:host([side='block-end']) dialog {
+  inset-inline: 0;
+  inline-size: 100vw;
+  block-size: var(--punica-drawer-size);
+  border-width: 0;
+  border-radius: 0;
+}
+:host([side='block-start']) dialog {
+  inset-block: 0 auto;
+  border-block-end-width: var(--punica-border-width);
+  border-end-start-radius: var(--punica-drawer-radius);
+  border-end-end-radius: var(--punica-drawer-radius);
+}
+:host([side='block-end']) dialog {
+  inset-block: auto 0;
+  border-block-start-width: var(--punica-border-width);
+  border-start-start-radius: var(--punica-drawer-radius);
+  border-start-end-radius: var(--punica-drawer-radius);
+}
+
+dialog[open] {
+  display: flex;
+  flex-direction: column;
+  transform: none;
+}
+
+@starting-style {
+  dialog[open] {
+    transform: translate(var(--_x), var(--_y));
+  }
+}
+
+dialog::backdrop {
+  background: var(--punica-drawer-backdrop);
+  opacity: 0;
+  transition: opacity var(--punica-duration-slow) var(--punica-ease),
+    display var(--punica-duration-slow) allow-discrete,
+    overlay var(--punica-duration-slow) allow-discrete;
+}
+
+dialog[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+dialog:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
+}
+
+[part='header'] {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--punica-space-8);
+  padding: var(--punica-drawer-padding);
+  font-size: var(--punica-font-size-lg);
+  font-weight: var(--punica-font-weight-semi-bold);
+  line-height: var(--punica-line-height);
+}
+
+.title {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+[part='body'] {
+  flex: 1;
+  min-block-size: 0;
+  padding: 0 var(--punica-drawer-padding) var(--punica-drawer-padding);
+  overflow: auto;
+  overscroll-behavior: contain;
+  line-height: var(--punica-line-height);
+}
+
+[part='footer'] {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: var(--punica-space-8);
+  justify-content: flex-end;
+  padding: var(--punica-drawer-padding);
+  border-block-start: var(--punica-border-width) solid var(--punica-color-border);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.close {
+  all: unset;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-size-sm);
+  block-size: var(--punica-size-sm);
+  border-radius: var(--punica-radius-full);
+  color: var(--punica-color-text);
+  cursor: pointer;
+  transition: background-color var(--punica-duration) var(--punica-ease);
+}
+
+.close:hover {
+  background: var(--punica-color-hover);
+}
+
+.close:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+:host([no-close-button]) .close {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  dialog {
+    border-color: CanvasText;
+  }
+  .close {
+    border: var(--punica-border-width) solid ButtonText;
+  }
+}

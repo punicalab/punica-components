@@ -1,0 +1,69 @@
+:host {
+  --punica-metadata-list-gap: var(--punica-space-12);
+  --punica-metadata-list-label-width: 40%;
+  --punica-metadata-list-label-color: var(--punica-color-text-muted);
+  --punica-metadata-list-divider-color: var(--punica-color-border);
+  /* Read by the items. */
+  --_metadata-label-color: var(--punica-metadata-list-label-color);
+  --_metadata-font-size: var(--punica-font-size-sm);
+
+  display: block;
+  container-type: inline-size;
+}
+
+:host([dense]) {
+  --punica-metadata-list-gap: var(--punica-space-6);
+  --_metadata-font-size: var(--punica-font-size-xs);
+}
+
+.base {
+  display: grid;
+  grid-template-columns: fit-content(var(--punica-metadata-list-label-width)) minmax(0, 1fr);
+  column-gap: var(--punica-space-16);
+  row-gap: var(--punica-metadata-list-gap);
+  font-family: var(--punica-font-family);
+}
+
+/* inline, the default: one column of labels, one of values. */
+::slotted(*) {
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+}
+
+:host([layout='stacked']) .base {
+  grid-template-columns: minmax(0, 1fr);
+}
+:host([layout='stacked']) ::slotted(*),
+:host([layout='columns']) ::slotted(*) {
+  grid-column: auto;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+:host([layout='columns']) .base {
+  grid-template-columns: repeat(var(--_columns, 2), minmax(0, 1fr));
+}
+@container (max-width: 480px) {
+  :host([layout='columns']) .base {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+:host([dividers]) .base {
+  row-gap: 0;
+}
+:host([dividers]) ::slotted(*) {
+  padding-block: calc(var(--punica-metadata-list-gap) / 2 + var(--punica-space-2));
+}
+:host([dividers]:not([layout='columns'])) ::slotted(:not(:first-child)) {
+  border-block-start: var(--punica-border-width) solid var(--punica-metadata-list-divider-color);
+}
+:host([dividers][layout='columns']) ::slotted(*) {
+  border-block-end: var(--punica-border-width) solid var(--punica-metadata-list-divider-color);
+}
+
+@media (forced-colors: active) {
+  :host([dividers]) ::slotted(*) {
+    border-color: CanvasText;
+  }
+}

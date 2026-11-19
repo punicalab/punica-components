@@ -1,0 +1,10 @@
+:host {
+  --punica-timestamp-color: inherit;
+
+  display: inline;
+}
+
+time {
+  color: var(--punica-timestamp-color);
+  font-variant-numeric: tabular-nums;
+}

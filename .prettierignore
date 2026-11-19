@@ -1,0 +1,6 @@
+dist
+coverage
+custom-elements.json
+package-lock.json
+.changeset/*.md
+*.md

@@ -1,0 +1,96 @@
+:host {
+  --punica-textarea-padding: var(--punica-space-12);
+  --punica-textarea-radius: var(--punica-radius);
+  --punica-textarea-border-color: var(--punica-color-border);
+  --punica-textarea-background: var(--punica-color-surface);
+  --punica-textarea-color: var(--punica-color-text);
+  --punica-textarea-max-height: none;
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+
+.base {
+  display: flex;
+  flex: 1;
+  min-inline-size: 0;
+  border: var(--punica-border-width) solid var(--punica-textarea-border-color);
+  border-radius: var(--punica-textarea-radius);
+  background: var(--punica-textarea-background);
+  color: var(--punica-textarea-color);
+  overflow: hidden;
+  transition: border-color var(--punica-duration) var(--punica-ease);
+}
+
+.base:hover {
+  border-color: var(--punica-color-border-strong);
+}
+.base:focus-within {
+  border-color: var(--punica-color-primary);
+}
+.base:has(textarea:focus-visible) {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-border-width));
+}
+:host(:state(user-invalid)) .base {
+  border-color: var(--punica-color-error);
+}
+
+textarea {
+  flex: 1;
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-block-size: var(--punica-textarea-max-height);
+  margin: 0;
+  padding: var(--punica-textarea-padding);
+  border: 0;
+  outline: none;
+  background: none;
+  color: inherit;
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+  resize: none;
+  -webkit-tap-highlight-color: transparent;
+}
+textarea::placeholder {
+  color: var(--punica-color-text-placeholder);
+  opacity: 1;
+}
+
+:host([resize='vertical']) textarea {
+  resize: vertical;
+}
+:host([resize='auto']) textarea {
+  field-sizing: content;
+  /* `rows` is the least height once the content sizes the field. */
+  min-block-size: calc(
+    var(--_rows, 3) * 1lh + 2 * var(--punica-textarea-padding)
+  );
+}
+
+:host([disabled]) .base,
+:host(:state(disabled)) .base {
+  opacity: var(--punica-disabled-opacity);
+}
+
+@media (forced-colors: active) {
+  .base {
+    border-color: FieldText;
+  }
+  .base:focus-within {
+    border-color: Highlight;
+  }
+  :host([disabled]) .base,
+  :host(:state(disabled)) .base {
+    border-color: GrayText;
+    color: GrayText;
+    opacity: 1;
+  }
+}

@@ -1,0 +1,119 @@
+:host {
+  --punica-tree-item-padding: var(--punica-space-4) var(--punica-space-8);
+  --punica-tree-item-hover-background: var(--punica-color-hover);
+  --punica-tree-item-selected-background: var(--punica-color-selected);
+
+  display: block;
+  outline: none;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-6);
+  min-block-size: var(--punica-size-sm);
+  padding: var(--punica-tree-item-padding);
+  border-radius: var(--punica-radius-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.row:hover {
+  background: var(--punica-tree-item-hover-background);
+}
+
+:host([selected]) .row {
+  background: var(--punica-tree-item-selected-background);
+}
+
+:host(:focus-visible) .row {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(var(--punica-focus-ring-width) * -1);
+}
+
+:host([disabled]) .row {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+:host([disabled]) .row:hover {
+  background: none;
+}
+
+.toggle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  visibility: hidden;
+  transition: transform var(--punica-duration-fast) var(--punica-ease);
+}
+
+:host(:state(branch)) .toggle {
+  visibility: visible;
+}
+
+:host(:dir(rtl)) .toggle {
+  transform: scaleX(-1);
+}
+
+:host([expanded]) .toggle {
+  transform: rotate(90deg);
+}
+
+:host([expanded]:dir(rtl)) .toggle {
+  transform: scaleX(-1) rotate(90deg);
+}
+
+.label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.spinner {
+  display: none;
+  flex: 0 0 auto;
+  inline-size: 1em;
+  block-size: 1em;
+  border: 2px solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+:host([loading]) .spinner {
+  display: block;
+}
+
+.group {
+  display: none;
+  padding-inline-start: var(--punica-tree-item-indent, var(--punica-space-20));
+}
+
+:host([expanded]) .group {
+  display: block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
+}
+
+@media (forced-colors: active) {
+  :host([selected]) .row {
+    outline: var(--punica-border-width) solid Highlight;
+    outline-offset: calc(var(--punica-border-width) * -1);
+  }
+  :host([disabled]) .row {
+    color: GrayText;
+    opacity: 1;
+  }
+}

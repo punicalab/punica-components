@@ -1,0 +1,93 @@
+:host {
+  --_accent: var(--punica-color-primary);
+  --punica-radio-size: var(--punica-space-18);
+  --punica-radio-border-color: var(--punica-color-border-strong);
+  --punica-radio-color: var(--_accent);
+  --punica-radio-gap: var(--punica-space-8);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-radio-gap);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: 1.43;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:host([color='secondary']) {
+  --_accent: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --_accent: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --_accent: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --_accent: var(--punica-color-info);
+}
+:host([color='success']) {
+  --_accent: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  --_accent: var(--punica-color-neutral-dark);
+}
+
+.control {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-radio-size);
+  block-size: var(--punica-radio-size);
+  border: var(--punica-border-width) solid var(--punica-radio-border-color);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-color-surface);
+  transition: border-color var(--punica-duration-fast) var(--punica-ease);
+}
+.control::after {
+  content: '';
+  inline-size: 50%;
+  block-size: 50%;
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-radio-color);
+  transform: scale(0);
+  transition: transform var(--punica-duration-fast) var(--punica-ease);
+}
+
+:host(:state(checked)) .control {
+  border-color: var(--punica-radio-color);
+}
+:host(:state(checked)) .control::after {
+  transform: scale(1);
+}
+
+:host(:focus-visible) .control {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+:host(:state(disabled)) {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+@media (forced-colors: active) {
+  .control {
+    border-color: FieldText;
+  }
+  :host(:state(checked)) .control {
+    border-color: Highlight;
+  }
+  .control::after {
+    background: Highlight;
+  }
+  :host(:state(disabled)) {
+    opacity: 1;
+    color: GrayText;
+  }
+}

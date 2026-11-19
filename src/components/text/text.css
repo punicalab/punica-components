@@ -1,0 +1,115 @@
+:host {
+  --_size: var(--punica-font-size);
+  --punica-text-font-size: var(--_size);
+  --punica-text-line-height: var(--punica-line-height);
+
+  display: inline;
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-text-font-size);
+  line-height: var(--punica-text-line-height);
+}
+
+:host([block]),
+:host([align]) {
+  display: block;
+}
+
+:host([variant='caption']) {
+  --_size: var(--punica-font-size-xs);
+}
+:host([variant='label']) {
+  --_size: var(--punica-font-size-sm);
+  font-weight: var(--punica-font-weight-medium);
+}
+:host([variant='overline']) {
+  --_size: var(--punica-font-size-xs);
+  font-weight: var(--punica-font-weight-semi-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+:host([variant='code']) {
+  --_size: 0.875em;
+  padding-inline: var(--punica-space-4);
+  border-radius: var(--punica-radius-sm);
+  background: var(--punica-color-hover);
+  font-family: var(--punica-font-family-mono);
+}
+
+:host([size='small']) {
+  --_size: var(--punica-font-size-sm);
+}
+:host([size='medium']) {
+  --_size: var(--punica-font-size);
+}
+:host([size='large']) {
+  --_size: var(--punica-font-size-lg);
+}
+
+:host([weight='thin']) {
+  font-weight: var(--punica-font-weight-thin);
+}
+:host([weight='light']) {
+  font-weight: var(--punica-font-weight-light);
+}
+:host([weight='regular']) {
+  font-weight: var(--punica-font-weight-regular);
+}
+:host([weight='medium']) {
+  font-weight: var(--punica-font-weight-medium);
+}
+:host([weight='semi-bold']) {
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+:host([weight='bold']) {
+  font-weight: var(--punica-font-weight-bold);
+}
+:host([weight='extra-bold']) {
+  font-weight: var(--punica-font-weight-extra-bold);
+}
+
+:host([color='primary']) {
+  color: var(--punica-color-primary);
+}
+:host([color='secondary']) {
+  color: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  color: var(--punica-color-error);
+}
+:host([color='warning']) {
+  color: var(--punica-color-warning);
+}
+:host([color='info']) {
+  color: var(--punica-color-info);
+}
+:host([color='success']) {
+  color: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  color: var(--punica-color-text);
+}
+:host([color='muted']) {
+  color: var(--punica-color-text-muted);
+}
+
+:host([align='start']) {
+  text-align: start;
+}
+:host([align='center']) {
+  text-align: center;
+}
+:host([align='end']) {
+  text-align: end;
+}
+:host([align='justify']) {
+  text-align: justify;
+}
+
+:host(:state(truncated)) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--_lines, 1);
+  line-clamp: var(--_lines, 1);
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,54 @@
+:host {
+  --punica-tab-padding: var(--punica-space-8) var(--punica-space-16);
+  --punica-tab-color: var(--punica-color-text-muted);
+  --punica-tab-selected-color: var(--punica-color-primary);
+  --punica-tab-hover-background: color-mix(in srgb, var(--punica-color-primary-light) 20%, transparent);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: var(--punica-tab-padding);
+  color: var(--punica-tab-color);
+  font-family: var(--punica-font-family);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--punica-duration) var(--punica-ease),
+    color var(--punica-duration) var(--punica-ease);
+}
+
+:host(:hover) {
+  background: var(--punica-tab-hover-background);
+}
+
+:host([selected]) {
+  color: var(--punica-tab-selected-color);
+}
+
+:host(:focus-visible) {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(var(--punica-focus-ring-width) * -1);
+}
+
+:host([disabled]) {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+  pointer-events: none;
+}
+
+.base {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-6);
+}
+
+@media (forced-colors: active) {
+  :host([selected]) {
+    color: Highlight;
+  }
+  :host([disabled]) {
+    color: GrayText;
+    opacity: 1;
+  }
+}

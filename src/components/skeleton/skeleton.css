@@ -1,0 +1,72 @@
+:host {
+  /* The same grey as the progress track; --punica-color-neutral glares in
+     dark mode. */
+  --punica-skeleton-color: color-mix(in srgb, var(--punica-color-text) 16%, var(--punica-color-surface));
+  --punica-skeleton-radius: var(--punica-radius-sm);
+  /* Set per instance from width and height; the shape gives the fallback. */
+  --_width: initial;
+  --_height: initial;
+  --_shape-width: 100%;
+  --_shape-height: auto;
+
+  display: block;
+  inline-size: var(--_width, var(--_shape-width));
+  block-size: var(--_height, var(--_shape-height));
+}
+
+.line {
+  display: block;
+  block-size: 0.75em;
+  margin-block: 0.375em;
+  border-radius: var(--punica-skeleton-radius);
+  background: var(--punica-skeleton-color);
+  animation: shimmer 2s ease-in-out 0.5s infinite;
+}
+
+/* One line fills a height that was asked for. */
+.line:only-child {
+  min-block-size: 0.75em;
+}
+:host([height]) .line:only-child {
+  block-size: 100%;
+  margin-block: 0;
+}
+
+.line:last-child:not(:first-child) {
+  inline-size: 60%;
+}
+
+:host([variant='rect']) {
+  --_shape-height: var(--punica-space-96);
+}
+:host([variant='circle']) {
+  --_shape-width: var(--punica-space-40);
+  --_shape-height: var(--punica-space-40);
+}
+:host([variant='rect']) .line,
+:host([variant='circle']) .line {
+  block-size: 100%;
+  margin-block: 0;
+}
+:host([variant='circle']) .line {
+  border-radius: 50%;
+}
+
+@keyframes shimmer {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .line {
+    forced-color-adjust: none;
+    background: GrayText;
+  }
+}

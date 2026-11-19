@@ -1,0 +1,42 @@
+:host {
+  --punica-toaster-gap: var(--punica-space-10);
+  --punica-toaster-offset: var(--punica-space-10);
+
+  display: contents;
+}
+
+[part='region'] {
+  inset-block-end: var(--punica-toaster-offset);
+  inset-inline-end: var(--punica-toaster-offset);
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: var(--punica-toaster-gap);
+  max-block-size: calc(100dvh - 2 * var(--punica-toaster-offset));
+  pointer-events: none;
+}
+
+[part='region']:popover-open,
+[part='region'][data-open] {
+  display: flex;
+}
+
+:host([position^='block-start']) [part='region'] {
+  inset-block: var(--punica-toaster-offset) auto;
+  flex-direction: column;
+}
+
+:host([position$='-start']) [part='region'] {
+  inset-inline: var(--punica-toaster-offset) auto;
+  align-items: flex-start;
+}
+
+:host([position$='-center']) [part='region'] {
+  inset-inline: 0;
+  inline-size: fit-content;
+  margin-inline: auto;
+  align-items: center;
+}
+
+::slotted(*) {
+  pointer-events: auto;
+}

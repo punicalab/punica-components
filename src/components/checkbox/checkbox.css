@@ -1,0 +1,117 @@
+:host {
+  --_accent: var(--punica-color-primary);
+  --punica-checkbox-size: var(--punica-space-18);
+  --punica-checkbox-radius: var(--punica-radius-sm);
+  --punica-checkbox-border-color: var(--punica-color-border-strong);
+  --punica-checkbox-color: var(--_accent);
+  --punica-checkbox-gap: var(--punica-space-8);
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([color='secondary']) {
+  --_accent: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --_accent: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --_accent: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --_accent: var(--punica-color-info);
+}
+:host([color='success']) {
+  --_accent: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  --_accent: var(--punica-color-neutral-dark);
+}
+
+.base {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-checkbox-gap);
+  inline-size: 100%;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: 1.43;
+  cursor: pointer;
+  user-select: none;
+}
+
+input {
+  position: absolute;
+  inset-inline-start: 0;
+  inline-size: var(--punica-checkbox-size);
+  block-size: var(--punica-checkbox-size);
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.control {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-checkbox-size);
+  block-size: var(--punica-checkbox-size);
+  border: var(--punica-border-width) solid var(--punica-checkbox-border-color);
+  border-radius: var(--punica-checkbox-radius);
+  background: var(--punica-color-surface);
+  color: var(--punica-color-on-accent);
+  font-size: var(--punica-font-size-sm);
+  transition: background-color var(--punica-duration-fast) var(--punica-ease),
+    border-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.control .icon {
+  display: none;
+  stroke-width: 3;
+}
+
+input:checked + .control,
+input:indeterminate + .control {
+  background: var(--punica-checkbox-color);
+  border-color: var(--punica-checkbox-color);
+}
+input:checked:not(:indeterminate) + .control .icon:first-child,
+input:indeterminate + .control .icon:last-child {
+  display: block;
+}
+
+input:focus-visible + .control {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.label[hidden] {
+  display: none;
+}
+
+:host([disabled]) .base,
+:host(:state(disabled)) .base {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+@media (forced-colors: active) {
+  .control {
+    border-color: FieldText;
+    color: HighlightText;
+  }
+  input:checked + .control,
+  input:indeterminate + .control {
+    background: Highlight;
+    border-color: Highlight;
+  }
+  :host([disabled]) .base,
+  :host(:state(disabled)) .base {
+    opacity: 1;
+    color: GrayText;
+  }
+}

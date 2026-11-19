@@ -1,0 +1,141 @@
+:host {
+  --punica-number-input-height: var(--punica-size-md);
+  --punica-number-input-padding: var(--punica-space-12);
+  --punica-number-input-radius: var(--punica-radius);
+  --punica-number-input-border-color: var(--punica-color-border);
+  --punica-number-input-background: var(--punica-color-surface);
+  --punica-number-input-color: var(--punica-color-text);
+
+  display: inline-flex;
+  vertical-align: middle;
+  inline-size: var(--punica-space-160);
+}
+
+:host([size='small']) {
+  --punica-number-input-height: var(--punica-size-sm);
+  --punica-number-input-padding: var(--punica-space-8);
+}
+:host([size='large']) {
+  --punica-number-input-height: var(--punica-size-lg);
+}
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+
+.base {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--punica-space-8);
+  min-inline-size: 0;
+  min-block-size: var(--punica-number-input-height);
+  padding-inline-start: var(--punica-number-input-padding);
+  border: var(--punica-border-width) solid var(--punica-number-input-border-color);
+  border-radius: var(--punica-number-input-radius);
+  background: var(--punica-number-input-background);
+  color: var(--punica-number-input-color);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  overflow: hidden;
+  transition: border-color var(--punica-duration) var(--punica-ease);
+}
+
+.base:hover {
+  border-color: var(--punica-color-border-strong);
+}
+.base:focus-within {
+  border-color: var(--punica-color-primary);
+}
+.base:has(input:focus-visible) {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-border-width));
+}
+:host(:state(user-invalid)) .base {
+  border-color: var(--punica-color-error);
+}
+
+input {
+  flex: 1;
+  inline-size: 100%;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  text-align: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+input::placeholder {
+  color: var(--punica-color-text-placeholder);
+  opacity: 1;
+}
+
+.steppers {
+  display: flex;
+  flex: none;
+  align-self: stretch;
+}
+
+button {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-space-28);
+  border-inline-start: var(--punica-border-width) solid var(--punica-number-input-border-color);
+  color: var(--punica-color-text);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+button:hover {
+  background: var(--punica-color-hover);
+}
+button:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
+}
+button:disabled {
+  cursor: default;
+  background: none;
+  opacity: var(--punica-disabled-opacity);
+}
+
+:host([disabled]) .base,
+:host(:state(disabled)) .base {
+  opacity: var(--punica-disabled-opacity);
+}
+:host([disabled]) button:disabled,
+:host(:state(disabled)) button:disabled {
+  opacity: 1;
+}
+
+::slotted(*) {
+  flex: none;
+}
+
+@media (forced-colors: active) {
+  .base,
+  button {
+    border-color: FieldText;
+  }
+  .base:focus-within {
+    border-color: Highlight;
+  }
+  button:disabled {
+    color: GrayText;
+    opacity: 1;
+  }
+  :host([disabled]) .base,
+  :host(:state(disabled)) .base {
+    border-color: GrayText;
+    color: GrayText;
+    opacity: 1;
+  }
+}

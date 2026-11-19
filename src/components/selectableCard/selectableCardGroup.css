@@ -1,0 +1,12 @@
+:host {
+  --punica-selectable-card-group-gap: var(--punica-space-12);
+  --punica-selectable-card-group-min-width: 12rem;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--punica-selectable-card-group-min-width)), 1fr));
+  gap: var(--punica-selectable-card-group-gap);
+}
+
+:host([orientation='vertical']) {
+  grid-template-columns: minmax(0, 1fr);
+}

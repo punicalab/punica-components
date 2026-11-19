@@ -1,0 +1,42 @@
+:host {
+  /* A span set on an outer column must not reach a nested one. */
+  --_xs: initial;
+  --_sm: initial;
+  --_md: initial;
+  --_lg: initial;
+  --_xl: initial;
+  --_span: var(--_xs);
+  --_columns: var(--punica-row-columns, 12);
+  --_gap: var(--punica-row-column-gap, 0px);
+
+  display: block;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  /* No span: grow into what is left. A span: exactly its share of the row. */
+  flex-grow: calc(1 - min(1, var(--_span, 0)));
+  flex-shrink: 1;
+  flex-basis: calc(
+    100% * var(--_span) / var(--_columns) - (var(--_columns) - var(--_span)) * var(--_gap) / var(--_columns)
+  );
+}
+
+@container (min-width: 600px) {
+  :host {
+    --_span: var(--_sm, var(--_xs));
+  }
+}
+@container (min-width: 900px) {
+  :host {
+    --_span: var(--_md, var(--_sm, var(--_xs)));
+  }
+}
+@container (min-width: 1200px) {
+  :host {
+    --_span: var(--_lg, var(--_md, var(--_sm, var(--_xs))));
+  }
+}
+@container (min-width: 1536px) {
+  :host {
+    --_span: var(--_xl, var(--_lg, var(--_md, var(--_sm, var(--_xs)))));
+  }
+}

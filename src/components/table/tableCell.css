@@ -1,0 +1,19 @@
+:host {
+  display: table-cell;
+  padding: var(--punica-table-cell-padding, var(--punica-space-12) var(--punica-space-16));
+  border-block-end: var(--punica-border-width) solid var(--punica-table-border-color, var(--punica-color-border));
+  border-inline-end: var(--_divider, 0 none transparent);
+  text-align: start;
+  vertical-align: middle;
+}
+
+:host(:last-child) {
+  border-inline-end: 0;
+}
+:host([align='center']) {
+  text-align: center;
+}
+:host([align='end']) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,26 @@
+:host {
+  --punica-card-header-padding: var(--punica-space-16);
+  --punica-card-header-gap: var(--punica-space-12);
+
+  display: flex;
+  align-items: center;
+  gap: var(--punica-card-header-gap);
+  padding: var(--punica-card-header-padding);
+}
+
+.text {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.title {
+  font-size: var(--punica-font-size);
+  font-weight: var(--punica-font-weight-semi-bold);
+  line-height: var(--punica-line-height);
+}
+
+.subtitle {
+  color: var(--punica-color-text-muted);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+}

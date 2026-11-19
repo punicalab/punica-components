@@ -1,0 +1,146 @@
+:host {
+  --punica-scroll-area-shadow-size: var(--punica-space-16);
+  --punica-scroll-area-shadow-color: color-mix(in srgb, var(--punica-color-black) 18%, transparent);
+  --punica-scroll-area-thumb-color: var(--punica-color-border-strong);
+
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+
+/* Holds the scroll timeline's name for the viewport and the shadows beside it. */
+.frame {
+  display: flex;
+  position: relative;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-block-size: 0;
+  min-inline-size: 0;
+  timeline-scope: --_scroll;
+}
+
+.viewport {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--punica-scroll-area-thumb-color) transparent;
+  scroll-timeline: --_scroll block;
+}
+:host([orientation='horizontal']) .viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-timeline: --_scroll inline;
+}
+:host([orientation='both']) .viewport {
+  overflow: auto;
+}
+
+.viewport:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(var(--punica-focus-ring-width) * -1);
+}
+
+:host([orientation='horizontal']) .content,
+:host([orientation='both']) .content {
+  inline-size: max-content;
+  min-inline-size: 100%;
+}
+
+.shadow {
+  position: absolute;
+  inset-inline: 0;
+  block-size: var(--punica-scroll-area-shadow-size);
+  opacity: 0;
+  pointer-events: none;
+}
+.start {
+  inset-block-start: 0;
+  background: linear-gradient(to bottom, var(--punica-scroll-area-shadow-color), transparent);
+}
+.end {
+  inset-block-end: 0;
+  background: linear-gradient(to top, var(--punica-scroll-area-shadow-color), transparent);
+}
+
+:host([orientation='horizontal']) .shadow {
+  inset-block: 0;
+  inset-inline: auto;
+  inline-size: var(--punica-scroll-area-shadow-size);
+  block-size: auto;
+}
+:host([orientation='horizontal']) .start {
+  inset-inline-start: 0;
+  background: linear-gradient(to right, var(--punica-scroll-area-shadow-color), transparent);
+}
+:host([orientation='horizontal']) .end {
+  inset-inline-end: 0;
+  background: linear-gradient(to left, var(--punica-scroll-area-shadow-color), transparent);
+}
+:host([orientation='horizontal']) .start:dir(rtl) {
+  background: linear-gradient(to left, var(--punica-scroll-area-shadow-color), transparent);
+}
+:host([orientation='horizontal']) .end:dir(rtl) {
+  background: linear-gradient(to right, var(--punica-scroll-area-shadow-color), transparent);
+}
+
+/* The shadows follow the scroll position with no script where the browser can. */
+@supports (animation-timeline: scroll()) and (timeline-scope: --_scroll) {
+  .start {
+    animation: reveal linear both;
+    animation-timeline: --_scroll;
+    animation-range: 0 var(--punica-scroll-area-shadow-size);
+  }
+  .end {
+    animation: conceal linear both;
+    animation-timeline: --_scroll;
+    animation-range: calc(100% - var(--punica-scroll-area-shadow-size)) 100%;
+  }
+}
+
+/* Elsewhere the element measures on scroll and sets these states. */
+@supports not ((animation-timeline: scroll()) and (timeline-scope: --_scroll)) {
+  .shadow {
+    transition: opacity var(--punica-duration-fast) var(--punica-ease);
+  }
+  :host(:state(scroll-start)) .start,
+  :host(:state(scroll-end)) .end {
+    opacity: 1;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes conceal {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Reduced motion: a shadow is there or not, with no fade as the edge nears. */
+@media (prefers-reduced-motion: reduce) {
+  .shadow {
+    animation-timing-function: step-end;
+  }
+}
+
+@media (forced-colors: active) {
+  .shadow {
+    display: none;
+  }
+  .viewport {
+    scrollbar-color: auto;
+  }
+}

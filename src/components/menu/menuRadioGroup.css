@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  padding: var(--punica-space-6) var(--punica-space-12) var(--punica-space-2);
+  color: color-mix(in srgb, var(--punica-color-text) 75%, transparent);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-xs);
+  font-weight: var(--punica-font-weight-semi-bold);
+  user-select: none;
+}
+
+.label:empty {
+  display: none;
+}

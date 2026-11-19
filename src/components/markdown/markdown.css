@@ -1,0 +1,222 @@
+:host {
+  --punica-markdown-gap: var(--punica-space-12);
+  --punica-markdown-link-color: var(--punica-color-primary);
+  --punica-markdown-code-background: var(--punica-color-neutral-light);
+  --punica-markdown-code-font-family: var(--punica-font-family-mono);
+  --punica-markdown-border-color: var(--punica-color-border);
+
+  display: block;
+  min-inline-size: 0;
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size);
+  line-height: var(--punica-line-height);
+  overflow-wrap: anywhere;
+}
+
+/* A grid track of minmax(0, auto) gives the content a min-content size of
+   nothing, so a long code line or a wide table scrolls inside its block
+   instead of widening whatever shrink-wraps the element. */
+.base {
+  display: grid;
+  grid-template-columns: minmax(0, auto);
+}
+
+.base > *,
+blockquote > *,
+li > * {
+  margin-block: 0;
+}
+
+.base > * + *,
+blockquote > * + *,
+.loose > li + li,
+.loose > li > * + * {
+  margin-block-start: var(--punica-markdown-gap);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--punica-font-weight-bold);
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 1.5em;
+}
+h2 {
+  font-size: 1.3em;
+}
+h3 {
+  font-size: 1.15em;
+}
+h4,
+h5,
+h6 {
+  font-size: 1em;
+}
+
+.base > * + :is(h1, h2, h3, h4, h5, h6) {
+  margin-block-start: calc(var(--punica-markdown-gap) * 1.5);
+}
+
+a {
+  color: var(--punica-markdown-link-color);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  border-radius: var(--punica-radius-sm);
+}
+
+a:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+img {
+  max-inline-size: 100%;
+  block-size: auto;
+  border-radius: var(--punica-radius);
+  vertical-align: middle;
+}
+
+code {
+  font-family: var(--punica-markdown-code-font-family);
+  font-size: 0.9em;
+}
+
+:not(pre) > code {
+  padding: var(--punica-space-2) var(--punica-space-4);
+  border-radius: var(--punica-radius-sm);
+  background: var(--punica-markdown-code-background);
+  color: var(--punica-color-text);
+}
+
+/* Code reads left to right in a right-to-left page too. */
+pre {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: start;
+  padding: var(--punica-space-12);
+  overflow-x: auto;
+  border-radius: var(--punica-radius);
+  background: var(--punica-markdown-code-background);
+  color: var(--punica-color-text);
+  line-height: 1.45;
+  overflow-wrap: normal;
+  tab-size: 2;
+}
+
+blockquote {
+  margin-inline: 0;
+  padding-inline-start: var(--punica-space-12);
+  border-inline-start: var(--punica-space-4) solid var(--punica-markdown-border-color);
+}
+
+ul,
+ol {
+  padding-inline-start: var(--punica-space-24);
+}
+
+li > :is(ul, ol) {
+  margin-block-start: var(--punica-space-4);
+}
+
+.tight > li + li {
+  margin-block-start: var(--punica-space-4);
+}
+
+li.task {
+  position: relative;
+  list-style: none;
+}
+
+li.task > input {
+  position: absolute;
+  inset-inline-start: calc(var(--punica-space-22) * -1);
+  inset-block-start: 0.3em;
+  inline-size: 1em;
+  block-size: 1em;
+  margin: 0;
+  accent-color: var(--punica-color-primary);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  font-size: var(--punica-font-size-sm);
+  overflow-wrap: normal;
+}
+
+th,
+td {
+  padding: var(--punica-space-6) var(--punica-space-10);
+  border: var(--punica-border-width) solid var(--punica-markdown-border-color);
+  text-align: start;
+  vertical-align: top;
+}
+
+th {
+  background: var(--punica-color-hover);
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-end {
+  text-align: end;
+}
+
+hr {
+  block-size: 0;
+  border: 0;
+  border-block-start: var(--punica-border-width) solid var(--punica-markdown-border-color);
+}
+
+del {
+  text-decoration: line-through;
+}
+
+/* A caret after the last block while the source is still growing. */
+:host(:state(streaming)) .base > :last-child:is(p, h1, h2, h3, h4, h5, h6)::after {
+  content: '';
+  display: inline-block;
+  inline-size: 0.5em;
+  block-size: 1em;
+  margin-inline-start: var(--punica-space-2);
+  background: currentColor;
+  vertical-align: text-bottom;
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host(:state(streaming)) .base > :last-child::after {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  pre,
+  :not(pre) > code {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+  th,
+  td,
+  hr,
+  blockquote {
+    border-color: CanvasText;
+  }
+}

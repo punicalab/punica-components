@@ -1,0 +1,143 @@
+:host {
+  --punica-alert-radius: var(--punica-radius);
+  --punica-alert-padding: var(--punica-space-12) var(--punica-padding);
+  --punica-alert-gap: var(--punica-space-12);
+  --_accent: var(--punica-color-info);
+  --_background: var(--punica-color-info-light);
+  --_text: var(--punica-color-info-dark);
+  --_icon: var(--_accent);
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--punica-alert-gap);
+  padding: var(--punica-alert-padding);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-alert-radius);
+  background: var(--_background);
+  color: var(--_text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+}
+
+:host([color='success']) {
+  --_accent: var(--punica-color-success);
+  --_background: var(--punica-color-success-light);
+  --_text: var(--punica-color-success-dark);
+}
+:host([color='warning']) {
+  --_accent: var(--punica-color-warning);
+  --_background: var(--punica-color-warning-light);
+  --_text: var(--punica-color-warning-dark);
+}
+:host([color='error']) {
+  --_accent: var(--punica-color-error);
+  --_background: var(--punica-color-error-light);
+  --_text: var(--punica-color-error-dark);
+}
+:host([color='primary']) {
+  --_accent: var(--punica-color-primary);
+  --_background: color-mix(in srgb, var(--punica-color-primary) 12%, var(--punica-color-surface));
+  --_text: var(--punica-color-text);
+}
+:host([color='secondary']) {
+  --_accent: var(--punica-color-secondary);
+  --_background: color-mix(in srgb, var(--punica-color-secondary) 12%, var(--punica-color-surface));
+  --_text: var(--punica-color-text);
+}
+:host([color='neutral']) {
+  --_accent: var(--punica-color-neutral-dark);
+  --_background: var(--punica-color-neutral-light);
+  --_text: var(--punica-color-text);
+}
+
+:host([variant='outlined']) {
+  --_background: var(--punica-color-surface);
+  --_text: var(--punica-color-text);
+  border-color: var(--_accent);
+}
+:host([variant='filled']) {
+  --_background: var(--_accent);
+  --_text: var(--punica-color-on-accent);
+  --_icon: var(--punica-color-on-accent);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  /* One line of the message tall, so the icon sits on the first line. */
+  block-size: calc(var(--punica-font-size-sm) * var(--punica-line-height));
+  color: var(--_icon);
+  font-size: var(--punica-font-size-xl);
+}
+
+.default {
+  display: none;
+}
+.info {
+  display: inline-flex;
+}
+:host([color='success']) .info,
+:host([color='warning']) .info,
+:host([color='error']) .info {
+  display: none;
+}
+:host([color='success']) .success,
+:host([color='warning']) .warning,
+:host([color='error']) .error {
+  display: inline-flex;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--punica-space-8);
+  /* A small button centred on the message's first line, like the icon. */
+  margin-block: calc((var(--punica-font-size-sm) * var(--punica-line-height) - var(--punica-size-sm)) / 2);
+}
+
+.close {
+  all: unset;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-space-24);
+  block-size: var(--punica-space-24);
+  margin-block: calc(var(--punica-space-2) * -1);
+  border-radius: var(--punica-radius-sm);
+  font-size: var(--punica-font-size-lg);
+  cursor: pointer;
+  transition: background-color var(--punica-duration) var(--punica-ease);
+}
+.close[hidden] {
+  display: none;
+}
+.close:hover {
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+.close:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+:host([variant='filled']) .close:focus-visible {
+  outline-color: currentColor;
+}
+
+@media (forced-colors: active) {
+  :host {
+    border-color: CanvasText;
+  }
+  /* An SVG's stroke keeps its colour in forced colours: a filled alert's
+     on-accent icon would be drawn in the canvas colour. */
+  .icon {
+    color: CanvasText;
+  }
+}

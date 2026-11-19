@@ -1,0 +1,102 @@
+:host {
+  --punica-link-color: var(--punica-color-primary);
+  --punica-link-color-hover: var(--punica-color-primary-dark);
+
+  display: inline;
+}
+
+:host([color='secondary']) {
+  --punica-link-color: var(--punica-color-secondary);
+  --punica-link-color-hover: var(--punica-color-secondary-dark);
+}
+:host([color='error']) {
+  --punica-link-color: var(--punica-color-error);
+  --punica-link-color-hover: var(--punica-color-error-dark);
+}
+:host([color='warning']) {
+  --punica-link-color: var(--punica-color-warning);
+  --punica-link-color-hover: var(--punica-color-warning-dark);
+}
+:host([color='info']) {
+  --punica-link-color: var(--punica-color-info);
+  --punica-link-color-hover: var(--punica-color-info-dark);
+}
+:host([color='success']) {
+  --punica-link-color: var(--punica-color-success);
+  --punica-link-color-hover: var(--punica-color-success-dark);
+}
+:host([color='neutral']) {
+  --punica-link-color: var(--punica-color-text);
+  --punica-link-color-hover: var(--punica-color-text);
+}
+:host([variant='subtle']) {
+  --punica-link-color: inherit;
+  --punica-link-color-hover: inherit;
+}
+
+a {
+  border-radius: var(--punica-radius-sm);
+  color: var(--punica-link-color);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+  transition: color var(--punica-duration) var(--punica-ease);
+}
+
+a:hover {
+  color: var(--punica-link-color-hover);
+}
+
+:host([underline='hover']) a,
+:host([underline='none']) a {
+  text-decoration: none;
+}
+:host([underline='hover']) a:hover,
+:host([underline='hover']) a:focus-visible {
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+:host([disabled]) a {
+  color: var(--punica-color-text-muted);
+  opacity: var(--punica-disabled-opacity);
+  cursor: default;
+  pointer-events: none;
+}
+
+.external[hidden] {
+  display: none;
+}
+
+.external-icon {
+  display: inline-block;
+  margin-inline-start: var(--punica-space-2);
+  vertical-align: -0.125em;
+}
+.external-icon svg {
+  display: block;
+}
+
+.hidden-text {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+  a {
+    color: LinkText;
+  }
+  :host([disabled]) a {
+    color: GrayText;
+    opacity: 1;
+  }
+}

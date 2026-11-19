@@ -1,0 +1,111 @@
+:host {
+  --punica-accordion-radius: var(--punica-radius);
+  --punica-accordion-background: var(--punica-color-surface);
+  --punica-accordion-summary-padding: var(--punica-padding);
+  --punica-accordion-content-padding: var(--punica-padding);
+  --punica-accordion-duration: var(--punica-duration);
+
+  display: block;
+  background: var(--punica-accordion-background);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+:host([rounded]) {
+  border-radius: var(--punica-accordion-radius);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-8);
+}
+
+.heading {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+button {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-8);
+  inline-size: 100%;
+  padding: var(--punica-accordion-summary-padding);
+  border-radius: inherit;
+  font: inherit;
+  font-weight: var(--punica-font-weight-semi-bold);
+  cursor: pointer;
+}
+
+:host([rounded]) button {
+  border-radius: var(--punica-accordion-radius);
+}
+
+button:hover {
+  background: var(--punica-color-hover);
+}
+
+button:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(var(--punica-focus-ring-width) * -1);
+}
+
+button:disabled {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+.label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  text-align: start;
+}
+
+.indicator {
+  display: inline-flex;
+  transition: transform var(--punica-accordion-duration) var(--punica-ease);
+}
+
+:host([open]) .indicator {
+  transform: rotate(180deg);
+}
+
+::slotted([slot='end']) {
+  margin-inline-end: var(--punica-space-8);
+}
+
+.region {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows var(--punica-accordion-duration) var(--punica-ease),
+    visibility 0s linear var(--punica-accordion-duration);
+}
+
+:host([open]) .region {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition: grid-template-rows var(--punica-accordion-duration) var(--punica-ease), visibility 0s;
+}
+
+.clip {
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+.content {
+  padding: var(--punica-accordion-content-padding);
+}
+
+@media (forced-colors: active) {
+  :host {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+  button:disabled {
+    color: GrayText;
+    opacity: 1;
+  }
+}

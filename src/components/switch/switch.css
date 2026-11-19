@@ -1,0 +1,134 @@
+:host {
+  --_accent: var(--punica-color-primary);
+  --_thumb: calc(var(--punica-switch-height) - 2 * var(--punica-space-2));
+  --punica-switch-width: var(--punica-space-40);
+  --punica-switch-height: var(--punica-space-22);
+  --punica-switch-track-color: var(--punica-color-border-strong);
+  --punica-switch-track-color-checked: var(--_accent);
+  --punica-switch-thumb-color: var(--punica-color-white);
+  --punica-switch-gap: var(--punica-space-8);
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([color='secondary']) {
+  --_accent: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --_accent: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --_accent: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --_accent: var(--punica-color-info);
+}
+:host([color='success']) {
+  --_accent: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  --_accent: var(--punica-color-neutral-dark);
+}
+
+:host([size='small']) {
+  --punica-switch-width: var(--punica-space-32);
+  --punica-switch-height: var(--punica-space-18);
+}
+:host([size='large']) {
+  --punica-switch-width: var(--punica-space-48);
+  --punica-switch-height: var(--punica-space-26);
+}
+
+button {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-switch-gap);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: 1.43;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.track {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  inline-size: var(--punica-switch-width);
+  block-size: var(--punica-switch-height);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-switch-track-color);
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.thumb {
+  position: absolute;
+  inset-block-start: calc(var(--punica-space-2) - var(--punica-border-width));
+  inset-inline-start: calc(var(--punica-space-2) - var(--punica-border-width));
+  inline-size: var(--_thumb);
+  block-size: var(--_thumb);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-switch-thumb-color);
+  box-shadow: var(--punica-shadow-xs);
+  transition: inset-inline-start var(--punica-duration-fast) var(--punica-ease);
+}
+
+:host(:state(checked)) .track {
+  background: var(--punica-switch-track-color-checked);
+}
+:host(:state(checked)) .thumb {
+  inset-inline-start: calc(
+    var(--punica-switch-width) - var(--_thumb) - var(--punica-space-2) - var(--punica-border-width)
+  );
+}
+
+/* The muted text token fails AA on a white page at this size, so the side
+   that is not in effect is told apart by weight alone. */
+.text {
+  font-weight: var(--punica-font-weight-regular);
+}
+:host(:not(:state(checked))) .off,
+:host(:state(checked)) .on {
+  font-weight: var(--punica-font-weight-bold);
+}
+
+.text[hidden],
+.label[hidden] {
+  display: none;
+}
+
+button:focus-visible .track {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+button:disabled {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+@media (forced-colors: active) {
+  .track {
+    border-color: ButtonText;
+    background: Canvas;
+  }
+  .thumb {
+    background: ButtonText;
+  }
+  :host(:state(checked)) .track {
+    background: Highlight;
+  }
+  :host(:state(checked)) .thumb {
+    background: HighlightText;
+  }
+  button:disabled {
+    opacity: 1;
+    color: GrayText;
+  }
+}

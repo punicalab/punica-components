@@ -1,0 +1,66 @@
+:host {
+  --punica-chat-system-message-color: var(--punica-color-text-muted);
+  --punica-chat-system-message-background: transparent;
+  --punica-chat-system-message-line-color: var(--punica-color-border);
+
+  display: block;
+}
+
+:host([color='primary']) {
+  --punica-chat-system-message-color: var(--punica-color-primary-dark);
+  --punica-chat-system-message-background: color-mix(in srgb, var(--punica-color-primary) 12%, transparent);
+}
+:host([color='secondary']) {
+  --punica-chat-system-message-color: var(--punica-color-secondary-dark);
+  --punica-chat-system-message-background: color-mix(in srgb, var(--punica-color-secondary) 12%, transparent);
+}
+:host([color='error']) {
+  --punica-chat-system-message-color: var(--punica-color-error-dark);
+  --punica-chat-system-message-background: var(--punica-color-error-light);
+}
+:host([color='warning']) {
+  --punica-chat-system-message-color: var(--punica-color-warning-dark);
+  --punica-chat-system-message-background: var(--punica-color-warning-light);
+}
+:host([color='info']) {
+  --punica-chat-system-message-color: var(--punica-color-info-dark);
+  --punica-chat-system-message-background: var(--punica-color-info-light);
+}
+:host([color='success']) {
+  --punica-chat-system-message-color: var(--punica-color-success-dark);
+  --punica-chat-system-message-background: var(--punica-color-success-light);
+}
+
+.base {
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-12);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+}
+
+.base::before,
+.base::after {
+  content: '';
+  flex: 1 1 0;
+  border-block-start: var(--punica-border-width) solid var(--punica-chat-system-message-line-color);
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-6);
+  max-inline-size: 80%;
+  padding: var(--punica-space-2) var(--punica-space-10);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-chat-system-message-background);
+  color: var(--punica-chat-system-message-color);
+  text-align: center;
+}
+
+@media (forced-colors: active) {
+  .label {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+}

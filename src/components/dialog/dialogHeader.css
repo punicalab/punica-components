@@ -1,0 +1,9 @@
+:host {
+  display: block;
+  grid-area: header;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-lg);
+  font-weight: var(--punica-font-weight-semi-bold);
+  line-height: var(--punica-line-height);
+}

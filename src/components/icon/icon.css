@@ -1,0 +1,73 @@
+:host {
+  --punica-icon-size: 1em;
+  --punica-icon-color: currentColor;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  vertical-align: middle;
+  color: var(--punica-icon-color);
+  font-size: var(--punica-icon-size);
+  line-height: 1;
+  transition: color var(--punica-duration) var(--punica-ease);
+}
+
+:host([size='xsmall']) {
+  --punica-icon-size: 0.75em;
+}
+:host([size='small']) {
+  --punica-icon-size: 0.875em;
+}
+:host([size='large']) {
+  --punica-icon-size: 1.25em;
+}
+:host([size='xlarge']) {
+  --punica-icon-size: 1.5em;
+}
+:host([size='2xlarge']) {
+  --punica-icon-size: 2em;
+}
+
+:host([color='primary']) {
+  --punica-icon-color: var(--punica-color-primary);
+}
+:host([color='secondary']) {
+  --punica-icon-color: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --punica-icon-color: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --punica-icon-color: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --punica-icon-color: var(--punica-color-info);
+}
+:host([color='success']) {
+  --punica-icon-color: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  --punica-icon-color: var(--punica-color-text);
+}
+
+.glyph {
+  display: contents;
+}
+
+svg {
+  display: block;
+  flex: none;
+}
+
+::slotted(svg) {
+  inline-size: 1em;
+  block-size: 1em;
+  fill: currentColor;
+}
+
+@media (forced-colors: active) {
+  :host {
+    --punica-icon-color: CanvasText;
+  }
+}

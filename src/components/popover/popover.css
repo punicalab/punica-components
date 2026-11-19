@@ -1,0 +1,43 @@
+:host {
+  --punica-popover-radius: var(--punica-radius);
+  --punica-popover-padding: var(--punica-space-8);
+  --punica-popover-background: var(--punica-color-surface-raised);
+  --punica-popover-shadow: var(--punica-shadow-md);
+  --punica-popover-max-width: min(90vw, 480px);
+
+  display: contents;
+}
+
+[part='panel'] {
+  box-sizing: border-box;
+  max-inline-size: var(--punica-popover-max-width);
+  padding: var(--punica-popover-padding);
+  border: var(--punica-border-width) solid var(--punica-color-border);
+  border-radius: var(--punica-popover-radius);
+  background: var(--punica-popover-background);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  box-shadow: var(--punica-popover-shadow);
+  overflow: auto;
+  opacity: 0;
+  transition: opacity var(--punica-duration-fast) var(--punica-ease),
+    display var(--punica-duration-fast) allow-discrete,
+    overlay var(--punica-duration-fast) allow-discrete;
+}
+
+[part='panel']:popover-open,
+[part='panel'][data-open] {
+  opacity: 1;
+}
+
+@starting-style {
+  [part='panel']:popover-open {
+    opacity: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  [part='panel'] {
+    border-color: CanvasText;
+  }
+}

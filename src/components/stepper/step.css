@@ -1,0 +1,193 @@
+:host {
+  --punica-step-marker-size: var(--punica-size-sm);
+  --punica-step-color: var(--punica-color-primary);
+  --punica-step-error-color: var(--punica-color-error);
+  --punica-step-connector-color: var(--punica-color-border-strong);
+
+  display: flex;
+  align-items: center;
+  gap: var(--punica-step-gap, var(--punica-space-8));
+  min-inline-size: 0;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+:host([orientation='vertical']) {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* A title that wraps keeps the marker and the connector on its first line. */
+:host(:not([orientation='vertical'])) {
+  align-items: flex-start;
+  min-inline-size: auto;
+}
+
+:host(:not([orientation='vertical'])) .connector {
+  margin-block-start: calc(var(--punica-space-4) + var(--punica-step-marker-size) / 2);
+}
+
+.base {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  /* The title wraps between words before the stepper overflows. */
+  flex: 0 1 auto;
+  align-items: flex-start;
+  gap: var(--punica-space-8);
+  padding: var(--punica-space-4);
+  border-radius: var(--punica-radius);
+  color: inherit;
+  font: inherit;
+  text-align: start;
+}
+
+button.base {
+  cursor: pointer;
+}
+
+button.base:hover {
+  background: var(--punica-color-hover);
+}
+
+button.base:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+button.base:disabled,
+:host([disabled]) .base {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+button.base:disabled:hover {
+  background: none;
+}
+
+.marker {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-step-marker-size);
+  block-size: var(--punica-step-marker-size);
+  border: var(--punica-border-width) solid var(--punica-color-border-strong);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-color-surface);
+  color: var(--punica-color-text);
+  font-size: var(--punica-font-size-sm);
+  font-weight: var(--punica-font-weight-semi-bold);
+  font-variant-numeric: tabular-nums;
+  transition: background-color var(--punica-duration) var(--punica-ease),
+    border-color var(--punica-duration) var(--punica-ease);
+}
+
+.glyph {
+  display: none;
+}
+
+:host([active]) .marker,
+:host([state='complete']) .marker {
+  border-color: var(--punica-step-color);
+  background: var(--punica-step-color);
+  color: var(--punica-color-on-accent);
+}
+
+:host([state='error']) .marker {
+  border-color: var(--punica-step-error-color);
+  background: var(--punica-step-error-color);
+  color: var(--punica-color-on-accent);
+}
+
+:host([state='complete']) .number,
+:host([state='error']) .number {
+  display: none;
+}
+
+:host([state='complete']) .complete,
+:host([state='error']) .error {
+  display: inline-flex;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  /* The first line is centred on the marker. */
+  padding-block-start: max(0px, calc((var(--punica-step-marker-size) - 1lh) / 2));
+}
+
+.label {
+  font-weight: var(--punica-font-weight-medium);
+}
+
+:host([active]) .label {
+  font-weight: var(--punica-font-weight-bold);
+}
+
+:host([state='error']) .label {
+  color: var(--punica-step-error-color);
+}
+
+.description {
+  font-size: var(--punica-font-size-xs);
+}
+
+/* Read with the step's name, not shown. */
+.status {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.connector {
+  display: var(--punica-step-connector-display, block);
+  flex: 1 1 auto;
+  min-inline-size: var(--punica-space-16);
+  block-size: var(--punica-border-width);
+  background: var(--punica-step-connector-color);
+}
+
+:host([orientation='vertical']) .connector {
+  flex: 0 0 auto;
+  min-inline-size: 0;
+  inline-size: var(--punica-border-width);
+  block-size: var(--punica-space-24);
+  margin-inline-start: calc(var(--punica-space-4) + var(--punica-step-marker-size) / 2);
+}
+
+/* A horizontal stepper narrower than a phone keeps the title of the active
+   step only; the others stay the steps' accessible names. */
+@container punica-stepper (max-width: 480px) {
+  :host(:not([orientation='vertical']):not([active])) .text {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (forced-colors: active) {
+  .marker {
+    border-color: CanvasText;
+  }
+  :host([active]) .marker {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+  .connector {
+    background: CanvasText;
+  }
+  button.base:disabled,
+  :host([disabled]) .base {
+    color: GrayText;
+    opacity: 1;
+  }
+}

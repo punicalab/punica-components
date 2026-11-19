@@ -1,0 +1,20 @@
+name: Feature request
+description: A new element, or something an existing one should do.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What you are trying to do
+      description: The page or task, not the solution yet.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you propose
+      description: Attributes, events, slots, keyboard behaviour; a link to the WAI-ARIA pattern if one fits.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you do today instead

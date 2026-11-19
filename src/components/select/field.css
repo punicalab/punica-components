@@ -1,0 +1,149 @@
+/*
+ * The field box and the floating panel shared by select and the pickers.
+ * A component maps its public custom properties onto the private ones:
+ * --_height, --_pad, --_radius, --_border, --_bg.
+ */
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-8);
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: var(--_height);
+  padding-inline: var(--_pad);
+  border: var(--punica-border-width) solid var(--_border);
+  border-radius: var(--_radius);
+  background: var(--_bg);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+  transition: border-color var(--punica-duration) var(--punica-ease);
+}
+
+.field:hover {
+  border-color: var(--punica-color-border-strong);
+}
+
+.field:focus-within,
+:host(:state(open)) .field {
+  border-color: var(--punica-color-primary);
+}
+
+.field:has(.control:focus-visible) {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+:host(:state(user-invalid)) .field {
+  border-color: var(--punica-color-error);
+}
+
+:host(:state(disabled)) .field {
+  opacity: var(--punica-disabled-opacity);
+  cursor: default;
+  border-color: var(--_border);
+}
+
+.control {
+  all: unset;
+  flex: 1 1 0;
+  min-inline-size: 0;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  font: inherit;
+  color: inherit;
+  text-align: start;
+}
+
+input.control {
+  display: block;
+  cursor: text;
+}
+
+input.control::placeholder,
+.placeholder {
+  color: var(--punica-color-text-placeholder);
+  opacity: 1;
+}
+
+.icon-button {
+  all: unset;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-space-24);
+  block-size: var(--punica-space-24);
+  border-radius: var(--punica-radius-sm);
+  font-size: var(--punica-font-size);
+  color: var(--punica-color-text-muted);
+  cursor: pointer;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.icon-button:hover {
+  background: var(--punica-color-hover);
+  color: var(--punica-color-text);
+}
+
+.icon-button:focus-visible {
+  outline: var(--punica-focus-ring);
+}
+
+.icon-button:disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.panel {
+  box-sizing: border-box;
+  border: var(--punica-border-width) solid var(--punica-color-border);
+  border-radius: var(--_panel-radius, var(--punica-radius-sm));
+  background: var(--_panel-bg, var(--punica-color-surface));
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  box-shadow: var(--_panel-shadow, var(--punica-shadow-xxs));
+  opacity: 0;
+  transition: opacity var(--punica-duration-fast) var(--punica-ease),
+    display var(--punica-duration-fast) allow-discrete,
+    overlay var(--punica-duration-fast) allow-discrete;
+}
+
+.panel:popover-open,
+.panel[data-open] {
+  opacity: 1;
+}
+
+@starting-style {
+  .panel:popover-open {
+    opacity: 0;
+  }
+}
+
+.listbox {
+  max-block-size: var(--_list-max-height, 250px);
+  padding-block: var(--punica-space-8);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+@media (forced-colors: active) {
+  .field,
+  .panel {
+    border-color: CanvasText;
+  }
+  .field:focus-within {
+    border-color: Highlight;
+  }
+  :host(:state(disabled)) .field {
+    border-color: GrayText;
+    color: GrayText;
+    opacity: 1;
+  }
+}

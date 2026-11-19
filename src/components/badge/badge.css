@@ -1,0 +1,113 @@
+:host {
+  --punica-badge-background: var(--punica-color-primary);
+  --punica-badge-color: var(--punica-color-on-accent);
+  --punica-badge-size: var(--punica-space-20);
+  --punica-badge-dot-size: var(--punica-space-8);
+
+  display: inline-flex;
+  position: relative;
+  flex: none;
+  vertical-align: middle;
+}
+
+:host([color='secondary']) {
+  --punica-badge-background: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --punica-badge-background: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --punica-badge-background: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --punica-badge-background: var(--punica-color-info);
+}
+:host([color='success']) {
+  --punica-badge-background: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  /* A grey drawn from the text colour: --punica-color-neutral under the text
+     colour is 2.9:1 in dark mode. */
+  --punica-badge-background: color-mix(in srgb, var(--punica-color-text) 16%, var(--punica-color-surface));
+  --punica-badge-color: var(--punica-color-text);
+}
+
+.badge {
+  --_x: 50%;
+  --_y: -50%;
+
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--punica-badge-size);
+  block-size: var(--punica-badge-size);
+  padding-inline: var(--punica-space-6);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-badge-background);
+  color: var(--punica-badge-color);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-xs);
+  font-weight: var(--punica-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  translate: var(--_x) var(--_y);
+  pointer-events: none;
+  transition: background-color var(--punica-duration) var(--punica-ease);
+}
+/* A count reads left to right in every script: "99+" stays "99+" in RTL. */
+.count {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.badge[hidden] {
+  display: none;
+}
+.badge:dir(rtl) {
+  --_x: -50%;
+}
+
+:host([placement='block-start-inline-start']) .badge,
+:host([placement='block-end-inline-start']) .badge {
+  --_x: -50%;
+  inset-inline: 0 auto;
+}
+:host([placement='block-start-inline-start']) .badge:dir(rtl),
+:host([placement='block-end-inline-start']) .badge:dir(rtl) {
+  --_x: 50%;
+}
+:host([placement='block-end-inline-end']) .badge,
+:host([placement='block-end-inline-start']) .badge {
+  --_y: 50%;
+  inset-block: auto 0;
+}
+
+:host([dot]) .badge {
+  min-inline-size: 0;
+  inline-size: var(--punica-badge-dot-size);
+  block-size: var(--punica-badge-dot-size);
+  padding: 0;
+}
+
+:host(:state(standalone)) .badge {
+  position: static;
+  translate: none;
+}
+
+.label {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+  .badge {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+}
