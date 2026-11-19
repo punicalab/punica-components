@@ -65,6 +65,13 @@ jobs:
             exit 1
           fi
 
+      - name: Git identity for the release tags
+        # changesets makes annotated tags, which need one; without it the tag
+        # fails and changesets still reports it created (v2.1.0 was lost so).
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Publish @punica/components
         # The checks above ran already; prepublishOnly would run them again.
         env:
