@@ -28,6 +28,7 @@
   "types": "./dist/types/index.d.ts",
   "unpkg": "./dist/punica-components.min.js",
   "customElements": "custom-elements.json",
+  "web-types": "./dist/web-types.json",
   "sideEffects": [
     "./dist/**/*.js",
     "*.css"
@@ -44,7 +45,20 @@
       "types": "./dist/types/react.d.ts"
     },
     "./custom-elements.json": "./custom-elements.json",
-    "./global": "./dist/punica-components.min.js"
+    "./global": "./dist/punica-components.min.js",
+    "./ai": {
+      "types": "./dist/ai/index.d.ts",
+      "default": "./dist/ai/index.mjs"
+    },
+    "./ai/node": {
+      "types": "./dist/ai/node.d.ts",
+      "default": "./dist/ai/node.mjs"
+    },
+    "./llms.txt": "./dist/llms.txt",
+    "./llms-full.txt": "./dist/llms-full.txt",
+    "./vscode.html-custom-data.json": "./dist/vscode.html-custom-data.json",
+    "./vscode.css-custom-data.json": "./dist/vscode.css-custom-data.json",
+    "./web-types.json": "./dist/web-types.json"
   },
   "files": [
     "dist",
@@ -56,14 +70,19 @@
     "docs/contract.md",
     "docs/migration",
     "scripts/codemod-2.0.mjs",
-    "scripts/codemod-rules.mjs"
+    "scripts/codemod-rules.mjs",
+    "bin",
+    "skills"
+  ],
+  "workspaces": [
+    "packages/*"
   ],
   "scripts": {
     "build": "node scripts/build.mjs && npm run manifest",
     "barrel": "node scripts/barrel.mjs",
-    "manifest": "cem analyze --config custom-elements-manifest.config.mjs && node scripts/types.mjs",
+    "manifest": "cem analyze --config custom-elements-manifest.config.mjs && node scripts/types.mjs && node scripts/llms.mjs",
     "audit": "node scripts/audit.mjs",
-    "lint": "eslint src scripts test",
+    "lint": "eslint src scripts test bin packages/mcp/src packages/mcp/test packages/mcp/build.mjs eval",
     "format": "prettier --write \"./**/*.{ts,js,mjs,json,md}\"",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -71,7 +90,11 @@
     "version": "changeset version",
     "release": "npm run build && changeset publish",
     "prepublishOnly": "npm run lint && npm test && npm run build",
-    "pack:check": "npm pack --dry-run"
+    "pack:check": "npm pack --dry-run",
+    "pretest": "cem analyze --config custom-elements-manifest.config.mjs",
+    "build:mcp": "npm run build -w @punica/components-mcp",
+    "test:mcp": "npm test -w @punica/components-mcp",
+    "eval": "node eval/run.mjs"
   },
   "engines": {
     "node": ">=18"
@@ -88,6 +111,7 @@
     }
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^1.10.0",
     "@changesets/cli": "^3.0.3",
     "@custom-elements-manifest/analyzer": "^0.11.0",
     "@eslint/js": "^9.39.5",
@@ -95,6 +119,8 @@
     "@vitest/browser": "^5.1.1",
     "@vitest/browser-playwright": "^5.1.1",
     "axe-core": "^4.14.1",
+    "custom-element-jet-brains-integration": "^1.8.0",
+    "custom-element-vs-code-integration": "^1.5.0",
     "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
     "globals": "^17.14.0",
@@ -103,5 +129,8 @@
     "typescript": "^5.9.0",
     "vite": "^8.3.8",
     "vitest": "^5.1.1"
+  },
+  "bin": {
+    "punica-components": "bin/punica-components.mjs"
   }
 }

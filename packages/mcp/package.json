@@ -1,0 +1,45 @@
+{
+  "name": "@punica/components-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for @punica/components: find elements, read their API and examples, validate markup.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "web-components",
+    "custom-elements",
+    "punica"
+  ],
+  "homepage": "https://components.punicalab.com",
+  "bugs": {
+    "url": "https://github.com/punicalab/punica-components/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/punicalab/punica-components.git",
+    "directory": "packages/mcp"
+  },
+  "license": "MIT",
+  "author": "PunicaLab",
+  "type": "module",
+  "bin": {
+    "punica-components-mcp": "dist/server.mjs"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  }
+}
