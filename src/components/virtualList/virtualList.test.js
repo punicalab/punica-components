@@ -143,6 +143,10 @@ describe('punica-virtual-list', () => {
     await new Promise((r) => setTimeout(r, 100));
     await userEvent.keyboard('{Home}');
     await expect.poll(() => rows(el)[0].textContent).toBe('Person 0');
+    // Keyboard scrolling animates: row 0 is drawn before the scroll is back
+    // at the top, and a PageDown pressed meanwhile is lost in that scroll.
+    await expect.poll(() => viewport(el).scrollTop).toBe(0);
+    await new Promise((r) => setTimeout(r, 100));
     await userEvent.keyboard('{PageDown}');
     await expect.poll(() => el.range.start).toBeGreaterThan(2);
   });
