@@ -18,7 +18,7 @@
 
 dialog {
   inline-size: var(--punica-dialog-width);
-  max-inline-size: calc(100vw - 2 * var(--punica-space-16));
+  max-inline-size: calc(100% - 2 * var(--punica-space-16));
   max-block-size: calc(100dvh - 2 * var(--punica-space-16));
   padding: 0;
   border: var(--punica-border-width) solid transparent;

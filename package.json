@@ -88,7 +88,7 @@
     "release": "npm run build && changeset publish",
     "prepublishOnly": "npm run lint && npm test && npm run build",
     "pack:check": "npm pack --dry-run",
-    "pretest": "cem analyze --config custom-elements-manifest.config.mjs",
+    "pretest": "npm run build",
     "build:mcp": "npm --prefix packages/mcp run build",
     "test:mcp": "npm --prefix packages/mcp test",
     "eval": "node eval/run.mjs"

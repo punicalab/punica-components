@@ -1,4 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest';
+import { userEvent } from 'vitest/browser';
 import { contract, fixture, cleanup, settle, once } from '../../../test/contract.js';
 import './carousel.js';
 import './carouselItem.js';
@@ -192,13 +193,16 @@ describe('punica-carousel', () => {
 
   it('advances by itself with autoplay and shows a pause button', async () => {
     const el = await fixture(html('autoplay interval="60" loop'));
+    // Autoplay holds while the pointer is over the carousel, and an earlier
+    // test may have left it where this one is drawn.
+    await userEvent.unhover(el);
     const pause = $(el, 'pause');
     expect(pause.hidden).toBe(false);
     expect(pause.getAttribute('aria-label')).toBe('Pause');
     expect($(el, 'track').getAttribute('aria-live')).toBe('off');
     expect(el.playing).toBe(true);
-    await wait(220);
-    expect(el.index).toBeGreaterThan(0);
+    // At least one advance; a busy machine may take longer than three intervals.
+    await expect.poll(() => el.index, { timeout: 3000 }).toBeGreaterThan(0);
     pause.click();
     await settle();
     expect(pause.getAttribute('aria-label')).toBe('Play');

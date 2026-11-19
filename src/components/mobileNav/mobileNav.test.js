@@ -3,6 +3,11 @@ import { userEvent } from 'vitest/browser';
 import { contract, fixture, cleanup, settle, once, a11y } from '../../../test/contract.js';
 import './mobileNav.js';
 
+// The width a fixed panel spans: the visible viewport, without a scrollbar
+// or the gutter the scroll lock keeps for one (Linux and Windows draw it in
+// the page; macOS draws over it).
+const viewportWidth = () => Math.round(window.visualViewport?.width ?? document.documentElement.clientWidth);
+
 const html = `<punica-mobile-nav label="Main menu">
   <button slot="trigger" type="button" id="trigger">Menu</button>
   <strong slot="header">Northwind</strong>
@@ -65,15 +70,15 @@ describe('punica-mobile-nav', () => {
     await wait(50);
     const rect = () => native(el).getBoundingClientRect();
     expect(Math.round(rect().left)).toBe(0);
-    expect(Math.round(rect().width)).toBe(Math.min(320, Math.floor(window.innerWidth * 0.85)));
+    expect(Math.round(rect().width)).toBe(Math.min(320, Math.floor(viewportWidth() * 0.85)));
     expect(Math.round(rect().height)).toBe(window.innerHeight);
     wrap.dir = 'rtl';
     await settle();
-    expect(Math.round(rect().right)).toBe(window.innerWidth);
+    expect(Math.round(rect().right)).toBe(viewportWidth());
     wrap.dir = 'ltr';
     el.side = 'inline-end';
     await settle();
-    expect(Math.round(rect().right)).toBe(window.innerWidth);
+    expect(Math.round(rect().right)).toBe(viewportWidth());
   });
 
   it('traps focus, closes on a real Escape and gives focus back to the trigger', async () => {

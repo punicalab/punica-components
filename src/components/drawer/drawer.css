@@ -40,7 +40,9 @@ dialog {
   inset-inline: auto 0;
   inline-size: var(--punica-drawer-size);
   block-size: 100dvh;
-  max-inline-size: 100vw;
+  /* % of the viewport the panel is fixed to, without its scrollbar; 100vw
+     counts the scrollbar and pushed a full-width panel off the edge. */
+  max-inline-size: 100%;
   max-block-size: 100dvh;
   margin: 0;
   padding: 0;
@@ -71,7 +73,7 @@ dialog {
 :host([side='block-start']) dialog,
 :host([side='block-end']) dialog {
   inset-inline: 0;
-  inline-size: 100vw;
+  inline-size: 100%;
   block-size: var(--punica-drawer-size);
   border-width: 0;
   border-radius: 0;
