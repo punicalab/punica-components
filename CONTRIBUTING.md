@@ -60,8 +60,8 @@ element; `src/components/button/` (a form control over a native element) and
 `src/ai/` reads `custom-elements.json`: `knowledge.mjs` answers what an
 element takes and `validate.mjs` checks markup against it. The CLI
 (`bin/`), `dist/llms*.txt` (`scripts/llms.mjs`), the agent skill
-(`skills/`) and the MCP server (`packages/mcp`, its own package in this
-workspace: `npm run build:mcp`, `npm run test:mcp`) are built on them, so a
+(`skills/`) and the MCP server (`packages/mcp`, its own package with its own
+`npm install`: `npm run build:mcp`, `npm run test:mcp`) are built on them, so a
 component's JSDoc is what assistants are told about it. The usage rules
 they all share are `src/ai/guide.md`.
 
@@ -80,9 +80,22 @@ docs change there after a sync.
 
 ## Releasing
 
-Maintainers only: `npm run version` applies the pending changesets to the
-version and `CHANGELOG.md`; after that is merged, `npm run release` builds and
-publishes. `prepublishOnly` runs lint, the tests and the build first.
+Maintainers only. Releases go out from `main`, by
+`.github/workflows/release.yml`:
+
+1. On `develop`, `npm run version` applies the pending changesets to the
+   version and `CHANGELOG.md`. Commit that.
+2. For the MCP server, raise `version` in `packages/mcp/package.json` by hand
+   when it changed.
+3. Open a pull request from `develop` to `main` and merge it.
+
+On the push to `main` the workflow installs, runs lint, the audit, the tests
+and both builds, and then publishes each package whose version is not on npm
+yet, with provenance, and tags it. A merge that changes no version publishes
+nothing; pending changesets on `main` fail the run. It signs in with the
+repository secret `NPM_TOKEN`, an npm granular token with publish rights on
+the `@punica` scope; npm caps such tokens at 90 days, so renew it before it
+lapses.
 
 ## Conduct and security
 
