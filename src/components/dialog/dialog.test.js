@@ -7,6 +7,11 @@ import './dialogHeader.js';
 import './dialogContent.js';
 import './dialogFooter.js';
 
+// The width a fixed panel spans: the visible viewport, without a scrollbar
+// or the gutter the scroll lock keeps for one (Linux and Windows draw it in
+// the page; macOS draws over it).
+const viewportWidth = () => Math.round(window.visualViewport?.width ?? document.documentElement.clientWidth);
+
 const html = `<punica-dialog>
   <punica-dialog-header>Delete file</punica-dialog-header>
   <punica-dialog-content>This cannot be undone.</punica-dialog-content>
@@ -195,7 +200,7 @@ describe('punica-dialog', () => {
     expect(Math.round(native(el).getBoundingClientRect().width)).toBe(320);
     el.size = 'large';
     await settle();
-    expect(Math.round(native(el).getBoundingClientRect().width)).toBe(Math.min(720, window.innerWidth - 32));
+    expect(Math.round(native(el).getBoundingClientRect().width)).toBe(Math.min(720, viewportWidth() - 32));
   });
 
   it('keeps two open dialogs apart and adds nothing to the body', async () => {
@@ -270,6 +275,34 @@ describe('punica-dialog', () => {
     } finally {
       tall.remove();
       window.scrollTo(0, 0);
+    }
+  });
+
+  it('keeps a scrollbar gutter only where the page had a scrollbar that took room', async () => {
+    const gutter = () => getComputedStyle(document.documentElement).scrollbarGutter;
+    const takesRoom = () => window.innerWidth - document.documentElement.clientWidth > 0;
+    // A page that does not scroll: no gutter, or an empty strip opens at the edge.
+    const el = await fixture(html);
+    await open(el);
+    expect(gutter()).toBe('auto');
+    expect(viewportWidth()).toBe(window.innerWidth);
+    el.hide();
+    await settle();
+    // A page that scrolls: the gutter keeps the scrollbar's width where it took
+    // some (Linux, Windows), so the page does not shift; none where it is drawn
+    // over the page (macOS).
+    const tall = document.createElement('div');
+    tall.style.height = '3000px';
+    document.body.appendChild(tall);
+    try {
+      const had = takesRoom();
+      await open(el);
+      expect(gutter()).toBe(had ? 'stable' : 'auto');
+      el.hide();
+      await settle();
+      expect(gutter()).toBe('auto');
+    } finally {
+      tall.remove();
     }
   });
 });

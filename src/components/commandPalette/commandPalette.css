@@ -12,7 +12,7 @@
 dialog {
   inset-block-start: 12dvh;
   inline-size: var(--punica-command-palette-width);
-  max-inline-size: calc(100vw - 2 * var(--punica-space-16));
+  max-inline-size: calc(100% - 2 * var(--punica-space-16));
   max-block-size: var(--punica-command-palette-max-height);
   margin-block: 0;
   margin-inline: auto;
