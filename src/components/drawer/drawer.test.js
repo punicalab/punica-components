@@ -3,9 +3,10 @@ import { userEvent } from 'vitest/browser';
 import { contract, fixture, cleanup, settle, once, a11y } from '../../../test/contract.js';
 import './drawer.js';
 
-// The width a fixed panel spans: the viewport without its scrollbar, which
-// Linux and Windows draw in the page and macOS draws over it.
-const viewportWidth = () => document.documentElement.clientWidth;
+// The width a fixed panel spans: the visible viewport, without a scrollbar
+// or the gutter the scroll lock keeps for one (Linux and Windows draw it in
+// the page; macOS draws over it).
+const viewportWidth = () => Math.round(window.visualViewport?.width ?? document.documentElement.clientWidth);
 
 const html = `<punica-drawer>
   <span slot="header">Filters</span>

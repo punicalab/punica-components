@@ -6,14 +6,19 @@ import { sheet } from '../../core/element.js';
  * that stops the root from scrolling is adopted on the document; it is
  * removed when the last one closes. Nothing is written on `<html>` or
  * `<body>`, so the page's own inline styles and scroll position are left
- * alone. `scrollbar-gutter: stable` keeps the width a classic scrollbar took,
- * so the page does not shift sideways.
+ * alone. Where the page had a classic scrollbar, `scrollbar-gutter: stable`
+ * keeps the width it took, so the page does not shift sideways; where it had
+ * none (overlay scrollbars, or a page that does not scroll) no gutter is
+ * added, which would open an empty strip at the edge.
  */
-const LOCK_CSS = ':root { overflow: hidden; scrollbar-gutter: stable; overscroll-behavior: none; }';
+const LOCK_CSS = ':root { overflow: hidden; overscroll-behavior: none; }';
+const GUTTER_CSS = ':root { scrollbar-gutter: stable; }';
 /** @type {Set<object>} */
 const locks = new Set();
 /** @type {CSSStyleSheet | null} */
 let lockSheet = null;
+/** @type {CSSStyleSheet | null} */
+let gutterSheet = null;
 
 /**
  * @param {object} owner
@@ -27,9 +32,12 @@ function lockScroll(owner, on) {
   const has = !!lockSheet && document.adoptedStyleSheets.includes(lockSheet);
   if (want && !has) {
     lockSheet ||= sheet(LOCK_CSS);
-    document.adoptedStyleSheets = [...document.adoptedStyleSheets, lockSheet];
+    gutterSheet ||= sheet(GUTTER_CSS);
+    // Read before the lock hides the scrollbar.
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth > 0;
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, lockSheet, ...(scrollbar ? [gutterSheet] : [])];
   } else if (!want && has) {
-    document.adoptedStyleSheets = document.adoptedStyleSheets.filter((s) => s !== lockSheet);
+    document.adoptedStyleSheets = document.adoptedStyleSheets.filter((s) => s !== lockSheet && s !== gutterSheet);
   }
 }
 
