@@ -22,3 +22,6 @@ docs/audit.md
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Copied from the repository root by packages/mcp/build.mjs
+packages/mcp/LICENSE

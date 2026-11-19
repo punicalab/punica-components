@@ -1,0 +1,86 @@
+# Publishes to npm what main holds and npm does not, the way punica-form does
+# with `lerna publish from-package`:
+#
+#   @punica/components       its package.json version, set by `npm run version`
+#                            (changesets) on develop before develop goes to main
+#   @punica/components-mcp   packages/mcp/package.json, bumped by hand
+#
+# A version already on npm is skipped, so a merge that changes no version
+# publishes nothing. Nothing is published unless every check passes.
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write # the release tags
+  id-token: write # npm provenance
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      NPM_CONFIG_PROVENANCE: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            packages/mcp/package-lock.json
+
+      - name: Install
+        run: |
+          npm ci
+          npm ci --prefix packages/mcp
+          npx playwright install --with-deps chromium
+
+      - name: Check
+        run: |
+          npm run lint
+          npm run audit
+          npm test
+          npm run build
+          npm run build:mcp
+          npm run test:mcp
+
+      - name: The version is applied
+        # Pending changesets mean `npm run version` was not run before the merge.
+        run: |
+          if ls .changeset/*.md 2>/dev/null | grep -v README.md; then
+            echo "::error::Changesets are pending: run 'npm run version' on develop and merge again."
+            exit 1
+          fi
+
+      - name: Publish @punica/components
+        # The checks above ran already; prepublishOnly would run them again.
+        env:
+          npm_config_ignore_scripts: true
+        run: npx changeset publish
+
+      - name: Publish @punica/components-mcp
+        working-directory: packages/mcp
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if npm view "@punica/components-mcp@$version" version >/dev/null 2>&1; then
+            echo "@punica/components-mcp@$version is on npm already"
+          else
+            npm publish --access public
+            git tag "@punica/components-mcp@$version"
+          fi
+
+      - name: Push the release tags
+        run: git push --tags

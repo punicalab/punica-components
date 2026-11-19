@@ -19,6 +19,7 @@ await build({
 });
 await copyFile(new URL('custom-elements.json', library), 'dist/custom-elements.json');
 await copyFile(new URL('src/ai/guide.md', library), 'dist/guide.md');
+await copyFile(new URL('LICENSE', library), 'LICENSE');
 const { version } = JSON.parse(await readFile(new URL('package.json', library), 'utf8'));
 await writeFile('dist/bundled.json', JSON.stringify({ version }) + '\n');
 console.log(`dist/server.mjs, bundled @punica/components ${version}`);
