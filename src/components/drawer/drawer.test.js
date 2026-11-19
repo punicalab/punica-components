@@ -3,6 +3,10 @@ import { userEvent } from 'vitest/browser';
 import { contract, fixture, cleanup, settle, once, a11y } from '../../../test/contract.js';
 import './drawer.js';
 
+// The width a fixed panel spans: the viewport without its scrollbar, which
+// Linux and Windows draw in the page and macOS draws over it.
+const viewportWidth = () => document.documentElement.clientWidth;
+
 const html = `<punica-drawer>
   <span slot="header">Filters</span>
   <p>Choose what to show. <input id="field" aria-label="Search"></p>
@@ -36,7 +40,7 @@ describe('punica-drawer', () => {
     expect(dialog.getAttribute('aria-label')).toBe('Filters');
     await wait(400);
     const rect = dialog.getBoundingClientRect();
-    expect(Math.round(rect.right)).toBe(window.innerWidth);
+    expect(Math.round(rect.right)).toBe(viewportWidth());
     expect(Math.round(rect.height)).toBe(window.innerHeight);
     expect(await a11y(el.parentElement)).toEqual([]);
   });
@@ -50,15 +54,15 @@ describe('punica-drawer', () => {
     el.side = 'inline-start';
     await settle();
     expect(Math.round(rect().left)).toBe(0);
-    expect(Math.round(rect().width)).toBe(Math.min(480, window.innerWidth));
+    expect(Math.round(rect().width)).toBe(Math.min(480, viewportWidth()));
     wrap.dir = 'rtl';
     await settle();
-    expect(Math.round(rect().right)).toBe(window.innerWidth);
+    expect(Math.round(rect().right)).toBe(viewportWidth());
     wrap.dir = 'ltr';
     el.side = 'block-start';
     await settle();
     expect(Math.round(rect().top)).toBe(0);
-    expect(Math.round(rect().width)).toBe(window.innerWidth);
+    expect(Math.round(rect().width)).toBe(viewportWidth());
     expect(Math.round(rect().height)).toBe(Math.min(480, window.innerHeight));
     el.side = 'block-end';
     await settle();

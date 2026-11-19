@@ -23,7 +23,7 @@ dialog {
   inset-inline: 0 auto;
   inline-size: var(--punica-mobile-nav-width);
   block-size: 100dvh;
-  max-inline-size: 85vw;
+  max-inline-size: 85%;
   max-block-size: 100dvh;
   margin: 0;
   padding: 0;

@@ -7,6 +7,10 @@ import './dialogHeader.js';
 import './dialogContent.js';
 import './dialogFooter.js';
 
+// The width a fixed panel spans: the viewport without its scrollbar, which
+// Linux and Windows draw in the page and macOS draws over it.
+const viewportWidth = () => document.documentElement.clientWidth;
+
 const html = `<punica-dialog>
   <punica-dialog-header>Delete file</punica-dialog-header>
   <punica-dialog-content>This cannot be undone.</punica-dialog-content>
@@ -195,7 +199,7 @@ describe('punica-dialog', () => {
     expect(Math.round(native(el).getBoundingClientRect().width)).toBe(320);
     el.size = 'large';
     await settle();
-    expect(Math.round(native(el).getBoundingClientRect().width)).toBe(Math.min(720, window.innerWidth - 32));
+    expect(Math.round(native(el).getBoundingClientRect().width)).toBe(Math.min(720, viewportWidth() - 32));
   });
 
   it('keeps two open dialogs apart and adds nothing to the body', async () => {

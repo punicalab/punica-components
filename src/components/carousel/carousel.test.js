@@ -197,8 +197,8 @@ describe('punica-carousel', () => {
     expect(pause.getAttribute('aria-label')).toBe('Pause');
     expect($(el, 'track').getAttribute('aria-live')).toBe('off');
     expect(el.playing).toBe(true);
-    await wait(220);
-    expect(el.index).toBeGreaterThan(0);
+    // At least one advance; a busy machine may take longer than three intervals.
+    await expect.poll(() => el.index, { timeout: 3000 }).toBeGreaterThan(0);
     pause.click();
     await settle();
     expect(pause.getAttribute('aria-label')).toBe('Play');
