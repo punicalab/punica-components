@@ -1,24 +1,18 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './cardContent.css';
 
-  template.innerHTML = `<slot></slot><style></style>`;
+/**
+ * The body of a card.
+ *
+ * @element punica-card-content
+ *
+ * @slot - The content.
+ *
+ * @cssprop --punica-card-content-padding - Padding.
+ */
+export class PunicaCardContent extends PunicaElement {
+  static styles = styles;
+  static template = `<slot></slot>`;
+}
 
-  class CardContent extends PunicaBase {
-    static get booleanAttributes() {
-      return [];
-    }
-    #shadow = null;
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow = this.attachShadow({ mode: 'open' });
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
-  }
-
-  customElements.define('punica-card-content', CardContent);
-})();
+define('punica-card-content', PunicaCardContent);

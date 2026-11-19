@@ -1,105 +1,150 @@
 :host {
-  pointer-events: all;
+  /* With no color the button takes the text colour around it, so it reads on
+     a coloured app bar or toolbar too. */
+  --_accent: currentColor;
+  --_accent-strong: currentColor;
+  --punica-icon-button-size: var(--punica-size-md);
+  --punica-icon-button-radius: var(--punica-radius-full);
+  --punica-icon-button-icon-size: var(--punica-font-size-lg);
+
   display: inline-flex;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  position: relative;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0px;
-  border: 0px;
-  margin: 0px;
-  cursor: pointer;
   vertical-align: middle;
-  appearance: none;
-  text-decoration: none;
-  text-align: center;
   flex: 0 0 auto;
-  border-radius: 50%;
-  overflow: visible;
-  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  padding: 12px;
-}
-
-:host([disabled]) {
-  pointer-events: none;
-  opacity: var(--disabled-opacity);
-}
-
-:host([size='xsmall']) {
-  width: 24px;
-  height: 24px;
-  font-size: medium;
-}
-
-:host([size='small']) {
-  width: 32px;
-  height: 32px;
-  font-size: medium;
-}
-
-:host([size='medium']) {
-  width: 40px;
-  height: 40px;
-  font-size: large;
-}
-
-:host([size='large']) {
-  width: 48px;
-  height: 48px;
-  font-size: xx-large;
-}
-
-:host(:hover) {
-  background-color: rgb(from var(--text-primary) r g b / 10%);
 }
 
 :host([color='primary']) {
-  color: var(--primary-main);
+  --_accent: var(--punica-color-primary);
+  --_accent-strong: var(--punica-color-primary-dark);
 }
-
-:host([color='primary']):host(:hover) {
-  background-color: rgb(from var(--primary-main) r g b / 10%);
-}
-
 :host([color='secondary']) {
-  color: var(--secondary-main);
+  --_accent: var(--punica-color-secondary);
+  --_accent-strong: var(--punica-color-secondary-dark);
 }
-
-:host([color='secondary']):host(:hover) {
-  background-color: rgb(from var(--secondary-main) r g b / 10%);
-}
-
 :host([color='error']) {
-  color: var(--error-main);
+  --_accent: var(--punica-color-error);
+  --_accent-strong: var(--punica-color-error-dark);
 }
-
-:host([color='error']):host(:hover) {
-  background-color: rgb(from var(--error-main) r g b / 10%);
-}
-
 :host([color='warning']) {
-  color: var(--warning-main);
+  --_accent: var(--punica-color-warning);
+  --_accent-strong: var(--punica-color-warning-dark);
 }
-
-:host([color='warning']):host(:hover) {
-  background-color: rgb(from var(--warning-main) r g b / 10%);
-}
-
 :host([color='info']) {
-  color: var(--info-main);
+  --_accent: var(--punica-color-info);
+  --_accent-strong: var(--punica-color-info-dark);
 }
-
-:host([color='info']):host(:hover) {
-  background-color: rgb(from var(--info-main) r g b / 10%);
-}
-
 :host([color='success']) {
-  color: var(--success-main);
+  --_accent: var(--punica-color-success);
+  --_accent-strong: var(--punica-color-success-dark);
 }
 
-:host([color='success']):host(:hover) {
-  background-color: rgb(from var(--success-main) r g b / 10%);
+:host([size='small']) {
+  --punica-icon-button-size: var(--punica-size-sm);
+  --punica-icon-button-icon-size: var(--punica-font-size);
+}
+:host([size='large']) {
+  --punica-icon-button-size: var(--punica-size-lg);
+  --punica-icon-button-icon-size: var(--punica-font-size-xl);
+}
+
+button {
+  all: unset;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-icon-button-size);
+  block-size: var(--punica-icon-button-size);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-icon-button-radius);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-icon-button-icon-size);
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  color: var(--_accent);
+  transition: background-color var(--punica-duration) var(--punica-ease),
+    border-color var(--punica-duration) var(--punica-ease),
+    color var(--punica-duration) var(--punica-ease);
+}
+
+button:hover {
+  background: color-mix(in srgb, var(--_accent) 10%, transparent);
+}
+
+:host([variant='outlined']) button {
+  border-color: var(--_accent);
+}
+
+:host([variant='filled']) button {
+  background: var(--_accent);
+  color: var(--punica-color-on-accent);
+}
+:host([variant='filled']:not([color])) button,
+:host([variant='filled'][color='neutral']) button {
+  color: var(--punica-color-surface);
+}
+:host([variant='filled']) button:hover {
+  background: var(--_accent-strong);
+}
+
+button:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+button:disabled {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+::slotted(*) {
+  flex: none;
+}
+
+:host([loading]) button {
+  cursor: progress;
+}
+:host([loading]) ::slotted(*) {
+  visibility: hidden;
+}
+
+.spinner {
+  display: none;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  inline-size: 1em;
+  block-size: 1em;
+  border: var(--punica-space-2) solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: var(--punica-radius-full);
+  animation: spin 700ms linear infinite;
+}
+:host([loading]) .spinner {
+  display: block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
+}
+
+@media (forced-colors: active) {
+  button {
+    border-color: ButtonText;
+  }
+  button:disabled {
+    color: GrayText;
+    border-color: GrayText;
+    opacity: 1;
+  }
 }

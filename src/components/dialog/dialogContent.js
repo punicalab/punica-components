@@ -1,23 +1,18 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './dialogContent.css';
 
-  template.innerHTML = `<slot></slot><style></style>`;
+/**
+ * The body of a `punica-dialog`; it scrolls when it is taller than the dialog.
+ *
+ * @element punica-dialog-content
+ *
+ * @slot - The content.
+ *
+ * @cssprop --punica-dialog-content-padding - Padding.
+ */
+export class PunicaDialogContent extends PunicaElement {
+  static styles = styles;
+  static template = `<slot></slot>`;
+}
 
-  class DialogContent extends PunicaBase {
-    static get booleanAttributes() {
-      return [];
-    }
-    #shadow = this.attachShadow({ mode: 'open' });
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
-  }
-
-  customElements.define('punica-dialog-content', DialogContent);
-})();
+define('punica-dialog-content', PunicaDialogContent);

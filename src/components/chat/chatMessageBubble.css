@@ -1,0 +1,46 @@
+:host {
+  --punica-chat-message-bubble-background: var(--punica-chat-message-surface, var(--punica-color-surface));
+  --punica-chat-message-bubble-color: var(--punica-chat-message-on-surface, var(--punica-color-text));
+  --punica-chat-message-bubble-border-color: var(--punica-chat-message-border, var(--punica-color-border));
+  --punica-chat-message-bubble-radius: var(--punica-radius-lg);
+  --punica-chat-message-bubble-padding: var(--punica-space-8) var(--punica-space-14);
+
+  display: block;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+:host([variant='outlined']) {
+  --punica-chat-message-bubble-background: transparent;
+  --punica-chat-message-bubble-color: var(--punica-color-text);
+  --punica-chat-message-bubble-border-color: var(--punica-chat-message-border, var(--punica-color-border));
+}
+
+:host([variant='plain']) {
+  --punica-chat-message-bubble-background: transparent;
+  --punica-chat-message-bubble-color: var(--punica-color-text);
+  --punica-chat-message-bubble-border-color: transparent;
+  --punica-chat-message-bubble-padding: var(--punica-space-0);
+}
+
+.base {
+  padding: var(--punica-chat-message-bubble-padding);
+  border: var(--punica-border-width) solid var(--punica-chat-message-bubble-border-color);
+  border-radius: var(--punica-chat-message-bubble-radius);
+  background: var(--punica-chat-message-bubble-background);
+  color: var(--punica-chat-message-bubble-color);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size);
+  line-height: var(--punica-line-height);
+  overflow-wrap: anywhere;
+}
+
+:host([variant='plain']) .base {
+  border-width: 0;
+}
+
+@media (forced-colors: active) {
+  :host(:not([variant='plain'])) .base {
+    border-color: CanvasText;
+  }
+}

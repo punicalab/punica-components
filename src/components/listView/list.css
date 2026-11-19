@@ -1,0 +1,29 @@
+:host {
+  --punica-list-gap: var(--punica-space-0);
+  --punica-list-padding: var(--punica-space-0);
+  --punica-list-divider: var(--punica-border-width) solid var(--punica-color-border);
+  --punica-list-radius: var(--punica-radius);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-list-gap);
+  padding-block: var(--punica-list-padding);
+  border-radius: var(--punica-list-radius);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+:host([dividers]) ::slotted(punica-list-item:not(:first-of-type)) {
+  border-block-start: var(--punica-list-divider);
+}
+
+:host([dense]) ::slotted(punica-list-item) {
+  --punica-list-item-padding: var(--punica-space-4) var(--punica-space-12);
+  --punica-list-item-min-height: var(--punica-size-sm);
+}
+
+@media (forced-colors: active) {
+  :host([dividers]) ::slotted(punica-list-item:not(:first-of-type)) {
+    border-block-start-color: CanvasText;
+  }
+}

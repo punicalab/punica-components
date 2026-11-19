@@ -1,23 +1,18 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './dialogFooter.css';
 
-  template.innerHTML = `<slot></slot><style></style>`;
+/**
+ * The actions of a `punica-dialog`, aligned to the inline end.
+ *
+ * @element punica-dialog-footer
+ *
+ * @slot - The buttons.
+ *
+ * @cssprop --punica-dialog-footer-gap - Gap between the buttons.
+ */
+export class PunicaDialogFooter extends PunicaElement {
+  static styles = styles;
+  static template = `<slot></slot>`;
+}
 
-  class DialogFooter extends PunicaBase {
-    static get booleanAttributes() {
-      return [];
-    }
-    #shadow = this.attachShadow({ mode: 'open' });
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
-  }
-
-  customElements.define('punica-dialog-footer', DialogFooter);
-})();
+define('punica-dialog-footer', PunicaDialogFooter);

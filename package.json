@@ -1,78 +1,107 @@
 {
   "name": "@punica/components",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "webpack-dev-server --config webpack.config.dev.js & npm run watch",
-    "watch": "node ./build.js",
-    "build": "webpack --config webpack.config.prod.js",
-    "lint": "scripty",
-    "lint:fix": "eslint . --ext .js,.ts --fix",
-    "format": "prettier --write \"./**/*.{ts,js,json,md}\"",
-    "test": "jest -w 1",
-    "test:watch": "jest --watch --watchAll"
-  },
-  "eslintIgnore": [
-    "node_modules",
-    "dist"
+  "version": "2.0.0",
+  "description": "Punica web components: framework-free custom elements on platform standards.",
+  "keywords": [
+    "web-components",
+    "custom-elements",
+    "design-system",
+    "ui",
+    "components",
+    "form-associated",
+    "accessibility",
+    "shadow-dom"
   ],
-  "dependencies": {
-    "@punica/request": "^2.0.0",
-    "@punica/request-fetch": "^2.0.0",
-    "@punica/request-middleware": "^2.0.0",
-    "@punica/util": "^1.0.0",
-    "classnames": "^2.3.2",
-    "i18next": "^23.6.0",
-    "lottie-react": "^2.4.0",
-    "react": "^18.2.0",
-    "react-code-blocks": "^0.1.6",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.53.2",
-    "react-hot-toast": "^2.4.1",
-    "react-i18next": "^13.3.1",
-    "react-router": "^6.17.0",
-    "react-router-dom": "^6.17.0"
+  "homepage": "https://components.punicalab.com",
+  "bugs": {
+    "url": "https://github.com/punicalab/punica-components/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/punicalab/punica-components.git"
+  },
+  "license": "MIT",
+  "author": "PunicaLab",
+  "type": "module",
+  "main": "./dist/esm/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "unpkg": "./dist/punica-components.min.js",
+  "customElements": "custom-elements.json",
+  "sideEffects": [
+    "./dist/**/*.js",
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/esm/index.js"
+    },
+    "./components/*": "./dist/esm/components/*",
+    "./core/*": "./dist/esm/core/*",
+    "./tokens.css": "./dist/tokens.css",
+    "./react": {
+      "types": "./dist/types/react.d.ts"
+    },
+    "./custom-elements.json": "./custom-elements.json",
+    "./global": "./dist/punica-components.min.js"
+  },
+  "files": [
+    "dist",
+    "custom-elements.json",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "docs/MIGRATION-2.0.md",
+    "docs/contract.md",
+    "docs/migration",
+    "scripts/codemod-2.0.mjs",
+    "scripts/codemod-rules.mjs"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs && npm run manifest",
+    "barrel": "node scripts/barrel.mjs",
+    "manifest": "cem analyze --config custom-elements-manifest.config.mjs && node scripts/types.mjs",
+    "audit": "node scripts/audit.mjs",
+    "lint": "eslint src scripts test",
+    "format": "prettier --write \"./**/*.{ts,js,mjs,json,md}\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "npm run build && changeset publish",
+    "prepublishOnly": "npm run lint && npm test && npm run build",
+    "pack:check": "npm pack --dry-run"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@types/react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "@babel/core": "^7.20.12",
-    "@babel/plugin-transform-runtime": "^7.19.6",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/preset-typescript": "^7.18.6",
-    "@commitlint/cli": "^17.4.2",
-    "@commitlint/config-conventional": "^17.4.2",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.4.3",
-    "@types/jest": "^29.4.0",
-    "@types/jest-axe": "^3.5.5",
-    "@types/node": "^18.11.18",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
-    "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^5.50.0",
-    "@typescript-eslint/parser": "^5.50.0",
-    "babel-loader": "^9.1.2",
-    "chokidar": "^3.6.0",
-    "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.7.3",
-    "eslint": "^8.33.0",
-    "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^5.5.0",
-    "jest": "^29.4.1",
-    "jest-axe": "^7.0.0",
-    "jest-environment-jsdom": "^29.4.1",
+    "@changesets/cli": "^3.0.3",
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^22.0.0",
+    "@vitest/browser": "^5.1.1",
+    "@vitest/browser-playwright": "^5.1.1",
+    "axe-core": "^4.14.1",
+    "esbuild": "^0.28.2",
+    "eslint": "^9.39.5",
+    "globals": "^17.14.0",
+    "playwright": "^1.65.1",
     "prettier": "^2.8.3",
-    "serve": "^14.2.0",
-    "stream": "0.0.2",
-    "stream-browserify": "2.0.2",
-    "style-loader": "^3.3.1",
-    "ts-jest": "^29.0.5",
-    "ts-loader": "^9.4.2",
-    "typescript": "^4.9.5",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1",
-    "webpack-dev-server": "^4.11.1",
-    "webpack-merge": "^5.8.0",
-    "terser": "^5.27.0"
+    "typescript": "^5.9.0",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
   }
 }

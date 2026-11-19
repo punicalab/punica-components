@@ -1,0 +1,171 @@
+:host {
+  --_accent: var(--punica-color-primary);
+  --punica-selectable-card-padding: var(--punica-space-16);
+  --punica-selectable-card-radius: var(--punica-radius-lg);
+  --punica-selectable-card-background: var(--punica-color-surface);
+  --punica-selectable-card-border-color: var(--punica-color-border);
+  --punica-selectable-card-checked-color: var(--_accent);
+  --punica-selectable-card-checked-background: color-mix(in srgb, var(--punica-selectable-card-checked-color) 6%, var(--punica-selectable-card-background));
+
+  display: block;
+  position: relative;
+  border-radius: var(--punica-selectable-card-radius);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.base {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-8);
+  block-size: 100%;
+  padding: var(--punica-selectable-card-padding);
+  padding-inline-end: calc(var(--punica-selectable-card-padding) + var(--punica-space-24));
+  border: var(--punica-border-width) solid var(--punica-selectable-card-border-color);
+  border-radius: inherit;
+  background: var(--punica-selectable-card-background);
+  transition: border-color var(--punica-duration-fast) var(--punica-ease),
+    background-color var(--punica-duration-fast) var(--punica-ease),
+    box-shadow var(--punica-duration-fast) var(--punica-ease);
+}
+
+:host(:hover) .base {
+  border-color: var(--punica-color-border-strong);
+}
+
+:host(:state(checked)) .base {
+  border-color: var(--punica-selectable-card-checked-color);
+  background: var(--punica-selectable-card-checked-background);
+  box-shadow: inset 0 0 0 var(--punica-border-width) var(--punica-selectable-card-checked-color);
+}
+
+:host(:focus-visible) {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.media {
+  display: flex;
+  margin: calc(-1 * var(--punica-selectable-card-padding));
+  margin-block-end: 0;
+  margin-inline-end: calc(-1 * (var(--punica-selectable-card-padding) + var(--punica-space-24)));
+  border-start-start-radius: inherit;
+  border-start-end-radius: inherit;
+  overflow: hidden;
+}
+.media ::slotted(img) {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  object-fit: cover;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-4);
+  min-inline-size: 0;
+}
+
+.title {
+  font-size: var(--punica-font-size);
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+
+.description {
+  color: var(--punica-color-text-muted);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.indicator {
+  position: absolute;
+  inset-block-start: var(--punica-selectable-card-padding);
+  inset-inline-end: var(--punica-selectable-card-padding);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-space-18);
+  block-size: var(--punica-space-18);
+  border: var(--punica-border-width) solid var(--punica-color-border-strong);
+  border-radius: var(--punica-radius-sm);
+  background: var(--punica-color-surface);
+  color: var(--punica-color-on-accent);
+  font-size: var(--punica-font-size-sm);
+}
+.indicator .icon {
+  visibility: hidden;
+  stroke-width: 3;
+}
+:host(:state(checked)) .indicator {
+  border-color: var(--punica-selectable-card-checked-color);
+  background: var(--punica-selectable-card-checked-color);
+}
+:host(:state(checked)) .indicator .icon {
+  visibility: visible;
+}
+
+/* A radio card draws a circle with a dot. */
+:host(:state(radio)) .indicator {
+  border-radius: var(--punica-radius-full);
+}
+:host(:state(radio)) .indicator .icon {
+  display: none;
+}
+:host(:state(radio)) .indicator::after {
+  content: '';
+  inline-size: 50%;
+  block-size: 50%;
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-selectable-card-checked-color);
+  transform: scale(0);
+  transition: transform var(--punica-duration-fast) var(--punica-ease);
+}
+:host(:state(radio):state(checked)) .indicator {
+  background: var(--punica-color-surface);
+}
+:host(:state(radio):state(checked)) .indicator::after {
+  transform: scale(1);
+}
+
+:host(:state(disabled)) {
+  cursor: default;
+}
+:host(:state(disabled)) .base {
+  opacity: var(--punica-disabled-opacity);
+}
+
+@media (forced-colors: active) {
+  .base,
+  .indicator {
+    border-color: CanvasText;
+  }
+  :host(:state(checked)) .base,
+  :host(:state(checked)) .indicator {
+    border-color: Highlight;
+    outline: var(--punica-border-width) solid Highlight;
+    outline-offset: calc(-2 * var(--punica-border-width));
+  }
+  :host(:state(checked)) .indicator {
+    background: Highlight;
+    color: HighlightText;
+  }
+  :host(:state(radio):state(checked)) .indicator::after {
+    background: Highlight;
+  }
+  :host(:focus-visible) {
+    outline-color: Highlight;
+  }
+  :host(:state(disabled)) .base {
+    opacity: 1;
+    color: GrayText;
+  }
+}

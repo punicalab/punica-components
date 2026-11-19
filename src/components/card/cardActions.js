@@ -1,24 +1,25 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './cardActions.css';
 
-  template.innerHTML = `<slot></slot><style></style>`;
+/**
+ * The row of buttons at the foot of a card.
+ *
+ * @element punica-card-actions
+ *
+ * @attr {'start' | 'end' | 'between'} align - Where the buttons sit on the inline axis, `end` by default.
+ *
+ * @slot - The buttons.
+ *
+ * @cssprop --punica-card-actions-padding - Padding.
+ * @cssprop --punica-card-actions-gap - Space between buttons.
+ */
+export class PunicaCardActions extends PunicaElement {
+  static properties = {
+    align: {}
+  };
 
-  class CardActions extends PunicaBase {
-    static get booleanAttributes() {
-      return [];
-    }
-    #shadow = null;
+  static styles = styles;
+  static template = `<slot></slot>`;
+}
 
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow = this.attachShadow({ mode: 'open' });
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
-  }
-
-  customElements.define('punica-card-actions', CardActions);
-})();
+define('punica-card-actions', PunicaCardActions);

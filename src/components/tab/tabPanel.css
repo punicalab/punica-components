@@ -1,0 +1,26 @@
+:host {
+  --punica-tab-panel-padding: var(--punica-space-16);
+
+  display: block;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+:host(:not([active])) {
+  display: none;
+}
+
+:host(:focus-visible) {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(var(--punica-focus-ring-width) * -1);
+}
+
+.base {
+  padding: var(--punica-tab-panel-padding);
+}
+
+@media (forced-colors: active) {
+  :host(:focus-visible) {
+    outline-color: Highlight;
+  }
+}

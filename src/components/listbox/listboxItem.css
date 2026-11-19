@@ -1,0 +1,64 @@
+:host {
+  --punica-listbox-item-padding: var(--punica-space-8) var(--punica-space-16);
+  --punica-listbox-item-hover-background: var(--punica-color-hover);
+  --punica-listbox-item-selected-background: var(--punica-color-selected);
+
+  display: block;
+  cursor: pointer;
+  user-select: none;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+.base {
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-8);
+  padding: var(--punica-listbox-item-padding);
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+:host(:hover) .base {
+  background: var(--punica-listbox-item-hover-background);
+}
+
+:host([selected]) .base {
+  background: var(--punica-listbox-item-selected-background);
+}
+
+:host(:focus-visible) {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(var(--punica-focus-ring-width) * -1);
+}
+
+:host([disabled]) {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+  pointer-events: none;
+}
+
+.label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.check {
+  display: inline-flex;
+  visibility: hidden;
+  color: var(--punica-color-primary);
+}
+
+:host([selected]) .check {
+  visibility: visible;
+}
+
+@media (forced-colors: active) {
+  :host([selected]) .base {
+    outline: var(--punica-border-width) solid Highlight;
+    outline-offset: calc(var(--punica-border-width) * -1);
+  }
+  :host([disabled]) {
+    color: GrayText;
+    opacity: 1;
+  }
+}

@@ -1,69 +1,27 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './container.css';
 
-  template.innerHTML = `<slot></slot><style></style>`;
+/**
+ * A centred wrapper that keeps content to a readable inline size.
+ *
+ * @element punica-container
+ *
+ * @attr {'sm' | 'md' | 'lg' | 'xl' | 'full'} max-width - Largest inline size: 600, 900, 1200 or 1536 px, or none; `lg` by default.
+ * @attr {'none' | 'small' | 'medium' | 'large'} gutters - Inline padding, `medium` by default.
+ *
+ * @slot - The content.
+ *
+ * @cssprop --punica-container-max-width - Largest inline size.
+ * @cssprop --punica-container-gutter - Inline padding.
+ */
+export class PunicaContainer extends PunicaElement {
+  static properties = {
+    maxWidth: {},
+    gutters: {}
+  };
 
-  class Container extends PunicaBase {
-    static get booleanAttributes() {
-      return ['disablegutters'];
-    }
-    #shadow = this.attachShadow({ mode: 'open' });
+  static styles = styles;
+  static template = `<slot></slot>`;
+}
 
-    /**
-     *
-     */
-    get maxwidth() {
-      return this.getAttribute('maxwidth');
-    }
-
-    /**
-     *
-     */
-    set maxwidth(val) {
-      this.setAttribute('maxwidth', val);
-    }
-
-    /**
-     *
-     */
-    get disablegutters() {
-      return this.hasAttribute('disablegutters');
-    }
-
-    /**
-     *
-     */
-    set disablegutters(value) {
-      if (value) {
-        this.setAttribute('disablegutters', '');
-      } else {
-        this.removeAttribute('disablegutters');
-      }
-    }
-
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return ['maxwidth', 'disablegutters'];
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
-
-    /**
-     *
-     */
-    connectedCallback() {
-      super.connectedCallback();
-    }
-  }
-
-  customElements.define('punica-container', Container);
-})();
+define('punica-container', PunicaContainer);

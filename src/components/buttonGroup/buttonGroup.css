@@ -1,36 +1,108 @@
-:host([fullwidth]) {
-  width: 100%;
+:host {
+  --punica-button-group-radius: var(--punica-radius);
+
   display: inline-flex;
+  vertical-align: middle;
 }
 
-::slotted(punica-button:first-child) {
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+:host([orientation='vertical']) {
+  flex-direction: column;
 }
 
-::slotted(punica-button:last-child) {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
 }
 
-::slotted(punica-button:not(:first-child):not(:last-child)) {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+:host([full-width]) ::slotted(*) {
+  flex: 1 1 0;
 }
 
-::slotted(punica-button:first-child[variant='outlined']),
-::slotted(punica-button:not(:last-child)[variant='outlined']) {
-  border-right-color: transparent;
+:host([orientation='vertical']) ::slotted(*) {
+  display: flex;
 }
 
-::slotted(punica-button:last-child[variant='outlined']),
-::slotted(punica-button:not(:first-child)[variant='outlined']) {
-  margin-left: -1px;
+/*
+ * Each button draws its own corners; the group tells it which ones. The four
+ * working values are the logical corners (start-start, start-end, end-start,
+ * end-end). A toggle button takes them one by one; a button and an icon
+ * button take one `border-radius` value, which is physical and so is written
+ * a second time for right-to-left.
+ */
+::slotted(:is(punica-button, punica-icon-button, punica-toggle-button)) {
+  --_group-r: var(--punica-button-group-radius);
+  --_group-ss: 0;
+  --_group-se: 0;
+  --_group-es: 0;
+  --_group-ee: 0;
+  --punica-button-radius: var(--_group-ss) var(--_group-se) var(--_group-ee) var(--_group-es);
+  --punica-icon-button-radius: var(--_group-ss) var(--_group-se) var(--_group-ee) var(--_group-es);
+  --punica-toggle-button-radius-start-start: var(--_group-ss);
+  --punica-toggle-button-radius-start-end: var(--_group-se);
+  --punica-toggle-button-radius-end-start: var(--_group-es);
+  --punica-toggle-button-radius-end-end: var(--_group-ee);
+  position: relative;
 }
 
-::slotted(punica-button:first-child[variant='filled']),
-::slotted(punica-button:not(:last-child)[variant='filled']) {
-  border-right: 1px solid lightgrey;
+:host(:dir(rtl)) ::slotted(:is(punica-button, punica-icon-button)) {
+  --punica-button-radius: var(--_group-se) var(--_group-ss) var(--_group-es) var(--_group-ee);
+  --punica-icon-button-radius: var(--_group-se) var(--_group-ss) var(--_group-es) var(--_group-ee);
+}
+
+::slotted(:is(punica-button, punica-icon-button, punica-toggle-button):first-child) {
+  --_group-ss: var(--_group-r);
+  --_group-es: var(--_group-r);
+}
+
+::slotted(:is(punica-button, punica-icon-button, punica-toggle-button):last-child) {
+  --_group-se: var(--_group-r);
+  --_group-ee: var(--_group-r);
+}
+
+:host([orientation='vertical']) ::slotted(:is(punica-button, punica-icon-button, punica-toggle-button):first-child) {
+  --_group-ss: var(--_group-r);
+  --_group-se: var(--_group-r);
+  --_group-es: 0;
+  --_group-ee: 0;
+}
+
+:host([orientation='vertical']) ::slotted(:is(punica-button, punica-icon-button, punica-toggle-button):last-child) {
+  --_group-ss: 0;
+  --_group-se: 0;
+  --_group-es: var(--_group-r);
+  --_group-ee: var(--_group-r);
+}
+
+:host ::slotted(:is(punica-button, punica-icon-button, punica-toggle-button):only-child),
+:host([orientation='vertical']) ::slotted(:is(punica-button, punica-icon-button, punica-toggle-button):only-child) {
+  --_group-ss: var(--_group-r);
+  --_group-se: var(--_group-r);
+  --_group-es: var(--_group-r);
+  --_group-ee: var(--_group-r);
+}
+
+/* Bordered neighbours (outlined buttons, toggle buttons) share one border;
+   the others are parted by a hairline. */
+::slotted(:not(:first-child)) {
+  margin-inline-start: var(--punica-border-width);
+}
+::slotted(:is([variant='outlined'], punica-toggle-button):not(:first-child)) {
+  margin-inline-start: calc(var(--punica-border-width) * -1);
+}
+:host([orientation='vertical']) ::slotted(:not(:first-child)) {
+  margin-inline-start: 0;
+  margin-block-start: var(--punica-border-width);
+}
+:host([orientation='vertical']) ::slotted(:is([variant='outlined'], punica-toggle-button):not(:first-child)) {
+  margin-block-start: calc(var(--punica-border-width) * -1);
+}
+
+/* A pressed toggle button's border is its accent: it lies over its neighbours'. */
+::slotted(punica-toggle-button[pressed]) {
+  z-index: 1;
+}
+
+::slotted(:hover),
+::slotted(:focus-within) {
+  z-index: 2;
 }

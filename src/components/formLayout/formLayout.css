@@ -1,0 +1,126 @@
+:host {
+  --punica-form-layout-gap: var(--punica-space-16);
+  --punica-form-layout-column-gap: var(--punica-space-24);
+  --punica-form-layout-label-max-width: 40%;
+
+  --_cols: 1;
+
+  display: block;
+  container-type: inline-size;
+}
+
+:host([columns='2']) {
+  --_cols: 2;
+}
+:host([columns='3']) {
+  --_cols: 3;
+}
+:host([columns='4']) {
+  --_cols: 4;
+}
+:host([gap='small']) {
+  --punica-form-layout-gap: var(--punica-space-8);
+}
+:host([gap='large']) {
+  --punica-form-layout-gap: var(--punica-space-24);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--_cols), minmax(0, 1fr));
+  align-items: start;
+  row-gap: var(--punica-form-layout-gap);
+  column-gap: var(--punica-form-layout-column-gap);
+}
+
+::slotted(*) {
+  min-inline-size: 0;
+}
+
+/* A field fills its cell; its control keeps its own width unless it is full-width. */
+::slotted(punica-field) {
+  align-items: stretch;
+}
+
+::slotted([span='2']) {
+  grid-column: span min(2, var(--_cols));
+}
+::slotted([span='3']) {
+  grid-column: span min(3, var(--_cols));
+}
+::slotted([span='4']) {
+  grid-column: span min(4, var(--_cols));
+}
+::slotted([span='full']) {
+  grid-column: 1 / -1;
+}
+
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--punica-space-8);
+  padding-block-start: var(--punica-space-8);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Labels beside the fields: a label track and a field track per column. */
+:host([label-position='start']) .grid {
+  grid-template-columns: repeat(
+    var(--_cols),
+    [label] fit-content(var(--punica-form-layout-label-max-width)) [field] minmax(0, 1fr)
+  );
+  align-items: baseline;
+}
+:host([label-position='start']) ::slotted(*) {
+  grid-column: span 2;
+}
+:host([label-position='start']) ::slotted(punica-field) {
+  --punica-field-control-align: baseline;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+  /* normal: the layout's own column gap, not the field's. */
+  column-gap: normal;
+  row-gap: var(--punica-space-4);
+}
+:host([label-position='start']) ::slotted([span='2']) {
+  grid-column: span min(4, calc(var(--_cols) * 2));
+}
+:host([label-position='start']) ::slotted([span='3']) {
+  grid-column: span min(6, calc(var(--_cols) * 2));
+}
+:host([label-position='start']) ::slotted([span='4']) {
+  grid-column: span min(8, calc(var(--_cols) * 2));
+}
+:host([label-position='start']) ::slotted([span='full']) {
+  grid-column: 1 / -1;
+}
+:host([label-position='start']) .actions {
+  grid-column: 2 / -1;
+}
+
+/* A narrow container: one column, labels above. */
+@container (inline-size < 480px) {
+  .grid,
+  :host([label-position='start']) .grid {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+  ::slotted(*),
+  :host([label-position='start']) ::slotted(*),
+  :host([label-position='start']) ::slotted([span]) {
+    grid-column: 1 / -1;
+  }
+  :host([label-position='start']) ::slotted(punica-field) {
+    display: flex;
+    flex-direction: column;
+  }
+  :host([label-position='start']) .actions {
+    grid-column: 1 / -1;
+  }
+}

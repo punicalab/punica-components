@@ -1,4 +1,8 @@
 :host {
+  --punica-card-content-padding: var(--punica-space-16);
+
   display: block;
-  padding: var(--spacing-16);
+  padding: var(--punica-card-content-padding);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
 }

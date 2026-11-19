@@ -1,0 +1,57 @@
+:host {
+  --punica-blockquote-rule-width: var(--punica-space-4);
+  --punica-blockquote-rule-color: var(--punica-color-border-strong);
+  --punica-blockquote-padding: var(--punica-space-16);
+  --punica-blockquote-color: var(--punica-color-text);
+  --punica-blockquote-font-size: var(--punica-font-size);
+
+  display: block;
+}
+
+:host([variant='emphasis']) {
+  --punica-blockquote-rule-color: var(--punica-color-primary);
+  --punica-blockquote-font-size: var(--punica-font-size-xl);
+}
+
+.base {
+  margin: 0;
+  padding-inline-start: var(--punica-blockquote-padding);
+  border-inline-start: var(--punica-blockquote-rule-width) solid var(--punica-blockquote-rule-color);
+  font-family: var(--punica-font-family);
+}
+
+.quote {
+  margin: 0;
+  color: var(--punica-blockquote-color);
+  font-size: var(--punica-blockquote-font-size);
+  line-height: var(--punica-line-height);
+}
+
+:host([variant='emphasis']) .quote {
+  font-weight: var(--punica-font-weight-medium);
+  line-height: var(--punica-line-height-heading);
+}
+
+::slotted(p) {
+  margin-block: 0 var(--punica-space-8);
+}
+::slotted(p:last-child) {
+  margin-block-end: 0;
+}
+
+.attribution {
+  margin-block-start: var(--punica-space-8);
+  color: var(--punica-color-text-muted);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+}
+
+.attribution[hidden] {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .base {
+    border-inline-start-color: CanvasText;
+  }
+}

@@ -1,31 +1,176 @@
 :host {
+  --punica-virtual-table-background: var(--punica-color-surface);
+  --punica-virtual-table-header-background: var(--punica-color-surface);
+  --punica-virtual-table-border-color: var(--punica-color-border);
+  --punica-virtual-table-cell-padding: var(--punica-space-8) var(--punica-space-12);
+  --punica-virtual-table-max-height: 100vb;
+
   display: block;
+  block-size: 100%;
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  color: var(--punica-color-text);
+}
+
+/* The scroller. An unsized host would grow to its whole content and render
+   every row, so the scroller never exceeds the max height. */
+.viewport {
   position: relative;
   overflow: auto;
-  height: 100%;
+  block-size: 100%;
+  max-block-size: var(--punica-virtual-table-max-height);
+  overflow-anchor: none;
+  background: var(--punica-virtual-table-background);
 }
 
-.viewport {
-  min-height: 100%;
+.viewport:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
 }
 
-.vtable {
-  border-collapse: separate;
-  border-spacing: 0;
-  width: 100%;
-  background: #fff;
+.inner {
+  min-inline-size: max-content;
 }
-.vtable th,
-.vtable td {
-  border-bottom: 1px solid #eee;
-  padding: 8px 12px;
+
+.header[hidden] {
+  display: none;
+}
+
+.header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  background: var(--punica-virtual-table-header-background);
 }
 
 .row {
-  height: var(--row-height, 48px);
+  display: grid;
+  grid-template-columns: var(--_columns, none);
+  align-items: stretch;
 }
 
-.pad td {
-  padding: 0 !important;
-  border: 0 !important;
+.body {
+  position: relative;
+  contain: layout style;
+}
+
+.body .row {
+  position: absolute;
+  inset-inline: 0;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  min-inline-size: 0;
+  padding: var(--punica-virtual-table-cell-padding);
+  border-block-end: var(--punica-border-width) solid var(--punica-virtual-table-border-color);
+  overflow: hidden;
+}
+
+.cell[data-align='center'] {
+  justify-content: center;
+  text-align: center;
+}
+.cell[data-align='end'] {
+  justify-content: end;
+  text-align: end;
+}
+/* The indicator goes on the side away from the column's edge, so the label
+   lines up with the cells under it. */
+.cell[data-align='end'] .sort {
+  flex-direction: row-reverse;
+}
+
+.text {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header .cell {
+  min-block-size: var(--punica-size-md);
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+
+.body .row.last .cell {
+  border-block-end-color: transparent;
+}
+
+/* selectable rows */
+.body .row[tabindex] {
+  cursor: pointer;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+.body .row[tabindex]:hover {
+  background: var(--punica-color-hover);
+}
+.body .row[aria-selected='true'] {
+  background: var(--punica-color-selected);
+}
+.body .row:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
+}
+
+/* sortable headers: the button fills the cell, so it is pressed anywhere in it */
+.header .cell:has(> .sort) {
+  padding: 0;
+}
+.sort {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  align-self: stretch;
+  align-items: center;
+  gap: var(--punica-space-4);
+  min-inline-size: 0;
+  padding: var(--punica-virtual-table-cell-padding);
+  font: inherit;
+  cursor: pointer;
+}
+.cell[data-align='center'] .sort {
+  justify-content: center;
+}
+.sort:hover {
+  color: var(--punica-color-primary);
+}
+.sort:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
+}
+.sort .icon {
+  flex: none;
+  opacity: 0;
+  transition: transform var(--punica-duration) var(--punica-ease),
+    opacity var(--punica-duration) var(--punica-ease);
+}
+.sort:hover .icon,
+.sort:focus-visible .icon {
+  opacity: 0.5;
+}
+[aria-sort='ascending'] .sort .icon,
+[aria-sort='descending'] .sort .icon {
+  opacity: 1;
+}
+[aria-sort='descending'] .sort .icon {
+  transform: rotate(180deg);
+}
+
+@media (forced-colors: active) {
+  .cell {
+    border-block-end-color: CanvasText;
+  }
+  .body .row[aria-selected='true'] {
+    background: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+  .viewport:focus-visible,
+  .body .row:focus-visible,
+  .sort:focus-visible {
+    outline-color: Highlight;
+  }
 }

@@ -1,557 +1,392 @@
-(function () {
-  const template = document.createElement('template');
-  const templateMenu = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import { FormControl } from '../../core/form.js';
+import { overlayCss } from '../../core/overlay.js';
+import { createTypeahead } from '../../core/a11y.js';
+import { icons } from '../../core/icons.js';
+import { FieldSurface, OptionNavigator, fieldLanguage, fieldName, setAttr, nativeMessage } from './field.js';
+import './option.js';
+import fieldStyles from './field.css';
+import styles from './select.css';
 
-  template.innerHTML = `
-    <slot name="adornment"></slot>
-    <div id="contentWrapper"><span id="content"></span></div>
-    <slot name="preload"></slot>
-    <slot name="clear"></slot>
-    <slot name="caret"></slot>
-    <style></style>
+/** @param {any} option an option that may not be upgraded yet */
+const valueOf = (option) =>
+  option.optionValue ?? option.getAttribute('value') ?? option.textContent.trim();
+/** @param {any} option */
+const textOf = (option) => option.text ?? option.getAttribute('label') ?? option.textContent.trim();
+
+/**
+ * A select: one value, or several with `multiple`, picked from a list of
+ * `punica-option` children.
+ *
+ * The `value` attribute is the default value; with `multiple` it is a
+ * space-separated list. An option carrying `selected` in the markup is part
+ * of the default too.
+ *
+ * @element punica-select
+ *
+ * @attr {string} value - Default value; space-separated with `multiple`.
+ * @attr {boolean} multiple - Several options can be picked; `value` is then an array.
+ * @attr {string} placeholder - Text shown while nothing is picked.
+ * @attr {boolean} clearable - Shows a button that empties the value.
+ * @attr {string} label - Accessible name.
+ * @attr {boolean} open - The list is showing.
+ * @attr {string} name - Name the value is submitted under; one entry per value.
+ * @attr {boolean} disabled - Takes no input and submits nothing.
+ * @attr {boolean} required - A value is needed before the form submits.
+ * @attr {'small' | 'medium' | 'large'} size - Control height, `medium` by default.
+ * @attr {boolean} full-width - Fills its container's inline size.
+ * @attr {string} label-clear - Name of the clear button, `Clear` by default.
+ *
+ * @prop {string | string[] | null} value - The current value: a string, or an array with `multiple`.
+ *
+ * @slot - The `punica-option` rows.
+ * @slot start - Content before the value, an icon.
+ *
+ * @fires punica-change - The user picked or cleared. `detail.value` is the new value.
+ * @fires punica-open - The list opened.
+ * @fires punica-close - The list closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
+ *
+ * @csspart field - The bordered box.
+ * @csspart trigger - The combobox button.
+ * @csspart value - The text of the picked options, or the placeholder.
+ * @csspart clear - The clear button.
+ * @csspart caret - The chevron.
+ * @csspart listbox - The floating list.
+ *
+ * @cssprop --punica-select-radius - Corner radius of the field.
+ * @cssprop --punica-select-height - Minimum block size of the field.
+ * @cssprop --punica-select-padding - Inline padding of the field.
+ * @cssprop --punica-select-border-color - Border colour at rest.
+ * @cssprop --punica-select-background - Field background.
+ * @cssprop --punica-select-min-width - Smallest inline size.
+ * @cssprop --punica-select-listbox-max-height - Largest block size of the list.
+ *
+ * @cssstate open - The list is showing.
+ * @cssstate placeholder - Nothing is picked.
+ * @cssstate disabled - Disabled by itself or by a fieldset.
+ * @cssstate user-invalid - Invalid after the user touched it.
+ */
+export class PunicaSelect extends FormControl(PunicaElement) {
+  static properties = {
+    defaultValue: { attribute: 'value', reflect: false },
+    value: { type: Object, attribute: false },
+    multiple: { type: Boolean },
+    placeholder: {},
+    clearable: { type: Boolean },
+    label: {},
+    open: { type: Boolean },
+    size: {},
+    fullWidth: { type: Boolean },
+    labelClear: { default: 'Clear' }
+  };
+
+  static styles = [overlayCss, fieldStyles, styles];
+  static shadowOptions = { delegatesFocus: true };
+  static template = `
+    <div part="field" class="field">
+      <slot name="start"></slot>
+      <button part="trigger" class="control" type="button" role="combobox" aria-haspopup="listbox" aria-controls="listbox" aria-expanded="false">
+        <span part="value" class="value"></span>
+        <span part="caret" class="caret">${icons.chevronDown}</span>
+      </button>
+      <button part="clear" class="icon-button clear" type="button" hidden>${icons.close}</button>
+    </div>
+    <div part="listbox" id="listbox" class="panel listbox" role="listbox" popover="manual"><slot></slot></div>
   `;
 
-  templateMenu.innerHTML = `
-    <div id="backdrop"></div>
-    <punica-popover open="false" placement="bottom">
-      <div id="option-wrapper">
-        <slot></slot>
-      </div>
-    </punica-popover>
-    <style>
-      #backdrop {
-        position: fixed;
-        inset: 0;
-        background-color: transparent;
-        pointer-events: all;
-        z-index: var(--zindex-backdrop);
-      }
+  #field = this.$('.field');
+  #trigger = this.$('[part="trigger"]');
+  #valueEl = this.$('[part="value"]');
+  #clear = this.$('[part="clear"]');
+  #listbox = this.$('#listbox');
+  #slot = this.$('slot:not([name])');
+  #surface = new FieldSurface(this, this.#listbox);
+  #nav = new OptionNavigator(this.#trigger, () => this.options);
+  #typeahead = createTypeahead();
+  /** Options that carried `selected` when first seen: the markup's default. */
+  #defaults = new WeakSet();
+  #seen = new WeakSet();
+  #dirty = false;
+  #touched = false;
+  #initialised = false;
+  /** The default this element last applied itself, serialised. @type {string | null} */
+  #auto = null;
+  #reason = 'api';
 
-      #option-wrapper {
-        padding: var(--spacing-8) 0;
-        border: 1px solid var(--neutral-main);
-        background-color: var(--background-paper);
-        display: block;
-        max-height: 250px;
-        overflow-x: hidden;
-        border-radius: var(--spacing-4);
-        box-shadow: var(--box-shadow-xxs);
-      }
-    </style>
-  `;
+  constructor() {
+    super();
+    this.#trigger.addEventListener('click', () => {
+      if (this.isDisabled) return;
+      if (this.open) this.#close('api');
+      else this.show();
+    });
+    this.#trigger.addEventListener('keydown', (event) => this.#onKeydown(event));
+    this.#trigger.addEventListener('keyup', (event) => {
+      if (event.key === ' ') event.preventDefault();
+    });
+    this.#clear.addEventListener('click', () => {
+      if (this.isDisabled) return;
+      this.#commit([]);
+      this.#trigger.focus();
+    });
+    this.#slot.addEventListener('slotchange', () => this.#sync());
+    // A press on the list must not take focus from the combobox.
+    this.#listbox.addEventListener('mousedown', (event) => event.preventDefault());
+    this.#listbox.addEventListener('click', (event) => {
+      const option = this.#optionFrom(event);
+      if (option && !option.disabled) this.#pick(option);
+    });
+    this.#listbox.addEventListener('pointermove', (event) => {
+      const option = this.#optionFrom(event);
+      if (option && !option.disabled && option !== this.#nav.active) this.#nav.set(option);
+    });
+    this.shadowRoot.addEventListener('focusout', (event) => {
+      const next = /** @type {FocusEvent} */ (event).relatedTarget;
+      if (next instanceof Node && (this.shadowRoot.contains(next) || this.contains(next))) return;
+      this.#touched = true;
+      if (this.open) this.#close('blur');
+      else this.requestUpdate();
+    });
+  }
 
-  class Select extends PunicaBase {
-    static get booleanAttributes() {
-      return [
-        'rounded',
-        'error',
-        'fullwidth',
-        'disabled',
-        'clearbutton',
-        'loading',
-        'minimumtargetwidth'
-      ];
+  /** The `punica-option` children, in order. @returns {any[]} */
+  get options() {
+    return [...this.children].filter((child) => child.localName === 'punica-option');
+  }
+
+  /** The picked options. @returns {any[]} */
+  get selectedOptions() {
+    const values = this.#values();
+    return this.options.filter((option) => values.includes(valueOf(option)));
+  }
+
+  /** Opens the list. */
+  show() {
+    this.open = true;
+  }
+
+  /** Closes the list. */
+  hide() {
+    this.#close('api');
+  }
+
+  /** Moves focus to the combobox. */
+  focus(options) {
+    this.#trigger.focus(options);
+  }
+
+  connected() {
+    // Children inserted with the element are upgraded after it.
+    queueMicrotask(() => this.isConnected && this.#sync());
+  }
+
+  disconnected() {
+    this.#surface.hide();
+    this.#nav.set(null);
+  }
+
+  formReset() {
+    this.#dirty = false;
+    this.#touched = false;
+    this.value = this.#defaultValue();
+    this.#auto = JSON.stringify(this.#values());
+  }
+
+  formRestore(state) {
+    if (state instanceof FormData) this.value = this.multiple ? state.getAll(this.name) : state.get(this.name);
+    else if (typeof state === 'string') this.value = state;
+  }
+
+  /** @returns {string[]} */
+  #values() {
+    const value = this.value;
+    if (Array.isArray(value)) return value.map(String);
+    return value == null || value === '' ? [] : [String(value)];
+  }
+
+  #defaultValue() {
+    let values = [];
+    if (this.defaultValue != null) {
+      values = this.multiple ? this.defaultValue.split(/\s+/).filter(Boolean) : [this.defaultValue];
+    } else {
+      values = this.options.filter((o) => this.#defaults.has(o)).map(valueOf);
     }
-    #shadow = this.attachShadow({ mode: 'open' });
-    #selected = null;
-    #content = null;
+    if (this.multiple) return values;
+    return values.length ? values[0] : null;
+  }
 
-    /**
-     *
-     */
-    get rounded() {
-      return this.hasAttribute('rounded');
+  /** Takes in options that arrived and brings the tree up to date. */
+  #sync() {
+    this.#applyDefault();
+    if (this.isConnected) this.update(new Map());
+  }
+
+  /**
+   * Applies the default value until the user, or code, sets another one.
+   */
+  #applyDefault() {
+    for (const option of this.options) {
+      if (this.#seen.has(option)) continue;
+      this.#seen.add(option);
+      if (option.hasAttribute('selected')) this.#defaults.add(option);
     }
-
-    /**
-     *
-     */
-    set rounded(value) {
-      if (value) {
-        this.setAttribute('rounded', '');
-      } else {
-        this.removeAttribute('rounded');
-      }
+    this.#initialised = true;
+    if (this.#dirty) return;
+    const current = JSON.stringify(this.#values());
+    if (current !== (this.#auto ?? '[]')) {
+      // Assigned from outside: the default no longer applies.
+      this.#dirty = true;
+      return;
     }
+    this.value = this.#defaultValue();
+    this.#auto = JSON.stringify(this.#values());
+  }
 
-    /**
-     *
-     */
-    get placeholder() {
-      return this.getAttribute('placeholder');
+  update(changed) {
+    if (!this.#initialised || changed.has('defaultValue') || changed.has('multiple')) this.#applyDefault();
+    const options = this.options;
+    const values = this.#values();
+    const disabled = this.isDisabled;
+    const name = fieldName(this);
+
+    const known = new Map(options.map((option) => [valueOf(option), option]));
+    for (const option of options) option.selected = values.includes(valueOf(option));
+    const texts = values.map((value) => (known.has(value) ? textOf(known.get(value)) : value));
+    const empty = texts.length === 0;
+    let text = this.placeholder || '';
+    if (!empty) {
+      text = texts.length === 1 ? texts[0] : new Intl.ListFormat(fieldLanguage(this), { style: 'short', type: 'unit' }).format(texts);
     }
+    this.#valueEl.textContent = text;
+    this.#valueEl.classList.toggle('placeholder', empty);
+    this.toggleState('placeholder', empty);
+    this.toggleState('disabled', disabled);
 
-    /**
-     *
-     */
-    set placeholder(val) {
-      this.setAttribute('placeholder', val);
+    const trigger = this.#trigger;
+    trigger.disabled = disabled;
+    setAttr(trigger, 'aria-label', name);
+    setAttr(trigger, 'aria-required', this.required ? 'true' : null);
+    setAttr(this.#listbox, 'aria-label', name);
+    setAttr(this.#listbox, 'aria-multiselectable', this.multiple ? 'true' : null);
+    setAttr(this.#clear, 'aria-label', this.labelClear);
+    this.#clear.hidden = !this.clearable || empty || disabled;
+
+    // Form value: one entry per picked value.
+    if (this.multiple && this.name) {
+      const data = new FormData();
+      for (const value of values) data.append(this.name, value);
+      this.setFormValue(data);
+    } else {
+      this.setFormValue(empty ? null : values[0]);
     }
-
-    /**
-     *
-     */
-    get minimumtargetwidth() {
-      return this.hasAttribute('minimumtargetwidth');
-    }
-
-    /**
-     *
-     */
-    set minimumtargetwidth(value) {
-      if (value) {
-        this.setAttribute('minimumtargetwidth', '');
-      } else {
-        this.removeAttribute('minimumtargetwidth');
-      }
-    }
-
-    /**
-     *
-     */
-    get selecteditemdisplayitem() {
-      return this.getAttribute('selecteditemdisplayitem');
-    }
-
-    /**
-     *
-     */
-    set selecteditemdisplayitem(val) {
-      this.setAttribute('selecteditemdisplayitem', val);
-    }
-
-    /**
-     *
-     */
-    get error() {
-      return this.hasAttribute('error');
-    }
-
-    /**
-     *
-     */
-    set error(value) {
-      if (value) {
-        this.setAttribute('error', '');
-      } else {
-        this.removeAttribute('error');
-      }
-    }
-
-    /**
-     *
-     */
-    get fullwidth() {
-      return this.hasAttribute('fullwidth');
-    }
-
-    /**
-     *
-     */
-    set fullwidth(value) {
-      if (value) {
-        this.setAttribute('fullwidth', '');
-      } else {
-        this.removeAttribute('fullwidth');
-      }
-    }
-
-    /**
-     *
-     */
-    get disabled() {
-      return this.hasAttribute('disabled');
-    }
-
-    /**
-     *
-     */
-    set disabled(value) {
-      if (value) {
-        this.setAttribute('disabled', '');
-      } else {
-        this.removeAttribute('disabled');
-      }
-    }
-
-    /**
-     *
-     */
-    get adornment() {
-      return this.getAttribute('adornment');
-    }
-
-    /**
-     *
-     */
-    set adornment(val) {
-      this.setAttribute('adornment', val);
-    }
-
-    /**
-     *
-     */
-    get clearbutton() {
-      return this.hasAttribute('clearbutton');
-    }
-
-    /**
-     *
-     */
-    set clearbutton(value) {
-      if (value) {
-        this.setAttribute('clearbutton', '');
-      } else {
-        this.removeAttribute('clearbutton');
-      }
-    }
-
-    /**
-     *
-     */
-    get loading() {
-      return this.hasAttribute('loading');
-    }
-
-    /**
-     *
-     */
-    set loading(value) {
-      if (value) {
-        this.setAttribute('loading', '');
-      } else {
-        this.removeAttribute('loading');
-      }
-    }
-
-    /**
-     *
-     */
-    get value() {
-      return this.getAttribute('value') || '';
-    }
-
-    /**
-     *
-     */
-    set value(val) {
-      this.setAttribute('value', val);
-    }
-
-    /**
-     *
-     */
-    get size() {
-      return this.getAttribute('size');
-    }
-
-    /**
-     *
-     */
-    set size(val) {
-      this.setAttribute('size', val);
-    }
-
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return [
-        'placeholder',
-        'error',
-        'fullwidth',
-        'disabled',
-        'adornment',
-        'clear-button',
-        'loading',
-        'value',
-        'size',
-        'minimumtargetwidth',
-        'selecteditemdisplayitem',
-        'rounded',
-        'clearbutton'
-      ];
-    }
-
-    /**
-     *
-     */
-    setSelectedItemContent() {
-      if (!this.#selected) {
-        this.updateContent();
-        return;
-      }
-
-      if (this.selecteditemdisplayitem) {
-        const displayContent = this.#selected.querySelector(
-          this.selecteditemdisplayitem
-        );
-
-        if (displayContent) {
-          this.#content.innerHTML = displayContent.innerHTML;
-        }
-      } else {
-        this.#content.innerHTML = this.#selected.innerHTML;
-      }
-    }
-
-    /**
-     *
-     */
-    updateContent() {
-      if (!this.value && this.placeholder) {
-        this.#content.innerHTML = this.placeholder;
-      } else if (!this.value) {
-        this.#content.innerHTML = '';
-      }
-    }
-
-    /**
-     *
-     */
-    show() {
-      document.addEventListener('keydown', this.hosContainerKeyDown);
-
-      const childrenClones = Array.from(this.children)
-        .filter((child) => child.nodeName == 'PUNICA-SELECT-ITEM')
-        .map((child) => {
-          const clone = child.cloneNode(true);
-          const existingInlineStyle = child.getAttribute('style');
-
-          clone.setAttribute('style', existingInlineStyle);
-
-          return clone;
-        });
-
-      const position = this.getBoundingClientRect();
-      const select = document.createElement('div');
-
-      this.setAttribute('focus', '');
-
-      select.style = this.style;
-
-      select.setAttribute('id', 'select');
-      select.appendChild(templateMenu.content.cloneNode(true));
-
-      const popover = select.querySelector('punica-popover');
-      const backdrop = select.querySelector('#backdrop');
-      const optionWrapper = select.querySelector('#option-wrapper');
-
-      popover.setAttribute('minimumtargetwidth', '');
-
-      childrenClones.forEach((clone) => {
-        clone.addEventListener('click', this.onClickItemHandler);
-
-        optionWrapper.appendChild(clone);
-      });
-
-      popover.setAttribute('top', position.top);
-      popover.setAttribute('left', position.left);
-      popover.setAttribute('width', position.width);
-      popover.setAttribute('height', position.height);
-      popover.setAttribute('bottom', position.bottom);
-      popover.setAttribute('open', '');
-
-      backdrop.addEventListener('click', this.backdropClick);
-
-      document.body.appendChild(select);
-    }
-
-    /**
-     *
-     */
-    hide() {
-      this.removeAttribute('focus');
-
-      const clone = document.body.querySelector('#select');
-
-      if (!clone) {
-        return;
-      }
-
-      this.fireOnClose();
-
-      document.body.removeChild(clone);
-      document.removeEventListener('keydown', this.hosContainerKeyDown);
-    }
-
-    /**
-     *
-     */
-    backdropClick = (event) => {
-      this.hide();
-
-      event.stopPropagation();
-    };
-
-    /**
-     *
-     */
-    selectListChange = (event) => {
-      this.hide();
-
-      event.stopPropagation();
-    };
-
-    /**
-     *
-     */
-    click = () => {
-      this.show();
-    };
-
-    /**
-     *
-     */
-    hosContainerKeyDown = (event) => {
-      if (event.key == 'Escape') {
-        this.hide();
-      }
-    };
-
-    /**
-     *
-     */
-    fireOnChange() {
-      this.dispatchEvent(
-        new CustomEvent('change', {
-          detail: {
-            value: this.value
-          },
-          bubbles: true,
-          cancelable: false,
-          composed: true
-        })
-      );
-    }
-
-    /**
-     *
-     */
-    fireOnClose() {
-      this.dispatchEvent(
-        new CustomEvent('close', {
-          bubbles: true,
-          cancelable: false,
-          composed: true
-        })
-      );
-    }
-
-    /**
-     *
-     */
-    onClickItemHandler = (event) => {
-      if (this.#selected) {
-        this.#selected.selected = false;
-      }
-
-      this.#selected = event.currentTarget;
-      this.#selected.selected = true;
-      this.value = this.#selected.value;
-
-      this.setSelectedItemContent();
-
-      this.hide();
-      this.fireOnChange();
-
-      event.stopPropagation();
-    };
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#content = this.#shadow.querySelector('#content');
-    }
-
-    /**
-     *
-     * @param {*} item
-     */
-    itemAdd(item) {
-      const itemValue = item.getAttribute('value');
-
-      if (itemValue == this.value) {
-        this.#selected = item;
-        this.#selected.selected = true;
-        this.value = this.#selected.value;
-
-        this.setSelectedItemContent();
-      }
-    }
-
-    /**
-     *
-     * @param {*} name
-     * @param {*} oldValue
-     * @param {*} newValue
-     */
-    attributeChangedCallback(name, oldValue, newValue) {
-      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
-        return;
-      }
-
-      switch (name) {
-        case 'value':
-          if (newValue == null || newValue === '') {
-            if (this.#selected) {
-              this.#selected.selected = false;
-            }
-
-            this.#selected = null;
-            this.updateContent();
-          } else {
-            const item = Array.from(this.children).find(
-              (child) =>
-                child.nodeName === 'PUNICA-SELECT-ITEM' &&
-                child.getAttribute('value') === newValue
-            );
-
-            if (item) {
-              if (this.#selected) {
-                this.#selected.selected = false;
-              }
-
-              this.#selected = item;
-              this.#selected.selected = true;
-              this.setSelectedItemContent();
-            }
-          }
-          break;
-        case 'placeholder':
-          if (!this.value) {
-            this.updateContent();
-          }
-          break;
-      }
-    }
-
-    /**
-     *
-     */
-    connectedCallback() {
-      super.connectedCallback();
-
-      if (!this.size) {
-        this.size = 'medium';
-      }
-
-      this.updateContent();
-
-      this.addEventListener('click', this.click);
-    }
-
-    /**
-     *
-     */
-    disconnectedCallback() {
-      this.removeEventListener('click', this.click);
+    const missing = this.required && empty;
+    this.setValidity(missing ? { valueMissing: true } : {}, nativeMessage('choose'), trigger);
+    setAttr(trigger, 'aria-invalid', this.#touched && missing ? 'true' : null);
+    this.toggleState('user-invalid', this.#touched && !this.validity.valid);
+
+    const want = this.open && !disabled;
+    if (want && !this.#surface.open) {
+      this.#surface.show(this.#field, { matchWidth: true }, () => this.#close('outside'));
+      const first = options.find((o) => o.selected && !o.disabled) || this.#nav.items[0] || null;
+      if (!this.#nav.active) this.#nav.set(first);
+      this.toggleState('open', true);
+      trigger.setAttribute('aria-expanded', 'true');
+      this.emit('open');
+    } else if (!want && this.#surface.open) {
+      this.#surface.hide();
+      this.#nav.set(null);
+      this.toggleState('open', false);
+      trigger.setAttribute('aria-expanded', 'false');
+      const reason = this.#reason;
+      this.#reason = 'api';
+      this.emit('close', { reason });
     }
   }
 
-  customElements.define('punica-select', Select);
-})();
+  #optionFrom(event) {
+    return event.composedPath().find((node) => node.localName === 'punica-option' && node.parentElement === this) || null;
+  }
+
+  /** @param {string} reason */
+  #close(reason) {
+    if (!this.open) return;
+    this.#reason = reason;
+    this.open = false;
+  }
+
+  /** @param {string[]} values */
+  #commit(values) {
+    const before = this.#values();
+    if (before.length === values.length && before.every((v, i) => v === values[i])) return;
+    this.#dirty = true;
+    this.#touched = true;
+    this.value = this.multiple ? values : values[0] ?? null;
+    this.emit('change', { value: this.value });
+  }
+
+  /** @param {any} option */
+  #pick(option) {
+    const value = valueOf(option);
+    if (this.multiple) {
+      const values = this.#values();
+      // Keep the list's own order, whatever order the user clicked in.
+      const next = values.includes(value) ? values.filter((v) => v !== value) : [...values, value];
+      const order = this.options.map(valueOf);
+      next.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+      this.#commit(next);
+      this.#nav.set(option);
+    } else {
+      this.#commit([value]);
+      this.#close('select');
+    }
+  }
+
+  /** @param {KeyboardEvent} event */
+  #onKeydown(event) {
+    if (this.isDisabled) return;
+    const nav = this.#nav;
+    const key = event.key;
+
+    if (!this.open) {
+      if (['Enter', ' ', 'ArrowDown', 'ArrowUp', 'Home', 'End'].includes(key)) {
+        event.preventDefault();
+        if (key === 'Home') nav.set(nav.items[0] || null);
+        if (key === 'End') nav.set(nav.items.at(-1) || null);
+        this.show();
+        return;
+      }
+      const index = this.#typeahead(event, nav.items.map(textOf), -1);
+      if (index >= 0) {
+        event.preventDefault();
+        nav.set(nav.items[index]);
+        this.show();
+      }
+      return;
+    }
+
+    if (key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      this.#close('escape');
+    } else if (key === 'Tab') {
+      // Tab takes the highlighted option and moves on.
+      if (nav.active && !this.multiple) this.#pick(nav.active);
+      else this.#close('blur');
+    } else if (key === 'Enter' || key === ' ' || (key === 'ArrowUp' && event.altKey)) {
+      event.preventDefault();
+      if (nav.active) this.#pick(nav.active);
+      if (key === 'ArrowUp') this.#close('select');
+    } else if (nav.move(event)) {
+      event.preventDefault();
+    } else {
+      const items = nav.items;
+      const index = this.#typeahead(event, items.map(textOf), items.indexOf(nav.active));
+      if (index >= 0) {
+        event.preventDefault();
+        nav.set(items[index]);
+      }
+    }
+  }
+}
+
+define('punica-select', PunicaSelect);

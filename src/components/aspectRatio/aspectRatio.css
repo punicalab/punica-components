@@ -1,0 +1,16 @@
+:host {
+  --punica-aspect-ratio-fit: cover;
+  --_ratio: 1 / 1;
+
+  display: block;
+  position: relative;
+  aspect-ratio: var(--_ratio);
+  overflow: hidden;
+}
+
+::slotted(*) {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: var(--punica-aspect-ratio-fit);
+}

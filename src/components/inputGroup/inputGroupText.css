@@ -1,0 +1,33 @@
+:host {
+  --punica-input-group-text-height: var(--punica-size-md);
+  --punica-input-group-text-padding: var(--punica-space-12);
+  --punica-input-group-text-radius: var(--punica-radius);
+  --punica-input-group-text-background: var(--punica-color-neutral-light);
+  --punica-input-group-text-color: var(--punica-color-text-muted);
+
+  display: inline-flex;
+  flex: none;
+  min-block-size: var(--punica-input-group-text-height);
+  border: var(--punica-border-width) solid var(--punica-color-border);
+  border-radius: var(--punica-input-group-text-radius);
+  background: var(--punica-input-group-text-background);
+  color: var(--punica-input-group-text-color);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.base {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-6);
+  padding-inline: var(--punica-input-group-text-padding);
+  unicode-bidi: plaintext;
+}
+
+@media (forced-colors: active) {
+  :host {
+    border-color: CanvasText;
+  }
+}

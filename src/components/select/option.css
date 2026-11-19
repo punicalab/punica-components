@@ -1,0 +1,68 @@
+/* audit-allow: pointer-without-focus-visible (the row is never focused: the combobox keeps focus and :state(active) marks the row) */
+:host {
+  --punica-option-padding: var(--punica-space-8) var(--punica-space-16);
+  --punica-option-active-background: var(--punica-color-hover);
+  --punica-option-selected-background: var(--punica-color-selected);
+
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-8);
+  padding: var(--punica-option-padding);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+  cursor: pointer;
+  user-select: none;
+}
+
+:host(:state(active)) {
+  background: var(--punica-option-active-background);
+}
+
+:host([selected]) {
+  background: var(--punica-option-selected-background);
+}
+
+:host([selected]:state(active)) {
+  background: color-mix(in srgb, var(--punica-option-selected-background), var(--punica-option-active-background));
+}
+
+:host([disabled]) {
+  color: var(--punica-color-text-muted);
+  opacity: var(--punica-disabled-opacity);
+  cursor: default;
+}
+
+.label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.check {
+  flex: none;
+  display: inline-flex;
+  visibility: hidden;
+  color: var(--punica-color-primary);
+}
+
+:host([selected]) .check {
+  visibility: visible;
+}
+
+@media (forced-colors: active) {
+  :host(:state(active)) {
+    outline: var(--punica-focus-ring-width) solid Highlight;
+    outline-offset: calc(var(--punica-focus-ring-width) * -1);
+  }
+  :host([selected]) .check {
+    color: Highlight;
+  }
+  :host([disabled]) {
+    color: GrayText;
+    opacity: 1;
+  }
+}

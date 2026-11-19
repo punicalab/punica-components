@@ -1,0 +1,19 @@
+:host {
+  --punica-chat-message-metadata-color: var(--punica-color-text-muted);
+  --punica-chat-message-metadata-gap: var(--punica-space-8);
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.base {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--punica-space-2) var(--punica-chat-message-metadata-gap);
+  color: var(--punica-chat-message-metadata-color);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-xs);
+  line-height: var(--punica-line-height);
+  font-variant-numeric: tabular-nums;
+}

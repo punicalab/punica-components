@@ -1,0 +1,42 @@
+:host {
+  --punica-date-range-input-radius: var(--punica-radius);
+  --punica-date-range-input-height: var(--punica-size-md);
+  --punica-date-range-input-padding: var(--punica-space-12);
+  --punica-date-range-input-border-color: var(--punica-color-border);
+  --punica-date-range-input-background: transparent;
+  --punica-date-range-input-min-width: 300px;
+  --punica-date-range-input-panel-padding: var(--punica-space-12);
+
+  --_height: var(--punica-date-range-input-height);
+  --_pad: var(--punica-date-range-input-padding);
+  --_radius: var(--punica-date-range-input-radius);
+  --_border: var(--punica-date-range-input-border-color);
+  --_bg: var(--punica-date-range-input-background);
+
+  display: inline-flex;
+  vertical-align: middle;
+  min-inline-size: var(--punica-date-range-input-min-width);
+}
+
+:host([size='small']) {
+  --punica-date-range-input-height: var(--punica-size-sm);
+  --punica-date-range-input-padding: var(--punica-space-8);
+}
+:host([size='large']) {
+  --punica-date-range-input-height: var(--punica-size-lg);
+  --punica-date-range-input-padding: var(--punica-space-16);
+}
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+
+.separator {
+  flex: none;
+  inline-size: var(--punica-space-8);
+  border-block-start: var(--punica-border-width) solid var(--punica-color-border-strong);
+}
+
+[part='panel'] {
+  padding: var(--punica-date-range-input-panel-padding);
+}

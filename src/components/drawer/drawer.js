@@ -1,158 +1,90 @@
-const template = document.createElement('template');
-template.innerHTML = `
-    <div class="backdrop"></div>
-    <punica-box>
-      <slot></slot>
-    </punica-box>
-    <style>${css}</style>
+import { PunicaElement, define } from '../../core/element.js';
+import { icons } from '../../core/icons.js';
+import { ModalSurface } from '../dialog/modalSurface.js';
+import styles from './drawer.css';
+
+/**
+ * A panel that slides in from an edge of the viewport.
+ *
+ * It is a native `<dialog>` opened with `showModal()`: the page behind is
+ * inert, focus stays inside, Escape closes it and focus returns to the
+ * element that had it. The `header` slot names it unless `label` does.
+ *
+ * @element punica-drawer
+ *
+ * @attr {string} label - Accessible name; the header's text by default.
+ * @attr {boolean} open - The drawer is showing.
+ * @attr {'inline-end' | 'inline-start' | 'block-start' | 'block-end'} side - Edge it slides from, `inline-end` by default.
+ * @attr {'small' | 'medium' | 'large'} size - Extent across its edge, `medium` by default.
+ * @attr {boolean} no-light-dismiss - A click on the backdrop does not close it.
+ * @attr {boolean} no-close-button - Hides the close button.
+ * @attr {string} label-close - Accessible name of the close button, `Close` by default.
+ *
+ * @prop {string} returnValue - The value given to `hide()` or `requestClose()` when it last closed (read-only).
+ *
+ * @slot - The body.
+ * @slot header - The title.
+ * @slot footer - Actions at the end of the drawer.
+ *
+ * @fires punica-open - The drawer opened.
+ * @fires punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the drawer open.
+ * @fires punica-close - The drawer closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `close-button` or `api`.
+ *
+ * @csspart dialog - The native dialog, the sliding panel.
+ * @csspart header - The row holding the title and the close button.
+ * @csspart body - The scrolling body.
+ * @csspart footer - The footer row.
+ * @csspart close-button - The close button.
+ *
+ * @cssprop --punica-drawer-size - Inline size for an inline edge, block size for a block edge.
+ * @cssprop --punica-drawer-radius - Radius of the two corners away from the edge.
+ * @cssprop --punica-drawer-padding - Padding of header, body and footer.
+ * @cssprop --punica-drawer-background - Background.
+ * @cssprop --punica-drawer-backdrop - Colour of the backdrop.
+ * @cssprop --punica-drawer-shadow - Shadow.
+ */
+export class PunicaDrawer extends ModalSurface(PunicaElement) {
+  static properties = {
+    side: { default: 'inline-end' },
+    size: {},
+    noCloseButton: { type: Boolean },
+    labelClose: { default: 'Close' }
+  };
+
+  static styles = styles;
+  static template = `
+    <dialog part="dialog">
+      <div part="header">
+        <div class="title"><slot name="header"></slot></div>
+        <button part="close-button" class="close" type="button">${icons.close}</button>
+      </div>
+      <div part="body"><slot></slot></div>
+      <div part="footer" hidden><slot name="footer"></slot></div>
+    </dialog>
   `;
 
-const SIZES = {
-  small: '480px',
-  medium: '600px',
-  large: '900px',
-  xlarge: '1160px',
-  '2xlarge': '1280px',
-  fullSize: '100%'
-};
-
-class Drawer extends PunicaBase {
-  static get booleanAttributes() {
-    return ['open', 'rounded'];
-  }
-  #shadow = this.attachShadow({ mode: 'open' });
-  #content = null;
-  #backdrop = null;
+  #close = this.$('.close');
+  #headerSlot = this.$('slot[name="header"]');
+  #footerSlot = this.$('slot[name="footer"]');
 
   constructor() {
     super();
-    this.#shadow.appendChild(template.content.cloneNode(true));
-    this.#content = this.#shadow.querySelector('punica-box');
-    this.#backdrop = this.#shadow.querySelector('.backdrop');
+    this.#close.addEventListener('click', () => this.requestClose('close-button'));
+    this.#headerSlot.addEventListener('slotchange', () => this.requestUpdate());
+    this.#footerSlot.addEventListener('slotchange', () => this.requestUpdate());
   }
 
-  get open() {
-    return this.hasAttribute('open');
-  }
-  set open(v) {
-    this.#isTruthy(v)
-      ? this.setAttribute('open', '')
-      : this.removeAttribute('open');
+  get labelSources() {
+    return this.#headerSlot.assignedElements({ flatten: true });
   }
 
-  get direction() {
-    return this.getAttribute('direction') || 'right';
+  update(changed) {
+    super.update(changed);
+    this.#close.setAttribute('aria-label', this.labelClose);
+    this.$('[part="footer"]').hidden = !this.#footerSlot.assignedNodes({ flatten: true }).length;
+    const noHeader = !this.#headerSlot.assignedNodes({ flatten: true }).length && this.noCloseButton;
+    this.$('[part="header"]').hidden = noHeader;
   }
-  set direction(v) {
-    this.setAttribute('direction', v);
-  }
-
-  get size() {
-    return this.getAttribute('size') || 'medium';
-  }
-  set size(v) {
-    this.setAttribute('size', v);
-  }
-
-  get rounded() {
-    return this.hasAttribute('rounded');
-  }
-  set rounded(v) {
-    v ? this.setAttribute('rounded', '') : this.removeAttribute('rounded');
-  }
-
-  get customsize() {
-    return this.getAttribute('customsize') || '';
-  }
-  set customsize(v) {
-    v ? this.setAttribute('customsize', v) : this.removeAttribute('customsize');
-  }
-
-  static get observedAttributes() {
-    return ['open', 'direction', 'size', 'customsize', 'rounded'];
-  }
-
-  #isTruthy(val) {
-    if (val === '' || val === true) return true;
-    if (val == null) return false;
-    const s = String(val).toLowerCase().trim();
-    return !['false', '0', 'no', 'null', 'undefined'].includes(s);
-  }
-
-  #normalizeOpenAttr() {
-    const raw = this.getAttribute('open');
-    if (raw != null && !this.#isTruthy(raw)) {
-      this.removeAttribute('open');
-    } else if (raw != null) {
-      this.setAttribute('open', '');
-    }
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    this.#normalizeOpenAttr();
-    this.#applySizeBox();
-
-    this.#backdrop.addEventListener('click', this.#onBackdropClick);
-    document.addEventListener('keydown', this.#onKeyDown);
-
-    if (this.open) document.body.style.overflow = 'hidden';
-  }
-  disconnectedCallback() {
-    this.#backdrop.removeEventListener('click', this.#onBackdropClick);
-    document.removeEventListener('keydown', this.#onKeyDown);
-    document.body.style.overflow = '';
-  }
-
-  attributeChangedCallback(name, oldVal, newVal) {
-    if (this.normalizeBooleanAttributeIfNeeded(name, newVal)) {
-      if (name === 'open') {
-        document.body.style.overflow = '';
-      }
-      return;
-    }
-
-    if (name === 'open') {
-      if (newVal != null && !this.#isTruthy(newVal)) {
-        this.removeAttribute('open');
-        document.body.style.overflow = '';
-        return;
-      }
-      if (newVal != null) {
-        this.#applySizeBox();
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
-    }
-    if (['size', 'customsize', 'direction'].includes(name)) {
-      this.#applySizeBox();
-    }
-  }
-
-  #applySizeBox() {
-    const size = this.customsize || SIZES[this.size] || '600px';
-    if (this.direction === 'left' || this.direction === 'right') {
-      this.#content.style.width = size;
-      this.#content.style.height = '100vh';
-    } else {
-      this.#content.style.width = '100vw';
-      this.#content.style.height = size;
-    }
-  }
-
-  #fireOnClose() {
-    this.dispatchEvent(
-      new CustomEvent('close', { bubbles: true, composed: true })
-    );
-  }
-
-  #onBackdropClick = () => {
-    this.#fireOnClose();
-  };
-  #onKeyDown = (e) => {
-    if (e.key === 'Escape') this.#fireOnClose();
-  };
 }
 
-customElements.define('punica-drawer', Drawer);
+define('punica-drawer', PunicaDrawer);

@@ -1,0 +1,80 @@
+:host {
+  --punica-top-nav-mega-menu-card-background: var(--punica-color-bg);
+  --punica-top-nav-mega-menu-card-radius: var(--punica-radius);
+  --punica-top-nav-mega-menu-card-image-ratio: 16 / 9;
+
+  display: block;
+  font-family: var(--punica-font-family);
+}
+
+.base {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  border-radius: var(--punica-top-nav-mega-menu-card-radius);
+  background: var(--punica-top-nav-mega-menu-card-background);
+  color: var(--punica-color-text);
+  overflow: hidden;
+}
+
+.image {
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: var(--punica-top-nav-mega-menu-card-image-ratio);
+  object-fit: cover;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-6);
+  padding: var(--punica-space-16);
+}
+
+.heading {
+  font-size: var(--punica-font-size);
+  font-weight: var(--punica-font-weight-semi-bold);
+  line-height: var(--punica-line-height-heading);
+}
+
+.text {
+  color: var(--punica-color-text-muted);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-4);
+  align-self: flex-start;
+  margin-block-start: var(--punica-space-4);
+  border-radius: var(--punica-radius-sm);
+  color: var(--punica-color-primary);
+  font-size: var(--punica-font-size-sm);
+  font-weight: var(--punica-font-weight-semi-bold);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.link:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+:host(:dir(rtl)) .link .icon {
+  transform: scaleX(-1);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (forced-colors: active) {
+  .base {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+}

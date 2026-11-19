@@ -1,0 +1,125 @@
+:host {
+  --punica-progress-bar-height: var(--punica-space-4);
+  --punica-progress-bar-color: var(--punica-color-primary);
+  /* Drawn from the text colour: on --punica-color-neutral the dark-mode
+     accents fall under 3:1. */
+  --punica-progress-bar-track-color: color-mix(in srgb, var(--punica-color-text) 16%, var(--punica-color-surface));
+
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-8);
+  inline-size: 100%;
+}
+
+:host([size='small']) {
+  --punica-progress-bar-height: var(--punica-space-2);
+}
+:host([size='large']) {
+  --punica-progress-bar-height: var(--punica-space-8);
+}
+
+:host([color='secondary']) {
+  --punica-progress-bar-color: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --punica-progress-bar-color: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --punica-progress-bar-color: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --punica-progress-bar-color: var(--punica-color-info);
+}
+:host([color='success']) {
+  --punica-progress-bar-color: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  --punica-progress-bar-color: var(--punica-color-neutral-dark);
+}
+
+.track {
+  position: relative;
+  flex: 1 1 auto;
+  block-size: var(--punica-progress-bar-height);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-progress-bar-track-color);
+  overflow: hidden;
+}
+
+.indicator {
+  --_ratio: 0;
+
+  block-size: 100%;
+  inline-size: calc(var(--_ratio) * 100%);
+  border-radius: inherit;
+  background: var(--punica-progress-bar-color);
+  transition: inline-size var(--punica-duration) var(--punica-ease);
+}
+
+:host(:state(indeterminate)) .indicator {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 40%;
+  animation: sweep 1400ms var(--punica-ease) infinite;
+}
+/* Anchored at the right in RTL: the same sweep, mirrored. */
+:host(:state(indeterminate):dir(rtl)) .indicator {
+  animation-name: sweep-rtl;
+}
+
+.value {
+  flex: none;
+  min-inline-size: 4ch;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-align: end;
+}
+.value[hidden] {
+  display: none;
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@keyframes sweep-rtl {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-250%);
+  }
+}
+
+@keyframes breathe {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* Reduced motion: a full bar that fades in and out, with nothing travelling. */
+@media (prefers-reduced-motion: reduce) {
+  :host(:state(indeterminate)) .indicator {
+    inline-size: 100%;
+    animation: breathe 2s ease-in-out infinite;
+  }
+}
+
+@media (forced-colors: active) {
+  .track {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+  .indicator {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+}

@@ -1,0 +1,120 @@
+:host {
+  --punica-thumbnail-size: var(--punica-space-96);
+  --punica-thumbnail-radius: var(--punica-radius);
+  --punica-thumbnail-background: color-mix(in srgb, var(--punica-color-text) 8%, var(--punica-color-surface));
+  /* Set per instance from ratio. */
+  --_ratio: 1 / 1;
+
+  display: inline-block;
+  inline-size: var(--punica-thumbnail-size);
+  max-inline-size: 100%;
+  vertical-align: middle;
+}
+
+:host([size='small']) {
+  --punica-thumbnail-size: var(--punica-space-48);
+}
+:host([size='large']) {
+  --punica-thumbnail-size: var(--punica-space-160);
+}
+
+:host([radius='none']) {
+  --punica-thumbnail-radius: 0;
+}
+:host([radius='small']) {
+  --punica-thumbnail-radius: var(--punica-radius-sm);
+}
+:host([radius='large']) {
+  --punica-thumbnail-radius: var(--punica-radius-lg);
+}
+:host([radius='full']) {
+  --punica-thumbnail-radius: var(--punica-radius-full);
+}
+
+.base {
+  position: relative;
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: var(--_ratio);
+  border-radius: var(--punica-thumbnail-radius);
+  background: var(--punica-thumbnail-background);
+  color: var(--punica-color-text-muted);
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.base[href] {
+  cursor: pointer;
+}
+
+.base[href]:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.base[href]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: transparent;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.base[href]:hover::after {
+  background: var(--punica-color-hover);
+}
+
+.image,
+.skeleton,
+.fallback {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.image {
+  display: block;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--punica-duration) var(--punica-ease);
+}
+
+:host([fit='contain']) .image {
+  object-fit: contain;
+}
+
+:host(:state(loaded)) .image {
+  opacity: 1;
+}
+
+.skeleton {
+  --punica-skeleton-radius: 0;
+  display: none;
+}
+
+:host(:state(loading)) .skeleton {
+  display: block;
+}
+
+.fallback {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: max(var(--punica-space-16), calc(var(--punica-thumbnail-size) * 0.3));
+}
+
+:host(:state(error)) .fallback {
+  display: flex;
+}
+
+:host(:state(error)) .image {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .base {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+}

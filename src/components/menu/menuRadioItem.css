@@ -1,0 +1,17 @@
+:host {
+  --punica-menu-radio-item-indicator-color: var(--punica-color-primary);
+}
+
+.indicator::before {
+  content: '';
+  inline-size: 0.5em;
+  block-size: 0.5em;
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-menu-radio-item-indicator-color);
+}
+
+@media (forced-colors: active) {
+  .indicator::before {
+    background: CanvasText;
+  }
+}

@@ -1,0 +1,15 @@
+:host {
+  --punica-radio-group-gap: var(--punica-space-8);
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--punica-radio-group-gap);
+  vertical-align: middle;
+}
+
+:host([orientation='horizontal']) {
+  flex-flow: row wrap;
+  align-items: center;
+  column-gap: var(--punica-space-16);
+}

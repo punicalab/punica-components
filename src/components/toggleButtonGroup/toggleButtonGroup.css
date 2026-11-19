@@ -1,59 +1,47 @@
 :host {
-  display: flex;
+  display: inline-flex;
+  vertical-align: middle;
 }
 
 :host([orientation='vertical']) {
   flex-direction: column;
-  flex-wrap: wrap;
-  align-content: flex-start;
 }
 
-:host([fullwidth]) {
-  width: 100%;
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+:host([full-width]) ::slotted(punica-toggle-button) {
+  flex: 1;
 }
 
-/* Horizontal */
-:host([orientation='horizontal']) ::slotted(punica-toggle-button:first-child),
-:host([orientation='horizontal'])
-  ::slotted(punica-toggle-button:not(:last-child)) {
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+/* Joined buttons: inner corners square, borders shared. */
+:host(:not([orientation='vertical'])) ::slotted(punica-toggle-button:not(:last-child)) {
+  --punica-toggle-button-radius-start-end: 0;
+  --punica-toggle-button-radius-end-end: 0;
+}
+:host(:not([orientation='vertical'])) ::slotted(punica-toggle-button:not(:first-child)) {
+  --punica-toggle-button-radius-start-start: 0;
+  --punica-toggle-button-radius-end-start: 0;
+  margin-inline-start: calc(-1 * var(--punica-border-width));
 }
 
-:host([orientation='horizontal']) ::slotted(punica-toggle-button:last-child),
-:host([orientation='horizontal'])
-  ::slotted(punica-toggle-button:not(:first-child)) {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
+:host([orientation='vertical']) ::slotted(punica-toggle-button) {
+  display: flex;
+}
+:host([orientation='vertical']) ::slotted(punica-toggle-button:not(:last-child)) {
+  --punica-toggle-button-radius-end-start: 0;
+  --punica-toggle-button-radius-end-end: 0;
+}
+:host([orientation='vertical']) ::slotted(punica-toggle-button:not(:first-child)) {
+  --punica-toggle-button-radius-start-start: 0;
+  --punica-toggle-button-radius-start-end: 0;
+  margin-block-start: calc(-1 * var(--punica-border-width));
 }
 
-/* Outlined */
-:host([orientation='horizontal']) ::slotted(punica-toggle-button:first-child),
-:host([orientation='horizontal'])
-  ::slotted(punica-toggle-button:not(:last-child)) {
-  border-right-color: transparent;
-}
-
-/* Outlined */
-:host([orientation='horizontal']) ::slotted(punica-toggle-button:last-child),
-:host([orientation='horizontal'])
-  ::slotted(punica-toggle-button:not(:first-child)) {
-  margin-left: -1px;
-}
-
-/* Vertical */
-:host([orientation='vertical']) ::slotted(punica-toggle-button:first-child),
-:host([orientation='vertical'])
-  ::slotted(punica-toggle-button:not(:last-child)) {
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
-:host([orientation='vertical']) ::slotted(punica-toggle-button:last-child),
-:host([orientation='vertical'])
-  ::slotted(punica-toggle-button:not(:first-child)) {
-  margin-top: -1px;
-  border-top: 1px solid transparent;
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
+/* A pressed or focused button draws its border over its neighbours'. */
+::slotted(punica-toggle-button:state(pressed)),
+::slotted(punica-toggle-button:focus-within) {
+  position: relative;
+  z-index: 1;
 }

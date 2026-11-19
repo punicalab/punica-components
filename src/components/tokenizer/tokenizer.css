@@ -1,0 +1,115 @@
+:host {
+  --punica-tokenizer-radius: var(--punica-radius);
+  --punica-tokenizer-height: var(--punica-size-md);
+  --punica-tokenizer-padding: var(--punica-space-8);
+  --punica-tokenizer-border-color: var(--punica-color-border);
+  --punica-tokenizer-background: transparent;
+  --punica-tokenizer-min-width: 240px;
+  --punica-tokenizer-token-background: var(--punica-color-neutral-light);
+  --punica-tokenizer-token-radius: var(--punica-radius-full);
+  --punica-tokenizer-listbox-max-height: 250px;
+
+  --_height: var(--punica-tokenizer-height);
+  --_pad: var(--punica-tokenizer-padding);
+  --_radius: var(--punica-tokenizer-radius);
+  --_border: var(--punica-tokenizer-border-color);
+  --_bg: var(--punica-tokenizer-background);
+  --_list-max-height: var(--punica-tokenizer-listbox-max-height);
+
+  display: inline-flex;
+  vertical-align: middle;
+  min-inline-size: var(--punica-tokenizer-min-width);
+}
+
+:host([size='small']) {
+  --punica-tokenizer-height: var(--punica-size-sm);
+}
+:host([size='large']) {
+  --punica-tokenizer-height: var(--punica-size-lg);
+  --punica-tokenizer-padding: var(--punica-space-12);
+}
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+
+.field {
+  flex-wrap: wrap;
+  gap: var(--punica-space-4);
+  padding-block: var(--punica-space-4);
+  cursor: text;
+}
+
+.tokens {
+  display: contents;
+}
+
+/* A small field stays 28px tall with a token in it: a smaller token, less padding. */
+:host([size='small']) .field {
+  padding-block: var(--punica-space-2);
+}
+:host([size='small']) .token,
+:host([size='small']) input.control {
+  min-block-size: var(--punica-space-20);
+}
+
+.token {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-4);
+  max-inline-size: 100%;
+  padding-inline: var(--punica-space-8) var(--punica-space-4);
+  min-block-size: var(--punica-space-24);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-tokenizer-token-radius);
+  background: var(--punica-tokenizer-token-background);
+  color: var(--punica-color-text);
+  font-size: var(--punica-font-size-xs);
+  cursor: default;
+  user-select: none;
+}
+
+.token:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.token-label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove {
+  all: unset;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-space-16);
+  block-size: var(--punica-space-16);
+  border-radius: var(--punica-radius-full);
+  cursor: pointer;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+.remove:hover {
+  background: var(--punica-color-hover);
+}
+.remove:focus-visible {
+  outline: var(--punica-focus-ring);
+}
+.remove:disabled {
+  display: none;
+}
+
+input.control {
+  flex: 1 1 var(--punica-space-80);
+  min-block-size: var(--punica-space-24);
+}
+
+@media (forced-colors: active) {
+  .token {
+    border-color: CanvasText;
+  }
+}

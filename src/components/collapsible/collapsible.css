@@ -1,0 +1,39 @@
+:host {
+  --punica-collapsible-duration: var(--punica-duration);
+
+  display: block;
+}
+
+.content {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows var(--punica-collapsible-duration) var(--punica-ease),
+    visibility 0s linear var(--punica-collapsible-duration);
+}
+
+:host([open]) .content {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition: grid-template-rows var(--punica-collapsible-duration) var(--punica-ease), visibility 0s;
+}
+
+.clip {
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+:host([open]) .clip {
+  overflow: visible;
+}
+
+::slotted([slot='trigger']:focus-visible) {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+@media (forced-colors: active) {
+  ::slotted([slot='trigger']:focus-visible) {
+    outline-color: Highlight;
+  }
+}

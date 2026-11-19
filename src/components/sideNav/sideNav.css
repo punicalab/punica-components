@@ -1,0 +1,101 @@
+:host {
+  --punica-side-nav-width: 16rem;
+  --punica-side-nav-rail-width: calc(var(--punica-size-md) + 2 * var(--punica-space-8) + var(--punica-border-width));
+  --punica-side-nav-background: var(--punica-color-surface);
+  --punica-side-nav-padding: var(--punica-space-8);
+
+  display: block;
+  inline-size: var(--punica-side-nav-width);
+  block-size: 100%;
+  transition: inline-size var(--punica-duration) var(--punica-ease);
+}
+
+:host([collapsed]) {
+  inline-size: var(--punica-side-nav-rail-width);
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  border-inline-end: var(--punica-border-width) solid var(--punica-color-border);
+  background: var(--punica-side-nav-background);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--punica-space-8);
+  padding: var(--punica-side-nav-padding);
+}
+:host([collapsed]) .header {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.items {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  padding: var(--punica-side-nav-padding);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.footer {
+  padding: var(--punica-side-nav-padding);
+}
+.footer:not(:has(slot:has-slotted)) {
+  padding: 0;
+}
+
+.collapse {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-size-md);
+  block-size: var(--punica-size-md);
+  margin-inline-start: auto;
+  border-radius: var(--punica-radius);
+  font-size: var(--punica-font-size-lg);
+  cursor: pointer;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+:host([collapsed]) .collapse {
+  margin-inline-start: 0;
+}
+.collapse:hover {
+  background: var(--punica-color-hover);
+}
+.collapse:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
+}
+
+.collapse .icon {
+  transition: transform var(--punica-duration) var(--punica-ease);
+}
+:host([collapsed]) .collapse .icon,
+.collapse:dir(rtl) .icon {
+  transform: scaleX(-1);
+}
+:host([collapsed]) .collapse:dir(rtl) .icon {
+  transform: none;
+}
+
+@media (forced-colors: active) {
+  nav {
+    border-color: CanvasText;
+  }
+}
+
+:host([no-collapse]) .collapse {
+  display: none;
+}

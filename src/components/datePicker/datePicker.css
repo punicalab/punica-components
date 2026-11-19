@@ -1,81 +1,36 @@
 :host {
-  min-width: 250px;
+  --punica-date-picker-radius: var(--punica-radius);
+  --punica-date-picker-height: var(--punica-size-md);
+  --punica-date-picker-padding: var(--punica-space-12);
+  --punica-date-picker-border-color: var(--punica-color-border);
+  --punica-date-picker-background: transparent;
+  --punica-date-picker-min-width: 250px;
+  --punica-date-picker-panel-padding: var(--punica-space-12);
+
+  --_height: var(--punica-date-picker-height);
+  --_pad: var(--punica-date-picker-padding);
+  --_radius: var(--punica-date-picker-radius);
+  --_border: var(--punica-date-picker-border-color);
+  --_bg: var(--punica-date-picker-background);
+
   display: inline-flex;
-  flex-wrap: nowrap;
+  vertical-align: middle;
+  min-inline-size: var(--punica-date-picker-min-width);
 }
 
-#calendar-container {
+:host([size='small']) {
+  --punica-date-picker-height: var(--punica-size-sm);
+  --punica-date-picker-padding: var(--punica-space-8);
+}
+:host([size='large']) {
+  --punica-date-picker-height: var(--punica-size-lg);
+  --punica-date-picker-padding: var(--punica-space-16);
+}
+:host([full-width]) {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  inline-size: 100%;
 }
 
-#calendar-header {
-  width: 100%;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: space-between;
-}
-
-#calendar-header #navigation-month {
-  display: block;
-}
-
-.days-row,
-.dates {
-  display: grid;
-  gap: var(--spacing-8);
-  grid-template-columns: repeat(7, 1fr);
-  justify-items: center;
-}
-
-.days-row {
-  margin-top: var(--spacing-16);
-  margin-bottom: var(--spacing-16);
-  padding-bottom: var(--spacing-18);
-  border-bottom: 1px solid black;
-}
-
-.days-row > * {
-  text-align: center;
-}
-
-.dates button {
-  position: relative;
-  border: 0;
-  padding: 0;
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  border: 1px solid transparent;
-  background-color: var(--white);
-  color: var(--text-primary);
-  cursor: pointer;
-}
-
-.dates button:not(.day-is-disabled):hover {
-  background-color: var(--primary-light);
-  transition: all 0.2s ease-in-out;
-}
-
-.dates button.day-is-today {
-  border-color: var(--primary-main);
-}
-
-.dates button.day-is-other-month {
-  color: var(--neutral-dark);
-}
-
-.dates button.day-is-selected {
-  background-color: var(--primary-main);
-  border-color: none;
-  color: var(--white);
-}
-
-.dates button.day-is-disabled {
-  background: var(--neutral-light);
-  color: var(--neutral-main);
-  box-shadow: none;
-  cursor: not-allowed;
+[part='panel'] {
+  padding: var(--punica-date-picker-panel-padding);
 }

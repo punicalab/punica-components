@@ -1,0 +1,46 @@
+:host {
+  --punica-listbox-background: var(--punica-color-surface);
+  --punica-listbox-padding: var(--punica-space-8);
+  --punica-listbox-radius: var(--punica-radius);
+  --punica-listbox-max-height: none;
+  --punica-listbox-border-color: var(--punica-color-border);
+
+  display: block;
+  max-block-size: var(--punica-listbox-max-height);
+  padding-block: var(--punica-listbox-padding);
+  overflow-y: auto;
+  border: var(--punica-border-width) solid var(--punica-listbox-border-color);
+  border-radius: var(--punica-listbox-radius);
+  background: var(--punica-listbox-background);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+:host([orientation='horizontal']) {
+  display: flex;
+  padding-block: 0;
+  padding-inline: var(--punica-listbox-padding);
+  overflow: auto hidden;
+}
+
+:host([disabled]),
+:host(:state(disabled)) {
+  opacity: var(--punica-disabled-opacity);
+}
+
+:host([disabled]) ::slotted(*),
+:host(:state(disabled)) ::slotted(*) {
+  cursor: default;
+  pointer-events: none;
+}
+
+@media (forced-colors: active) {
+  :host {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+  :host([disabled]),
+  :host(:state(disabled)) {
+    color: GrayText;
+    opacity: 1;
+  }
+}

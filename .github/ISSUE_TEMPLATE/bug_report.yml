@@ -1,0 +1,39 @@
+name: Bug report
+description: An element does something it should not, or does not do what it should.
+labels: [bug]
+body:
+  - type: input
+    id: element
+    attributes:
+      label: Element
+      description: The tag, for example `punica-select`.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: '`@punica/components` version.'
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      description: For example Chrome 131 on macOS 15.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The smallest HTML that shows it, and what you did (click, key presses, screen reader).
+      render: html
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected and what happened
+    validations:
+      required: true

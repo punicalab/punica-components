@@ -1,10 +1,36 @@
 :host {
+  --punica-qr-code-size: var(--punica-space-128);
+  --punica-qr-code-foreground: var(--punica-color-black);
+  --punica-qr-code-background: var(--punica-color-white);
+  --_size: var(--punica-qr-code-size);
+
   display: inline-block;
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  vertical-align: middle;
 }
 
-canvas {
+svg {
   display: block;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.background {
+  fill: var(--punica-qr-code-background);
+}
+
+.foreground {
+  fill: var(--punica-qr-code-foreground);
+}
+
+:host(:state(empty)) svg {
+  visibility: hidden;
+}
+
+/* A scanner needs the two colours as they are, whatever the user's palette. */
+@media (forced-colors: active) {
+  svg {
+    forced-color-adjust: none;
+  }
 }

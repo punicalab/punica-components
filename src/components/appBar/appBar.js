@@ -1,65 +1,39 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './appBar.css';
 
-  template.innerHTML = `<slot></slot><style></style>`;
+/**
+ * The bar across the top of an application: its name, its navigation, the
+ * account.
+ *
+ * @element punica-app-bar
+ *
+ * @attr {'static' | 'sticky' | 'fixed'} position - How the bar holds its place while the page scrolls, `static` by default.
+ * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Background, `primary` by default; `neutral` is the surface colour with a line under it.
+ *
+ * @slot - The middle of the bar, a title or a `punica-toolbar`.
+ * @slot start - Leading content, a menu button or a logo.
+ * @slot end - Trailing content, the account.
+ *
+ * @csspart content - The wrapper around the default slot.
+ *
+ * @cssprop --punica-app-bar-background - Background.
+ * @cssprop --punica-app-bar-color - Text colour.
+ * @cssprop --punica-app-bar-shadow - Shadow under the bar.
+ * @cssprop --punica-app-bar-padding - Inline padding.
+ * @cssprop --punica-app-bar-gap - Space between the three areas.
+ */
+export class PunicaAppBar extends PunicaElement {
+  static properties = {
+    position: {},
+    color: {}
+  };
 
-  class AppBar extends PunicaBase {
-    static get booleanAttributes() {
-      return [];
-    }
-    #shadow = this.attachShadow({ mode: 'open' });
+  static styles = styles;
+  static template = `<slot name="start"></slot><div part="content" class="content"><slot></slot></div><slot name="end"></slot>`;
 
-    /**
-     *
-     */
-    get color() {
-      return this.getAttribute('color') || 'primary';
-    }
-
-    /**
-     *
-     */
-    set color(val) {
-      this.setAttribute('color', val);
-    }
-
-    /**
-     *
-     */
-    get position() {
-      return this.getAttribute('position') || 'fixed';
-    }
-
-    /**
-     *
-     */
-    set position(val) {
-      this.setAttribute('position', val);
-    }
-
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return ['color', 'position'];
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
-
-    /**
-     *
-     */
-    connectedCallback() {
-      this.setAttribute('role', 'header');
-    }
+  update() {
+    this.internals.role = 'banner';
   }
+}
 
-  customElements.define('punica-app-bar', AppBar);
-})();
+define('punica-app-bar', PunicaAppBar);

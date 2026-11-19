@@ -1,8 +1,85 @@
-#pages {
-  display: flex;
-  gap: 4px;
+:host {
+  --punica-pagination-gap: var(--punica-space-4);
+  --punica-pagination-size: var(--punica-size-sm);
+  --punica-pagination-radius: var(--punica-radius);
+  --punica-pagination-current-background: var(--punica-color-primary);
+  --punica-pagination-current-color: var(--punica-color-on-accent);
+
+  display: inline-block;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
 }
 
-#pages punica-typography {
-  line-height: 3;
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--punica-pagination-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--punica-pagination-size);
+  block-size: var(--punica-pagination-size);
+  padding-inline: var(--punica-space-6);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-pagination-radius);
+  font: inherit;
+  font-weight: var(--punica-font-weight-semi-bold);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--punica-duration) var(--punica-ease);
+}
+
+button:hover {
+  background: var(--punica-color-hover);
+}
+
+button[aria-current='page'] {
+  background: var(--punica-pagination-current-background);
+  color: var(--punica-pagination-current-color);
+}
+
+button:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+button:disabled {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+button:disabled:hover:not([aria-current]) {
+  background: none;
+}
+
+.ellipsis {
+  min-inline-size: var(--punica-pagination-size);
+  text-align: center;
+  color: var(--punica-color-text-muted);
+}
+
+:host(:dir(rtl)) .previous .icon,
+:host(:dir(rtl)) .next .icon {
+  transform: scaleX(-1);
+}
+
+@media (forced-colors: active) {
+  button[aria-current='page'] {
+    border-color: Highlight;
+  }
+  button:disabled {
+    color: GrayText;
+    opacity: 1;
+  }
 }

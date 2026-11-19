@@ -1,125 +1,122 @@
 :host {
-  --toggle-button-border-radius: var(--root-border-radius);
-}
+  --_accent: var(--punica-color-primary);
+  --_accent-strong: var(--punica-color-primary-dark);
+  --punica-toggle-button-height: var(--punica-size-md);
+  --punica-toggle-button-padding: var(--punica-space-16);
+  --punica-toggle-button-radius: var(--punica-radius);
+  --punica-toggle-button-border-color: var(--punica-color-border-strong);
 
-:host {
   display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  transition: background 0.15s ease, opacity 0.15s ease, transform 0.08s ease;
-}
-
-:host(:focus-visible) {
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--toggle-color) 35%, #fff);
-}
-
-:host([selected]) {
-  background: var(--bg-on);
-  color: var(--fg);
-}
-
-:host([disabled]) {
-  cursor: not-allowed;
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.dot {
-  width: 0.85rem;
-  height: 0.85rem;
-  border-radius: 999px;
-  background: currentColor;
-  opacity: 0.25;
-  transform: translateX(0);
-  transition: 0.15s ease;
-}
-
-:host([selected]) .dot {
-  opacity: 1;
-}
-
-:host([color='primary']) {
-  background-color: var(--primary-main);
-  color: var(--white);
-}
-
-:host([color='primary']):host(:hover) {
-  background-color: var(--primary-dark);
-  color: var(--white);
+  vertical-align: middle;
 }
 
 :host([color='secondary']) {
-  background-color: var(--secondary-main);
-  color: var(--white);
+  --_accent: var(--punica-color-secondary);
+  --_accent-strong: var(--punica-color-secondary-dark);
 }
-
-:host([color='secondary']):host(:hover) {
-  background-color: var(--secondary-dark);
-  color: var(--white);
-}
-
 :host([color='error']) {
-  background-color: var(--error-main);
-  color: var(--white);
+  --_accent: var(--punica-color-error);
+  --_accent-strong: var(--punica-color-error-dark);
 }
-
-:host([color='error']):host(:hover) {
-  background-color: var(--error-dark);
-  color: var(--white);
-}
-
 :host([color='warning']) {
-  background-color: var(--warning-main);
-  color: var(--white);
+  --_accent: var(--punica-color-warning);
+  --_accent-strong: var(--punica-color-warning-dark);
 }
-
-:host([color='warning']):host(:hover) {
-  background-color: var(--warning-dark);
-  color: var(--white);
-}
-
 :host([color='info']) {
-  background-color: var(--info-main);
-  color: var(--white);
+  --_accent: var(--punica-color-info);
+  --_accent-strong: var(--punica-color-info-dark);
 }
-
-:host([color='info']):host(:hover) {
-  background-color: var(--info-dark);
-  color: var(--white);
-}
-
 :host([color='success']) {
-  background-color: var(--success-main);
-  color: var(--white);
+  --_accent: var(--punica-color-success);
+  --_accent-strong: var(--punica-color-success-dark);
 }
-
-:host([color='success']):host(:hover) {
-  background-color: var(--success-dark);
-  color: var(--white);
-}
-
-:host([color='ghost']) {
-  background-color: transparent;
-  color: var(--secondary-main);
+:host([color='neutral']) {
+  --_accent: var(--punica-color-neutral-dark);
+  --_accent-strong: var(--punica-color-neutral-dark);
 }
 
 :host([size='small']) {
-  padding: var(--spacing-6) var(--spacing-8);
-  height: 32px;
+  --punica-toggle-button-height: var(--punica-size-sm);
+  --punica-toggle-button-padding: var(--punica-space-8);
 }
-
-:host([size='medium']) {
-  padding: var(--spacing-8) var(--spacing-16);
-  height: 40px;
-}
-
 :host([size='large']) {
-  padding: var(--spacing-12) var(--spacing-28);
-  height: 48px;
+  --punica-toggle-button-height: var(--punica-size-lg);
+  --punica-toggle-button-padding: var(--punica-space-28);
 }
 
-:host([rounded]) {
-  border-radius: var(--toggle-button-border-radius);
+button {
+  all: unset;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--punica-space-6);
+  inline-size: 100%;
+  min-block-size: var(--punica-toggle-button-height);
+  padding-inline: var(--punica-toggle-button-padding);
+  border: var(--punica-border-width) solid var(--punica-toggle-button-border-color);
+  border-start-start-radius: var(--punica-toggle-button-radius-start-start, var(--punica-toggle-button-radius));
+  border-start-end-radius: var(--punica-toggle-button-radius-start-end, var(--punica-toggle-button-radius));
+  border-end-start-radius: var(--punica-toggle-button-radius-end-start, var(--punica-toggle-button-radius));
+  border-end-end-radius: var(--punica-toggle-button-radius-end-end, var(--punica-toggle-button-radius));
+  background: var(--punica-color-surface);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  font-weight: var(--punica-font-weight-semi-bold);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--punica-duration) var(--punica-ease),
+    border-color var(--punica-duration) var(--punica-ease),
+    color var(--punica-duration) var(--punica-ease);
+}
+
+button:hover {
+  background: color-mix(in srgb, var(--punica-color-text) 8%, var(--punica-color-surface));
+}
+
+:host(:state(pressed)) button {
+  background: var(--_accent);
+  border-color: var(--_accent);
+  color: var(--punica-color-on-accent);
+}
+:host(:state(pressed)) button:hover {
+  background: var(--_accent-strong);
+  border-color: var(--_accent-strong);
+}
+
+button:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+  z-index: 1;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (forced-colors: active) {
+  button {
+    border-color: ButtonText;
+  }
+  :host(:state(pressed)) button {
+    background: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+  button:disabled {
+    color: GrayText;
+    border-color: GrayText;
+    opacity: 1;
+  }
 }

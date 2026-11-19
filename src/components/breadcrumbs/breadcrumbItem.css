@@ -1,0 +1,52 @@
+:host {
+  --punica-breadcrumb-item-color: var(--punica-color-primary);
+  --punica-breadcrumb-item-current-color: var(--punica-color-text);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-breadcrumb-item-gap, var(--punica-space-6));
+  font-family: var(--punica-font-family);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-4);
+  border-radius: var(--punica-radius-sm);
+  color: var(--punica-breadcrumb-item-current-color);
+  text-decoration: none;
+}
+
+.link[href] {
+  color: var(--punica-breadcrumb-item-color);
+  cursor: pointer;
+}
+
+.link[href]:hover {
+  text-decoration: underline;
+}
+
+.link[aria-current='page'] {
+  color: var(--punica-breadcrumb-item-current-color);
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+
+.link:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.separator {
+  display: var(--punica-breadcrumb-item-separator-display, inline-flex);
+  color: var(--punica-color-text-muted);
+}
+
+:host(:dir(rtl)) .separator .icon {
+  transform: scaleX(-1);
+}
+
+@media (forced-colors: active) {
+  .link[href] {
+    color: LinkText;
+  }
+}

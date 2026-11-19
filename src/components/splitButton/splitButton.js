@@ -1,288 +1,92 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import { icons } from '../../core/icons.js';
+import '../menu/menu.js';
+import styles from './splitButton.css';
 
-  template.innerHTML = `
-  <style></style>
-  <div class="group">
-    <punica-button class="btn-main" data-role="main" rounded>
-      <slot name="label"></slot>
-    </punica-button>
+/**
+ * A button for the usual action joined to a menu button for the others.
+ *
+ * It looks like a `punica-button` and takes the same `variant`, `color` and
+ * `size`. The menu is a `punica-menu`: its items are the children given
+ * `slot="menu"`.
+ *
+ * @element punica-split-button
+ *
+ * @attr {'filled' | 'outlined' | 'text'} variant - Visual weight, `filled` by default.
+ * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Accent, `primary` by default.
+ * @attr {'small' | 'medium' | 'large'} size - Control height, `medium` by default.
+ * @attr {boolean} disabled - Neither button takes clicks or focus.
+ * @attr {boolean} full-width - Fills its container's inline size.
+ * @attr {string} label - Accessible name of the primary button, for one with no text.
+ * @attr {string} label-menu - Accessible name of the menu button, `More options` by default.
+ *
+ * @slot - The primary button's label.
+ * @slot menu - The menu's items: `punica-menu-item` and its siblings.
+ *
+ * @fires punica-action - The primary button was activated. `detail` is `{}`.
+ * @fires punica-select - A menu item was chosen. `detail` is `{ value, item }`. Cancelable: preventing it keeps the menu open.
+ * @fires punica-open - The menu opened.
+ * @fires punica-close - The menu closed. `detail.reason` is `select`, `escape`, `outside`, `tab` or `api`.
+ *
+ * @csspart base - The wrapper around both buttons.
+ * @csspart primary - The primary button.
+ * @csspart toggle - The menu button.
+ * @csspart menu - The `punica-menu`.
+ *
+ * @cssprop --punica-split-button-radius - Corner radius of the outer corners.
+ * @cssprop --punica-split-button-height - Minimum block size.
+ * @cssprop --punica-split-button-padding - Inline padding of the primary button.
+ */
+export class PunicaSplitButton extends PunicaElement {
+  static properties = {
+    variant: {},
+    color: {},
+    size: {},
+    disabled: { type: Boolean },
+    fullWidth: { type: Boolean },
+    label: {},
+    labelMenu: { default: 'More options' }
+  };
 
-    <punica-toggle-button
-      color="primary"
-      class="btn-toggle"
-      data-role="toggle"
-      mode="switch"
-      rounded
-      aria-haspopup="menu"
-      aria-expanded="false"
-      aria-label="More options"
-    >
-      <span slot="active" class="caret-up" aria-hidden="true"></span>
-      <span slot="passive" class="caret" aria-hidden="true"></span>
-    </punica-toggle-button>
-  </div>
+  static styles = styles;
+  static shadowOptions = { delegatesFocus: true };
+  static template = `
+    <div part="base" class="group" role="group">
+      <button part="primary" type="button"><slot></slot></button>
+      <punica-menu part="menu" align="end">
+        <button slot="trigger" part="toggle" type="button">${icons.chevronDown}</button>
+        <slot name="menu"></slot>
+      </punica-menu>
+    </div>
+  `;
 
-  <slot></slot>`;
+  #primary = this.$('[part="primary"]');
+  #toggle = this.$('[part="toggle"]');
 
-  class PunicaSplitButton extends PunicaBase {
-    static get booleanAttributes() {
-      return ['disabled', 'rounded', 'open', 'fullwidth'];
-    }
-    #shadow = this.attachShadow({ mode: 'open' });
-    #btnMain;
-    #btnToggle;
-    #menu;
-
-    static get observedAttributes() {
-      return [
-        'open',
-        'placement',
-        'disabled',
-        'variant',
-        'size',
-        'color',
-        'rounded',
-        'fullwidth',
-        'label',
-        'icon'
-      ];
-    }
-
-    constructor() {
-      super();
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
-
-    connectedCallback() {
-      super.connectedCallback();
-
-      this.#btnMain = this.#shadow.querySelector('[data-role="main"]');
-      this.#btnToggle = this.#shadow.querySelector('[data-role="toggle"]');
-      this.#menu = this.querySelector('punica-menu');
-
-      if (!this.hasAttribute('size')) {
-        this.setAttribute('size', 'medium');
-      }
-
-      this.#forwardButtonAttrs();
-
-      // primary click
-      this.#btnMain?.addEventListener('click', this.#onPrimaryClick);
-
-      // toggle controls open state
-      this.#btnToggle?.addEventListener('change', () => {
-        const selected = this.#btnToggle.selected;
-        if (selected && !this.open) this.openMenu();
-        if (!selected && this.open) this.close();
-      });
-
-      this.#menu?.addEventListener('close', this.close);
-      this.#menu?.addEventListener('menu-item-click', (e) => {
-        this.dispatchEvent(
-          new CustomEvent('select', {
-            bubbles: true,
-            composed: true,
-            detail: e.detail
-          })
-        );
-      });
-    }
-
-    disconnectedCallback() {
-      this.close();
-      this.#btnMain?.removeEventListener('click', this.#onPrimaryClick);
-      this.#btnToggle?.removeEventListener('change', this.toggle);
-      this.#menu?.removeEventListener('close', this.close);
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
-        return;
-      }
-
-      if (name === 'disabled') {
-        const dis = this.disabled;
-        dis
-          ? (this.#btnMain?.setAttribute('disabled', ''),
-            this.#btnToggle?.setAttribute('disabled', ''))
-          : (this.#btnMain?.removeAttribute('disabled'),
-            this.#btnToggle?.removeAttribute('disabled'));
-      } else if (
-        [
-          'variant',
-          'size',
-          'color',
-          'rounded',
-          'fullwidth',
-          'label',
-          'icon'
-        ].includes(name)
-      ) {
-        this.#forwardButtonAttrs();
-      } else if (name === 'placement' && this.#menu) {
-        this.#menu.setAttribute('placement', this.placement);
-      } else if (name === 'open') {
-        // keep toggle selected state in sync
-        const isOpen = this.open;
-        if (this.#btnToggle && this.#btnToggle.selected !== isOpen) {
-          this.#btnToggle.selected = isOpen;
-          this.#btnToggle.setAttribute('aria-expanded', String(isOpen));
-        }
-      }
-    }
-
-    get open() {
-      return this.hasAttribute('open');
-    }
-    set open(v) {
-      v ? this.openMenu() : this.close();
-    }
-
-    get placement() {
-      return this.getAttribute('placement') || 'bottom';
-    }
-    set placement(v) {
-      if (!v) this.removeAttribute('placement');
-      else this.setAttribute('placement', v);
-      this.#menu?.setAttribute('placement', this.placement);
-    }
-
-    get disabled() {
-      return this.hasAttribute('disabled');
-    }
-    set disabled(v) {
-      v ? this.setAttribute('disabled', '') : this.removeAttribute('disabled');
-    }
-
-    get variant() {
-      return this.getAttribute('variant') || undefined;
-    }
-    set variant(v) {
-      v ? this.setAttribute('variant', v) : this.removeAttribute('variant');
-    }
-
-    get size() {
-      return this.getAttribute('size') || 'medium';
-    }
-    set size(v) {
-      v ? this.setAttribute('size', v) : this.removeAttribute('size');
-    }
-
-    get color() {
-      return this.getAttribute('color') || undefined;
-    }
-    set color(v) {
-      v ? this.setAttribute('color', v) : this.removeAttribute('color');
-    }
-
-    get rounded() {
-      return this.hasAttribute('rounded');
-    }
-    set rounded(v) {
-      v ? this.setAttribute('rounded', '') : this.removeAttribute('rounded');
-    }
-
-    get fullwidth() {
-      return this.hasAttribute('fullwidth');
-    }
-    set fullwidth(v) {
-      v ? this.setAttribute('fullwidth', '') : this.removeAttribute('fullwidth');
-    }
-
-    get label() {
-      return this.getAttribute('label') || undefined;
-    }
-    set label(v) {
-      v ? this.setAttribute('label', v) : this.removeAttribute('label');
-    }
-
-    get icon() {
-      return this.getAttribute('icon') || undefined;
-    }
-    set icon(v) {
-      v ? this.setAttribute('icon', v) : this.removeAttribute('icon');
-    }
-
-    /* --- public api --- */
-    openMenu = () => {
-      if (this.disabled || this.open) return;
-      this.setAttribute('open', '');
-
-      if (this.#btnToggle && !this.#btnToggle.selected)
-        this.#btnToggle.selected = true;
-      this.#btnToggle?.setAttribute('aria-expanded', 'true');
-
-      if (this.#menu && this.#btnToggle) {
-        const r = this.#btnToggle.getBoundingClientRect();
-        this.#menu.setAttribute('top', String(r.top));
-        this.#menu.setAttribute('left', String(r.left));
-        this.#menu.setAttribute('width', String(r.width));
-        this.#menu.setAttribute('height', String(r.height));
-        this.#menu.setAttribute('bottom', String(r.bottom));
-        this.#menu.setAttribute('placement', this.placement);
-        this.#menu.setAttribute('open', '');
-      }
-    };
-
-    close = () => {
-      if (!this.open) return;
-      this.removeAttribute('open');
-
-      if (this.#btnToggle?.selected) this.#btnToggle.selected = false;
-      this.#btnToggle?.setAttribute('aria-expanded', 'false');
-
-      this.#menu?.removeAttribute('open');
-      if (this.#menu)
-        ['top', 'left', 'width', 'height', 'bottom'].forEach((a) =>
-          this.#menu.removeAttribute(a)
-        );
-    };
-
-    toggle = () => {
-      this.open ? this.close() : this.openMenu();
-    };
-
-    #onPrimaryClick = () => {
-      if (this.disabled) return;
-      this.dispatchEvent(
-        new CustomEvent('primary-click', { bubbles: true, composed: true })
-      );
-    };
-
-    #forwardButtonAttrs() {
-      const mainAttrs = [
-        'variant',
-        'size',
-        'color',
-        'rounded',
-        'fullwidth',
-        'disabled',
-        'label',
-        'icon'
-      ];
-      mainAttrs.forEach((a) => {
-        if (a === 'size') {
-          this.#btnMain?.setAttribute('size', this.size);
-          return;
-        }
-        const v = this.getAttribute(a);
-        if (v === null) this.#btnMain?.removeAttribute(a);
-        else this.#btnMain?.setAttribute(a, v === '' ? '' : String(v));
-      });
-
-      const toggleAttrs = ['size', 'color', 'rounded', 'disabled'];
-      toggleAttrs.forEach((a) => {
-        if (a === 'size') {
-          this.#btnToggle?.setAttribute('size', this.size);
-          return;
-        }
-        const v = this.getAttribute(a);
-        if (v === null) this.#btnToggle?.removeAttribute(a);
-        else this.#btnToggle?.setAttribute(a, v === '' ? '' : String(v));
-      });
-    }
+  constructor() {
+    super();
+    this.#primary.addEventListener('click', () => this.emit('action', {}));
   }
 
-  customElements.define('punica-split-button', PunicaSplitButton);
-})();
+  /** The `punica-menu` that holds the other actions. */
+  get menu() {
+    return this.$('punica-menu');
+  }
+
+  /** Moves focus to the primary button. */
+  focus(options) {
+    this.#primary.focus(options);
+  }
+
+  update() {
+    this.#primary.disabled = this.disabled;
+    this.#toggle.disabled = this.disabled;
+    if (this.label) this.#primary.setAttribute('aria-label', this.label);
+    else this.#primary.removeAttribute('aria-label');
+    this.#toggle.setAttribute('aria-label', this.labelMenu);
+    this.menu.label = this.labelMenu;
+    if (this.disabled) this.menu.hide?.();
+  }
+}
+
+define('punica-split-button', PunicaSplitButton);

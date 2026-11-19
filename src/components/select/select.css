@@ -1,68 +1,62 @@
+/* audit-allow: pointer-without-focus-visible (focus is shown on the field box by field.css) */
 :host {
-  --select-border-radius: var(--root-border-radius);
-  --select-border-color: var(--neutral-main);
-}
+  --punica-select-radius: var(--punica-radius);
+  --punica-select-height: var(--punica-size-md);
+  --punica-select-padding: var(--punica-space-16);
+  --punica-select-border-color: var(--punica-color-border);
+  --punica-select-background: transparent;
+  --punica-select-min-width: 200px;
+  --punica-select-listbox-max-height: 250px;
 
-:host {
+  --_height: var(--punica-select-height);
+  --_pad: var(--punica-select-padding);
+  --_radius: var(--punica-select-radius);
+  --_border: var(--punica-select-border-color);
+  --_bg: var(--punica-select-background);
+  --_list-max-height: var(--punica-select-listbox-max-height);
+
   display: inline-flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: var(--spacing-8);
-  border-width: 1px;
-  border-style: solid;
-  transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-color: var(--select-border-color);
-  min-width: 200px;
-  color: var(--text-primary);
-}
-
-:host([fullwidth]) {
-  width: 100%;
-}
-
-:host([error]) {
-  border-color: var(--error-main);
-}
-
-:host([focus]) {
-  border-color: var(--primary-main);
-}
-
-:host([rounded]) {
-  border-radius: var(--select-border-radius);
+  vertical-align: middle;
+  min-inline-size: var(--punica-select-min-width);
 }
 
 :host([size='small']) {
-  padding: var(--spacing-6) var(--spacing-12);
-  height: 32px;
+  --punica-select-height: var(--punica-size-sm);
+  --punica-select-padding: var(--punica-space-12);
 }
-
-:host([size='medium']) {
-  padding: var(--spacing-8) var(--spacing-16);
-  height: 40px;
-}
-
 :host([size='large']) {
-  padding: var(--spacing-12) var(--spacing-28);
-  height: 48px;
+  --punica-select-height: var(--punica-size-lg);
+  --punica-select-padding: var(--punica-space-28);
+}
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
 }
 
-:host([disabled]) {
-  background-color: var(--disabled);
-  color: #a0a0a0;
-  pointer-events: none;
+[part='trigger'] {
+  gap: var(--punica-space-8);
+  cursor: pointer;
+  outline: none;
+}
+[part='trigger']:disabled {
+  cursor: default;
 }
 
-#contentWrapper {
-  flex-grow: 1;
-  overflow: hidden;
-}
-
-#content {
-  width: 100%;
-  white-space: nowrap;
+.value {
+  flex: 1 1 auto;
+  min-inline-size: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: block;
-  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.caret {
+  flex: none;
+  display: inline-flex;
+  font-size: var(--punica-font-size);
+  color: var(--punica-color-text-muted);
+  transition: rotate var(--punica-duration) var(--punica-ease);
+}
+:host(:state(open)) .caret {
+  rotate: 180deg;
 }

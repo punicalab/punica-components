@@ -1,0 +1,33 @@
+:host {
+  --punica-autocomplete-radius: var(--punica-radius);
+  --punica-autocomplete-height: var(--punica-size-md);
+  --punica-autocomplete-padding: var(--punica-space-12);
+  --punica-autocomplete-border-color: var(--punica-color-border);
+  --punica-autocomplete-background: transparent;
+  --punica-autocomplete-min-width: 200px;
+  --punica-autocomplete-listbox-max-height: 250px;
+
+  --_height: var(--punica-autocomplete-height);
+  --_pad: var(--punica-autocomplete-padding);
+  --_radius: var(--punica-autocomplete-radius);
+  --_border: var(--punica-autocomplete-border-color);
+  --_bg: var(--punica-autocomplete-background);
+  --_list-max-height: var(--punica-autocomplete-listbox-max-height);
+
+  display: inline-flex;
+  vertical-align: middle;
+  min-inline-size: var(--punica-autocomplete-min-width);
+}
+
+:host([size='small']) {
+  --punica-autocomplete-height: var(--punica-size-sm);
+  --punica-autocomplete-padding: var(--punica-space-8);
+}
+:host([size='large']) {
+  --punica-autocomplete-height: var(--punica-size-lg);
+  --punica-autocomplete-padding: var(--punica-space-16);
+}
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}

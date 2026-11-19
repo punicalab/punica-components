@@ -1,0 +1,104 @@
+:host {
+  --punica-file-input-padding: var(--punica-space-16);
+  --punica-file-input-radius: var(--punica-radius);
+  --punica-file-input-border-color: var(--punica-color-border-strong);
+  --punica-file-input-background: var(--punica-color-surface);
+
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--punica-space-8);
+  padding: var(--punica-file-input-padding);
+  border: var(--punica-border-width) dashed var(--punica-file-input-border-color);
+  border-radius: var(--punica-file-input-radius);
+  background: var(--punica-file-input-background);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+  transition: border-color var(--punica-duration) var(--punica-ease),
+    background-color var(--punica-duration) var(--punica-ease);
+}
+
+:host(:state(dragover)) .base {
+  border-color: var(--punica-color-primary);
+  border-style: solid;
+  background: var(--punica-color-selected);
+}
+
+.native[hidden] {
+  display: none;
+}
+
+.icon {
+  flex: none;
+  font-size: var(--punica-font-size-lg);
+}
+
+button {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--punica-size-sm);
+  padding-inline: var(--punica-space-12);
+  border: var(--punica-border-width) solid var(--punica-color-primary);
+  border-radius: var(--punica-radius);
+  color: var(--punica-color-primary);
+  font-weight: var(--punica-font-weight-semi-bold);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--punica-duration) var(--punica-ease);
+}
+button:hover {
+  background: color-mix(in srgb, var(--punica-color-primary) 12%, transparent);
+}
+button:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+button:disabled {
+  cursor: default;
+}
+
+.list {
+  flex-basis: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-weight: var(--punica-font-weight-semi-bold);
+  overflow-wrap: anywhere;
+}
+.list[hidden] {
+  display: none;
+}
+
+:host([disabled]) .base,
+:host(:state(disabled)) .base {
+  opacity: var(--punica-disabled-opacity);
+}
+
+@media (forced-colors: active) {
+  .base {
+    border-color: ButtonText;
+  }
+  :host(:state(dragover)) .base {
+    border-color: Highlight;
+  }
+  button {
+    border-color: ButtonText;
+  }
+  :host([disabled]) .base,
+  :host(:state(disabled)) .base {
+    border-color: GrayText;
+    color: GrayText;
+    opacity: 1;
+  }
+}

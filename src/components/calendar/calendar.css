@@ -1,0 +1,127 @@
+:host {
+  --punica-calendar-day-size: var(--punica-space-36);
+  --punica-calendar-gap: var(--punica-space-4);
+  --punica-calendar-accent: var(--punica-color-primary);
+  --punica-calendar-range-background: var(--punica-color-selected);
+
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--punica-space-8);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-4);
+}
+
+.title {
+  flex: 1 1 auto;
+  text-align: center;
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+
+.nav {
+  all: unset;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-size-sm);
+  block-size: var(--punica-size-sm);
+  border-radius: var(--punica-radius-full);
+  font-size: var(--punica-font-size);
+  cursor: pointer;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+.nav:hover {
+  background: var(--punica-color-hover);
+}
+.nav:focus-visible {
+  outline: var(--punica-focus-ring);
+}
+.nav:disabled {
+  opacity: var(--punica-disabled-opacity);
+  cursor: default;
+}
+.nav:dir(rtl) .icon {
+  scale: -1 1;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: var(--punica-calendar-gap);
+  margin: 0;
+}
+
+th {
+  inline-size: var(--punica-calendar-day-size);
+  padding-block: var(--punica-space-4) var(--punica-space-8);
+  border-block-end: var(--punica-border-width) solid var(--punica-color-border);
+  color: var(--punica-color-text-muted);
+  font-size: var(--punica-font-size-xs);
+  font-weight: var(--punica-font-weight-semi-bold);
+  text-align: center;
+}
+
+td {
+  inline-size: var(--punica-calendar-day-size);
+  block-size: var(--punica-calendar-day-size);
+  padding: 0;
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-radius-full);
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+td:hover {
+  background: var(--punica-color-hover);
+}
+td:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+td.outside {
+  color: var(--punica-color-text-muted);
+}
+td.today {
+  border-color: var(--punica-calendar-accent);
+}
+td.in-range {
+  background: var(--punica-calendar-range-background);
+}
+td.selected {
+  background: var(--punica-calendar-accent);
+  border-color: var(--punica-calendar-accent);
+  color: var(--punica-color-on-accent);
+}
+td.disabled {
+  background: none;
+  color: var(--punica-color-text-muted);
+  opacity: var(--punica-disabled-opacity);
+  cursor: not-allowed;
+}
+
+@media (forced-colors: active) {
+  td.today {
+    border-color: CanvasText;
+  }
+  td.selected {
+    background: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+  td.in-range {
+    border-color: Highlight;
+  }
+  td.disabled {
+    color: GrayText;
+    opacity: 1;
+  }
+}

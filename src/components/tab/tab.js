@@ -1,175 +1,64 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './tab.css';
 
-  template.innerHTML = `<slot></slot><style></style>`;
+/**
+ * One tab of a `punica-tabs`.
+ *
+ * @element punica-tab
+ *
+ * @attr {string} value - Pairs the tab with the `punica-tab-panel` of the same value; its position when absent.
+ * @attr {boolean} disabled - The tab cannot be focused or selected.
+ * @attr {boolean} selected - The tab is the selected one. Set by `punica-tabs`.
+ *
+ * @slot - The label.
+ * @slot start - Content before the label, an icon.
+ * @slot end - Content after the label.
+ *
+ * @csspart base - The wrapper around the slots.
+ *
+ * @cssprop --punica-tab-padding - Padding of the tab.
+ * @cssprop --punica-tab-color - Text color of an unselected tab.
+ * @cssprop --punica-tab-selected-color - Text color of the selected tab.
+ * @cssprop --punica-tab-hover-background - Background under the pointer.
+ *
+ * @cssstate selected - The tab is the selected one.
+ */
+export class PunicaTab extends PunicaElement {
+  static properties = {
+    value: {},
+    disabled: { type: Boolean },
+    selected: { type: Boolean }
+  };
 
-  class Tab extends PunicaBase {
-    static get booleanAttributes() {
-      return ['fullwidth', 'disabled'];
-    }
-    #shadow = this.attachShadow({ mode: 'open' });
-    #selected = null;
+  static styles = styles;
+  static template = `
+    <span part="base" class="base">
+      <slot name="start"></slot>
+      <slot></slot>
+      <slot name="end"></slot>
+    </span>
+  `;
 
-    /**
-     *
-     */
-    get orientation() {
-      return this.getAttribute('orientation');
-    }
-
-    /**
-     *
-     */
-    set orientation(val) {
-      this.setAttribute('orientation', val);
-    }
-
-    /**
-     *
-     */
-    get fullwidth() {
-      return this.getAttribute('fullwidth');
-    }
-
-    /**
-     *
-     */
-    set fullwidth(val) {
-      this.setAttribute('fullwidth', val);
-    }
-
-    /**
-     *
-     */
-    get disabled() {
-      return this.getAttribute('disabled');
-    }
-
-    /**
-     *
-     */
-    set disabled(val) {
-      this.setAttribute('disabled', val);
-    }
-
-    /**
-     *
-     */
-    get value() {
-      return this.getAttribute('value') || '';
-    }
-
-    /**
-     *
-     */
-    set value(val) {
-      this.setAttribute('value', val);
-    }
-
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return ['fullwidth', 'disabled', 'value', 'orientation'];
-    }
-
-    /**
-     *
-     */
-    fireOnChange() {
-      this.dispatchEvent(
-        new CustomEvent('change', {
-          detail: {
-            value: this.value
-          },
-          bubbles: true,
-          cancelable: false,
-          composed: true
-        })
-      );
-    }
-
-    /**
-     *
-     */
-    onClickItemHandler = (event) => {
-      if (this.#selected) {
-        this.#selected.selected = false;
-      }
-
-      this.#selected = event.currentTarget;
-      this.#selected.selected = true;
-      this.value = this.#selected.value;
-
-      this.fireOnChange();
-    };
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
-
-    /**
-     *
-     * @param {*} item
-     */
-    itemAdd(item) {
-      item.addEventListener('click', this.onClickItemHandler);
-    }
-
-    /**
-     *
-     * @param {*} item
-     */
-    itemRemove(item) {
-      item.removeEventListener('click', this.onClickItemHandler);
-    }
-
-    /**
-     *
-     * @param {*} name
-     * @param {*} oldValue
-     * @param {*} newValue
-     */
-    attributeChangedCallback(name, oldValue, newValue) {
-      if (this.normalizeBooleanAttributeIfNeeded(name, newValue)) {
-        return;
-      }
-
-      switch (name) {
-        case 'value':
-          if (this.#selected && this.#selected.value == newValue) {
-            return;
-          }
-
-          if (this.#selected) {
-            this.#selected.selected = false;
-            this.#selected = null;
-          }
-
-          if (newValue) {
-            const nodelist = this.childNodes;
-            const n = nodelist.length;
-            let i;
-
-            for (i = 0; i < n; i++) {
-              const item = nodelist[i];
-
-              if (item.value == newValue) {
-                this.#selected = item;
-                this.#selected.selected = true;
-                this.value = this.#selected.value;
-              }
-            }
-          }
-          break;
-      }
-    }
+  constructor() {
+    super();
+    this.internals.role = 'tab';
   }
 
-  customElements.define('punica-tab', Tab);
-})();
+  connected() {
+    // The container shows tabs in its tab list slot.
+    if (!this.hasAttribute('slot')) this.slot = 'tab';
+  }
+
+  update(changed) {
+    this.internals.ariaSelected = String(this.selected);
+    // A disabled set disables every tab in it.
+    const off = this.disabled || !!(/** @type {any} */ (this.parentElement)?.disabled);
+    this.internals.ariaDisabled = off ? 'true' : null;
+    this.toggleState('selected', this.selected);
+    if (changed.has('value') || changed.has('disabled')) {
+      /** @type {any} */ (this.parentElement)?.requestUpdate?.();
+    }
+  }
+}
+
+define('punica-tab', PunicaTab);

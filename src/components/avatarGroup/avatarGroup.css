@@ -1,0 +1,111 @@
+:host {
+  --punica-avatar-group-size: var(--punica-size-md);
+  --punica-avatar-group-overlap: calc(var(--punica-avatar-group-size) / 4);
+  --punica-avatar-group-ring-width: var(--punica-space-2);
+  --punica-avatar-group-ring-color: var(--punica-color-surface);
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([size='small']) {
+  --punica-avatar-group-size: var(--punica-size-sm);
+}
+:host([size='large']) {
+  --punica-avatar-group-size: var(--punica-size-lg);
+}
+
+.base {
+  display: flex;
+  align-items: center;
+  /* The first avatar's negative margin is given back here, so the row starts
+     where the element does in either direction. */
+  padding-inline-start: var(--punica-avatar-group-overlap);
+}
+
+/* Written from the group's tree, these win over each avatar's own size. */
+::slotted(*),
+.overflow {
+  --punica-avatar-size: var(--punica-avatar-group-size);
+  margin-inline-start: calc(-1 * var(--punica-avatar-group-overlap));
+  border-radius: var(--punica-radius-full);
+  box-shadow: 0 0 0 var(--punica-avatar-group-ring-width) var(--punica-avatar-group-ring-color);
+}
+
+::slotted([shape='square']) {
+  border-radius: var(--punica-avatar-radius, var(--punica-radius-sm));
+}
+
+.overflow {
+  all: unset;
+  /* Avatars are positioned; so is "+N", to paint over the last of them. */
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-inline-size: var(--punica-avatar-group-size);
+  block-size: var(--punica-avatar-group-size);
+  padding-inline: var(--punica-space-4);
+  margin-inline-start: calc(-1 * var(--punica-avatar-group-overlap));
+  border-radius: var(--punica-radius-full);
+  box-shadow: 0 0 0 var(--punica-avatar-group-ring-width) var(--punica-avatar-group-ring-color);
+  background: color-mix(in srgb, var(--punica-color-text) 16%, var(--punica-color-surface));
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: calc(var(--punica-avatar-group-size) * 0.36);
+  font-weight: var(--punica-font-weight-semi-bold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+.overflow[hidden] {
+  display: none;
+}
+
+button.overflow {
+  cursor: pointer;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+button.overflow:hover,
+button.overflow[aria-expanded='true'] {
+  background: color-mix(in srgb, var(--punica-color-text) 24%, var(--punica-color-surface));
+}
+
+button.overflow:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.list {
+  display: grid;
+  gap: var(--punica-space-4);
+  max-block-size: 280px;
+  margin: 0;
+  padding: var(--punica-space-4);
+  overflow: auto;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-8);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+}
+
+.name {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (forced-colors: active) {
+  .overflow {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+}

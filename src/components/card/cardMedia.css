@@ -1,7 +1,15 @@
-::slotted(img) {
+:host {
+  --punica-card-media-height: auto;
+  --punica-card-media-fit: cover;
+
   display: block;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 100%;
+  flex: none;
+  overflow: hidden;
+}
+
+::slotted(*) {
+  display: block;
+  inline-size: 100%;
+  block-size: var(--punica-card-media-height);
+  object-fit: var(--punica-card-media-fit);
 }

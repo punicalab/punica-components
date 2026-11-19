@@ -1,0 +1,27 @@
+:host {
+  --punica-date-time-input-gap: var(--punica-space-8);
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--punica-date-time-input-gap);
+  inline-size: 100%;
+}
+
+punica-date-picker {
+  --punica-date-picker-min-width: 160px;
+  flex: 3 1 160px;
+}
+punica-time-picker {
+  --punica-time-picker-min-width: 110px;
+  flex: 2 1 110px;
+}

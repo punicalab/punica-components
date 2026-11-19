@@ -1,0 +1,39 @@
+:host {
+  --punica-stepper-gap: var(--punica-space-8);
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--punica-stepper-gap);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+:host(:not([orientation='vertical'])) {
+  /* Its steps read its width to fold their titles on a narrow screen. A
+     definite width keeps a flex parent from sizing it at zero width. */
+  container: punica-stepper / inline-size;
+  inline-size: 100%;
+}
+
+:host([orientation='vertical']) {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+::slotted(punica-step) {
+  --punica-step-gap: var(--punica-stepper-gap);
+
+  /* Sized by its title; the room left over goes to the connectors. */
+  flex: 1 1 auto;
+}
+
+/* Nothing follows the last step. */
+::slotted(punica-step:last-of-type) {
+  --punica-step-connector-display: none;
+
+  flex: 0 0 auto;
+}
+
+:host([orientation='vertical']) ::slotted(punica-step) {
+  flex: 0 0 auto;
+}
