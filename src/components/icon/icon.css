@@ -1,61 +1,73 @@
 :host {
-  display: inline-block;
-  fill: currentcolor;
+  --punica-icon-size: 1em;
+  --punica-icon-color: currentColor;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  color: inherit;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-:host([size='2xlarge']) {
-  font-size: 2em;
-  line-height: 0.03125em;
-}
-
-:host([size='xlarge']) {
-  font-size: 1.5em;
-  line-height: 0.0416666682em;
-}
-
-:host([size='large']) {
-  font-size: 1.25em;
-  line-height: 0.05em;
-}
-
-:host([size='medium']) {
-  font-size: 1em;
-  line-height: 0.0614285718em;
-}
-
-:host([size='small']) {
-  font-size: 0.875em;
-  line-height: 0.0714285718em;
+  vertical-align: middle;
+  color: var(--punica-icon-color);
+  font-size: var(--punica-icon-size);
+  line-height: 1;
+  transition: color var(--punica-duration) var(--punica-ease);
 }
 
 :host([size='xsmall']) {
-  font-size: 0.75em;
-  line-height: 0.0833333337em;
+  --punica-icon-size: 0.75em;
+}
+:host([size='small']) {
+  --punica-icon-size: 0.875em;
+}
+:host([size='large']) {
+  --punica-icon-size: 1.25em;
+}
+:host([size='xlarge']) {
+  --punica-icon-size: 1.5em;
+}
+:host([size='2xlarge']) {
+  --punica-icon-size: 2em;
 }
 
 :host([color='primary']) {
-  color: var(--error-primary);
+  --punica-icon-color: var(--punica-color-primary);
 }
-
 :host([color='secondary']) {
-  color: var(--error-secondary);
+  --punica-icon-color: var(--punica-color-secondary);
 }
-
 :host([color='error']) {
-  color: var(--error-main);
+  --punica-icon-color: var(--punica-color-error);
 }
-
-:host([color='info']) {
-  color: var(--info-main);
-}
-
-:host([color='success']) {
-  color: var(--success-main);
-}
-
 :host([color='warning']) {
-  color: var(--warning-main);
+  --punica-icon-color: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --punica-icon-color: var(--punica-color-info);
+}
+:host([color='success']) {
+  --punica-icon-color: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  --punica-icon-color: var(--punica-color-text);
+}
+
+.glyph {
+  display: contents;
+}
+
+svg {
+  display: block;
+  flex: none;
+}
+
+::slotted(svg) {
+  inline-size: 1em;
+  block-size: 1em;
+  fill: currentColor;
+}
+
+@media (forced-colors: active) {
+  :host {
+    --punica-icon-color: CanvasText;
+  }
 }

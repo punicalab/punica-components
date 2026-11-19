@@ -1,0 +1,28 @@
+:host {
+  --punica-code-background: var(--punica-color-neutral-light);
+  --punica-code-color: var(--punica-color-text);
+  --punica-code-radius: var(--punica-radius-sm);
+  --punica-code-padding: var(--punica-space-2) var(--punica-space-4);
+  --punica-code-font-size: 0.9em;
+
+  display: inline;
+}
+
+code {
+  padding: var(--punica-code-padding);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-code-radius);
+  background: var(--punica-code-background);
+  color: var(--punica-code-color);
+  font-family: var(--punica-font-family-mono);
+  font-size: var(--punica-code-font-size);
+  overflow-wrap: anywhere;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+@media (forced-colors: active) {
+  code {
+    border-color: CanvasText;
+  }
+}

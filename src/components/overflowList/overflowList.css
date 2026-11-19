@@ -1,0 +1,66 @@
+:host {
+  --punica-overflow-list-gap: var(--punica-space-8);
+  --punica-overflow-list-menu-gap: var(--punica-space-4);
+
+  display: block;
+  min-inline-size: 0;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+.base {
+  display: flex;
+  align-items: center;
+  gap: var(--punica-overflow-list-gap);
+  inline-size: 100%;
+}
+
+.items {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--punica-overflow-list-gap);
+  min-inline-size: 0;
+  /* Clip, not hidden: a child's focus ring may reach past the row. */
+  overflow-x: clip;
+}
+
+#visible::slotted(*) {
+  flex: 0 0 auto;
+}
+
+.more {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-size-sm);
+  block-size: var(--punica-size-sm);
+  border-radius: var(--punica-radius);
+  color: var(--punica-color-text);
+  cursor: pointer;
+}
+
+.more:hover {
+  background: var(--punica-color-hover);
+}
+
+.more:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--punica-overflow-list-menu-gap);
+}
+
+@media (forced-colors: active) {
+  .more {
+    border: var(--punica-border-width) solid ButtonText;
+  }
+}

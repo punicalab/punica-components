@@ -1,76 +1,125 @@
 :host {
-  --input-border-radius: var(--root-border-radius);
-  --input-border-color: var(--neutral-main);
-  --input-color: var(--text-primary);
-}
+  --punica-input-height: var(--punica-size-md);
+  --punica-input-padding: var(--punica-space-12);
+  --punica-input-radius: var(--punica-radius);
+  --punica-input-border-color: var(--punica-color-border);
+  --punica-input-background: var(--punica-color-surface);
+  --punica-input-color: var(--punica-color-text);
 
-:host {
   display: inline-flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: var(--spacing-8);
-  border-width: 1px;
-  border-style: solid;
-  transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-color: var(--input-border-color);
-  color: var(--input-color);
-}
-
-:host([rounded]) {
-  border-radius: var(--input-border-radius);
-}
-
-:host([type='number'][hidespinbutton]) input::-webkit-inner-spin-button,
-:host([type='number'][hidespinbutton]) input::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-:host([type='number'][hidespinbutton]) input {
-  -moz-appearance: textfield;
-}
-
-:host([fullwidth]) {
-  width: 100%;
-}
-
-:host([error]) {
-  border-color: var(--error-main);
-}
-
-:host([focus]) {
-  border-color: var(--primary-main);
+  vertical-align: middle;
 }
 
 :host([size='small']) {
-  padding: var(--spacing-6) var(--spacing-12);
-  height: 32px;
-}
-
-:host([size='medium']) {
-  padding: var(--spacing-8) var(--spacing-12);
-  height: 40px;
+  --punica-input-height: var(--punica-size-sm);
+  --punica-input-padding: var(--punica-space-8);
 }
 :host([size='large']) {
-  padding: var(--spacing-12) var(--spacing-12);
-  height: 48px;
+  --punica-input-height: var(--punica-size-lg);
+}
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
 }
 
-:host([disabled]) {
-  background-color: var(--disabled);
-  color: #a0a0a0;
+.base {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--punica-space-8);
+  min-inline-size: 0;
+  min-block-size: var(--punica-input-height);
+  padding-inline: var(--punica-input-padding);
+  border: var(--punica-border-width) solid var(--punica-input-border-color);
+  border-radius: var(--punica-input-radius);
+  background: var(--punica-input-background);
+  color: var(--punica-input-color);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  cursor: text;
+  transition: border-color var(--punica-duration) var(--punica-ease);
+}
+
+.base:hover {
+  border-color: var(--punica-color-border-strong);
+}
+.base:focus-within {
+  border-color: var(--punica-color-primary);
+}
+.base:has(input:focus-visible) {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-border-width));
+}
+:host(:state(user-invalid)) .base {
+  border-color: var(--punica-color-error);
 }
 
 input {
-  flex-grow: 1;
-  outline: none;
-  border: 0;
-  background: none;
-  text-align: inherit;
-  width: 100%;
+  flex: 1;
+  inline-size: 100%;
+  min-inline-size: 0;
   margin: 0;
-  -webkit-tap-highlight-color: transparent;
-  font-size: 0.875rem;
-  font-family: inherit;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: none;
   color: inherit;
+  font: inherit;
+  text-align: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+input::placeholder {
+  color: var(--punica-color-text-placeholder);
+  opacity: 1;
+}
+input[type='search']::-webkit-search-cancel-button {
+  display: none;
+}
+
+.clear {
+  all: unset;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-space-20);
+  block-size: var(--punica-space-20);
+  border-radius: var(--punica-radius-full);
+  color: var(--punica-color-text-muted);
+  cursor: pointer;
+}
+.clear:hover {
+  background: var(--punica-color-hover);
+  color: var(--punica-color-text);
+}
+.clear:focus-visible {
+  outline: var(--punica-focus-ring);
+}
+.clear[hidden] {
+  display: none;
+}
+
+:host([disabled]) .base,
+:host(:state(disabled)) .base {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+::slotted(*) {
+  flex: none;
+}
+
+@media (forced-colors: active) {
+  .base {
+    border-color: FieldText;
+  }
+  .base:focus-within {
+    border-color: Highlight;
+  }
+  :host([disabled]) .base,
+  :host(:state(disabled)) .base {
+    border-color: GrayText;
+    color: GrayText;
+    opacity: 1;
+  }
 }

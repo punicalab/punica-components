@@ -1,0 +1,73 @@
+:host {
+  --punica-row-columns: 12;
+  --punica-row-column-gap: 0px;
+  --punica-row-row-gap: 0px;
+
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--punica-row-row-gap) var(--punica-row-column-gap);
+  min-inline-size: 0;
+  container-type: inline-size;
+}
+
+:host([direction='row-reverse']) {
+  flex-direction: row-reverse;
+}
+:host([direction='column']) {
+  flex-direction: column;
+}
+:host([direction='column-reverse']) {
+  flex-direction: column-reverse;
+}
+
+:host([wrap='nowrap']) {
+  flex-wrap: nowrap;
+}
+:host([wrap='wrap-reverse']) {
+  flex-wrap: wrap-reverse;
+}
+
+:host([justify='start']) {
+  justify-content: flex-start;
+}
+:host([justify='center']) {
+  justify-content: center;
+}
+:host([justify='end']) {
+  justify-content: flex-end;
+}
+:host([justify='between']) {
+  justify-content: space-between;
+}
+:host([justify='around']) {
+  justify-content: space-around;
+}
+:host([justify='evenly']) {
+  justify-content: space-evenly;
+}
+
+:host([align='start']) {
+  align-items: flex-start;
+}
+:host([align='center']) {
+  align-items: center;
+}
+:host([align='end']) {
+  align-items: flex-end;
+}
+:host([align='stretch']) {
+  align-items: stretch;
+}
+:host([align='baseline']) {
+  align-items: baseline;
+}
+
+:host([full-height]) {
+  block-size: 100%;
+}
+
+/* The browser maps an `align` attribute to text-align; here it means
+   alignment of the children, so the text keeps what it inherits. */
+:host([align]) {
+  text-align: inherit;
+}

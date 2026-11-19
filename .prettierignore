@@ -1,11 +1,6 @@
-**/tests/fixtures/**/*
-**/dist
-**/coverage
-**/.vscode
-.github
-package.json 
-lerna.json
-.prettierrc.json
+dist
+coverage
+custom-elements.json
+package-lock.json
+.changeset/*.md
 *.md
-
-CHANGELOG.md

@@ -1,0 +1,62 @@
+:host {
+  --punica-segmented-control-height: var(--punica-size-md);
+  --punica-segmented-control-radius: var(--punica-radius);
+  --punica-segmented-control-background: var(--punica-color-neutral-light);
+  --punica-segmented-control-indicator-color: var(--punica-color-surface-raised);
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([size='small']) {
+  --punica-segmented-control-height: var(--punica-size-sm);
+}
+:host([size='large']) {
+  --punica-segmented-control-height: var(--punica-size-lg);
+}
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+
+.base {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: stretch;
+  min-block-size: var(--punica-segmented-control-height);
+  padding: var(--punica-space-2);
+  border-radius: var(--punica-segmented-control-radius);
+  background: var(--punica-segmented-control-background);
+}
+
+.indicator {
+  position: absolute;
+  inset-block: var(--punica-space-2);
+  inset-inline-start: var(--_start, 0);
+  inline-size: var(--_size, 0);
+  border-radius: calc(var(--punica-segmented-control-radius) - var(--punica-space-2));
+  background: var(--punica-segmented-control-indicator-color);
+  /* The edge keeps the chosen segment visible in dark mode, where the
+     raised surface is only a shade lighter than the bar. */
+  box-shadow: var(--punica-shadow-xs), inset 0 0 0 var(--punica-border-width) var(--punica-color-border);
+  transition: inset-inline-start var(--punica-duration) var(--punica-ease),
+    inline-size var(--punica-duration) var(--punica-ease);
+}
+.indicator[hidden] {
+  display: none;
+}
+
+:host([disabled]) .indicator,
+:host(:state(disabled)) .indicator {
+  box-shadow: none;
+}
+
+@media (forced-colors: active) {
+  .base {
+    border: var(--punica-border-width) solid ButtonText;
+  }
+  .indicator {
+    display: none;
+  }
+}

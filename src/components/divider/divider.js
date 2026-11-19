@@ -1,73 +1,65 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './divider.css';
 
-  template.innerHTML = `<style></style>`;
+/**
+ * A line between two groups of content, with an optional label on it.
+ *
+ * @element punica-divider
+ *
+ * @attr {'horizontal' | 'vertical'} orientation - Direction of the line, `horizontal` by default.
+ * @attr {boolean} decorative - The line is ornament: `role=presentation` in place of `separator`.
+ * @attr {boolean} inset - Indents the line from both inline edges.
+ *
+ * @slot - A label drawn in the middle of the line.
+ *
+ * @csspart line - Each half of the line.
+ * @csspart label - The wrapper around the label.
+ *
+ * @cssprop --punica-divider-color - Colour of the line.
+ * @cssprop --punica-divider-width - Thickness of the line.
+ * @cssprop --punica-divider-spacing - Margin on the axis the line separates.
+ * @cssprop --punica-divider-inset - Indent of an inset line.
+ *
+ * @cssstate labelled - The default slot has content.
+ */
+export class PunicaDivider extends PunicaElement {
+  static properties = {
+    orientation: {},
+    decorative: { type: Boolean },
+    inset: { type: Boolean }
+  };
 
-  class Divider extends PunicaBase {
-    static get booleanAttributes() {
-      return ['flexItem'];
-    }
-    #shadow = this.attachShadow({ mode: 'open' });
+  static styles = styles;
+  static template = `
+    <span part="line" class="line"></span>
+    <span part="label" class="label"><slot></slot></span>
+    <span part="line" class="line"></span>
+  `;
 
-    /**
-     *
-     */
-    get orientation() {
-      return this.getAttribute('orientation');
-    }
+  #slot = this.$('slot');
 
-    /**
-     *
-     */
-    set orientation(val) {
-      this.setAttribute('orientation', val);
-    }
-
-    /**
-     *
-     */
-    get flexItem() {
-      return this.hasAttribute('flexItem');
-    }
-
-    /**
-     *
-     */
-    set flexItem(value) {
-      if (value) {
-        this.setAttribute('flexItem', '');
-      } else {
-        this.removeAttribute('flexItem');
-      }
-    }
-
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return ['orientation', 'flexItem'];
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
-
-    /**
-     *
-     */
-    connectedCallback() {
-      super.connectedCallback();
-
-      if (!this.orientation) {
-        this.orientation = 'horizontal';
-      }
-    }
+  constructor() {
+    super();
+    this.#slot.addEventListener('slotchange', () => this.#label());
   }
 
-  customElements.define('punica-divider', Divider);
-})();
+  update() {
+    const internals = this.internals;
+    internals.role = this.decorative ? 'presentation' : 'separator';
+    internals.ariaOrientation = this.decorative ? null : this.orientation === 'vertical' ? 'vertical' : 'horizontal';
+    this.#label();
+  }
+
+  #label() {
+    const text = this.#slot
+      .assignedNodes({ flatten: true })
+      .map((node) => node.textContent)
+      .join('')
+      .trim();
+    const labelled = text !== '' || this.#slot.assignedElements({ flatten: true }).length > 0;
+    this.toggleState('labelled', labelled);
+    this.internals.ariaLabel = labelled && text && !this.decorative ? text : null;
+  }
+}
+
+define('punica-divider', PunicaDivider);

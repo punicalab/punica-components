@@ -1,14 +1,61 @@
 :host {
-  --paper-border-radius: var(--root-border-radius);
-  --paper-padding: var(--root-padding);
-}
+  --punica-paper-background: var(--punica-color-surface);
+  --punica-paper-radius: var(--punica-radius);
+  --punica-paper-padding: var(--punica-padding);
+  --punica-paper-shadow: none;
+  --_padding: var(--punica-paper-padding);
 
-:host {
   display: block;
-  background-color: var(--background-paper);
-  padding: var(--paper-padding);
+  padding: var(--_padding);
+  border-radius: var(--punica-paper-radius);
+  background: var(--punica-paper-background);
+  color: var(--punica-color-text);
+  box-shadow: var(--punica-paper-shadow);
 }
 
-:host([rounded]) {
-  border-radius: var(--paper-border-radius);
+:host([elevation='1']) {
+  --punica-paper-shadow: var(--punica-shadow-xs);
+}
+:host([elevation='2']) {
+  --punica-paper-shadow: var(--punica-shadow-sm);
+}
+:host([elevation='3']) {
+  --punica-paper-shadow: var(--punica-shadow-md);
+}
+:host([elevation='4']) {
+  --punica-paper-shadow: var(--punica-shadow-lg);
+}
+:host([elevation='5']) {
+  --punica-paper-shadow: var(--punica-shadow-xl);
+}
+
+/* A raised paper is on the raised surface, which only differs in dark mode,
+   where a shadow alone does not show. */
+:host([elevation]:not([elevation='0']):not([variant='outlined'])) {
+  --punica-paper-background: var(--punica-color-surface-raised);
+}
+
+:host([variant='outlined']) {
+  --punica-paper-background: var(--punica-color-surface);
+  --punica-paper-shadow: none;
+  border: var(--punica-border-width) solid var(--punica-color-border);
+}
+
+:host([radius='none']) {
+  --punica-paper-radius: 0;
+}
+:host([radius='small']) {
+  --punica-paper-radius: var(--punica-radius-sm);
+}
+:host([radius='large']) {
+  --punica-paper-radius: var(--punica-radius-lg);
+}
+:host([radius='full']) {
+  --punica-paper-radius: var(--punica-radius-full);
+}
+
+@media (forced-colors: active) {
+  :host {
+    border: var(--punica-border-width) solid CanvasText;
+  }
 }

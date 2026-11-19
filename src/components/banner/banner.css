@@ -1,0 +1,26 @@
+:host {
+  --punica-banner-padding: var(--punica-space-12) var(--punica-padding);
+  --punica-banner-max-width: none;
+  --punica-alert-padding: var(--punica-banner-padding);
+  --punica-alert-radius: 0;
+
+  inline-size: 100%;
+  justify-content: center;
+  border-inline-width: 0;
+  border-block-start-width: 0;
+}
+
+.content {
+  flex: 0 1 auto;
+  max-inline-size: var(--punica-banner-max-width);
+}
+
+.actions {
+  margin-inline-end: auto;
+}
+
+@media (forced-colors: active) {
+  :host {
+    border-block-end-color: CanvasText;
+  }
+}

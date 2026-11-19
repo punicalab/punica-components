@@ -1,91 +1,155 @@
 :host {
-  position: relative;
-  appearance: none;
-  max-width: fit-content;
+  --punica-chip-height: var(--punica-space-32);
+  --punica-chip-padding: var(--punica-space-12);
+  --punica-chip-radius: var(--punica-radius-full);
+  --_accent: var(--punica-color-primary);
+  --_background: var(--_accent);
+  --_text: var(--punica-color-on-accent);
+  --_border: transparent;
+
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: var(--punica-space-4);
+  max-inline-size: 100%;
+  block-size: var(--punica-chip-height);
+  padding-inline: var(--punica-chip-padding);
+  border: var(--punica-border-width) solid var(--_border);
+  border-radius: var(--punica-chip-radius);
+  background: var(--_background);
+  color: var(--_text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: 1;
   white-space: nowrap;
-  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-    box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  cursor: unset;
   vertical-align: middle;
-  gap: var(--spacing-4);
-}
-
-:host([size='medium']) {
-  padding-left: 12px;
-  padding-right: 12px;
-  height: 32px;
-  border-radius: 16px;
-  font-size: 0.8125rem;
-  font-weight: 400;
+  transition: background-color var(--punica-duration) var(--punica-ease),
+    border-color var(--punica-duration) var(--punica-ease);
 }
 
 :host([size='small']) {
-  padding-right: 8px;
-  padding-left: 8px;
-  height: 24px;
-  border-radius: 12px;
-  font-size: 0.8125rem;
-  font-weight: 400;
+  --punica-chip-height: var(--punica-space-24);
+  --punica-chip-padding: var(--punica-space-8);
+  font-size: var(--punica-font-size-xs);
 }
 
-:host([variant='outlined']):host([color='default']) {
-  color: rgb(140, 140, 140);
-  border: 1px solid rgba(125, 125, 125, 0.29);
+:host([color='secondary']) {
+  --_accent: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --_accent: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --_accent: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --_accent: var(--punica-color-info);
+}
+:host([color='success']) {
+  --_accent: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  --_accent: var(--punica-color-text);
+  /* A grey drawn from the text colour: --punica-color-neutral under the text
+     colour is 2.9:1 in dark mode. */
+  --_background: color-mix(in srgb, var(--punica-color-text) 16%, var(--punica-color-surface));
+  --_text: var(--punica-color-text);
 }
 
-:host([variant='outlined']):host([color='primary']) {
-  border: 1px solid rgba(125, 125, 125, 0.29);
-  color: var(--primary-main);
+/* A filled toggle that is off is a tint, so on and off differ by more than
+   the check mark. */
+:host([selectable]:not([variant='outlined']):not(:state(selected))) {
+  --_background: color-mix(in srgb, var(--_accent) 14%, transparent);
+  --_text: var(--punica-color-text);
 }
-:host([variant='outlined']):host([color='error']) {
-  border: 1px solid rgba(125, 125, 125, 0.29);
-  color: var(--error-main);
-}
-
-:host([variant='outlined']):host([color='info']) {
-  border: 1px solid rgba(125, 125, 125, 0.29);
-  color: var(--info-main);
+/* The neutral chip is already a tint, so its on state is solid ink. */
+:host([color='neutral'][selectable]:not([variant='outlined']):state(selected)) {
+  --_background: var(--punica-color-text);
+  --_text: var(--punica-color-surface);
 }
 
-:host([variant='outlined']):host([color='success']) {
-  border: 1px solid rgba(125, 125, 125, 0.29);
-  color: var(--success-main);
+:host([variant='outlined']) {
+  --_background: transparent;
+  --_text: var(--_accent);
+  --_border: var(--punica-color-border-strong);
+}
+:host([variant='outlined']:state(selected)) {
+  --_background: color-mix(in srgb, var(--_accent) 12%, transparent);
+  --_border: var(--_accent);
 }
 
-:host([variant='outlined']):host([color='warning']) {
-  border: 1px solid rgba(125, 125, 125, 0.29);
-  color: var(--warning-main);
+/* Greyed rather than faded: the label of a plain or removable chip is not
+   inside a native disabled control, so it must stay readable. */
+:host([disabled]) {
+  --_background: var(--punica-color-neutral-light);
+  --_text: var(--punica-color-text-muted);
+  --_border: transparent;
+  pointer-events: none;
+}
+:host([disabled][variant='outlined']) {
+  --_background: transparent;
+  --_border: var(--punica-color-border);
 }
 
-:host([variant='filled']):host([color='default']) {
-  color: rgb(140, 140, 140);
-  background-color: rgba(125, 125, 125, 0.29);
+.base {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-4);
+  min-inline-size: 0;
+  block-size: 100%;
+  border-radius: var(--punica-chip-radius);
+}
+button.base {
+  cursor: pointer;
+}
+button.base:focus-visible,
+.remove:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
 }
 
-:host([variant='filled']):host([color='primary']) {
-  color: var(--white);
-  background-color: var(--primary-main);
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-:host([variant='filled']):host([color='error']) {
-  color: var(--white);
-  background-color: var(--error-main);
+.check {
+  display: none;
+}
+:host(:state(selected)) .check {
+  display: inline-flex;
 }
 
-:host([variant='filled']):host([color='info']) {
-  color: var(--white);
-  background-color: var(--info-main);
+.remove {
+  all: unset;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.5em;
+  block-size: 1.5em;
+  margin-inline-end: calc(var(--punica-chip-padding) / -2);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color var(--punica-duration) var(--punica-ease);
+}
+.remove[hidden] {
+  display: none;
+}
+.remove:hover {
+  background: color-mix(in srgb, currentColor 20%, transparent);
 }
 
-:host([variant='filled']):host([color='success']) {
-  color: var(--white);
-  background-color: var(--success-main);
-}
-
-:host([variant='filled']):host([color='warning']) {
-  color: var(--white);
-  background-color: var(--warning-main);
+@media (forced-colors: active) {
+  :host {
+    border-color: CanvasText;
+  }
+  :host(:state(selected)) {
+    border-color: Highlight;
+  }
+  :host([disabled]) {
+    border-color: GrayText;
+    color: GrayText;
+    opacity: 1;
+  }
 }

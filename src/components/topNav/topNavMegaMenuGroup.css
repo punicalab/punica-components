@@ -1,0 +1,28 @@
+:host {
+  --punica-top-nav-mega-menu-group-heading-color: var(--punica-color-text-muted);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-4);
+  min-inline-size: 0;
+}
+
+.heading {
+  padding: var(--punica-space-4) var(--punica-space-8);
+  color: var(--punica-top-nav-mega-menu-group-heading-color);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-xs);
+  font-weight: var(--punica-font-weight-semi-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-2);
+}
+
+[hidden] {
+  display: none !important;
+}

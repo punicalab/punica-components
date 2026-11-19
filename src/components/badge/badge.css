@@ -1,67 +1,113 @@
 :host {
+  --punica-badge-background: var(--punica-color-primary);
+  --punica-badge-color: var(--punica-color-on-accent);
+  --punica-badge-size: var(--punica-space-20);
+  --punica-badge-dot-size: var(--punica-space-8);
+
   display: inline-flex;
   position: relative;
-  transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  flex: none;
+  vertical-align: middle;
 }
 
-:host .wrapper {
-  position: relative;
+:host([color='secondary']) {
+  --punica-badge-background: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --punica-badge-background: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --punica-badge-background: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --punica-badge-background: var(--punica-color-info);
+}
+:host([color='success']) {
+  --punica-badge-background: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  /* A grey drawn from the text colour: --punica-color-neutral under the text
+     colour is 2.9:1 in dark mode. */
+  --punica-badge-background: color-mix(in srgb, var(--punica-color-text) 16%, var(--punica-color-surface));
+  --punica-badge-color: var(--punica-color-text);
 }
 
-:host .content {
-  display: none;
-  flex-flow: wrap;
-  -webkit-box-pack: center;
-  place-content: center;
-  -webkit-box-align: center;
-  align-items: center;
-  z-index: 1;
-  color: var(--white);
+.badge {
+  --_x: 50%;
+  --_y: -50%;
+
   position: absolute;
-  top: 0px;
-  right: 0px;
-  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-:host .content.has-content {
-  display: flex;
-}
-
-:host([color='primary']) .content {
-  background-color: var(--primary-main);
-}
-
-:host([color='error']) .content {
-  background-color: var(--error-main);
-}
-
-:host([color='info']) .content {
-  background-color: var(--info-main);
-}
-
-:host([color='warning']) .content {
-  background-color: var(--warning-main);
-}
-
-:host([color='success']) .content {
-  background-color: var(--success-main);
-}
-
-:host([size='small']) .content {
-  width: 8px;
-  height: 8px;
-  transform-origin: 100% 0%;
-  transform: scale(1) translate(50%, 0);
-  border-radius: 6px;
-}
-
-:host([size='medium']) .content {
-  transform-origin: 100% 0%;
-  transform: scale(1) translate(50%, -50%);
-  height: 20px;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--punica-badge-size);
+  block-size: var(--punica-badge-size);
+  padding-inline: var(--punica-space-6);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-badge-background);
+  color: var(--punica-badge-color);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-xs);
+  font-weight: var(--punica-font-weight-medium);
   line-height: 1;
-  padding: 0px 6px;
-  font-weight: 500;
-  font-size: 0.75rem;
-  border-radius: 10px;
+  white-space: nowrap;
+  translate: var(--_x) var(--_y);
+  pointer-events: none;
+  transition: background-color var(--punica-duration) var(--punica-ease);
+}
+/* A count reads left to right in every script: "99+" stays "99+" in RTL. */
+.count {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.badge[hidden] {
+  display: none;
+}
+.badge:dir(rtl) {
+  --_x: -50%;
+}
+
+:host([placement='block-start-inline-start']) .badge,
+:host([placement='block-end-inline-start']) .badge {
+  --_x: -50%;
+  inset-inline: 0 auto;
+}
+:host([placement='block-start-inline-start']) .badge:dir(rtl),
+:host([placement='block-end-inline-start']) .badge:dir(rtl) {
+  --_x: 50%;
+}
+:host([placement='block-end-inline-end']) .badge,
+:host([placement='block-end-inline-start']) .badge {
+  --_y: 50%;
+  inset-block: auto 0;
+}
+
+:host([dot]) .badge {
+  min-inline-size: 0;
+  inline-size: var(--punica-badge-dot-size);
+  block-size: var(--punica-badge-dot-size);
+  padding: 0;
+}
+
+:host(:state(standalone)) .badge {
+  position: static;
+  translate: none;
+}
+
+.label {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+  .badge {
+    border: var(--punica-border-width) solid CanvasText;
+  }
 }

@@ -1,0 +1,92 @@
+:host {
+  --punica-chat-layout-background: var(--punica-color-bg);
+  --punica-chat-layout-padding: var(--punica-space-16);
+  --punica-chat-layout-max-width: 48rem;
+
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: 0;
+  background: var(--punica-chat-layout-background);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+.header {
+  flex: none;
+  padding: var(--punica-space-8) var(--punica-chat-layout-padding);
+  border-block-end: var(--punica-border-width) solid var(--punica-color-border);
+}
+
+.body {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-block-size: 0;
+}
+
+.scroller {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--punica-chat-layout-padding);
+}
+
+.scroller:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(var(--punica-focus-ring-width) * -1);
+}
+
+.content,
+.composer ::slotted(*) {
+  max-inline-size: var(--punica-chat-layout-max-width);
+  margin-inline: auto;
+}
+
+.jump {
+  all: unset;
+  position: absolute;
+  inset-block-end: var(--punica-space-12);
+  inset-inline: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-size-md);
+  block-size: var(--punica-size-md);
+  margin-inline: auto;
+  border: var(--punica-border-width) solid var(--punica-color-border);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-color-surface-raised);
+  color: var(--punica-color-text);
+  box-shadow: var(--punica-shadow-sm);
+  font-size: var(--punica-font-size-lg);
+  cursor: pointer;
+}
+
+.jump:hover {
+  border-color: var(--punica-color-border-strong);
+}
+
+.jump:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.composer {
+  flex: none;
+  padding: var(--punica-space-8) var(--punica-chat-layout-padding) var(--punica-chat-layout-padding);
+}
+
+.header[hidden],
+.composer[hidden],
+.jump[hidden] {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .jump {
+    border-color: ButtonText;
+  }
+}

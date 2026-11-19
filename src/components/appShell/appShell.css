@@ -1,0 +1,238 @@
+:host {
+  --punica-app-shell-height: 100dvh;
+  --punica-app-shell-nav-width: auto;
+  --punica-app-shell-aside-width: 16rem;
+  --punica-app-shell-background: var(--punica-color-bg);
+  --punica-app-shell-padding: var(--punica-space-24);
+  --_header: 0px;
+
+  display: block;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+.base {
+  position: relative;
+  display: grid;
+  grid-template-areas:
+    'header header header'
+    'nav main aside'
+    'nav footer footer';
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr auto;
+  min-block-size: 100%;
+  background: var(--punica-app-shell-background);
+}
+
+.header {
+  grid-area: header;
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--punica-z-sticky);
+  display: flex;
+  align-items: center;
+  min-inline-size: 0;
+  background: var(--punica-color-surface);
+}
+
+.header-content {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+.header-content ::slotted(*) {
+  inline-size: 100%;
+}
+
+.nav,
+.aside {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+}
+
+/* The region spans its column; what is in it sticks under the header and
+   is as tall as the view, scrolling on its own when it is taller. */
+.nav-inner,
+.aside-inner {
+  position: sticky;
+  inset-block-start: var(--_header);
+  display: flex;
+  flex-direction: column;
+  block-size: calc(var(--punica-app-shell-height) - var(--_header));
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.nav {
+  grid-area: nav;
+  inline-size: var(--punica-app-shell-nav-width);
+}
+.nav-inner ::slotted(*) {
+  flex: 1 1 auto;
+}
+
+.main {
+  grid-area: main;
+  display: block;
+  min-inline-size: 0;
+  padding: var(--punica-app-shell-padding);
+  scroll-margin-block-start: var(--_header);
+}
+.main:focus,
+.aside-inner:focus {
+  outline: none;
+}
+.main:focus-visible,
+.aside-inner:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
+}
+
+.aside {
+  grid-area: aside;
+  inline-size: var(--punica-app-shell-aside-width);
+  border-inline-start: var(--punica-border-width) solid var(--punica-color-border);
+  background: var(--punica-color-surface);
+}
+.aside-inner {
+  padding: var(--punica-space-16);
+}
+
+.footer {
+  grid-area: footer;
+  min-inline-size: 0;
+}
+
+/* Fixed: the shell is a frame and each region scrolls inside it. */
+:host([fixed]) {
+  block-size: var(--punica-app-shell-height);
+}
+:host([fixed]) .base {
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
+}
+:host([fixed]) .header {
+  position: static;
+}
+:host([fixed]) .nav-inner,
+:host([fixed]) .aside-inner {
+  position: static;
+  flex: 1 1 auto;
+  block-size: auto;
+}
+:host([fixed]) .main {
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+/* Collapsed: one column, the navigation in a drawer, the panel under the
+   main content. A fixed shell scrolls as one below its header. */
+:host(:state(collapsed)) .base {
+  grid-template-areas:
+    'header'
+    'main'
+    'aside'
+    'footer';
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto auto;
+}
+:host(:state(collapsed)) .aside {
+  inline-size: auto;
+  border-inline-start: 0;
+  border-block-start: var(--punica-border-width) solid var(--punica-color-border);
+}
+:host(:state(collapsed)) .aside-inner {
+  position: static;
+  block-size: auto;
+  overflow: visible;
+}
+:host([fixed]:state(collapsed)) .base {
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+:host([fixed]:state(collapsed)) .header {
+  position: sticky;
+}
+:host([fixed]:state(collapsed)) .main {
+  overflow: visible;
+}
+
+.skip {
+  all: unset;
+  position: absolute;
+  inset-block-start: var(--punica-space-8);
+  inset-inline-start: var(--punica-space-8);
+  z-index: calc(var(--punica-z-sticky) + 1);
+  padding: var(--punica-space-8) var(--punica-space-12);
+  border-radius: var(--punica-radius);
+  background: var(--punica-color-surface-raised);
+  color: var(--punica-color-text);
+  font-size: var(--punica-font-size-sm);
+  font-weight: var(--punica-font-weight-semi-bold);
+  box-shadow: var(--punica-shadow-md);
+  cursor: pointer;
+  clip-path: inset(50%);
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.skip:focus-visible,
+.skip:focus {
+  clip-path: none;
+  inline-size: auto;
+  block-size: auto;
+  overflow: visible;
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.menu-cell {
+  display: flex;
+  flex: none;
+  align-items: center;
+  align-self: stretch;
+  padding-inline-start: var(--punica-space-8);
+  border-block-end: var(--punica-border-width) solid var(--punica-color-border);
+}
+
+.menu {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-size-md);
+  block-size: var(--punica-size-md);
+  border-radius: var(--punica-radius);
+  color: var(--punica-color-text);
+  font-size: var(--punica-font-size-xl);
+  cursor: pointer;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+.menu:hover,
+.menu[aria-expanded='true'] {
+  background: var(--punica-color-hover);
+}
+.menu:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (forced-colors: active) {
+  .aside {
+    border-color: CanvasText;
+  }
+  .menu {
+    border: var(--punica-border-width) solid ButtonText;
+  }
+  .menu-cell {
+    border-color: CanvasText;
+  }
+}

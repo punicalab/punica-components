@@ -1,0 +1,181 @@
+:host {
+  --punica-chat-message-surface: var(--punica-color-surface);
+  --punica-chat-message-on-surface: var(--punica-color-text);
+  --punica-chat-message-border: var(--punica-color-border);
+  --punica-chat-message-gap: var(--punica-space-12);
+  --punica-chat-message-max-width: 100%;
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--punica-chat-message-gap);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size);
+  line-height: var(--punica-line-height);
+}
+
+:host([sender='user']) {
+  --punica-chat-message-surface: var(--punica-color-primary);
+  --punica-chat-message-on-surface: var(--punica-color-on-accent);
+  --punica-chat-message-border: transparent;
+  --punica-chat-message-max-width: 80%;
+
+  flex-direction: row-reverse;
+}
+
+:host([sender='system']),
+:host([sender='tool']) {
+  --punica-chat-message-surface: var(--punica-color-neutral-light);
+}
+
+:host([status='error']) {
+  --punica-chat-message-border: var(--punica-color-error);
+}
+
+.avatar {
+  display: none;
+  flex: none;
+}
+
+:host(:state(has-avatar)) .avatar {
+  display: block;
+}
+
+.body {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--punica-space-4);
+  min-inline-size: 0;
+  max-inline-size: var(--punica-chat-message-max-width);
+}
+
+:host([sender='user']) .body {
+  align-items: flex-end;
+}
+
+.name {
+  color: var(--punica-color-text-muted);
+  font-size: var(--punica-font-size-sm);
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: inherit;
+  gap: var(--punica-space-8);
+  max-inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-6);
+  font-size: var(--punica-font-size-sm);
+}
+
+.status[hidden],
+.name[hidden] {
+  display: none;
+}
+
+.error-icon {
+  display: none;
+}
+
+:host([status='error']) .status {
+  color: var(--punica-color-error);
+}
+
+:host([status='error']) .error-icon {
+  display: inline-flex;
+}
+
+:host([status='error']) .dots {
+  display: none;
+}
+
+/* While streaming the text is for assistive technology; the dots are seen. */
+:host([status='streaming']) .status-text {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.dots {
+  display: inline-flex;
+  gap: var(--punica-space-4);
+  padding-block: var(--punica-space-6);
+}
+
+.dots i {
+  inline-size: var(--punica-space-6);
+  block-size: var(--punica-space-6);
+  border-radius: var(--punica-radius-full);
+  background: currentColor;
+  opacity: 0.3;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.dots i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dots i:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+  40% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dots i {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--punica-space-8);
+}
+
+:host([sender='user']) .footer {
+  flex-direction: row-reverse;
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-4);
+  opacity: 0;
+  transition: opacity var(--punica-duration-fast) var(--punica-ease);
+}
+
+:host(:hover) .actions,
+:host(:focus-within) .actions {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .actions {
+    opacity: 1;
+  }
+}
+
+@media (forced-colors: active) {
+  :host([status='error']) .status {
+    color: CanvasText;
+  }
+}

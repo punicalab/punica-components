@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+}
+
+.base {
+  block-size: 100%;
+}

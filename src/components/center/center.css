@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host([inline]) {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([axis='inline']) {
+  align-items: normal;
+}
+
+:host([axis='block']) {
+  justify-content: normal;
+}

@@ -1,23 +1,30 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './dialogHeader.css';
 
-  template.innerHTML = `<slot></slot><style></style>`;
+/**
+ * The title of a `punica-dialog`; it names the dialog.
+ *
+ * @element punica-dialog-header
+ *
+ * @attr {number} level - Heading level it reports, 2 by default.
+ *
+ * @slot - The title.
+ */
+export class PunicaDialogHeader extends PunicaElement {
+  static properties = {
+    level: { type: Number, default: 2 }
+  };
 
-  class DialogHeader extends PunicaBase {
-    static get booleanAttributes() {
-      return [];
-    }
-    #shadow = this.attachShadow({ mode: 'open' });
+  static styles = styles;
+  static template = `<slot></slot>`;
 
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
+  connected() {
+    this.internals.role = 'heading';
   }
 
-  customElements.define('punica-dialog-header', DialogHeader);
-})();
+  update() {
+    this.internals.ariaLevel = String(this.level);
+  }
+}
+
+define('punica-dialog-header', PunicaDialogHeader);

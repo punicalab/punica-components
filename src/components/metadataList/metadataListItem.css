@@ -1,0 +1,99 @@
+:host {
+  --punica-metadata-list-item-label-color: var(--_metadata-label-color, var(--punica-color-text-muted));
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--punica-space-2);
+  column-gap: var(--punica-space-16);
+  position: relative;
+  font-family: var(--punica-font-family);
+  font-size: var(--_metadata-font-size, var(--punica-font-size-sm));
+  line-height: var(--punica-line-height);
+}
+
+.label {
+  min-inline-size: 0;
+  color: var(--punica-metadata-list-item-label-color);
+  font-weight: var(--punica-font-weight-medium);
+  overflow-wrap: anywhere;
+}
+
+::slotted([slot='label']) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-4);
+}
+
+.value {
+  display: flex;
+  align-items: baseline;
+  gap: var(--punica-space-4);
+  min-inline-size: 0;
+  color: var(--punica-color-text);
+}
+
+.content {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.copy {
+  all: unset;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: var(--punica-space-24);
+  block-size: var(--punica-space-24);
+  margin-block: calc(-1 * var(--punica-space-4));
+  align-self: center;
+  border-radius: var(--punica-radius-sm);
+  color: var(--punica-color-text-muted);
+  font-size: var(--punica-font-size-sm);
+  cursor: pointer;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease),
+    color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.copy[hidden] {
+  display: none;
+}
+
+.copy:hover {
+  background: var(--punica-color-hover);
+  color: var(--punica-color-text);
+}
+
+.copy:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: 0;
+}
+
+.when-idle,
+.when-copied {
+  display: inline-flex;
+}
+.when-copied,
+:host(:state(copied)) .when-idle {
+  display: none;
+}
+:host(:state(copied)) .when-copied {
+  display: inline-flex;
+  color: var(--punica-color-success);
+}
+
+.status {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+  .copy {
+    border: var(--punica-border-width) solid ButtonText;
+  }
+}

@@ -1,62 +1,117 @@
 :host {
-  --checkbox-color: var(--neutral-main);
+  --_accent: var(--punica-color-primary);
+  --punica-checkbox-size: var(--punica-space-18);
+  --punica-checkbox-radius: var(--punica-radius-sm);
+  --punica-checkbox-border-color: var(--punica-color-border-strong);
+  --punica-checkbox-color: var(--_accent);
+  --punica-checkbox-gap: var(--punica-space-8);
+
+  display: inline-flex;
+  vertical-align: middle;
 }
 
-:host {
+:host([color='secondary']) {
+  --_accent: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --_accent: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --_accent: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --_accent: var(--punica-color-info);
+}
+:host([color='success']) {
+  --_accent: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  --_accent: var(--punica-color-neutral-dark);
+}
+
+.base {
+  position: relative;
   display: inline-flex;
   align-items: center;
+  gap: var(--punica-checkbox-gap);
+  inline-size: 100%;
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: 1.43;
+  cursor: pointer;
+  user-select: none;
 }
 
 input {
+  position: absolute;
+  inset-inline-start: 0;
+  inline-size: var(--punica-checkbox-size);
+  block-size: var(--punica-checkbox-size);
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.control {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-checkbox-size);
+  block-size: var(--punica-checkbox-size);
+  border: var(--punica-border-width) solid var(--punica-checkbox-border-color);
+  border-radius: var(--punica-checkbox-radius);
+  background: var(--punica-color-surface);
+  color: var(--punica-color-on-accent);
+  font-size: var(--punica-font-size-sm);
+  transition: background-color var(--punica-duration-fast) var(--punica-ease),
+    border-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.control .icon {
+  display: none;
+  stroke-width: 3;
+}
+
+input:checked + .control,
+input:indeterminate + .control {
+  background: var(--punica-checkbox-color);
+  border-color: var(--punica-checkbox-color);
+}
+input:checked:not(:indeterminate) + .control .icon:first-child,
+input:indeterminate + .control .icon:last-child {
+  display: block;
+}
+
+input:focus-visible + .control {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+.label[hidden] {
   display: none;
 }
 
-label {
-  cursor: pointer;
-  font-size: 0.857142857rem;
-  line-height: 1.43;
-  font-family: var(--fontFamily);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  color: var(--text-primary);
-  font-weight: var(--weight-thin);
+:host([disabled]) .base,
+:host(:state(disabled)) .base {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
 }
 
-input + label:before {
-  content: '';
-  border: 1px solid transparent;
-  border-radius: var(--spacing-4);
-  border-color: var(--checkbox-color);
-  display: inline-block;
-  width: var(--spacing-18);
-  height: var(--spacing-18);
-  vertical-align: bottom;
-  margin-right: 8px;
-  position: relative;
-}
-
-input:checked + label:before {
-  background-image: url("data:image/svg+xml,%3Csvg width='1024px' height='1024px' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Ctitle%3Echeck%3C/title%3E%3Cdesc%3ECreated with sketchtool.%3C/desc%3E%3Cg id='web-app' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='check' fill='%23FFFFFF'%3E%3Cpath id='Shape' points='6 10 4 12 10 18 20 8 18 6 10 14' d='M256 426.664L170.664 512L426.664 768L853.336 341.336L768 256L426.664 597.336Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  background-size: var(--spacing-18);
-  background-color: var(--primary-main);
-  background-repeat: no-repeat;
-  background-position: center center;
-  border-color: var(--primary-main);
-}
-
-input[indeterminate='true'] + label:before {
-  background-image: url("data:image/svg+xml,%3Csvg width='24px' height='24px' viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Ctitle%3Echeck%3C/title%3E%3Cdesc%3ECreated with sketchtool.%3C/desc%3E%3Cg id='web-app' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='check' fill='%23FFFFFF'%3E%3Cpath id='Shape' d='M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm3 8v2h10v-2H7z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  background-size: var(--spacing-18);
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-
-:host([disabled]) label {
-  color: var(--disabled);
-}
-
-input:disabled:checked + label:before {
-  background-color: var(--primary-light);
-  border-color: var(--primary-light);
+@media (forced-colors: active) {
+  .control {
+    border-color: FieldText;
+    color: HighlightText;
+  }
+  input:checked + .control,
+  input:indeterminate + .control {
+    background: Highlight;
+    border-color: Highlight;
+  }
+  :host([disabled]) .base,
+  :host(:state(disabled)) .base {
+    opacity: 1;
+    color: GrayText;
+  }
 }

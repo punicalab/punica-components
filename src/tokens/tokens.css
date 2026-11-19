@@ -1,0 +1,158 @@
+/*
+ * Punica design tokens.
+ *
+ * Every token is `--punica-*`. Colors are light-dark() pairs, so they follow
+ * the `color-scheme` of the page or of any subtree that sets its own.
+ * The whole file sits in a cascade layer: any unlayered declaration a page
+ * makes for one of these names wins without a specificity fight.
+ */
+@layer punica.tokens {
+  :root {
+    /* surfaces */
+    --punica-color-bg: light-dark(#f6f6fa, #181a1c);
+    --punica-color-surface: light-dark(#ffffff, #2a2e30);
+    --punica-color-surface-raised: light-dark(#ffffff, #3c4143);
+    --punica-color-hover: light-dark(rgb(111 126 140 / 10%), rgb(190 200 210 / 12%));
+    --punica-color-selected: light-dark(rgb(85 96 169 / 12%), rgb(140 150 215 / 22%));
+    --punica-color-backdrop: light-dark(rgb(44 50 60 / 50%), rgb(0 0 0 / 60%));
+
+    /* text */
+    --punica-color-text: light-dark(#2d2d56, #d3dadf);
+    --punica-color-text-muted: light-dark(#5b6975, #a7b6be);
+    --punica-color-text-placeholder: light-dark(#62707c, #98a6af);
+    --punica-color-on-accent: light-dark(#ffffff, #101214);
+
+    /* lines */
+    --punica-color-border: light-dark(#dedede, #5a6063);
+    --punica-color-border-strong: light-dark(#9c9c9c, #8a9196);
+    --punica-color-focus: light-dark(#1f6fd0, #6db3ff);
+
+    /* palettes: <name>-light is a tint, <name> the accent, <name>-dark the shade */
+    --punica-color-primary-light: light-dark(#767fba, #7783d6);
+    --punica-color-primary: light-dark(#5560a9, #a0a9ee);
+    --punica-color-primary-dark: light-dark(#3b4376, #bcc3f5);
+
+    --punica-color-secondary-light: light-dark(#e7c1fa, #5a2a78);
+    --punica-color-secondary: light-dark(#aa14f0, #d894fa);
+    --punica-color-secondary-dark: light-dark(#7d17e3, #e7c1fa);
+
+    --punica-color-error-light: light-dark(#fdeded, #4a1f1f);
+    --punica-color-error: light-dark(#c62828, #f6908d);
+    --punica-color-error-dark: light-dark(#5f2120, #f7b4b2);
+
+    --punica-color-warning-light: light-dark(#fff4e5, #4a3110);
+    --punica-color-warning: light-dark(#b35000, #ffa23d);
+    --punica-color-warning-dark: light-dark(#663c00, #ffd6a3);
+
+    --punica-color-info-light: light-dark(#e5f6fd, #0f3547);
+    --punica-color-info: light-dark(#01679e, #4db5ea);
+    --punica-color-info-dark: light-dark(#014361, #b3e2f7);
+
+    --punica-color-success-light: light-dark(#edf7ed, #1c3a1e);
+    --punica-color-success: light-dark(#2e7d32, #66bb6a);
+    --punica-color-success-dark: light-dark(#1e4620, #b9e0bb);
+
+    --punica-color-neutral-light: light-dark(#f5f5f5, #33383a);
+    --punica-color-neutral: light-dark(#dedede, #797e81);
+    --punica-color-neutral-dark: light-dark(#6f6f6f, #b4babd);
+
+    --punica-color-white: #ffffff;
+    --punica-color-black: #000000;
+
+    /* shape */
+    --punica-radius-sm: 4px;
+    --punica-radius: 8px;
+    --punica-radius-lg: 12px;
+    --punica-radius-full: 9999px;
+    --punica-padding: 16px;
+    --punica-border-width: 1px;
+
+    /* focus */
+    --punica-focus-ring-width: 2px;
+    --punica-focus-ring-offset: 2px;
+    --punica-focus-ring: var(--punica-focus-ring-width) solid var(--punica-color-focus);
+
+    /* elevation */
+    --punica-shadow-xxs: 0 20px 25px -5px rgb(0 0 0 / 5%);
+    --punica-shadow-xs: 0 7px 8px rgb(0 0 0 / 8%);
+    --punica-shadow-sm: 0 6px 12px rgb(0 0 0 / 11%);
+    --punica-shadow-md: 0 9px 18px rgb(0 0 0 / 15%);
+    --punica-shadow-lg: 0 13px 37px rgb(0 0 0 / 21%);
+    --punica-shadow-xl: 0 20px 56px rgb(0 0 0 / 29%);
+
+    /* stacking (only for in-flow layers; overlays use the top layer) */
+    --punica-z-sticky: 1000;
+    --punica-z-fixed: 1100;
+
+    /* type */
+    --punica-font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --punica-font-family-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --punica-font-size-xs: 0.75rem;
+    --punica-font-size-sm: 0.875rem;
+    --punica-font-size: 1rem;
+    --punica-font-size-lg: 1.125rem;
+    --punica-font-size-xl: 1.25rem;
+    --punica-font-size-2xl: 1.5rem;
+    --punica-font-size-3xl: 2.125rem;
+    --punica-line-height: 1.5;
+    --punica-line-height-heading: 1.25;
+    --punica-font-weight-thin: 200;
+    --punica-font-weight-light: 300;
+    --punica-font-weight-regular: 400;
+    --punica-font-weight-medium: 500;
+    --punica-font-weight-semi-bold: 600;
+    --punica-font-weight-bold: 700;
+    --punica-font-weight-extra-bold: 800;
+
+    /* spacing, named by pixel value */
+    --punica-space-0: 0;
+    --punica-space-2: 2px;
+    --punica-space-4: 4px;
+    --punica-space-6: 6px;
+    --punica-space-8: 8px;
+    --punica-space-10: 10px;
+    --punica-space-12: 12px;
+    --punica-space-14: 14px;
+    --punica-space-16: 16px;
+    --punica-space-18: 18px;
+    --punica-space-20: 20px;
+    --punica-space-22: 22px;
+    --punica-space-24: 24px;
+    --punica-space-26: 26px;
+    --punica-space-28: 28px;
+    --punica-space-32: 32px;
+    --punica-space-36: 36px;
+    --punica-space-40: 40px;
+    --punica-space-44: 44px;
+    --punica-space-48: 48px;
+    --punica-space-56: 56px;
+    --punica-space-64: 64px;
+    --punica-space-80: 80px;
+    --punica-space-96: 96px;
+    --punica-space-112: 112px;
+    --punica-space-128: 128px;
+    --punica-space-144: 144px;
+    --punica-space-160: 160px;
+
+    /* control heights */
+    --punica-size-sm: 28px;
+    --punica-size-md: 36px;
+    --punica-size-lg: 44px;
+
+    /* motion */
+    --punica-duration-fast: 120ms;
+    --punica-duration: 200ms;
+    --punica-duration-slow: 320ms;
+    --punica-ease: cubic-bezier(0.2, 0, 0, 1);
+
+    --punica-disabled-opacity: 0.4;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --punica-duration-fast: 0ms;
+      --punica-duration: 0ms;
+      --punica-duration-slow: 0ms;
+    }
+  }
+}

@@ -1,210 +1,134 @@
 :host {
-  --switch-lever--background: rgb(132 132 132);
-  --switch-lever_checked--background: rgb(132 132 132);
-  --switch-lever--handle-background: rgb(193, 191, 191);
-  --switch-lever_checked--handle-background: var(--primary-light);
-  --switch--on-text-color: rgb(158, 158, 158);
-  --switch--off-text-color: rgb(205, 92, 92);
-  --switch_checked--on-text-color: rgb(112, 179, 173);
-  --switch_checked--off-text-color: rgb(158, 158, 158);
-  --switch_focus--background: rgb(255 255 255);
-  --switch_focus--outline-color: rgb(100, 149, 237);
-  --switch_disabled--off-text-color: rgb(158, 158, 158);
-  --switch_disabled--on-text-color: rgb(158, 158, 158);
+  --_accent: var(--punica-color-primary);
+  --_thumb: calc(var(--punica-switch-height) - 2 * var(--punica-space-2));
+  --punica-switch-width: var(--punica-space-40);
+  --punica-switch-height: var(--punica-space-22);
+  --punica-switch-track-color: var(--punica-color-border-strong);
+  --punica-switch-track-color-checked: var(--_accent);
+  --punica-switch-thumb-color: var(--punica-color-white);
+  --punica-switch-gap: var(--punica-space-8);
+
+  display: inline-flex;
+  vertical-align: middle;
 }
 
-:host {
-  display: inline-block;
-  contain: layout;
+:host([color='secondary']) {
+  --_accent: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --_accent: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --_accent: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --_accent: var(--punica-color-info);
+}
+:host([color='success']) {
+  --_accent: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  --_accent: var(--punica-color-neutral-dark);
 }
 
-:host([hidden]) {
-  display: none;
+:host([size='small']) {
+  --punica-switch-width: var(--punica-space-32);
+  --punica-switch-height: var(--punica-space-18);
+}
+:host([size='large']) {
+  --punica-switch-width: var(--punica-space-48);
+  --punica-switch-height: var(--punica-space-26);
 }
 
-:host([disabled]) {
-  opacity: 0.7;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-:host(:focus) {
-  outline: none;
-}
-
-.switch {
-  position: relative;
+button {
+  all: unset;
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
+  gap: var(--punica-switch-gap);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: 1.43;
   cursor: pointer;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+  user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-/**focus state**/
-.switch [type='checkbox']:not(:hover):not(:active):focus ~ .switch__lever {
-}
-
-/**switch lever**/
-.switch__lever {
+.track {
   position: relative;
-  display: flex;
-  align-items: center;
-  width: 4em;
-  height: 2em;
-  border-radius: 1.25em;
-  vertical-align: middle;
-  --lever-position: 4%;
-  --dirLTR: 1;
-  background: var(--switch-lever--background, rgb(230 230 230));
-  transition: background 0.1s;
+  display: inline-block;
+  flex: none;
+  inline-size: var(--punica-switch-width);
+  block-size: var(--punica-switch-height);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-switch-track-color);
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
 }
 
-.switch__lever::before {
-  content: '';
-  width: 1.875em; /*30px*/
-  height: 1.875em; /*30px*/
-  border-radius: 50%;
-  background: var(--switch-lever--handle-background, rgb(247, 245, 245));
-  transform-origin: var(--transform-origin);
-  transform: translateX(calc(var(--lever-position) * var(--dirLTR)))
-    scaleX(var(--scale-factor, 1));
-  transition: transform 0.1s ease;
-}
-
-:host([dir='rtl']) .switch .switch__lever {
-  --dirLTR: -1;
-}
-
-/*
-  https://developer.mozilla.org/en-US/docs/Web/CSS/:host-context()
-  */
-:host-context([dir='rtl']):host(:not([dir])) .switch .switch__lever {
-  --dirLTR: -1;
-}
-
-/*
-    For Browsers That Support dir() pseudo-class. As of 04.2021 only Firefox 49 has full support.
-    https://developer.mozilla.org/en-US/docs/Web/CSS/:dir
-  */
-:host(:dir(rtl)) .switch__lever {
-  --dirLTR: -1;
-}
-
-.switch__lever:active::before {
-}
-
-[type='checkbox']:checked ~ .switch__lever {
-  background: rgb(150, 210, 25);
-  --lever-position: 108%;
-}
-
-[type='checkbox']:checked ~ .switch__lever:before {
-  background: white;
-}
-
-/**switch on-text**/
-.switch__on-text {
-  color: var(--switch--on-text-color, rgb(158, 158, 158));
-}
-
-.switch__on-text:not(:empty) {
-  margin-left: 0 0.625em;
-}
-
-[type='checkbox']:checked ~ .switch__on-text {
-  color: var(--switch_checked--on-text-color, rgb(112, 179, 173));
-}
-
-:host([disabled]) .switch__off-text {
-  color: var(--switch_disabled--on-text-color, rgb(158, 158, 158));
-}
-
-/**switch off-text**/
-.switch__off-text {
-  color: var(--switch--off-text-color, rgb(205, 92, 92));
-}
-
-.switch__off-text:not(:empty) {
-  margin-right: 0 0.625em;
-}
-
-[type='checkbox']:checked ~ .switch__off-text {
-  color: var(--switch_checked--off-text-color, rgb(158, 158, 158));
-}
-
-:host([disabled]) .switch__off-text {
-  color: var(--switch_disabled--off-text-color, rgb(158, 158, 158));
-}
-
-/*START Elastic switch*/
-.switch--elastic .switch__lever {
-  --transform-origin: 0% 50%;
-}
-
-:host([dir='rtl']) .switch--elastic .switch__lever {
-  --transform-origin: 100% 50%;
-}
-
-:host-context([dir='rtl']):host(:not([dir])) .switch--elastic .switch__lever {
-  --transform-origin: 100% 50%;
-}
-
-/*
-    For Browsers That Support dir() pseudo-class. As of 04.2021 only Firefox 49 has full support.
-    https://developer.mozilla.org/en-US/docs/Web/CSS/:dir
-  */
-:host(:dir(rtl)) .switch--elastic .switch__lever {
-  --transform-origin: 100% 50%;
-}
-
-.switch--elastic [type='checkbox']:checked ~ .switch__lever {
-  transition-delay: 0.1s; /*for smoother background animation*/
-  --transform-origin: 100% 50%;
-}
-
-:host([dir='rtl']) .switch--elastic [type='checkbox']:checked ~ .switch__lever {
-  --transform-origin: 0% 50%;
-}
-
-:host-context([dir='rtl']):host(:not([dir]))
-  .switch--elastic
-  [type='checkbox']:checked
-  ~ .switch__lever {
-  --transform-origin: 0% 50%;
-}
-
-/*
-    For Browsers That Support dir() pseudo-class. As of 04.2021 only Firefox 49 has full support.
-    https://developer.mozilla.org/en-US/docs/Web/CSS/:dir
-  */
-:host(:dir(rtl)) .switch--elastic [type='checkbox']:checked ~ .switch__lever {
-  --transform-origin: 0% 50%;
-}
-
-.switch--elastic:active .switch__lever::before,
-.switch--elastic .switch__lever.is-active::before {
-  --scale-factor: 1.2;
-}
-
-.switch--elastic .switch__lever::before {
+.thumb {
   position: absolute;
-  transition: transform 0.3s;
+  inset-block-start: calc(var(--punica-space-2) - var(--punica-border-width));
+  inset-inline-start: calc(var(--punica-space-2) - var(--punica-border-width));
+  inline-size: var(--_thumb);
+  block-size: var(--_thumb);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-switch-thumb-color);
+  box-shadow: var(--punica-shadow-xs);
+  transition: inset-inline-start var(--punica-duration-fast) var(--punica-ease);
 }
-/*END Elastic switch*/
 
-.off-screen {
-  /*another name for this class could be visually-hidden*/
-  position: fixed; /*we can set it as fixed, that will prevent jumping when it's clicked/targeted (but it will screw up focusing on the element)*/
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: none;
-  overflow: hidden;
-  clip-path: inset(100%);
-  clip: rect(0 0 0 0); /*deprecated, only for IE9-11*/
-  white-space: nowrap; /*For long content, line feeds are not interpreted as spaces and small width causes content to wrap 1 word per line: https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe*/
+:host(:state(checked)) .track {
+  background: var(--punica-switch-track-color-checked);
+}
+:host(:state(checked)) .thumb {
+  inset-inline-start: calc(
+    var(--punica-switch-width) - var(--_thumb) - var(--punica-space-2) - var(--punica-border-width)
+  );
+}
+
+/* The muted text token fails AA on a white page at this size, so the side
+   that is not in effect is told apart by weight alone. */
+.text {
+  font-weight: var(--punica-font-weight-regular);
+}
+:host(:not(:state(checked))) .off,
+:host(:state(checked)) .on {
+  font-weight: var(--punica-font-weight-bold);
+}
+
+.text[hidden],
+.label[hidden] {
+  display: none;
+}
+
+button:focus-visible .track {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+button:disabled {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+@media (forced-colors: active) {
+  .track {
+    border-color: ButtonText;
+    background: Canvas;
+  }
+  .thumb {
+    background: ButtonText;
+  }
+  :host(:state(checked)) .track {
+    background: Highlight;
+  }
+  :host(:state(checked)) .thumb {
+    background: HighlightText;
+  }
+  button:disabled {
+    opacity: 1;
+    color: GrayText;
+  }
 }

@@ -1,0 +1,22 @@
+:host {
+  --punica-timer-color: inherit;
+  --punica-timer-font-family: var(--punica-font-family-mono);
+
+  display: inline-block;
+  position: relative;
+}
+
+time {
+  color: var(--punica-timer-color);
+  font-family: var(--punica-timer-font-family);
+  font-variant-numeric: tabular-nums;
+}
+
+.status {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

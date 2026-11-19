@@ -1,0 +1,13 @@
+:host {
+  --punica-menu-checkbox-item-indicator-color: var(--punica-color-primary);
+}
+
+.indicator {
+  color: var(--punica-menu-checkbox-item-indicator-color);
+}
+
+@media (forced-colors: active) {
+  .indicator {
+    color: CanvasText;
+  }
+}

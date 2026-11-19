@@ -1,0 +1,73 @@
+:host {
+  --punica-status-dot-size: var(--punica-space-6);
+  --punica-status-dot-color: var(--punica-color-neutral-dark);
+
+  display: inline-block;
+  flex: none;
+  inline-size: var(--punica-status-dot-size);
+  block-size: var(--punica-status-dot-size);
+  vertical-align: middle;
+}
+
+:host([color='primary']) {
+  --punica-status-dot-color: var(--punica-color-primary);
+}
+:host([color='secondary']) {
+  --punica-status-dot-color: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --punica-status-dot-color: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --punica-status-dot-color: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --punica-status-dot-color: var(--punica-color-info);
+}
+:host([color='success']) {
+  --punica-status-dot-color: var(--punica-color-success);
+}
+
+.dot {
+  position: relative;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-status-dot-color);
+}
+
+:host([pulse]) .dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: pulse 1.6s var(--punica-ease) infinite;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([pulse]) .dot::after {
+    animation: none;
+    opacity: 0.3;
+    transform: scale(2);
+  }
+}
+
+@media (forced-colors: active) {
+  .dot {
+    forced-color-adjust: none;
+    border: var(--punica-border-width) solid CanvasText;
+  }
+}

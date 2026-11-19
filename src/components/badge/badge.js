@@ -1,150 +1,87 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './badge.css';
 
-  template.innerHTML = `
-    <slot></slot>
-    <div class="wrapper">
-      <span class="content" part="badge-content"></span>
-    </div>
-    <style></style>
-  `;
+/**
+ * A count or a dot at the corner of what it wraps: unread messages on an
+ * icon, a state on an avatar.
+ *
+ * @element punica-badge
+ *
+ * @attr {string} content - What the badge says, usually a count. A number above `max` reads `max+`.
+ * @attr {number} max - The largest count shown as it is, `99` by default.
+ * @attr {boolean} dot - A small disc with no text.
+ * @attr {boolean} show-zero - Shows a count of 0, which is hidden otherwise.
+ * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Colour of the badge, `primary` by default.
+ * @attr {'block-start-inline-end' | 'block-start-inline-start' | 'block-end-inline-end' | 'block-end-inline-start'} placement - The corner, `block-start-inline-end` by default.
+ * @attr {string} label - What assistive technology reads in place of the bare count, `3 unread messages`.
+ *
+ * @slot - What the badge is attached to. With nothing slotted the badge sits in the text line.
+ *
+ * @csspart badge - The count or the dot.
+ *
+ * @cssprop --punica-badge-background - Background of the badge.
+ * @cssprop --punica-badge-color - Text colour of the badge.
+ * @cssprop --punica-badge-size - Height of a count badge.
+ * @cssprop --punica-badge-dot-size - Diameter of a dot.
+ *
+ * @cssstate standalone - Nothing is slotted.
+ */
+export class PunicaBadge extends PunicaElement {
+  static properties = {
+    content: {},
+    color: {},
+    placement: {},
+    label: {},
+    max: { type: Number, default: 99 },
+    dot: { type: Boolean },
+    showZero: { type: Boolean }
+  };
 
-  class Badge extends PunicaBase {
-    static get booleanAttributes() {
-      return [];
-    }
-    #shadow = this.attachShadow({ mode: 'open' });
+  static styles = styles;
+  static template = `<slot></slot><span part="badge" class="badge" hidden><span class="count"></span><span class="label"></span></span>`;
 
-    /**
-     *
-     */
-    get color() {
-      return this.getAttribute('color') || 'primary';
-    }
+  #slot = this.$('slot');
+  #badge = this.$('.badge');
+  #count = this.$('.count');
+  #label = this.$('.label');
 
-    /**
-     *
-     */
-    set color(value) {
-      this.setAttribute('color', value);
-    }
-
-    /**
-     *
-     */
-    get max() {
-      const max = this.getAttribute('max');
-
-      if (max) {
-        return parseInt(max);
-      }
-
-      return 9;
-    }
-
-    /**
-     *
-     */
-    set max(value) {
-      this.setAttribute('max', value);
-    }
-
-    /**
-     *
-     */
-    get size() {
-      return this.getAttribute('size') || 'large';
-    }
-
-    /**
-     *
-     */
-    set size(value) {
-      this.setAttribute('size', value);
-    }
-
-    /**
-     *
-     */
-    get badgecontent() {
-      const value = this.getAttribute('badgecontent');
-
-      if (value) {
-        return parseInt(value);
-      }
-
-      return 0;
-    }
-
-    /**
-     *
-     */
-    set badgecontent(val) {
-      this.setAttribute('badgecontent', val);
-    }
-
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return ['color', 'size', 'badgecontent', 'max'];
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-    }
-
-    /**
-     *
-     */
-    connectedCallback() {
-      super.connectedCallback();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-
-      this.update();
-    }
-
-    /**
-     *
-     * @param {*} name
-     */
-    attributeChangedCallback(name) {
-      switch (name) {
-        case 'badgecontent':
-          this.update();
-          break;
-      }
-    }
-
-    /**
-     *
-     */
-    update() {
-      const content = this.#shadow.querySelector('.content');
-
-      if (!content) {
-        return;
-      }
-
-      if (this.badgecontent) {
-        content.classList.add('has-content');
-
-        if (this.size == 'medium') {
-          if (this.badgecontent < this.max) {
-            content.innerText = this.badgecontent;
-          } else {
-            content.innerText = `${this.max}+`;
-          }
-        }
-      } else {
-        content.classList.remove('has-content');
-      }
-    }
+  constructor() {
+    super();
+    this.#slot.addEventListener('slotchange', () => this.#standalone());
   }
 
-  customElements.define('punica-badge', Badge);
-})();
+  update() {
+    const raw = this.content?.trim() ?? '';
+    const count = raw !== '' && Number.isFinite(Number(raw)) ? Number(raw) : null;
+    const zero = count === 0 && !this.showZero;
+
+    let text = '';
+    if (!this.dot && !zero) {
+      if (count === null) text = raw;
+      else {
+        const language = this.closest('[lang]')?.lang || navigator.language;
+        const format = new Intl.NumberFormat(language);
+        const max = this.max >= 0 ? this.max : 99;
+        text = count > max ? `${format.format(max)}+` : format.format(count);
+      }
+    }
+    const shown = this.dot ? !zero : text !== '';
+
+    this.#badge.hidden = !shown;
+    this.#count.textContent = text;
+    // With a label the bare count is for the eye only.
+    this.#label.textContent = shown ? this.label ?? '' : '';
+    if (this.label) this.#count.setAttribute('aria-hidden', 'true');
+    else this.#count.removeAttribute('aria-hidden');
+    this.#standalone();
+  }
+
+  #standalone() {
+    const filled = this.#slot
+      .assignedNodes({ flatten: true })
+      .some((node) => node.nodeType === Node.ELEMENT_NODE || node.textContent.trim() !== '');
+    this.toggleState('standalone', !filled);
+  }
+}
+
+define('punica-badge', PunicaBadge);

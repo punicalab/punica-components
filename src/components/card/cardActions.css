@@ -1,7 +1,24 @@
 :host {
+  --punica-card-actions-padding: var(--punica-space-16);
+  --punica-card-actions-gap: var(--punica-space-8);
+
   display: flex;
-  flex-wrap: nowrap;
-  gap: var(--spacing-4);
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-end;
-  padding: var(--spacing-16);
+  gap: var(--punica-card-actions-gap);
+  padding: var(--punica-card-actions-padding);
+}
+
+:host([align='start']) {
+  justify-content: flex-start;
+}
+:host([align='between']) {
+  justify-content: space-between;
+}
+
+/* The browser maps an `align` attribute to text-align; here it means
+   alignment of the children, so the text keeps what it inherits. */
+:host([align]) {
+  text-align: inherit;
 }

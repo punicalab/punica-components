@@ -1,78 +1,64 @@
 :host {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  flex-shrink: 0;
-}
+  --punica-app-bar-background: var(--punica-color-primary);
+  --punica-app-bar-color: var(--punica-color-on-accent);
+  --punica-app-bar-shadow: var(--punica-shadow-xs);
+  --punica-app-bar-padding: var(--punica-space-0);
+  --punica-app-bar-gap: var(--punica-space-8);
 
-:host([color='primary']) {
-  background-color: var(--primary-main);
-  color: var(--white);
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--punica-app-bar-gap);
+  box-sizing: border-box;
+  inline-size: 100%;
+  padding-inline: var(--punica-app-bar-padding);
+  background: var(--punica-app-bar-background);
+  color: var(--punica-app-bar-color);
+  box-shadow: var(--punica-app-bar-shadow);
+  font-family: var(--punica-font-family);
 }
 
 :host([color='secondary']) {
-  background-color: var(--secondary-main);
-  color: var(--white);
+  --punica-app-bar-background: var(--punica-color-secondary);
 }
-
 :host([color='error']) {
-  background-color: var(--error-main);
-  color: var(--white);
+  --punica-app-bar-background: var(--punica-color-error);
 }
-
-:host([color='info']) {
-  background-color: var(--info-main);
-  color: var(--white);
-}
-
 :host([color='warning']) {
-  background-color: var(--warning-main);
-  color: var(--white);
+  --punica-app-bar-background: var(--punica-color-warning);
 }
-
+:host([color='info']) {
+  --punica-app-bar-background: var(--punica-color-info);
+}
 :host([color='success']) {
-  background-color: var(--success-main);
-  color: var(--white);
+  --punica-app-bar-background: var(--punica-color-success);
 }
-
-:host([color='transparent']) {
-  background-color: transparent;
-  color: inherit;
-}
-
-:host([color='inherit']) {
-  background-color: inherit;
-  color: inherit;
-}
-
-:host([position='fixed']) {
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  left: auto;
-  right: 0;
-}
-
-:host([position='absolute']) {
-  position: absolute;
-  z-index: 1000;
-  top: 0;
-  left: auto;
-  right: 0;
+:host([color='neutral']) {
+  --punica-app-bar-background: var(--punica-color-surface);
+  --punica-app-bar-color: var(--punica-color-text);
+  --punica-app-bar-shadow: none;
+  border-block-end: var(--punica-border-width) solid var(--punica-color-border);
 }
 
 :host([position='sticky']) {
   position: sticky;
-  z-index: 1000;
-  top: 0;
-  left: auto;
-  right: 0;
+  inset-block-start: 0;
+  z-index: var(--punica-z-sticky);
+}
+:host([position='fixed']) {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: var(--punica-z-fixed);
 }
 
-:host([position='static']) {
-  position: static;
+.content {
+  flex: 1 1 auto;
+  min-inline-size: 0;
 }
 
-:host([position='relative']) {
-  position: relative;
+@media (forced-colors: active) {
+  :host {
+    border-block-end: var(--punica-border-width) solid CanvasText;
+  }
 }

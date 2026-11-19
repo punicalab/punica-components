@@ -1,0 +1,49 @@
+:host {
+  --punica-kbd-background: var(--punica-color-neutral-light);
+  --punica-kbd-border-color: var(--punica-color-border-strong);
+  --punica-kbd-radius: var(--punica-radius-sm);
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+kbd {
+  font: inherit;
+}
+
+[part='base'] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--punica-space-2);
+}
+
+.keys {
+  display: contents;
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1.5em;
+  padding: var(--punica-space-2) var(--punica-space-4);
+  border: var(--punica-border-width) solid var(--punica-kbd-border-color);
+  border-block-end-width: var(--punica-space-2);
+  border-radius: var(--punica-kbd-radius);
+  background: var(--punica-kbd-background);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family-mono);
+  font-size: var(--punica-font-size-xs);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.key[hidden] {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .key {
+    border-color: CanvasText;
+  }
+}

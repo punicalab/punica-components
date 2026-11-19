@@ -1,0 +1,157 @@
+:host {
+  --punica-lightbox-background: color-mix(in srgb, var(--punica-color-black) 88%, transparent);
+  --punica-lightbox-color: var(--punica-color-white);
+  --punica-lightbox-control-background: color-mix(in srgb, var(--punica-color-black) 60%, transparent);
+  --punica-lightbox-padding: var(--punica-space-48);
+  --punica-lightbox-radius: var(--punica-radius-sm);
+
+  display: contents;
+}
+
+dialog {
+  position: fixed;
+  inset: 0;
+  inline-size: 100vw;
+  block-size: 100dvh;
+  max-inline-size: none;
+  max-block-size: none;
+  margin: 0;
+  padding: var(--punica-lightbox-padding);
+  border: 0;
+  background: var(--punica-lightbox-background);
+  color: var(--punica-lightbox-color);
+  font-family: var(--punica-font-family);
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity var(--punica-duration) var(--punica-ease),
+    display var(--punica-duration) allow-discrete,
+    overlay var(--punica-duration) allow-discrete;
+}
+
+dialog[open] {
+  display: grid;
+  place-items: center;
+  opacity: 1;
+}
+
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+  }
+}
+
+dialog::backdrop {
+  background: transparent;
+}
+
+dialog:focus-visible {
+  outline: none;
+}
+
+figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--punica-space-12);
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  min-block-size: 0;
+  margin: 0;
+}
+
+img {
+  display: block;
+  min-block-size: 0;
+  max-inline-size: 100%;
+  max-block-size: calc(100dvh - 2 * var(--punica-lightbox-padding) - var(--punica-space-48));
+  border-radius: var(--punica-lightbox-radius);
+  object-fit: contain;
+}
+
+figcaption {
+  max-inline-size: 60ch;
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+  text-align: center;
+}
+
+figcaption:empty {
+  display: none;
+}
+
+button {
+  all: unset;
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-size-lg);
+  block-size: var(--punica-size-lg);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-lightbox-control-background);
+  color: var(--punica-lightbox-color);
+  font-size: var(--punica-font-size-xl);
+  cursor: pointer;
+  transition: background-color var(--punica-duration) var(--punica-ease);
+}
+
+button:hover {
+  background: color-mix(in srgb, var(--punica-lightbox-color) 20%, var(--punica-lightbox-control-background));
+}
+
+button:focus-visible {
+  outline: var(--punica-focus-ring-width) solid var(--punica-lightbox-color);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+button[aria-disabled='true'] {
+  opacity: var(--punica-disabled-opacity);
+  cursor: default;
+}
+
+.previous {
+  inset-block-start: calc(50% - var(--punica-size-lg) / 2);
+  inset-inline-start: var(--punica-space-12);
+}
+
+.next {
+  inset-block-start: calc(50% - var(--punica-size-lg) / 2);
+  inset-inline-end: var(--punica-space-12);
+}
+
+.close {
+  inset-block-start: var(--punica-space-12);
+  inset-inline-end: var(--punica-space-12);
+}
+
+:host(:dir(rtl)) .previous .icon,
+:host(:dir(rtl)) .next .icon {
+  transform: scaleX(-1);
+}
+
+.counter {
+  position: absolute;
+  inset-block-start: var(--punica-space-12);
+  inset-inline-start: var(--punica-space-12);
+  padding: var(--punica-space-4) var(--punica-space-8);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-lightbox-control-background);
+  font-size: var(--punica-font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (forced-colors: active) {
+  button {
+    border-color: ButtonText;
+  }
+  button[aria-disabled='true'] {
+    color: GrayText;
+    border-color: GrayText;
+    opacity: 1;
+  }
+}

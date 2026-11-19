@@ -1,0 +1,81 @@
+:host {
+  --punica-citation-color: var(--punica-color-primary-dark);
+  --punica-citation-background: color-mix(in srgb, var(--punica-color-primary) 14%, transparent);
+  --punica-citation-radius: var(--punica-radius-full);
+  --punica-citation-card-width: 20rem;
+
+  display: inline-flex;
+  vertical-align: baseline;
+}
+
+.marker {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1.5em;
+  block-size: 1.5em;
+  margin-inline: var(--punica-space-2);
+  padding-inline: var(--punica-space-4);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-citation-radius);
+  background: var(--punica-citation-background);
+  color: var(--punica-citation-color);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-xs);
+  font-weight: var(--punica-font-weight-semi-bold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.marker[hidden],
+.title[hidden],
+.source[hidden] {
+  display: none;
+}
+
+.marker:hover,
+:host([open]) .marker {
+  background: color-mix(in srgb, var(--punica-color-primary) 26%, transparent);
+}
+
+.marker:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+punica-popover {
+  --punica-popover-max-width: min(90vw, var(--punica-citation-card-width));
+  --punica-popover-padding: var(--punica-space-12);
+}
+
+.card {
+  /* The popover's own align="center" attribute is a presentational hint for
+     text-align in Chromium; the card reads from the start. */
+  text-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-space-4);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+  color: var(--punica-color-text);
+}
+
+.title {
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+
+.source {
+  color: var(--punica-color-text-muted);
+  font-size: var(--punica-font-size-xs);
+}
+
+@media (forced-colors: active) {
+  .marker {
+    border-color: LinkText;
+  }
+}

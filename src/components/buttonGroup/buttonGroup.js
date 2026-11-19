@@ -1,163 +1,41 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './buttonGroup.css';
 
-  template.innerHTML = `<slot></slot><style></style>`;
+/**
+ * Buttons that belong together, drawn as one joined control.
+ *
+ * The group only joins its buttons visually and names them as a group: it
+ * writes nothing on them. Give each button its own `variant`, `size`,
+ * `color` and `disabled`.
+ *
+ * @element punica-button-group
+ *
+ * @attr {string} label - Accessible name of the group.
+ * @attr {'horizontal' | 'vertical'} orientation - Direction the buttons are joined in, `horizontal` by default.
+ * @attr {boolean} full-width - Fills its container; the buttons share the space.
+ *
+ * @slot - `punica-button`, `punica-icon-button` and `punica-toggle-button` elements.
+ *
+ * @cssprop --punica-button-group-radius - Radius of the group's outer corners.
+ */
+export class PunicaButtonGroup extends PunicaElement {
+  static properties = {
+    label: {},
+    orientation: { default: 'horizontal' },
+    fullWidth: { type: Boolean }
+  };
 
-  class ButtonGroup extends PunicaBase {
-    static get booleanAttributes() {
-      return ['disabled', 'fullwidth'];
-    }
-    #shadow = this.attachShadow({ mode: 'open' });
+  static styles = styles;
+  static template = `<slot></slot>`;
 
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return ['variant', 'size', 'color', 'disabled', 'fullwidth'];
-    }
-
-    /**
-     *
-     */
-    get size() {
-      return this.getAttribute('size') || 'medium';
-    }
-
-    /**
-     *
-     */
-    set size(val) {
-      this.setAttribute('size', val);
-    }
-
-    /**
-     *
-     */
-    get variant() {
-      return this.getAttribute('variant') || 'outlined';
-    }
-
-    /**
-     *
-     */
-    set variant(val) {
-      this.setAttribute('variant', val);
-    }
-
-    /**
-     *
-     */
-    get color() {
-      return this.getAttribute('color') || 'primary';
-    }
-
-    /**
-     *
-     */
-    set color(val) {
-      this.setAttribute('color', val);
-    }
-
-    /**
-     *
-     */
-    get disabled() {
-      return this.hasAttribute('disabled');
-    }
-
-    /**
-     *
-     */
-    set disabled(value) {
-      if (value) {
-        this.setAttribute('disabled', '');
-      } else {
-        this.removeAttribute('disabled');
-      }
-    }
-
-    /**
-     *
-     */
-    get fullwidth() {
-      return this.hasAttribute('fullwidth');
-    }
-
-    /**
-     *
-     */
-    set fullwidth(value) {
-      if (value) {
-        this.setAttribute('fullwidth', '');
-      } else {
-        this.removeAttribute('fullwidth');
-      }
-    }
-
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return ['color', 'size', 'variant', 'fullwidth', 'disabled'];
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
-
-    /**
-     *
-     * @param {*} attribute
-     * @param {*} newAttributeType
-     */
-    applyNewStyle(attribute, newAttributeType) {
-      const attributeValue = this.getAttribute(attribute);
-      const slot = this.#shadow.querySelector('slot');
-      const children = slot.assignedElements();
-
-      children.forEach((child) => {
-        if (newAttributeType === null || newAttributeType === undefined) {
-          child.removeAttribute(attribute);
-        } else if (
-          attributeValue === newAttributeType ||
-          (newAttributeType === '' && this.hasAttribute(attribute))
-        ) {
-          child.classList.remove(attribute);
-          child.setAttribute(attribute, newAttributeType);
-        }
-      });
-    }
-
-    /**
-     *
-     */
-    connectedCallback() {
-      super.connectedCallback();
-
-      this.setAttribute('role', 'group');
-
-      this.applyNewStyle('disabled', this.disabled ? '' : null);
-      this.applyNewStyle('fullwidth', this.fullwidth ? '' : null);
-      this.applyNewStyle('color', this.color);
-      this.applyNewStyle('size', this.size);
-      this.applyNewStyle('variant', this.variant);
-    }
-
-    /**
-     *
-     * @param {*} name
-     * @param {*} oldValue
-     * @param {*} newValue
-     */
-    attributeChangedCallback(name, oldValue, newValue) {
-      this.normalizeBooleanAttributeIfNeeded(name, newValue);
-    }
+  constructor() {
+    super();
+    this.internals.role = 'group';
   }
 
-  customElements.define('punica-button-group', ButtonGroup);
-})();
+  update() {
+    this.internals.ariaLabel = this.label || null;
+  }
+}
+
+define('punica-button-group', PunicaButtonGroup);

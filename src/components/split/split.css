@@ -1,116 +1,101 @@
 :host {
-  --split-gutter-size: 8px;
-  --split-gutter-hitbox: 16px;
-  --split-gutter-color: var(--neutral-main);
-  --split-gutter-hover: var(--highlight);
-  --split-pane-bg: transparent;
-  --split-transition: 120ms cubic-bezier(0.4, 0, 0.2, 1);
-}
+  --punica-split-divider-size: var(--punica-space-8);
+  --punica-split-divider-line: 2px;
+  --punica-split-divider-color: var(--punica-color-border-strong);
+  --punica-split-divider-active-color: var(--punica-color-focus);
 
-:host {
   display: block;
 }
 
-.root {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.layout {
-  position: relative;
-  width: 100%;
-  height: 100%;
+.base {
   display: flex;
+  inline-size: 100%;
+  block-size: 100%;
   overflow: hidden;
 }
 
-:host([orientation='vertical']) .layout {
+:host([orientation='vertical']) .base {
   flex-direction: column;
 }
 
 .pane {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  min-block-size: 0;
   overflow: auto;
-  background: var(--split-pane-bg);
-  min-width: 0;
-  min-height: 0;
 }
 
-.gutter {
+/* A pane's content fills it, so a split nested in a pane fills that pane;
+   content taller than the pane makes it scroll. */
+.pane > slot::slotted(*) {
+  flex: 1 0 auto;
+}
+
+.start {
+  flex: 0 0 calc(var(--_position, 50%) - var(--punica-split-divider-size) / 2);
+}
+
+.end {
+  flex: 1 1 0;
+}
+
+.divider {
   position: relative;
-  flex: 0 0 auto;
-  background: transparent;
-  z-index: 1;
-  outline: none;
-}
-
-.gutter::before {
-  content: '';
-  position: absolute;
-  background: var(--split-gutter-color);
-  transition: background var(--split-transition);
-}
-
-.gutter::after {
-  content: '';
-  position: absolute;
-  background: transparent;
-}
-
-:host(:not([orientation='vertical'])) .gutter {
+  flex: 0 0 var(--punica-split-divider-size);
   cursor: col-resize;
+  touch-action: none;
+  user-select: none;
 }
 
-:host(:not([orientation='vertical'])) .gutter::before {
-  top: 0;
-  bottom: 0;
-  left: calc(50% - 1px);
-  width: 2px;
-}
-
-:host(:not([orientation='vertical'])) .gutter::after {
-  top: 0;
-  bottom: 0;
-  left: calc(50% - (var(--split-gutter-hitbox) / 2));
-  width: calc(var(--split-gutter-hitbox) / 2);
-}
-
-:host([orientation='vertical']) .gutter {
+:host([orientation='vertical']) .divider {
   cursor: row-resize;
 }
 
-:host([orientation='vertical']) .gutter::before {
-  left: 0;
-  right: 0;
-  top: calc(50% - 1px);
-  height: 2px;
+.divider::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(50% - var(--punica-split-divider-line) / 2);
+  inline-size: var(--punica-split-divider-line);
+  background: var(--punica-split-divider-color);
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
 }
 
-:host([orientation='vertical']) .gutter::after {
-  left: 0;
-  right: 0;
-  top: calc(50% - (var(--split-gutter-hitbox) / 2));
-  height: calc(var(--split-gutter-hitbox) / 2);
+:host([orientation='vertical']) .divider::before {
+  inset-inline: 0;
+  inset-block: calc(50% - var(--punica-split-divider-line) / 2) auto;
+  inline-size: auto;
+  block-size: var(--punica-split-divider-line);
 }
 
-.gutter:hover::before,
-.gutter:focus-visible::before,
-.gutter.dragging::before {
-  background: var(--split-gutter-hover);
+.divider:hover::before,
+.divider:focus-visible::before,
+:host(:state(dragging)) .divider::before {
+  background: var(--punica-split-divider-active-color);
 }
 
-.pane,
-.gutter {
-  transition: flex-basis var(--split-transition);
+.divider:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(var(--punica-focus-ring-width) * -1);
 }
 
-:host([no-transition]) .pane,
-:host([no-transition]) .gutter {
-  transition: none !important;
+.divider[aria-disabled='true'] {
+  cursor: default;
 }
 
-.drag-disable-select,
-.drag-disable-select * {
-  user-select: none !important;
+.divider[aria-disabled='true']:hover::before {
+  background: var(--punica-split-divider-color);
+}
+
+@media (forced-colors: active) {
+  .divider::before {
+    background: CanvasText;
+  }
+  .divider:hover::before,
+  .divider:focus-visible::before,
+  :host(:state(dragging)) .divider::before {
+    background: Highlight;
+  }
 }

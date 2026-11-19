@@ -1,0 +1,136 @@
+:host {
+  --_accent: var(--punica-color-primary);
+  --punica-slider-length: var(--punica-space-160);
+  --punica-slider-track-size: var(--punica-space-4);
+  --punica-slider-thumb-size: var(--punica-space-18);
+  --punica-slider-track-color: var(--punica-color-border-strong);
+  --punica-slider-color: var(--_accent);
+
+  display: inline-block;
+  inline-size: var(--punica-space-160);
+  vertical-align: middle;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:host([orientation='vertical']) {
+  inline-size: auto;
+  block-size: var(--punica-slider-length);
+}
+
+:host([color='secondary']) {
+  --_accent: var(--punica-color-secondary);
+}
+:host([color='error']) {
+  --_accent: var(--punica-color-error);
+}
+:host([color='warning']) {
+  --_accent: var(--punica-color-warning);
+}
+:host([color='info']) {
+  --_accent: var(--punica-color-info);
+}
+:host([color='success']) {
+  --_accent: var(--punica-color-success);
+}
+:host([color='neutral']) {
+  --_accent: var(--punica-color-neutral-dark);
+}
+
+/* The thumb's centre travels the track, so the base is padded by half a thumb. */
+.base {
+  position: relative;
+  display: flex;
+  align-items: center;
+  inline-size: 100%;
+  block-size: var(--punica-slider-thumb-size);
+  padding-inline: calc(var(--punica-slider-thumb-size) / 2);
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+.track {
+  position: relative;
+  flex: 1;
+  block-size: var(--punica-slider-track-size);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-slider-track-color);
+}
+
+.fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: calc(var(--_percent, 0) * 1%);
+  border-radius: inherit;
+  background: var(--punica-slider-color);
+}
+
+.thumb {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: calc(var(--_percent, 0) * (100% - var(--punica-slider-thumb-size)) / 100);
+  inline-size: var(--punica-slider-thumb-size);
+  block-size: var(--punica-slider-thumb-size);
+  border: var(--punica-space-2) solid var(--punica-color-surface);
+  border-radius: var(--punica-radius-full);
+  background: var(--punica-slider-color);
+  box-shadow: var(--punica-shadow-xs);
+  transition: transform var(--punica-duration-fast) var(--punica-ease);
+}
+
+:host(:state(dragging)) .thumb {
+  transform: scale(1.15);
+}
+
+:host([orientation='vertical']) .base {
+  flex-direction: column;
+  inline-size: var(--punica-slider-thumb-size);
+  block-size: 100%;
+  padding-inline: 0;
+  padding-block: calc(var(--punica-slider-thumb-size) / 2);
+  touch-action: pan-x;
+}
+:host([orientation='vertical']) .track {
+  inline-size: var(--punica-slider-track-size);
+  block-size: auto;
+}
+:host([orientation='vertical']) .fill {
+  inset-inline: 0;
+  inset-block: auto 0;
+  inline-size: auto;
+  block-size: calc(var(--_percent, 0) * 1%);
+}
+:host([orientation='vertical']) .thumb {
+  inset-inline-start: 0;
+  inset-block: auto calc(var(--_percent, 0) * (100% - var(--punica-slider-thumb-size)) / 100);
+}
+
+:host(:focus-visible) .thumb {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+:host([disabled]) .base,
+:host(:state(disabled)) .base {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+@media (forced-colors: active) {
+  .track {
+    background: ButtonText;
+  }
+  .fill,
+  .thumb {
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+  .thumb {
+    border-color: Canvas;
+  }
+  :host([disabled]) .base,
+  :host(:state(disabled)) .base {
+    opacity: 1;
+  }
+}

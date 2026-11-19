@@ -1,0 +1,58 @@
+:host {
+  --punica-segmented-control-item-padding: var(--punica-space-12);
+
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex: 1 0 auto;
+  border-radius: calc(var(--punica-radius) - var(--punica-space-2));
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  font-weight: var(--punica-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.base {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--punica-space-6);
+  padding-inline: var(--punica-segmented-control-item-padding);
+}
+
+:host(:hover:not(:state(selected), :state(disabled))) {
+  background: var(--punica-color-hover);
+}
+
+:host(:state(selected)) {
+  font-weight: var(--punica-font-weight-bold);
+}
+
+:host(:focus-visible) {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
+}
+
+:host(:state(disabled)) {
+  cursor: default;
+  opacity: var(--punica-disabled-opacity);
+}
+
+@media (forced-colors: active) {
+  :host(:state(selected)) {
+    background: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+  :host(:state(disabled)) {
+    opacity: 1;
+    color: GrayText;
+  }
+}

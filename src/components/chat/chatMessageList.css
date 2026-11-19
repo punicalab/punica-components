@@ -1,0 +1,31 @@
+:host {
+  --punica-chat-message-list-gap: var(--punica-space-24);
+
+  display: block;
+  font-family: var(--punica-font-family);
+  color: var(--punica-color-text);
+}
+
+.base {
+  display: flex;
+  flex-direction: column;
+  gap: var(--punica-chat-message-list-gap);
+}
+
+.empty {
+  display: none;
+}
+
+:host(:state(empty)) .base {
+  display: none;
+}
+
+:host(:state(empty)) .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--punica-space-8);
+  padding-block: var(--punica-space-48);
+  text-align: center;
+}

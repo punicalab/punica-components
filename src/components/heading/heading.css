@@ -1,0 +1,69 @@
+:host {
+  --_size: var(--punica-font-size-2xl);
+  --punica-heading-font-size: var(--_size);
+  --punica-heading-font-weight: var(--punica-font-weight-bold);
+  --punica-heading-line-height: var(--punica-line-height-heading);
+  --punica-heading-color: var(--punica-color-text);
+
+  display: block;
+  margin: 0;
+  color: var(--punica-heading-color);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-heading-font-size);
+  font-weight: var(--punica-heading-font-weight);
+  line-height: var(--punica-heading-line-height);
+}
+
+:host([level='1']) {
+  --_size: var(--punica-font-size-3xl);
+}
+:host([level='3']) {
+  --_size: var(--punica-font-size-xl);
+}
+:host([level='4']) {
+  --_size: var(--punica-font-size-lg);
+}
+:host([level='5']) {
+  --_size: var(--punica-font-size);
+}
+:host([level='6']) {
+  --_size: var(--punica-font-size-sm);
+}
+
+:host([size='xsmall']) {
+  --_size: var(--punica-font-size-sm);
+}
+:host([size='small']) {
+  --_size: var(--punica-font-size);
+}
+:host([size='medium']) {
+  --_size: var(--punica-font-size-lg);
+}
+:host([size='large']) {
+  --_size: var(--punica-font-size-xl);
+}
+:host([size='xlarge']) {
+  --_size: var(--punica-font-size-2xl);
+}
+:host([size='2xlarge']) {
+  --_size: var(--punica-font-size-3xl);
+}
+
+:host([align='start']) {
+  text-align: start;
+}
+:host([align='center']) {
+  text-align: center;
+}
+:host([align='end']) {
+  text-align: end;
+}
+:host([align='justify']) {
+  text-align: justify;
+}
+
+:host([truncate]) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,0 +1,48 @@
+:host {
+  --punica-hover-card-radius: var(--punica-radius);
+  --punica-hover-card-padding: var(--punica-padding);
+  --punica-hover-card-background: var(--punica-color-surface-raised);
+  --punica-hover-card-shadow: var(--punica-shadow-md);
+  --punica-hover-card-max-width: min(90vw, 360px);
+
+  display: contents;
+}
+
+[part='panel'] {
+  max-inline-size: var(--punica-hover-card-max-width);
+  padding: var(--punica-hover-card-padding);
+  border: var(--punica-border-width) solid var(--punica-color-border);
+  border-radius: var(--punica-hover-card-radius);
+  background: var(--punica-hover-card-background);
+  color: var(--punica-color-text);
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+  box-shadow: var(--punica-hover-card-shadow);
+  overflow: auto;
+  opacity: 0;
+  transition: opacity var(--punica-duration) var(--punica-ease),
+    display var(--punica-duration) allow-discrete,
+    overlay var(--punica-duration) allow-discrete;
+}
+
+[part='panel']:popover-open,
+[part='panel'][data-open] {
+  opacity: 1;
+}
+
+[part='panel']:focus-visible {
+  outline: var(--punica-focus-ring);
+}
+
+@starting-style {
+  [part='panel']:popover-open {
+    opacity: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  [part='panel'] {
+    border-color: CanvasText;
+  }
+}

@@ -1,0 +1,15 @@
+:host {
+  --punica-menu-divider-color: var(--punica-color-border);
+
+  display: block;
+  flex: none;
+  block-size: var(--punica-border-width);
+  margin: var(--punica-space-4) 0;
+  background: var(--punica-menu-divider-color);
+}
+
+@media (forced-colors: active) {
+  :host {
+    background: CanvasText;
+  }
+}

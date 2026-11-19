@@ -1,0 +1,46 @@
+:host {
+  --punica-checkbox-group-gap: var(--punica-space-8);
+  --punica-checkbox-group-label-color: var(--punica-color-text);
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--punica-space-8);
+  vertical-align: middle;
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: 1.43;
+}
+
+.label {
+  color: var(--punica-checkbox-group-label-color);
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--punica-checkbox-group-gap);
+}
+
+:host([orientation='horizontal']) .items {
+  flex-flow: row wrap;
+  align-items: center;
+  column-gap: var(--punica-space-16);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:host(:state(disabled)) .label {
+  opacity: var(--punica-disabled-opacity);
+}
+
+@media (forced-colors: active) {
+  :host(:state(disabled)) .label {
+    color: GrayText;
+    opacity: 1;
+  }
+}

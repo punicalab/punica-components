@@ -1,0 +1,50 @@
+:host {
+  display: table-row;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+:host(:nth-child(even)) {
+  background: var(--_stripe, transparent);
+}
+:host([selected]) {
+  background: var(--punica-table-selected-background, var(--punica-color-selected));
+}
+
+.select {
+  display: table-cell;
+  inline-size: var(--punica-space-16);
+  padding: var(--punica-table-cell-padding, var(--punica-space-12) var(--punica-space-16));
+  padding-inline-end: 0;
+  border-block-end: var(--punica-border-width) solid var(--punica-table-border-color, var(--punica-color-border));
+  vertical-align: middle;
+}
+:host(:state(header)) .select {
+  position: var(--_sticky, static);
+  inset-block-start: 0;
+  z-index: 1;
+  background: var(--punica-table-header-background, var(--punica-color-surface));
+}
+
+input {
+  display: block;
+  inline-size: var(--punica-space-16);
+  block-size: var(--punica-space-16);
+  margin: 0;
+  accent-color: var(--punica-color-primary);
+  cursor: pointer;
+}
+input:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (forced-colors: active) {
+  :host([selected]) {
+    outline: var(--punica-border-width) solid Highlight;
+    outline-offset: calc(-1 * var(--punica-border-width));
+  }
+}

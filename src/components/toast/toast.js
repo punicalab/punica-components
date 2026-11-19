@@ -1,215 +1,163 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import { icons } from '../../core/icons.js';
+import styles from './toast.css';
 
-  template.innerHTML = `
-    <punica-card class="card" rounded="true">
-      <punica-card-header>
-        <punica-row wrap="nowrap" alignitems="center" justifycontent="space-between">
-          <punica-col>
-            <punica-typography variant="body2" class="title"></punica-typography>
-          </punica-col>
-          <punica-col>
-            <punica-icon-button size="xsmall" class="close" style="padding:4px">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path fill="#fff" d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/></svg>
-            </punica-icon-button>
-          </punica-col>
-        </punica-row>
-      </punica-card-header>
-      <punica-card-content>
-        <punica-typography variant="body2" class="msg"></punica-typography>
-      </punica-card-content>
-      <punica-card-actions>
-        <div class="progress" hidden><i></i></div>
-      </punica-card-actions>
-    </punica-card>
-    <style></style>
-  `;
-
-  const VARIANTS = {
-    info: {
-      bg: 'var(--info-main)',
-      fg: '#fff'
-    },
-    success: {
-      bg: 'var(--success-main)',
-      fg: '#fff'
-    },
-    warning: {
-      bg: 'var(--warning-main)',
-      fg: '#fff'
-    },
-    error: {
-      bg: 'var(--error-main)',
-      fg: '#fff'
-    },
-    neutral: {
-      bg: 'var(--neutral-error)',
-      fg: '#fff'
-    }
+/**
+ * A short message that goes away by itself.
+ *
+ * It lives in a `punica-toaster`, which announces it; `toast()` from
+ * `toaster.js` creates one. The countdown pauses while the pointer or
+ * keyboard focus is on the toast. The close button or Escape dismisses it;
+ * a dismissed toast removes itself from the document.
+ *
+ * @element punica-toast
+ *
+ * @attr {'neutral' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'} color - Accent, `neutral` by default.
+ * @attr {number} duration - Milliseconds before it goes away, 5000 by default; 0 keeps it until dismissed.
+ * @attr {boolean} no-close-button - Hides the close button.
+ * @attr {string} label-close - Accessible name of the close button, `Close` by default.
+ *
+ * @slot - The message.
+ * @slot start - Content before the message, an icon.
+ * @slot action - A button after the message.
+ *
+ * @fires punica-dismiss - The toast is going away. `detail.reason` is `user` (close button, Escape) or `timeout`. A call to `dismiss()` fires nothing.
+ *
+ * @csspart base - The toast's box.
+ * @csspart message - The wrapper around the message.
+ * @csspart close-button - The close button.
+ * @csspart progress - The bar showing the time left.
+ *
+ * @cssprop --punica-toast-radius - Corner radius.
+ * @cssprop --punica-toast-padding - Padding.
+ * @cssprop --punica-toast-background - Background; the accent by default.
+ * @cssprop --punica-toast-color - Text colour.
+ * @cssprop --punica-toast-shadow - Shadow.
+ * @cssprop --punica-toast-max-width - Largest inline size.
+ *
+ * @cssstate paused - The countdown is held.
+ * @cssstate leaving - The toast is fading out before it is removed.
+ */
+export class PunicaToast extends PunicaElement {
+  static properties = {
+    color: {},
+    duration: { type: Number, default: 5000 },
+    noCloseButton: { type: Boolean },
+    labelClose: { default: 'Close' }
   };
 
-  class Toast extends PunicaBase {
-    static get booleanAttributes() {
-      return ['dismissible'];
-    }
-    #shadow = this.attachShadow({ mode: 'open' });
-    #timer = null;
+  static styles = styles;
+  static template = `
+    <div part="base">
+      <slot name="start"></slot>
+      <div part="message"><slot></slot></div>
+      <slot name="action"></slot>
+      <button part="close-button" class="close" type="button">${icons.close}</button>
+      <span part="progress" hidden></span>
+    </div>
+  `;
 
-    /**
-     *
-     */
-    static get observedAttributes() {
-      return ['title', 'message', 'variant', 'duration', 'dismissible'];
-    }
+  #base = this.$('[part="base"]');
+  #progress = this.$('[part="progress"]');
+  #timer = 0;
+  #leaveTimer = 0;
+  #remaining = 0;
+  #startedAt = 0;
+  #holds = new Set();
+  #leaving = false;
 
-    get title() {
-      return this.getAttribute('title');
-    }
-    set title(v) {
-      v == null ? this.removeAttribute('title') : this.setAttribute('title', v);
-    }
-    get message() {
-      return this.getAttribute('message');
-    }
-    set message(v) {
-      v == null
-        ? this.removeAttribute('message')
-        : this.setAttribute('message', v);
-    }
-    get variant() {
-      return this.getAttribute('variant');
-    }
-    set variant(v) {
-      v == null
-        ? this.removeAttribute('variant')
-        : this.setAttribute('variant', v);
-    }
-    get duration() {
-      return this.getAttribute('duration');
-    }
-    set duration(v) {
-      v == null
-        ? this.removeAttribute('duration')
-        : this.setAttribute('duration', v);
-    }
-    get dismissible() {
-      return this.hasAttribute('dismissible');
-    }
-    set dismissible(value) {
-      if (value) {
-        this.setAttribute('dismissible', '');
-      } else {
-        this.removeAttribute('dismissible');
+  constructor() {
+    super();
+    const base = this.#base;
+    this.$('.close').addEventListener('click', () => this.#dismiss('user'));
+    base.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || event.defaultPrevented) return;
+      event.preventDefault();
+      this.#dismiss('user');
+    });
+    base.addEventListener('pointerenter', () => this.#hold('pointer', true));
+    base.addEventListener('pointerleave', () => this.#hold('pointer', false));
+    base.addEventListener('focusin', () => this.#hold('focus', true));
+    base.addEventListener('focusout', () => this.#hold('focus', false));
+  }
+
+  /** Whether the countdown is held by the pointer or by focus. */
+  get paused() {
+    return this.#holds.size > 0;
+  }
+
+  /** Removes the toast, after its exit transition. Fires nothing. */
+  dismiss() {
+    this.#leave();
+  }
+
+  connected() {
+    this.#leaving = false;
+    this.#holds.clear();
+    this.toggleState('leaving', false);
+    this.toggleState('paused', false);
+    // Appended again after a removal: the countdown goes on.
+    this.#run();
+  }
+
+  disconnected() {
+    clearTimeout(this.#timer);
+    clearTimeout(this.#leaveTimer);
+  }
+
+  update(changed) {
+    this.$('.close').setAttribute('aria-label', this.labelClose);
+    if (!changed.has('duration')) return;
+    // A changed duration starts the countdown again.
+    this.#remaining = Math.max(0, this.duration ?? 0);
+    this.#progress.hidden = !this.#remaining;
+    this.#progress.style.setProperty('--_duration', `${this.#remaining}ms`);
+    this.#run();
+  }
+
+  #run() {
+    clearTimeout(this.#timer);
+    if (!this.#remaining || this.paused || this.#leaving) return;
+    this.#startedAt = performance.now();
+    this.#timer = setTimeout(() => this.#dismiss('timeout'), this.#remaining);
+  }
+
+  /**
+   * @param {'pointer' | 'focus'} by
+   * @param {boolean} on
+   */
+  #hold(by, on) {
+    const was = this.paused;
+    if (on) this.#holds.add(by);
+    else this.#holds.delete(by);
+    if (was === this.paused) return;
+    this.toggleState('paused', this.paused);
+    if (this.paused) {
+      clearTimeout(this.#timer);
+      if (this.#remaining) {
+        this.#remaining = Math.max(1, this.#remaining - (performance.now() - this.#startedAt));
       }
-    }
-
-    /**
-     *
-     * @param {*} v
-     */
-    #applyVariant(v) {
-      const cfg = VARIANTS[v] || VARIANTS.neutral;
-      this.style.setProperty('--toast-background', cfg.bg);
-      this.style.setProperty('--toast-color', cfg.fg);
-    }
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-      this.#shadow.appendChild(template.content.cloneNode(true));
-      this.#shadow
-        .querySelector('punica-icon-button.close')
-        ?.addEventListener('click', () => this.hide());
-    }
-
-    /**
-     *
-     */
-    connectedCallback() {
-      super.connectedCallback();
-
-      this.#applyVariant(this.variant || 'neutral');
-
-      this.#shadow.querySelector('.title').textContent = this.title || '';
-      this.#shadow.querySelector('.title').hidden = !this.title;
-      this.#shadow.querySelector('.msg').textContent = this.message || '';
-      this.#shadow.querySelector('.msg').hidden = !this.message;
-
-      if (!this.dismissible)
-        this.#shadow.querySelector('.close').style.display = 'none';
-      if (!this.hasAttribute('enter-from'))
-        this.setAttribute('enter-from', 'top');
-
-      const dur = Number(this.duration || 0);
-      const progress = this.#shadow.querySelector('.progress');
-
-      if (dur > 0) {
-        progress.hidden = false;
-        progress.querySelector('i').style.animationDuration = dur + 'ms';
-        this.#timer = setTimeout(() => this.hide(), dur);
-      }
-    }
-
-    /**
-     *
-     */
-    disconnectedCallback() {
-      if (this.#timer) clearTimeout(this.#timer);
-    }
-
-    /**
-     *
-     * @param {*} name
-     * @param {*} _o
-     * @param {*} n
-     * @returns
-     */
-    attributeChangedCallback(name, _o, n) {
-      if (!this.isConnected) return;
-
-      if (this.normalizeBooleanAttributeIfNeeded(name, n)) {
-        if (name === 'dismissible') {
-          this.#shadow.querySelector('.close').style.display = 'none';
-        }
-        return;
-      }
-
-      if (name === 'variant') this.#applyVariant(n);
-      if (name === 'title')
-        this.#shadow.querySelector('.title').textContent = n || '';
-      if (name === 'message')
-        this.#shadow.querySelector('.msg').textContent = n || '';
-      if (name === 'dismissible')
-        this.#shadow.querySelector('.close').style.display = !this.dismissible
-          ? 'none'
-          : '';
-    }
-
-    /**
-     *
-     * @returns
-     */
-    hide() {
-      if (this.hasAttribute('leaving')) return;
-
-      this.setAttribute('leaving', '');
-      const duration =
-        parseFloat(
-          getComputedStyle(this).getPropertyValue('--toast-duration')
-        ) || 400;
-      setTimeout(() => {
-        this.dispatchEvent(
-          new CustomEvent('toast-close', {
-            bubbles: true,
-            composed: true
-          })
-        );
-        this.remove();
-      }, duration);
+    } else {
+      this.#run();
     }
   }
 
-  customElements.define('punica-toast', Toast);
-})();
+  /** @param {'user' | 'timeout'} reason */
+  #dismiss(reason) {
+    if (this.#leaving) return;
+    this.emit('dismiss', { reason });
+    this.#leave();
+  }
+
+  #leave() {
+    if (this.#leaving || !this.isConnected) return;
+    this.#leaving = true;
+    clearTimeout(this.#timer);
+    this.toggleState('leaving', true);
+    const ms = parseFloat(getComputedStyle(this.#base).transitionDuration) * 1000;
+    if (ms > 0) this.#leaveTimer = setTimeout(() => this.remove(), ms);
+    else this.remove();
+  }
+}
+
+define('punica-toast', PunicaToast);

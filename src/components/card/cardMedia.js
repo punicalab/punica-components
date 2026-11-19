@@ -1,24 +1,19 @@
-(function () {
-  const template = document.createElement('template');
+import { PunicaElement, define } from '../../core/element.js';
+import styles from './cardMedia.css';
 
-  template.innerHTML = `<slot></slot><style></style>`;
+/**
+ * A picture or a video that runs to the edges of its card.
+ *
+ * @element punica-card-media
+ *
+ * @slot - An `<img>`, `<video>` or `<picture>`; it fills the card's inline size.
+ *
+ * @cssprop --punica-card-media-height - Block size of the media, `auto` by default.
+ * @cssprop --punica-card-media-fit - `object-fit` of the media, `cover` by default.
+ */
+export class PunicaCardMedia extends PunicaElement {
+  static styles = styles;
+  static template = `<slot></slot>`;
+}
 
-  class CardMedia extends PunicaBase {
-    static get booleanAttributes() {
-      return [];
-    }
-    #shadow = null;
-
-    /**
-     *
-     */
-    constructor() {
-      super();
-
-      this.#shadow = this.attachShadow({ mode: 'open' });
-      this.#shadow.appendChild(template.content.cloneNode(true));
-    }
-  }
-
-  customElements.define('punica-card-media', CardMedia);
-})();
+define('punica-card-media', PunicaCardMedia);

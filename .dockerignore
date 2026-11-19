@@ -1,8 +1,0 @@
-node_modules;
-dist;
-jest;
-__test__;
-.eslintignore;
-.eslintrc;
-.prettierignore;
-.prettierrc;

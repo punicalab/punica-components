@@ -1,33 +1,45 @@
 :host {
+  --punica-virtual-list-max-height: 100vb;
+
   display: block;
-  position: relative;
-  overflow: auto;
-  height: 100%;
+  block-size: 100%;
+  font-family: var(--punica-font-family);
+  color: var(--punica-color-text);
 }
 
+/* The scroller. An unsized host would grow to its whole content and render
+   every item, so the scroller never exceeds the max height. */
 .viewport {
   position: relative;
+  overflow: auto;
+  block-size: 100%;
+  max-block-size: var(--punica-virtual-list-max-height);
+  overflow-anchor: none;
 }
 
-.spacer {
-  height: var(--total-height, 0px);
+.viewport:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: calc(-1 * var(--punica-focus-ring-width));
 }
 
-.pool {
+.content {
+  position: relative;
+  contain: layout style;
+}
+
+.item {
   position: absolute;
-  inset: 0;
-  will-change: transform;
-  contain: content;
+  inset-inline: 0;
+  overflow: hidden;
 }
 
-.rowhost {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: var(--row-height);
-}
-
-.rowhost > * {
-  height: 100%;
+.item > * {
+  block-size: 100%;
   margin: 0;
+}
+
+@media (forced-colors: active) {
+  .viewport:focus-visible {
+    outline-color: Highlight;
+  }
 }

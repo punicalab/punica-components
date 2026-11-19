@@ -1,0 +1,97 @@
+:host {
+  --punica-table-selection-toolbar-background: var(--punica-color-neutral-light);
+  --punica-table-selection-toolbar-color: var(--punica-color-text);
+  --punica-table-selection-toolbar-radius: var(--punica-radius);
+  --punica-table-selection-toolbar-padding: var(--punica-space-4) var(--punica-space-8) var(--punica-space-4)
+    var(--punica-space-16);
+  --punica-table-selection-toolbar-gap: var(--punica-space-8);
+
+  display: block;
+  position: relative;
+  font-family: var(--punica-font-family);
+  font-size: var(--punica-font-size-sm);
+  line-height: var(--punica-line-height);
+  color: var(--punica-table-selection-toolbar-color);
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--punica-table-selection-toolbar-gap);
+  min-block-size: var(--punica-size-lg);
+  padding: var(--punica-table-selection-toolbar-padding);
+  border-radius: var(--punica-table-selection-toolbar-radius);
+  background: var(--punica-table-selection-toolbar-background);
+}
+
+:host(:state(empty)) .bar {
+  display: none;
+}
+
+.count {
+  /* The pattern's own words set its direction, whatever the page's. */
+  unicode-bidi: plaintext;
+  font-weight: var(--punica-font-weight-semi-bold);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--punica-table-selection-toolbar-gap);
+  min-inline-size: 0;
+}
+
+.clear {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--punica-size-sm);
+  padding-inline: var(--punica-space-8);
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-radius-sm);
+  color: var(--punica-color-primary);
+  font: inherit;
+  font-weight: var(--punica-font-weight-semi-bold);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.clear:hover {
+  background: var(--punica-color-hover);
+}
+
+.clear:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+
+/* Heard, never seen. */
+.status {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+  .bar {
+    border: var(--punica-border-width) solid CanvasText;
+  }
+  .clear {
+    color: LinkText;
+  }
+  .clear:focus-visible {
+    outline-color: Highlight;
+  }
+}
