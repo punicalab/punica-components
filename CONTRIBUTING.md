@@ -55,6 +55,21 @@ element; `src/components/button/` (a form control over a native element) and
 - A visible change says how it was checked: light and dark, right-to-left,
   keyboard only.
 
+## Tools for AI assistants
+
+`src/ai/` reads `custom-elements.json`: `knowledge.mjs` answers what an
+element takes and `validate.mjs` checks markup against it. The CLI
+(`bin/`), `dist/llms*.txt` (`scripts/llms.mjs`), the agent skill
+(`skills/`) and the MCP server (`packages/mcp`, its own package in this
+workspace: `npm run build:mcp`, `npm run test:mcp`) are built on them, so a
+component's JSDoc is what assistants are told about it. The usage rules
+they all share are `src/ai/guide.md`.
+
+`npm run eval` measures whether that helps: it asks models to build twelve
+pages with no context, with `llms.txt`, and with the tools, and scores each
+answer by the validator, a render and axe. It needs an Anthropic API key and
+prints its cost before anything is called.
+
 ## Documentation site
 
 The documentation and live demos are a separate project,

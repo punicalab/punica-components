@@ -10,7 +10,7 @@ export default defineConfig({
   test: {
     // Real key presses go to whichever page has focus, so one file at a time.
     fileParallelism: false,
-    include: ['src/components/**/*.test.js', 'src/core/**/*.test.js', 'test/**/*.test.js'],
+    include: ['src/components/**/*.test.js', 'src/core/**/*.test.js', 'src/ai/**/*.test.js', 'test/**/*.test.js'],
     browser: {
       enabled: true,
       headless: true,

@@ -73,11 +73,38 @@ Angular need a property binding or a listener for the custom events. The
 details and examples are on the
 [frameworks page](https://components.punicalab.com/docs/frameworks).
 
-## Types and docs
+## Types and editors
 
 `custom-elements.json` describes every element (attributes, properties,
 events, slots, parts, custom properties). `@punica/components` types the
 elements and `HTMLElementTagNameMap`; `@punica/components/react` types JSX.
+
+Editor completion for tags, attributes and their values:
+
+- **VS Code**: in `.vscode/settings.json`,
+  `"html.customData": ["./node_modules/@punica/components/dist/vscode.html-custom-data.json"]`
+  and `"css.customData": ["./node_modules/@punica/components/dist/vscode.css-custom-data.json"]`.
+- **WebStorm and other JetBrains IDEs** read `dist/web-types.json` by
+  themselves (the package's `web-types` field).
+
+## Using with AI tools
+
+2.0 is newer than most models' training data, so an assistant left alone
+guesses tags, attributes and events. Give it the library's own knowledge:
+
+- **CLI.** `npx punica-components search "date range"`, `info punica-select`,
+  `guide`, and `validate <files>`, which checks tags, attributes, values,
+  slots, events and icon names and exits 1 on an error.
+- **Agent skill.** Copy `node_modules/@punica/components/skills/punica-components`
+  into `.claude/skills/` (or `~/.claude/skills/`): the assistant then looks
+  each element up and validates before it hands markup over.
+- **MCP server.** [`@punica/components-mcp`](packages/mcp): `claude mcp add punica -- npx -y @punica/components-mcp`,
+  or the same command in Cursor, VS Code or any MCP client.
+- **llms.txt.** `dist/llms.txt` (the rules and every element in a line) and
+  `dist/llms-full.txt` (every element's whole API) in the package;
+  <https://components.punicalab.com/llms.txt> indexes every documentation
+  page as Markdown.
+- **In code.** `import { knowledge, validate } from '@punica/components/ai/node'`.
 
 ## Browser support
 

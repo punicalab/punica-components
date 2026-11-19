@@ -1,0 +1,77 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { createPunicaServer } from '../src/create.mjs';
+
+const manifest = JSON.parse(readFileSync(new URL('../../../custom-elements.json', import.meta.url), 'utf8'));
+const guide = readFileSync(new URL('../../../src/ai/guide.md', import.meta.url), 'utf8');
+
+// The documentation site, as the server fetches it.
+const site = {
+  'https://docs.test/llms.txt': '# Docs\n\n- [Select](https://docs.test/docs/components/forms/select.md): A list to pick from. Elements: punica-select, punica-option\n',
+  'https://docs.test/docs/components/forms/select.md': '# Select\n\n```html\n<punica-select label="Plan"></punica-select>\n```\n',
+  'https://docs.test/docs/theme.md': '# Theme\n'
+};
+const fakeFetch = async (url) => (site[url] ? { ok: true, status: 200, text: async () => site[url] } : { ok: false, status: 404, text: async () => '' });
+
+async function connect(fetchFn = fakeFetch) {
+  const server = createPunicaServer({ manifest, guide, version: '2.0.0', source: 'test', fetch: fetchFn, docsUrl: 'https://docs.test' });
+  const [a, b] = InMemoryTransport.createLinkedPair();
+  const client = new Client({ name: 'test', version: '1.0.0' });
+  await Promise.all([server.connect(a), client.connect(b)]);
+  const call = async (name, args) => (await client.callTool({ name, arguments: args })).content[0].text;
+  return { client, call };
+}
+
+test('lists the tools and says to look things up', async () => {
+  const { client } = await connect();
+  const { tools } = await client.listTools();
+  assert.deepEqual(tools.map((t) => t.name).sort(), ['get_component', 'get_examples', 'get_guide', 'search_components', 'validate_markup']);
+  assert.match(client.getInstructions(), /never write a punica tag/);
+});
+
+test('search_components and get_component', async () => {
+  const { call } = await connect();
+  assert.match(await call('search_components', { query: 'modal' }), /punica-dialog/);
+  const api = await call('get_component', { tags: ['select', 'punica-modal'] });
+  assert.match(api, /## <punica-select>/);
+  assert.match(api, /punica-modal is the 1.x name/);
+});
+
+test('validate_markup reports problems with fixes', async () => {
+  const { call } = await connect();
+  assert.match(await call('validate_markup', { code: '<punica-button variant="filled">Save</punica-button>' }), /No problems/);
+  const report = await call('validate_markup', { code: '<punica-buton fullWidth></punica-buton>' });
+  assert.match(report, /1 error/);
+  assert.match(report, /\[fix: punica-button\]/);
+});
+
+test('get_examples finds the page in the site index, and falls back to the API offline', async () => {
+  const { call } = await connect();
+  assert.match(await call('get_examples', { tag: 'punica-option' }), /<punica-select label="Plan">/);
+  const offline = await connect(async () => {
+    throw new Error('offline');
+  });
+  assert.match(await offline.call('get_examples', { tag: 'select' }), /could not be fetched \(offline\)[\s\S]*## <punica-select>/);
+});
+
+test('a page the site answers with HTML is not taken for Markdown', async () => {
+  const html = async () => ({ ok: true, status: 200, headers: new Headers({ 'content-type': 'text/html' }), text: async () => '<!doctype html><html></html>' });
+  const { call } = await connect(html);
+  const guide = await call('get_guide', { topic: 'forms' });
+  assert.match(guide, /not on the documentation site yet/);
+  assert.match(guide, /Rules that hold for every element/);
+  assert.match(await call('get_examples', { tag: 'select' }), /could not be fetched[\s\S]*## <punica-select>/);
+});
+
+test('get_guide and the resources', async () => {
+  const { client, call } = await connect();
+  assert.match(await call('get_guide', {}), /Rules that hold for every element/);
+  assert.match(await call('get_guide', { topic: 'theme' }), /# Theme/);
+  const { resources } = await client.listResources();
+  assert.ok(resources.some((r) => r.uri === 'punica://component/punica-button'));
+  const read = await client.readResource({ uri: 'punica://component/punica-switch' });
+  assert.match(read.contents[0].text, /## <punica-switch>/);
+});
