@@ -111,6 +111,20 @@ describe('punica-input', () => {
     expect(el.validity.valid).toBe(true);
   });
 
+  it('keeps what is wrong with the value beside a custom error, as a native input does', async () => {
+    const el = await fixture('<punica-input label="Amount" type="number"></punica-input>');
+    const inner = el.shadowRoot.querySelector('input');
+    await userEvent.type(inner, '1e');
+    await settle();
+    el.setCustomValidity('Not a number');
+    expect(el.validity.customError).toBe(true);
+    expect(el.validity.badInput).toBe(true);
+    expect(el.validationMessage).toBe('Not a number');
+    el.setCustomValidity('');
+    expect(el.validity.customError).toBe(false);
+    expect(el.validity.badInput).toBe(true);
+  });
+
   it('marks user-invalid only after the user leaves the field', async () => {
     const el = await fixture('<punica-input label="Name" required></punica-input>');
     expect(el.matches(':state(user-invalid)')).toBe(false);

@@ -80,15 +80,18 @@ export const FormControl = (Base) =>
     }
 
     /**
-     * Reports validity. A custom error set by `setCustomValidity` wins.
+     * Reports validity. A custom error set by `setCustomValidity` gives the
+     * message, and its flag joins the others, as on a native control.
      * @param {ValidityStateFlags} [flags]
      * @param {string} [message]
      * @param {HTMLElement} [anchor] element the browser points its bubble at
      */
     setValidity(flags, message, anchor) {
       if (this.#customError) {
+        // As a native control: the custom error is added to what is wrong
+        // with the value (`badInput`, `valueMissing`, …), not put in its place.
         this.internals.setValidity(
-          { customError: true },
+          { ...(flags ? plainFlags(flags) : {}), customError: true },
           this.#customError,
           anchor
         );
