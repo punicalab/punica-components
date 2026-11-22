@@ -76,11 +76,14 @@ export function createPunicaServer({ manifest, guide, version, source, fetch: fe
     'get_component',
     {
       title: 'An element\'s API',
-      description: 'The whole API of one or more punica elements: attributes with their exact values, properties, methods, events, slots, CSS parts, custom properties and states.',
-      inputSchema: { tags: z.array(z.string()).min(1).max(12).describe('Tags such as punica-select, or bare names such as select') },
+      description: 'The API of one or more punica elements: attributes with their exact values, properties, methods, events, slots, CSS parts, custom properties and states. Pass brief: true when you write markup and do not style the inside of the element: it leaves out the parts, custom properties and states and is about a quarter shorter.',
+      inputSchema: {
+        tags: z.array(z.string()).min(1).max(12).describe('Tags such as punica-select, or bare names such as select'),
+        brief: z.boolean().optional().describe('Leave out CSS parts, custom properties and states')
+      },
       annotations: { readOnlyHint: true }
     },
-    async ({ tags }) => text(tags.map((tag) => knowledge.formatMarkdown(tag)).join('\n\n'))
+    async ({ tags, brief }) => text(tags.map((tag) => knowledge.formatMarkdown(tag, { brief })).join('\n\n'))
   );
 
   server.registerTool(
