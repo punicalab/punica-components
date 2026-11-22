@@ -45,6 +45,26 @@ describe('punica-option', () => {
 describe('punica-select', () => {
   afterEach(cleanup);
 
+  it('is touched when reported invalid, as the text controls are: aria-invalid for any error, and its description', async () => {
+    const el = await fixture(html);
+    el.required = true;
+    el.description = 'Where you live';
+    await settle();
+    expect(trigger(el).hasAttribute('aria-invalid')).toBe(false);
+    expect(trigger(el).getAttribute('aria-description')).toBe('Where you live');
+    el.checkValidity();
+    await settle();
+    expect(el.matches(':state(user-invalid)')).toBe(true);
+    expect(trigger(el).getAttribute('aria-invalid')).toBe('true');
+    el.required = false;
+    el.setCustomValidity('Pick the country you bill in');
+    await settle();
+    expect(trigger(el).getAttribute('aria-invalid')).toBe('true');
+    el.setCustomValidity('');
+    await settle();
+    expect(trigger(el).hasAttribute('aria-invalid')).toBe(false);
+  });
+
   it('is a combobox button over a listbox in its own shadow root', async () => {
     const el = await fixture(html);
     const button = trigger(el);

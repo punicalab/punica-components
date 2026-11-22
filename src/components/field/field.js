@@ -10,7 +10,10 @@ import styles from './field.css';
  * `invalid` event fired: a submit, `reportValidity()` or `checkValidity()`)
  * or the user left it while invalid, the field shows the control's
  * `validationMessage` and keeps it up to date until the control is valid
- * again. `error` shows a message of your own at any time.
+ * again. `error` shows a message of your own at any time. The help and the
+ * message shown are the control's description (its `description`, or
+ * `aria-description` on a native control), and an invalid control says so
+ * (`aria-invalid`) once touched.
  *
  * @element punica-field
  *
@@ -60,6 +63,8 @@ export class PunicaField extends PunicaElement {
   #touched = false;
   /** The control whose name this field wrote, so it can keep it current. */
   #named = null;
+  /** The control whose description this field wrote, so it can keep it current. */
+  #described = null;
 
   constructor() {
     super();
@@ -170,6 +175,31 @@ export class PunicaField extends PunicaElement {
     if (box.textContent !== message) box.textContent = message;
     box.hidden = !message;
     this.toggleState('invalid', !!message);
+    this.#describe(control, message);
+  }
+
+  /**
+   * Gives the control the field's help and error as its description, read
+   * after its name, unless it has one of its own.
+   */
+  #describe(control, message) {
+    if (this.#described && this.#described !== control) this.#described = null;
+    if (!control) return;
+    const help = this.help || this.$('slot[name=help]').assignedNodes().map((n) => n.textContent.trim()).join(' ');
+    const text = [help, message].filter(Boolean).join(' ') || null;
+    if ('description' in control) {
+      if (this.#described === control || !control.description) {
+        if (text || this.#described === control) control.description = text;
+        this.#described = text ? control : null;
+      }
+      return;
+    }
+    // A native control: the same, through its attribute.
+    if (this.#described === control || !control.hasAttribute('aria-description')) {
+      if (text) control.setAttribute('aria-description', text);
+      else if (this.#described === control) control.removeAttribute('aria-description');
+      this.#described = text ? control : null;
+    }
   }
 
   /** Refreshes after the control has brought its validity up to date. */

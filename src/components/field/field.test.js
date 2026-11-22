@@ -131,6 +131,48 @@ describe('punica-field', () => {
     expect(text(el, 'error')).toBe(null);
   });
 
+  it('describes the control with its help and the error it shows, and follows them', async () => {
+    const el = await fixture(html);
+    const input = el.querySelector('punica-input');
+    const inner = input.shadowRoot.querySelector('input');
+    await settle();
+    expect(input.description).toBe('We never share it.');
+    expect(inner.getAttribute('aria-description')).toBe('We never share it.');
+    el.error = 'Already taken';
+    await settle();
+    expect(inner.getAttribute('aria-description')).toBe('We never share it. Already taken');
+    el.help = null;
+    el.error = null;
+    await settle();
+    expect(input.description).toBe(null);
+    expect(inner.hasAttribute('aria-description')).toBe(false);
+  });
+
+  it('leaves a control that has its own description alone, and describes a native one by attribute', async () => {
+    const own = await fixture('<punica-field label="Email" help="Hint"><punica-input description="Our own words"></punica-input></punica-field>');
+    const native = await fixture('<punica-field label="City" help="Where you live"><input></punica-field>');
+    await settle();
+    expect(own.querySelector('punica-input').description).toBe('Our own words');
+    expect(native.querySelector('input').getAttribute('aria-description')).toBe('Where you live');
+  });
+
+  it('a control reported invalid says so to assistive technology, and stops once valid', async () => {
+    const el = await fixture('<punica-field label="Email"><punica-input name="email"></punica-input></punica-field>');
+    const input = el.querySelector('punica-input');
+    const inner = input.shadowRoot.querySelector('input');
+    await settle();
+    input.setCustomValidity('Already taken');
+    expect(inner.hasAttribute('aria-invalid')).toBe(false);
+    input.checkValidity();
+    await settle();
+    expect(inner.getAttribute('aria-invalid')).toBe('true');
+    expect(text(el, 'error')).toBe('Already taken');
+    expect(inner.getAttribute('aria-description')).toBe('Already taken');
+    input.setCustomValidity('');
+    await settle();
+    expect(inner.hasAttribute('aria-invalid')).toBe(false);
+  });
+
   it('takes rich content through the label and help slots', async () => {
     const el = await fixture('<punica-field><span slot="label">Email <em>(work)</em></span><punica-input></punica-input><span slot="help">Read the <a href="#p">policy</a></span></punica-field>');
     await settle();

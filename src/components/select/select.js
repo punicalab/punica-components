@@ -33,6 +33,7 @@ const textOf = (option) => option.text ?? option.getAttribute('label') ?? option
  * @attr {string} name - Name the value is submitted under; one entry per value.
  * @attr {boolean} disabled - Takes no input and submits nothing.
  * @attr {boolean} required - A value is needed before the form submits.
+ * @attr {string} description - Read by assistive technology after the control's name; a `punica-field` around it sets it to its help and its error.
  * @attr {'small' | 'medium' | 'large'} size - Control height, `medium` by default.
  * @attr {boolean} full-width - Fills its container's inline size.
  * @attr {string} label-clear - Name of the clear button, `Clear` by default.
@@ -74,6 +75,8 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     placeholder: {},
     clearable: { type: Boolean },
     label: {},
+    /** Read after the name by assistive technology; a punica-field around the control sets it. */
+    description: {},
     open: { type: Boolean },
     size: {},
     fullWidth: { type: Boolean },
@@ -121,6 +124,11 @@ export class PunicaSelect extends FormControl(PunicaElement) {
       else this.show();
     });
     this.#trigger.addEventListener('keydown', (event) => this.#onKeydown(event));
+    // Reported invalid (a submit, checkValidity(), reportValidity()): touched, as the text controls are.
+    this.addEventListener('invalid', () => {
+      this.#touched = true;
+      this.requestUpdate();
+    });
     this.#trigger.addEventListener('keyup', (event) => {
       if (event.key === ' ') event.preventDefault();
     });
@@ -281,8 +289,11 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     }
     const missing = this.required && empty;
     this.setValidity(missing ? { valueMissing: true } : {}, nativeMessage('choose'), trigger);
-    setAttr(trigger, 'aria-invalid', this.#touched && missing ? 'true' : null);
-    this.toggleState('user-invalid', this.#touched && !this.validity.valid);
+    // Invalid for any reason once touched: a missing value, or an error set with setCustomValidity.
+    const userInvalid = this.#touched && !this.validity.valid;
+    setAttr(trigger, 'aria-invalid', userInvalid ? 'true' : null);
+    setAttr(trigger, 'aria-description', this.description || null);
+    this.toggleState('user-invalid', userInvalid);
 
     const want = this.open && !disabled;
     if (want && !this.#surface.open) {
