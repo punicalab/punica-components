@@ -36,6 +36,7 @@ import styles from './field.css';
  * @cssprop --punica-field-label-color - Label colour.
  * @cssprop --punica-field-help-color - Help text colour.
  * @cssprop --punica-field-error-color - Error text colour.
+ * @cssprop --punica-field-line-height - Line height of the label, the help and the error, 1.43 by default.
  *
  * @cssstate invalid - An error message is showing.
  * @cssstate required - The required mark is showing.
