@@ -31,6 +31,7 @@ const flagsOf = (validity) => {
  * @attr {boolean} disabled - Takes no input and submits nothing.
  * @attr {boolean} readonly - Shows its value and takes no edits.
  * @attr {boolean} required - A value is needed before the form submits.
+ * @attr {string} description - Read by assistive technology after the control's name; a `punica-field` around it sets it to its help and its error.
  * @attr {number} minlength - Fewest characters allowed.
  * @attr {number} maxlength - Most characters allowed.
  * @attr {string} autocomplete - Passed to the native textarea.
@@ -59,6 +60,8 @@ export class PunicaTextarea extends FormControl(PunicaElement) {
   static properties = {
     value: { reflect: false, default: '' },
     label: {},
+    /** Read after the name by assistive technology; a punica-field around the control sets it. */
+    description: {},
     placeholder: {},
     rows: { type: Number, default: 3 },
     resize: { default: 'none' },
@@ -128,7 +131,10 @@ export class PunicaTextarea extends FormControl(PunicaElement) {
 
     this.setFormValue(textarea.value);
     this.setValidity(flagsOf(textarea.validity), textarea.validationMessage, textarea);
-    this.toggleState('user-invalid', this.#touched && !this.validity.valid);
+    const userInvalid = this.#touched && !this.validity.valid;
+    this.toggleState('user-invalid', userInvalid);
+    setAttr(textarea, 'aria-invalid', userInvalid ? 'true' : null);
+    setAttr(textarea, 'aria-description', this.description || null);
   }
 
   formReset() {

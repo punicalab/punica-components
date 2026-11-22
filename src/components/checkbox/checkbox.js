@@ -26,6 +26,7 @@ const flagsOf = (validity) => {
  * @attr {string} label - Accessible name, for a checkbox with no text.
  * @attr {boolean} disabled - Takes no input and submits nothing.
  * @attr {boolean} required - Has to be ticked before the form submits.
+ * @attr {string} description - Read by assistive technology after the control's name; a `punica-field` around it sets it to its help and its error.
  * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Accent, `primary` by default.
  *
  * @slot - The label.
@@ -56,6 +57,8 @@ export class PunicaCheckbox extends FormControl(PunicaElement) {
     indeterminate: { type: Boolean },
     value: { default: 'on' },
     label: {},
+    /** Read after the name by assistive technology; a punica-field around the control sets it. */
+    description: {},
     color: {}
   };
 
@@ -71,14 +74,21 @@ export class PunicaCheckbox extends FormControl(PunicaElement) {
 
   #input = this.$('input');
   #default = { checked: false, indeterminate: false };
+  /** Toggled by the user, or reported invalid. */
+  #touched = false;
 
   constructor() {
     super();
     const input = this.#input;
     input.addEventListener('change', () => {
+      this.#touched = true;
       this.checked = input.checked;
       this.indeterminate = false;
       this.emit('change', { checked: this.checked, value: this.value });
+    });
+    this.addEventListener('invalid', () => {
+      this.#touched = true;
+      this.requestUpdate();
     });
     const slot = this.$('slot');
     slot.addEventListener('slotchange', () => {
@@ -105,6 +115,10 @@ export class PunicaCheckbox extends FormControl(PunicaElement) {
     this.toggleState('indeterminate', this.indeterminate);
     this.setFormValue(this.checked ? this.value ?? 'on' : null, String(this.checked));
     this.setValidity(flagsOf(input.validity), input.validationMessage, input);
+    if (this.#touched && !this.validity.valid) input.setAttribute('aria-invalid', 'true');
+    else input.removeAttribute('aria-invalid');
+    if (this.description) input.setAttribute('aria-description', this.description);
+    else input.removeAttribute('aria-description');
   }
 
   firstUpdated() {
@@ -112,6 +126,7 @@ export class PunicaCheckbox extends FormControl(PunicaElement) {
   }
 
   formReset() {
+    this.#touched = false;
     this.checked = this.#default.checked;
     this.indeterminate = this.#default.indeterminate;
   }
