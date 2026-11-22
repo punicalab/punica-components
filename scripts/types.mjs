@@ -1,5 +1,6 @@
 // Generates dist/types from custom-elements.json:
-//   index.d.ts  one interface per element, HTMLElementTagNameMap, event maps
+//   index.d.ts  one interface per element, HTMLElementTagNameMap, event maps,
+//               and the functions exported beside an element (toast, confirm)
 //   react.d.ts  JSX.IntrinsicElements for React 18 and 19
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 
@@ -12,6 +13,20 @@ for (const mod of manifest.modules) {
   }
 }
 elements.sort((a, b) => a.tagName.localeCompare(b.tagName));
+
+// The functions a module exports beside the element it defines: `toast` of
+// the toaster, `confirm` of the alert dialog. Helpers of modules that define
+// no element are internal, though the bundle exports them.
+const functions = [];
+for (const mod of manifest.modules) {
+  const declarations = mod.declarations || [];
+  if (!declarations.some((decl) => decl.kind === 'class' && decl.tagName)) continue;
+  for (const decl of declarations) {
+    const exported = (mod.exports || []).some((entry) => entry.kind === 'js' && entry.name === decl.name);
+    if (decl.kind === 'function' && exported) functions.push(decl);
+  }
+}
+functions.sort((a, b) => a.name.localeCompare(b.name));
 
 // Names HTMLElement already types; redeclaring them breaks `extends`.
 const NATIVE = new Set(['focus', 'blur', 'click', 'remove', 'title', 'hidden', 'id', 'slot', 'role', 'lang', 'dir', 'tabIndex', 'draggable', 'inert', 'translate', 'style', 'popover', 'attachInternals', 'contains', 'append', 'prepend', 'toggleAttribute', 'scroll', 'scrollTo', 'animate']);
@@ -90,10 +105,19 @@ for (const el of elements) {
   );
 }
 
+for (const fn of functions) {
+  const params = (fn.parameters || [])
+    .map((p) => `${p.name}${p.optional || p.default !== undefined ? '?' : ''}: ${p.type?.text ? tsType(p.type) : 'any'}`)
+    .join(', ');
+  const returns = fn.return?.type?.text ? tsType(fn.return.type) : 'void';
+
+  index += doc(fn.description, '') + `export function ${fn.name}(${params}): ${returns};\n\n`;
+}
+
 index += `declare global {\n  interface HTMLElementTagNameMap {\n${tagMap.join('\n')}\n  }\n}\n`;
 react += `type Elements = {\n${jsx.join('\n')}\n};\n\ndeclare module 'react' {\n  namespace JSX {\n    interface IntrinsicElements extends Elements {}\n  }\n}\n\ndeclare global {\n  namespace JSX {\n    interface IntrinsicElements extends Elements {}\n  }\n}\n\nexport {};\n`;
 
 await mkdir(new URL('../dist/types/', import.meta.url), { recursive: true });
 await writeFile(new URL('../dist/types/index.d.ts', import.meta.url), index);
 await writeFile(new URL('../dist/types/react.d.ts', import.meta.url), react);
-console.log(`dist/types: ${elements.length} elements`);
+console.log(`dist/types: ${elements.length} elements, ${functions.length} functions`);

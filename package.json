@@ -1,6 +1,6 @@
 {
   "name": "@punica/components",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Punica web components: framework-free custom elements on platform standards.",
   "keywords": [
     "web-components",
@@ -38,7 +38,10 @@
       "types": "./dist/types/index.d.ts",
       "default": "./dist/esm/index.js"
     },
-    "./components/*": "./dist/esm/components/*",
+    "./components/*": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/esm/components/*"
+    },
     "./core/*": "./dist/esm/core/*",
     "./tokens.css": "./dist/tokens.css",
     "./react": {
@@ -81,7 +84,8 @@
     "audit": "node scripts/audit.mjs",
     "lint": "eslint src scripts test bin packages/mcp/src packages/mcp/test packages/mcp/build.mjs eval",
     "format": "prettier --write \"./**/*.{ts,js,mjs,json,md}\"",
-    "test": "vitest run",
+    "test": "vitest run && npm run test:types",
+    "test:types": "node --test test/types.test.mjs",
     "test:watch": "vitest",
     "changeset": "changeset",
     "version": "changeset version",
