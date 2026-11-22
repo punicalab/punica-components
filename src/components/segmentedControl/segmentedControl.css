@@ -3,6 +3,7 @@
   --punica-segmented-control-radius: var(--punica-radius);
   --punica-segmented-control-background: var(--punica-color-neutral-light);
   --punica-segmented-control-indicator-color: var(--punica-color-surface-raised);
+  --punica-segmented-control-wrap: nowrap;
 
   display: inline-flex;
   vertical-align: middle;
@@ -24,7 +25,7 @@
   display: flex;
   flex: 1;
   align-items: stretch;
-  flex-wrap: var(--punica-segmented-control-wrap, nowrap);
+  flex-wrap: var(--punica-segmented-control-wrap);
   min-block-size: var(--punica-segmented-control-height);
   padding: var(--punica-space-2);
   border-radius: var(--punica-segmented-control-radius);
