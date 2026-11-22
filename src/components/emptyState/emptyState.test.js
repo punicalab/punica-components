@@ -48,6 +48,23 @@ describe('punica-empty-state', () => {
     expect(getComputedStyle(el).textAlign).toBe('center');
   });
 
+  it('gives no place to a part with nothing in it, and shows it once it has something', async () => {
+    const el = await fixture('<punica-empty-state heading="Nothing yet"></punica-empty-state>');
+    const part = (name) => el.shadowRoot.querySelector(`[part=${name}]`);
+    expect(part('icon').hidden).toBe(true);
+    expect(part('description').hidden).toBe(true);
+    expect(part('actions').hidden).toBe(true);
+    const lone = el.getBoundingClientRect().height;
+    const button = document.createElement('button');
+    button.slot = 'actions';
+    button.textContent = 'Add one';
+    el.append(button, 'What to do.');
+    await settle();
+    expect(part('actions').hidden).toBe(false);
+    expect(part('description').hidden).toBe(false);
+    expect(el.getBoundingClientRect().height).toBeGreaterThan(lone);
+  });
+
   it('fills a panel, and is compact as a section', async () => {
     const wrap = await fixture(`<div style="width:600px;height:400px">${html}</div>`);
     const el = wrap.firstElementChild;
