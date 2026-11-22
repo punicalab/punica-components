@@ -96,6 +96,21 @@ describe('punica-input', () => {
     expect(el.checkValidity()).toBe(true);
   });
 
+  it('follows a validity that changes while the value stays empty: a half-typed number', async () => {
+    const el = await fixture('<punica-input label="Amount" type="number"></punica-input>');
+    const inner = el.shadowRoot.querySelector('input');
+    await userEvent.type(inner, '1e');
+    await settle();
+    expect(el.value).toBe('');
+    expect(inner.validity.badInput).toBe(true);
+    expect(el.validity.badInput).toBe(true);
+    expect(el.checkValidity()).toBe(false);
+    await userEvent.clear(inner);
+    await userEvent.type(inner, '12');
+    await settle();
+    expect(el.validity.valid).toBe(true);
+  });
+
   it('marks user-invalid only after the user leaves the field', async () => {
     const el = await fixture('<punica-input label="Name" required></punica-input>');
     expect(el.matches(':state(user-invalid)')).toBe(false);
