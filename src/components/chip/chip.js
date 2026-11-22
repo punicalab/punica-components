@@ -11,7 +11,7 @@ import styles from './chip.css';
  * @element punica-chip
  *
  * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Accent, `primary` by default.
- * @attr {'filled' | 'outlined'} variant - Visual weight, `filled` by default.
+ * @attr {'filled' | 'soft' | 'outlined'} variant - Visual weight, `filled` by default; `soft` is a tint of the colour under its shade.
  * @attr {'small' | 'medium'} size - Height, `medium` by default.
  * @attr {boolean} removable - Shows a remove button.
  * @attr {string} label-remove - Accessible name of the remove button, before the chip's own text; `Remove` by default.
