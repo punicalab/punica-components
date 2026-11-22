@@ -75,6 +75,8 @@ for (const el of elements) {
     const params = (m.parameters || []).map((p) => `${p.name}${p.optional ? '?' : ''}: any`).join(', ');
     index += doc(m.description) + `  ${m.name}(${params}): any;\n`;
   }
+  // Every element has it (core/element.js): the manifest lists only a class's own members.
+  index += doc('Resolves after the pending update, if any, has run.') + `  readonly updateComplete: Promise<void>;\n`;
   index += `  addEventListener<K extends keyof ${name}EventMap>(type: K, listener: (this: ${name}, ev: ${name}EventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;\n`;
   index += `  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;\n`;
   index += '}\n\n';

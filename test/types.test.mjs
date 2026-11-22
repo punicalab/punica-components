@@ -82,6 +82,21 @@ test('the helpers are typed as the guide shows them used', () => {
   );
 });
 
+test('every element says when its pending update has run', () => {
+  assert.deepEqual(
+    check(`
+      import type { PunicaDialog, PunicaDrawer } from '@punica/components';
+
+      const dialog: PunicaDialog = document.createElement('punica-dialog');
+      const drawer: PunicaDrawer = document.createElement('punica-drawer');
+      const done: Promise<void> = dialog.updateComplete;
+      void drawer.updateComplete.then(() => drawer.hide());
+      export { done };
+    `),
+    []
+  );
+});
+
 test('what the helpers do not take is refused', () => {
   const problems = check(`
     import { confirm, toast } from '@punica/components';
