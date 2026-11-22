@@ -57,6 +57,20 @@ describe('punica-segmented-control', () => {
     }
   });
 
+  it('wraps onto more lines when told to, its indicator following the chosen segment there', async () => {
+    const el = await fixture(
+      '<punica-segmented-control label="Period" value="year" style="--punica-segmented-control-wrap: wrap; max-inline-size: 180px"><punica-segmented-control-item value="day">Day</punica-segmented-control-item><punica-segmented-control-item value="week">Week</punica-segmented-control-item><punica-segmented-control-item value="month">Month</punica-segmented-control-item><punica-segmented-control-item value="year">Year</punica-segmented-control-item></punica-segmented-control>'
+    );
+    await wait(350);
+    const [day, , , year] = el.items;
+    expect(year.getBoundingClientRect().top).toBeGreaterThan(day.getBoundingClientRect().top);
+    const indicator = el.shadowRoot.querySelector('.indicator').getBoundingClientRect();
+    const box = year.getBoundingClientRect();
+    expect(Math.round(indicator.top)).toBe(Math.round(box.top));
+    expect(Math.round(indicator.left)).toBe(Math.round(box.left));
+    expect(Math.round(indicator.height)).toBe(Math.round(box.height));
+  });
+
   it('hides its indicator while nothing is selected', async () => {
     const el = await fixture(control());
     expect(el.shadowRoot.querySelector('.indicator').hidden).toBe(true);
