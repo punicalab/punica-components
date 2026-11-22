@@ -106,6 +106,16 @@ guesses tags, attributes and events. Give it the library's own knowledge:
   page as Markdown.
 - **In code.** `import { knowledge, validate } from '@punica/components/ai/node'`.
 
+## An application
+
+[punica-starter](https://github.com/punicalab/punica-starter) is a small
+application on this library together with Punica Form and Punica Request: sign in, a list, and a form
+that is created and edited, with its tests. Start one of your own from it:
+
+```bash
+npm create punica@latest my-app
+```
+
 ## Browser support
 
 The current versions of Chrome, Edge, Firefox and Safari: the elements need
