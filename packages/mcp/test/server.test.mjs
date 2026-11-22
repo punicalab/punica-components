@@ -38,6 +38,14 @@ test('search_components and get_component', async () => {
   const api = await call('get_component', { tags: ['select', 'punica-modal'] });
   assert.match(api, /## <punica-select>/);
   assert.match(api, /punica-modal is the 1.x name/);
+  assert.match(api, /### CSS parts/);
+
+  // Brief: what markup needs, without what only styling needs
+  const brief = await call('get_component', { tags: ['select'], brief: true });
+  assert.match(brief, /## <punica-select>/);
+  assert.match(brief, /`punica-change`/);
+  assert.doesNotMatch(brief, /### CSS parts|### CSS custom properties|### Custom states/);
+  assert.match(brief, /For styling: /);
 });
 
 test('validate_markup reports problems with fixes', async () => {

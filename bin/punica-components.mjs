@@ -3,6 +3,7 @@
 //
 //   punica-components search <words>        elements that match, best first
 //   punica-components info <tag>            one element's whole API, as Markdown
+//   punica-components info <tag> --brief    what writing markup needs: no CSS parts, properties or states
 //   punica-components list                  every element, one line each
 //   punica-components guide                 the rules every element follows
 //   punica-components validate <files…|->   tags, attributes, values, slots, events, icons
@@ -17,6 +18,7 @@ const [command, ...rest] = process.argv.slice(2);
 const flags = new Set(rest.filter((a) => a.startsWith('--')));
 const args = rest.filter((a) => !a.startsWith('--'));
 const json = flags.has('--json');
+const brief = flags.has('--brief');
 const out = (value) => console.log(json ? JSON.stringify(value, null, 2) : value);
 
 const EXTENSIONS = new Set(['.html', '.htm', '.js', '.mjs', '.jsx', '.ts', '.tsx', '.vue', '.svelte', '.astro', '.md', '.mdx']);
@@ -36,7 +38,7 @@ const commands = {
     for (const tag of args) {
       const element = knowledge.get(tag);
       if (json) out(element || { error: knowledge.formatMarkdown(tag) });
-      else console.log(knowledge.formatMarkdown(tag) + '\n');
+      else console.log(knowledge.formatMarkdown(tag, { brief }) + '\n');
       if (!element) process.exitCode = 1;
     }
   },
@@ -121,7 +123,8 @@ function usage(code) {
   console.log(`punica-components: look up @punica/components elements and check markup that uses them.
 
   search <words>          elements that match, best first (--limit n)
-  info <tag…>             an element's attributes, properties, events, slots, parts
+  info <tag…>             an element's attributes, properties, events, slots, parts;
+                          --brief leaves out what only styling needs
   list                    every element
   guide                   the rules every element follows
   validate <files|dirs|->  check tags, attributes, values, slots, events and icon names;

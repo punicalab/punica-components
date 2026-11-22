@@ -24,7 +24,8 @@ export interface Knowledge {
   get(tag: string): ElementInfo | null;
   search(query: string, limit?: number): { tag: string; description: string; score: number }[];
   legacy(tag: string): { tag: string; replacement: string | null; message: string } | null;
-  formatMarkdown(tag: string): string;
+  /** The element's API as Markdown; `brief` leaves out what only styling needs. */
+  formatMarkdown(tag: string, options?: { brief?: boolean }): string;
 }
 export interface Finding { line: number; column: number; severity: 'error' | 'warning'; rule: string; message: string; fix?: string }
 export type SourceKind = 'html' | 'jsx' | 'vue' | 'js';

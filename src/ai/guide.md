@@ -97,6 +97,23 @@ properties. Right-to-left works with `dir="rtl"` on any ancestor.
   elements (`compilerOptions.isCustomElement`).
 - **Angular**: `CUSTOM_ELEMENTS_SCHEMA`, `(punica-change)="…"`, `[value]="…"`.
 
+## With the other Punica libraries
+
+`@punica/components` is one of three libraries made to be used together:
+Punica Form (`@punica/form`, forms and their rules) and Punica Request
+(`@punica/request`, the HTTP client). Each has an MCP server; when the
+project has them, look their APIs up there instead of guessing.
+
+- **Forms**: in a project that has `@punica/form-kit`, do not wire
+  `punica-field` and its controls by hand. Describe the form as a class
+  (`@TextField`, `@SelectField`, …) and render it with `KitForm`; the kit
+  draws these elements, validates and shows the errors.
+- **Messages and confirmations**: `toast()` and `confirm()` are what an
+  application shows a failed request and asks before a deletion with.
+
+A whole application on the three, with its tests:
+https://github.com/punicalab/punica-starter (start with its `AGENTS.md`).
+
 ## Testing
 
 Elements carry their role through `ElementInternals`: a `punica-heading` is
@@ -114,5 +131,8 @@ element (the `button` in a `punica-button`, the `dialog` in a
 
 `npx punica-components validate <files>` checks tags, attributes, values,
 slots, events and icon names against this version and exits 1 on an error.
-`npx punica-components info <tag>` prints one element's whole API.
+`npx punica-components info <tag>` prints one element's whole API; with
+`--brief` (in the MCP server: `get_component` with `brief: true`) it leaves
+out CSS parts, custom properties and states. Ask for the brief form first
+and for the whole one only when you style the inside of an element.
 Documentation with live examples: https://components.punicalab.com

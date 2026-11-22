@@ -1,5 +1,15 @@
 # @punica/components
 
+## 2.2.0
+
+### Minor Changes
+
+- f393a44: `punica-components info <tag> --brief`, and `formatMarkdown(tag, { brief: true })` of `@punica/components/ai`: an element's API without what only styling needs (CSS parts, custom properties, states), about a quarter shorter over the library. For an assistant that writes markup it is what the whole API was read for. `get_component` of the MCP server takes `brief: true` for the same.
+
+### Patch Changes
+
+- f484d89: The guide says how the elements are used with Punica Form and Punica Request (forms through the kit, messages and confirmations) and points to an application on the three.
+
 ## 2.1.1
 
 ### Patch Changes

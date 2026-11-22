@@ -28,6 +28,36 @@ describe('knowledge', () => {
     expect(md).toContain('`punica-change`');
   });
 
+  it('gives the brief form: what markup needs, without what only styling needs', () => {
+    const whole = knowledge.formatMarkdown('punica-select');
+    const brief = knowledge.formatMarkdown('punica-select', { brief: true });
+
+    for (const kept of ['## <punica-select>', '### Attributes', '`full-width`', '### Events', '`punica-change`', '### Slots', 'Import: ']) {
+      expect(brief, kept).toContain(kept);
+    }
+    for (const left of ['### CSS parts', '### CSS custom properties', '### Custom states', '--punica-']) {
+      expect(whole, left).toContain(left);
+      expect(brief, left).not.toContain(left);
+    }
+    // It says what it left out, so nobody thinks there is nothing to style
+    expect(brief).toMatch(/For styling: \d+ CSS parts, \d+ custom properties.*ask for the whole API/);
+    // The attributes are the same ones, each on one line
+    const names = (text) => [...text.matchAll(/^\| `([a-z-]+)` \|/gm)].map((match) => match[1]);
+    const attributes = knowledge.get('select').attributes.map((a) => a.name);
+    expect(names(brief).filter((name) => attributes.includes(name))).toEqual(attributes);
+    expect(brief.length).toBeLessThan(whole.length * 0.85);
+  });
+
+  it('keeps in the brief form what an element cannot be used without', () => {
+    // The names of the glyphs are the API of the icon
+    expect(knowledge.formatMarkdown('punica-icon', { brief: true })).toContain('### Icon names');
+    // A name that is no element is answered the same way
+    expect(knowledge.formatMarkdown('punica-modal', { brief: true })).toContain('punica-dialog');
+    // Over the whole library it is much shorter
+    const size = (brief) => knowledge.tags.reduce((sum, tag) => sum + knowledge.formatMarkdown(tag, { brief }).length, 0);
+    expect(size(true)).toBeLessThan(size(false) * 0.8);
+  });
+
   it('finds an element by the words people use for it', () => {
     expect(knowledge.search('modal').map((r) => r.tag)).toContain('punica-dialog');
     expect(knowledge.search('date picker')[0].tag).toBe('punica-date-picker');
