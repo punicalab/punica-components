@@ -1,0 +1,42 @@
+# What the release workflow checks before it publishes, for every pull
+# request: a change is known to pass before it reaches develop.
+name: CI
+
+on:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            packages/mcp/package-lock.json
+
+      - name: Install
+        run: |
+          npm ci
+          npm ci --prefix packages/mcp
+          npx playwright install --with-deps chromium
+
+      - name: Check
+        run: |
+          npm run lint
+          npm run audit
+          npm test
+          npm run build
+          npm run build:mcp
+          npm run test:mcp

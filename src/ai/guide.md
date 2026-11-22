@@ -114,5 +114,8 @@ element (the `button` in a `punica-button`, the `dialog` in a
 
 `npx punica-components validate <files>` checks tags, attributes, values,
 slots, events and icon names against this version and exits 1 on an error.
-`npx punica-components info <tag>` prints one element's whole API.
+`npx punica-components info <tag>` prints one element's whole API; with
+`--brief` (in the MCP server: `get_component` with `brief: true`) it leaves
+out CSS parts, custom properties and states. Ask for the brief form first
+and for the whole one only when you style the inside of an element.
 Documentation with live examples: https://components.punicalab.com

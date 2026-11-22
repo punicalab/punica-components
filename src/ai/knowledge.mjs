@@ -199,8 +199,16 @@ export function createKnowledge(manifest) {
     return scored.sort((a, b) => b.score - a.score).slice(0, limit);
   }
 
-  /** The element's whole API as Markdown, the way a model reads it best. */
-  function formatMarkdown(tag) {
+  /**
+   * The element's API as Markdown, the way a model reads it best.
+   *
+   * `brief` is what writing markup needs: the description, attributes,
+   * properties, methods, events and slots. CSS parts, custom properties and
+   * states, which only styling needs, are left to the whole form.
+   * @param {string} tag
+   * @param {{ brief?: boolean }} [options]
+   */
+  function formatMarkdown(tag, { brief = false } = {}) {
     const e = get(tag);
     if (!e) {
       const old = legacy(normalizeTag(tag));
@@ -213,15 +221,22 @@ export function createKnowledge(manifest) {
       if (!rows.length) return;
       lines.push('', `### ${title}`, '', `| ${head.join(' | ')} |`, `|${head.map(() => '---').join('|')}|`, ...rows.map((r) => `| ${r.map(cell).join(' | ')} |`));
     };
-    table('Attributes', ['Attribute', 'Property', 'Type', 'Description'], e.attributes.map((a) => [`\`${a.name}\``, `\`${a.property}\``, `\`${a.type}\``, a.description]));
+    if (brief) table('Attributes', ['Attribute', 'Type', 'Description'], e.attributes.map((a) => [`\`${a.name}\``, `\`${a.type}\``, a.description]));
+    else table('Attributes', ['Attribute', 'Property', 'Type', 'Description'], e.attributes.map((a) => [`\`${a.name}\``, `\`${a.property}\``, `\`${a.type}\``, a.description]));
     table('Properties (no attribute)', ['Property', 'Type', 'Description'], e.properties.map((p) => [`\`${p.name}\``, p.type ? `\`${p.type}\`` : '', (p.readonly ? 'Read-only. ' : '') + p.description]));
     table('Methods', ['Method', 'Description'], e.methods.map((m) => [`\`${m.signature}\``, m.description]));
     table('Events', ['Event', 'Description'], e.events.map((ev) => [`\`${ev.name}\``, ev.description]));
     table('Slots', ['Slot', 'Description'], e.slots.map((s) => [s.name ? `\`${s.name}\`` : '(default)', s.description]));
-    table('CSS parts', ['Part', 'Description'], e.parts.map((p) => [`\`${p.name}\``, p.description]));
-    table('CSS custom properties', ['Property', 'Description'], e.cssProperties.map((p) => [`\`${p.name}\``, p.description]));
+    if (!brief) {
+      table('CSS parts', ['Part', 'Description'], e.parts.map((p) => [`\`${p.name}\``, p.description]));
+      table('CSS custom properties', ['Property', 'Description'], e.cssProperties.map((p) => [`\`${p.name}\``, p.description]));
+    }
     if (e.tag === 'punica-icon') lines.push('', `### Icon names`, '', icons.map((i) => `\`${i}\``).join(', ') + '. Any other name draws nothing: slot an `<svg>` instead.');
-    table('Custom states', ['State', 'Description'], e.states.map((s) => [`\`:state(${s.name})\``, s.description]));
+    if (!brief) table('Custom states', ['State', 'Description'], e.states.map((s) => [`\`:state(${s.name})\``, s.description]));
+    else if (e.parts.length || e.cssProperties.length || e.states.length) {
+      const left = [e.parts.length && `${e.parts.length} CSS parts`, e.cssProperties.length && `${e.cssProperties.length} custom properties`, e.states.length && `${e.states.length} states`].filter(Boolean);
+      lines.push('', `For styling: ${left.join(', ')}; ask for the whole API to see them.`);
+    }
     return lines.join('\n');
   }
 
