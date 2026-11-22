@@ -113,6 +113,8 @@ export class PunicaInput extends FormControl(PunicaElement) {
     const input = this.#input;
     input.addEventListener('input', () => {
       this.value = input.value;
+      // Validity can change while the value does not: a half-typed number or date reads as "" throughout.
+      this.requestUpdate();
       this.emit('input', { value: this.value });
     });
     input.addEventListener('change', () => {
