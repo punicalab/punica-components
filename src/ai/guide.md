@@ -97,6 +97,19 @@ properties. Right-to-left works with `dir="rtl"` on any ancestor.
   elements (`compilerOptions.isCustomElement`).
 - **Angular**: `CUSTOM_ELEMENTS_SCHEMA`, `(punica-change)="…"`, `[value]="…"`.
 
+## Testing
+
+Elements carry their role through `ElementInternals`: a `punica-heading` is
+a heading and a `punica-table-row` a row to a screen reader, with no `role`
+attribute in the markup. Tools that read the markup instead of the
+accessibility tree do not see those roles yet: Playwright's `getByRole`,
+Testing Library's `getByRole`, and rules of axe-core such as
+`page-has-heading-one`. In tests, find such an element by its tag
+(`page.locator('punica-table-row')`); for the one heading of a page that an
+audit has to find, use a native `<h1>`. Roles of native elements inside an
+element (the `button` in a `punica-button`, the `dialog` in a
+`punica-alert-dialog`) are found as usual.
+
 ## Check your work
 
 `npx punica-components validate <files>` checks tags, attributes, values,
