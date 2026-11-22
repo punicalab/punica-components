@@ -9,6 +9,7 @@
 ### Patch Changes
 
 - 6422cf4: A custom error (`setCustomValidity`) on a form control is added to what is wrong with its value (`badInput`, `valueMissing`, …) instead of replacing it, as on a native control: `validity.badInput` stayed false while a message was set.
+- `punica-empty-state` gives no place to its icon, description and actions while their slots are empty: each added the gap around it, so a heading alone stood 8px taller than its padding and text.
 - `punica-field` takes its line height from `--punica-field-line-height` (1.43 by default, as before), so a page can set it like the field's other properties instead of overriding the element's `line-height`.
 - 6901c2f: `punica-input` follows a validity that changes while its value does not: a half-typed number or date (`badInput`) reads as an empty value throughout, and the element kept reporting itself valid.
 

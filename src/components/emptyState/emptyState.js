@@ -42,6 +42,25 @@ export class PunicaEmptyState extends PunicaElement {
 
   #heading = this.$('.heading');
 
+  constructor() {
+    super();
+    // A part with nothing in its slot takes no place: it would add the gap around it.
+    for (const name of ['icon', 'description', 'actions']) {
+      const slot = this.$(`.${name} slot`);
+      slot.addEventListener('slotchange', () => this.#fill(name, slot));
+    }
+  }
+
+  connected() {
+    for (const name of ['icon', 'description', 'actions']) this.#fill(name, this.$(`.${name} slot`));
+  }
+
+  /** Hides a part whose slot holds nothing but white space. */
+  #fill(name, slot) {
+    const filled = slot.assignedNodes().some((n) => n.nodeType === 1 || n.textContent.trim());
+    this.$(`.${name}`).hidden = !filled;
+  }
+
   update() {
     const level = Number.isInteger(this.headingLevel) && this.headingLevel >= 1 && this.headingLevel <= 6 ? this.headingLevel : 3;
     this.#heading.textContent = this.heading ?? '';
