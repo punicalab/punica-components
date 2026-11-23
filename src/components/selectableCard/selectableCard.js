@@ -46,6 +46,7 @@ const INTERACTIVE = 'a[href], button, input, select, textarea, [tabindex]:not([t
  *
  * @csspart base - The card's box.
  * @csspart media - The wrapper around the `media` slot.
+ * @csspart body - The column of the title, the description and the default slot, beside or under the media.
  * @csspart title - The wrapper around the `title` slot.
  * @csspart description - The wrapper around the `description` slot.
  * @csspart indicator - The drawn checkbox or radio in the corner.
@@ -75,7 +76,7 @@ export class PunicaSelectableCard extends FormControl(PunicaElement) {
   static template = `
     <div part="base" class="base">
       <div part="media" class="media" hidden><slot name="media"></slot></div>
-      <div class="body">
+      <div part="body" class="body">
         <div part="title" class="title"><slot name="title"></slot></div>
         <div part="description" class="description"><slot name="description"></slot></div>
         <slot></slot>
