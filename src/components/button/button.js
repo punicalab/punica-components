@@ -10,6 +10,44 @@ const FORWARDED = [
 ];
 
 /**
+ * The input types whose Enter submits their form (HTML's "fields that block
+ * implicit submission"): a field of one line.
+ */
+const IMPLICIT = new Set([
+  'text',
+  'search',
+  'url',
+  'tel',
+  'email',
+  'password',
+  'date',
+  'month',
+  'week',
+  'time',
+  'datetime-local',
+  'number'
+]);
+
+/**
+ * The form's default button: its first submit button in tree order, native or
+ * a `punica-button type="submit"`.
+ * @param {HTMLFormElement} form
+ */
+function defaultButton(form) {
+  for (const el of form.elements) {
+    if (el.localName === 'punica-button' && el.type === 'submit') return el;
+    if (
+      (el.localName === 'button' || el.localName === 'input') &&
+      /** @type {any} */ (el).type === 'submit'
+    )
+      return el;
+    if (el.localName === 'input' && /** @type {any} */ (el).type === 'image')
+      return el;
+  }
+  return null;
+}
+
+/**
  * A button: an action, or a form's submit or reset.
  *
  * @element punica-button
@@ -17,7 +55,7 @@ const FORWARDED = [
  * @attr {'filled' | 'outlined' | 'text'} variant - Visual weight, `filled` by default.
  * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Accent, `primary` by default.
  * @attr {'small' | 'medium' | 'large'} size - Control height, `medium` by default.
- * @attr {'button' | 'submit' | 'reset'} type - What a click does to the owning form, `button` by default.
+ * @attr {'button' | 'submit' | 'reset'} type - What a click does to the owning form, `button` by default. The first submit button of a form is its default button: Enter in a native field of one line clicks it.
  * @attr {boolean} disabled - Takes no clicks and no focus.
  * @attr {boolean} required - Part of the form control contract; a button never blocks a form.
  * @attr {boolean} loading - Shows a spinner, keeps focus, ignores clicks.
@@ -100,6 +138,35 @@ export class PunicaButton extends FormControl(PunicaElement) {
       if (this[prop] == null) button.removeAttribute(attribute);
       else button.setAttribute(attribute, this[prop]);
     }
+  }
+
+  connected() {
+    super.connected?.();
+    // Enter in a native field of one line submits the form through its default button, as the platform does when
+    // that button is a native one: a custom element is not a default button to the browser, so a form whose submit
+    // button was a punica-button lost Enter once it had two fields. Each button listens while connected; only the
+    // form's default button acts, and a disabled one blocks the submission as a native one does.
+    this.listen(this.getRootNode(), 'keydown', (event) =>
+      this.#onEnter(/** @type {KeyboardEvent} */ (event))
+    );
+  }
+
+  /** @param {KeyboardEvent} event */
+  #onEnter(event) {
+    if (event.key !== 'Enter' || event.defaultPrevented || event.isComposing)
+      return;
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
+      return;
+    const field = event.composedPath()[0];
+    if (
+      !(field instanceof HTMLInputElement) ||
+      !IMPLICIT.has(field.type) ||
+      !field.form
+    )
+      return;
+    if (defaultButton(field.form) !== this) return;
+    event.preventDefault();
+    this.click();
   }
 
   /** Moves focus to the button. */
