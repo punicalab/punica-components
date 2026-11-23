@@ -36,7 +36,7 @@ const textOf = (option) =>
  *
  * @attr {string} value - Default value; space-separated with `multiple`.
  * @attr {boolean} multiple - Several options can be picked; `value` is then an array.
- * @attr {string} placeholder - Text shown while nothing is picked.
+ * @attr {string} placeholder - Text shown while nothing is picked. Without one, a single select with no default takes its first enabled option, as a native select does.
  * @attr {boolean} clearable - Shows a button that empties the value.
  * @attr {string} label - Accessible name. An `aria-label` on the element names it too; `label` wins.
  * @attr {boolean} open - The list is showing.
@@ -253,7 +253,11 @@ export class PunicaSelect extends FormControl(PunicaElement) {
       values = this.options.filter((o) => this.#defaults.has(o)).map(valueOf);
     }
     if (this.multiple) return values;
-    return values.length ? values[0] : null;
+    if (values.length) return values[0];
+    // As a native select: one choice, nothing marked and no placeholder to show takes its first enabled option.
+    if (this.placeholder) return null;
+    const first = this.options.find((option) => !option.disabled);
+    return first ? valueOf(first) : null;
   }
 
   /** Takes in options that arrived and brings the tree up to date. */

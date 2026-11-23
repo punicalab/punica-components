@@ -12,6 +12,7 @@
 - `punica-button` names its native button from an `aria-label` written on the element (as it already passes `aria-expanded`, `aria-pressed` and the rest); `label` wins when both are set. An icon-only button named the usual way was read without a name.
 - `punica-section` takes the space between its heading and its description from `--punica-section-heading-gap` (4px as before).
 - An option or a segment whose value is the empty string is a choice, as on a native select or radio ("Any client", "All"): `punica-select` shows it and submits it (and, required, counts it as no answer, as a native select does); `punica-radio-group` and `punica-segmented-control` select it. With no such item the empty string is still nothing chosen.
+- A single `punica-select` with no default (no `value`, no option marked `selected`) and no `placeholder` takes its first enabled option, as a native select does: it showed nothing and its value was `null`, so a form moved from a native select submitted nothing where it had submitted the first choice. To start empty, give it a `placeholder`.
 - `punica-segmented-control` can wrap onto more lines: `--punica-segmented-control-wrap: wrap`; its indicator is placed on the chosen segment's box, so it follows it to another line.
 
 ### Patch Changes
