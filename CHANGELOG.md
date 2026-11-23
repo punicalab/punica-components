@@ -4,6 +4,7 @@
 
 ### Minor Changes
 
+- `punica-button` shows keyboard focus on the element as `:state(focus-visible)`: the element matches `:focus` but never `:focus-visible` while its native button has focus, so a page that draws the button with a class of its own (its box, its ring) had no way to show the ring for the keyboard only.
 - 67d4392: `punica-field` describes its control to assistive technology: its help and the error it shows become the control's `description` (new on `punica-input`, `-textarea`, `-select` and `-checkbox`, read as `aria-description` on the inner control) or `aria-description` on a native control, unless the control has its own. Those four controls set `aria-invalid` on their inner control once touched and invalid for any reason, an error set with `setCustomValidity` included (`punica-select` said it only for a missing value). `punica-select` and `punica-checkbox` count as touched when reported invalid (a submit, `checkValidity()`, `reportValidity()`), as the text controls already did.
 - `punica-chip variant="soft"`: a tint of the colour under its shade, for a status or a tag that should not shout; readable in light and dark for every colour.
 - `punica-button type="submit"` is its form's default button when it is the first submit button: Enter in a native field of one line submits through it (once), and a disabled one blocks it, as a native default button does. A form whose submit button was a `punica-button` lost Enter once it had two fields.

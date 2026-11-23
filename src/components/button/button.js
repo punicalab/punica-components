@@ -73,6 +73,10 @@ function defaultButton(form) {
  * @csspart label - The wrapper around the default slot.
  * @csspart spinner - The loading indicator.
  *
+ * @cssstate focus-visible - The native button has focus the browser would show a ring for (the keyboard's). The
+ *   element itself does not match `:focus-visible`; a page that draws the button with its own class puts its ring
+ *   on the element with `punica-button.x:state(focus-visible)`.
+ *
  * @cssprop --punica-button-radius - Corner radius.
  * @cssprop --punica-button-height - Minimum block size.
  * @cssprop --punica-button-padding - Inline padding.
@@ -115,6 +119,13 @@ export class PunicaButton extends FormControl(PunicaElement) {
   constructor() {
     super();
     this.#button.addEventListener('click', (event) => this.#onClick(event));
+    // The host matches :focus, never :focus-visible, while its native button has focus: the state says which focus it is.
+    this.#button.addEventListener('focus', () =>
+      this.toggleState('focus-visible', this.#button.matches(':focus-visible'))
+    );
+    this.#button.addEventListener('blur', () =>
+      this.toggleState('focus-visible', false)
+    );
     // A click that lands on the host while it cannot act goes nowhere.
     this.addEventListener(
       'click',

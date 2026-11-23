@@ -37,6 +37,18 @@ describe('punica-button', () => {
     ).toBe('true');
   });
 
+  it('says on the element when its button has keyboard focus, as :state(focus-visible)', async () => {
+    const el = await fixture('<punica-button>Save</punica-button>');
+    await userEvent.keyboard('{Tab}');
+    expect(el.matches(':focus')).toBe(true);
+    expect(el.matches(':state(focus-visible)')).toBe(true);
+    el.shadowRoot.querySelector('button').blur();
+    expect(el.matches(':state(focus-visible)')).toBe(false);
+    await userEvent.click(el);
+    expect(el.matches(':focus')).toBe(true);
+    expect(el.matches(':state(focus-visible)')).toBe(false);
+  });
+
   it('submits its form with its name and value', async () => {
     const form = await fixture(
       '<form><input name="a" value="1"><punica-button type="submit" name="go" value="yes">Go</punica-button></form>'
