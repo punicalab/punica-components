@@ -9,6 +9,7 @@
 - `punica-button type="submit"` is its form's default button when it is the first submit button: Enter in a native field of one line submits through it (once), and a disabled one blocks it, as a native default button does. A form whose submit button was a `punica-button` lost Enter once it had two fields.
 - `punica-button` names its native button from an `aria-label` written on the element (as it already passes `aria-expanded`, `aria-pressed` and the rest); `label` wins when both are set. An icon-only button named the usual way was read without a name.
 - `punica-section` takes the space between its heading and its description from `--punica-section-heading-gap` (4px as before).
+- An option or a segment whose value is the empty string is a choice, as on a native select or radio ("Any client", "All"): `punica-select` shows it and submits it (and, required, counts it as no answer, as a native select does); `punica-radio-group` and `punica-segmented-control` select it. With no such item the empty string is still nothing chosen.
 - `punica-segmented-control` can wrap onto more lines: `--punica-segmented-control-wrap: wrap`; its indicator is placed on the chosen segment's box, so it follows it to another line.
 
 ### Patch Changes

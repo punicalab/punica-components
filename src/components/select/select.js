@@ -3,16 +3,26 @@ import { FormControl } from '../../core/form.js';
 import { overlayCss } from '../../core/overlay.js';
 import { createTypeahead } from '../../core/a11y.js';
 import { icons } from '../../core/icons.js';
-import { FieldSurface, OptionNavigator, fieldLanguage, fieldName, setAttr, nativeMessage } from './field.js';
+import {
+  FieldSurface,
+  OptionNavigator,
+  fieldLanguage,
+  fieldName,
+  setAttr,
+  nativeMessage
+} from './field.js';
 import './option.js';
 import fieldStyles from './field.css';
 import styles from './select.css';
 
 /** @param {any} option an option that may not be upgraded yet */
 const valueOf = (option) =>
-  option.optionValue ?? option.getAttribute('value') ?? option.textContent.trim();
+  option.optionValue ??
+  option.getAttribute('value') ??
+  option.textContent.trim();
 /** @param {any} option */
-const textOf = (option) => option.text ?? option.getAttribute('label') ?? option.textContent.trim();
+const textOf = (option) =>
+  option.text ?? option.getAttribute('label') ?? option.textContent.trim();
 
 /**
  * A select: one value, or several with `multiple`, picked from a list of
@@ -123,7 +133,9 @@ export class PunicaSelect extends FormControl(PunicaElement) {
       if (this.open) this.#close('api');
       else this.show();
     });
-    this.#trigger.addEventListener('keydown', (event) => this.#onKeydown(event));
+    this.#trigger.addEventListener('keydown', (event) =>
+      this.#onKeydown(event)
+    );
     // Reported invalid (a submit, checkValidity(), reportValidity()): touched, as the text controls are.
     this.addEventListener('invalid', () => {
       this.#touched = true;
@@ -139,18 +151,25 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     });
     this.#slot.addEventListener('slotchange', () => this.#sync());
     // A press on the list must not take focus from the combobox.
-    this.#listbox.addEventListener('mousedown', (event) => event.preventDefault());
+    this.#listbox.addEventListener('mousedown', (event) =>
+      event.preventDefault()
+    );
     this.#listbox.addEventListener('click', (event) => {
       const option = this.#optionFrom(event);
       if (option && !option.disabled) this.#pick(option);
     });
     this.#listbox.addEventListener('pointermove', (event) => {
       const option = this.#optionFrom(event);
-      if (option && !option.disabled && option !== this.#nav.active) this.#nav.set(option);
+      if (option && !option.disabled && option !== this.#nav.active)
+        this.#nav.set(option);
     });
     this.shadowRoot.addEventListener('focusout', (event) => {
       const next = /** @type {FocusEvent} */ (event).relatedTarget;
-      if (next instanceof Node && (this.shadowRoot.contains(next) || this.contains(next))) return;
+      if (
+        next instanceof Node &&
+        (this.shadowRoot.contains(next) || this.contains(next))
+      )
+        return;
       this.#touched = true;
       if (this.open) this.#close('blur');
       else this.requestUpdate();
@@ -159,7 +178,9 @@ export class PunicaSelect extends FormControl(PunicaElement) {
 
   /** The `punica-option` children, in order. @returns {any[]} */
   get options() {
-    return [...this.children].filter((child) => child.localName === 'punica-option');
+    return [...this.children].filter(
+      (child) => child.localName === 'punica-option'
+    );
   }
 
   /** The picked options. @returns {any[]} */
@@ -201,7 +222,10 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   }
 
   formRestore(state) {
-    if (state instanceof FormData) this.value = this.multiple ? state.getAll(this.name) : state.get(this.name);
+    if (state instanceof FormData)
+      this.value = this.multiple
+        ? state.getAll(this.name)
+        : state.get(this.name);
     else if (typeof state === 'string') this.value = state;
   }
 
@@ -209,13 +233,20 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   #values() {
     const value = this.value;
     if (Array.isArray(value)) return value.map(String);
-    return value == null || value === '' ? [] : [String(value)];
+    if (value == null) return [];
+    // An option whose value is the empty string is a choice, as on a native select ("Any client"); with no such
+    // option the empty string is nothing picked.
+    if (value === '')
+      return this.options.some((option) => valueOf(option) === '') ? [''] : [];
+    return [String(value)];
   }
 
   #defaultValue() {
     let values = [];
     if (this.defaultValue != null) {
-      values = this.multiple ? this.defaultValue.split(/\s+/).filter(Boolean) : [this.defaultValue];
+      values = this.multiple
+        ? this.defaultValue.split(/\s+/).filter(Boolean)
+        : [this.defaultValue];
     } else {
       values = this.options.filter((o) => this.#defaults.has(o)).map(valueOf);
     }
@@ -251,19 +282,33 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   }
 
   update(changed) {
-    if (!this.#initialised || changed.has('defaultValue') || changed.has('multiple')) this.#applyDefault();
+    if (
+      !this.#initialised ||
+      changed.has('defaultValue') ||
+      changed.has('multiple')
+    )
+      this.#applyDefault();
     const options = this.options;
     const values = this.#values();
     const disabled = this.isDisabled;
     const name = fieldName(this);
 
     const known = new Map(options.map((option) => [valueOf(option), option]));
-    for (const option of options) option.selected = values.includes(valueOf(option));
-    const texts = values.map((value) => (known.has(value) ? textOf(known.get(value)) : value));
+    for (const option of options)
+      option.selected = values.includes(valueOf(option));
+    const texts = values.map((value) =>
+      known.has(value) ? textOf(known.get(value)) : value
+    );
     const empty = texts.length === 0;
     let text = this.placeholder || '';
     if (!empty) {
-      text = texts.length === 1 ? texts[0] : new Intl.ListFormat(fieldLanguage(this), { style: 'short', type: 'unit' }).format(texts);
+      text =
+        texts.length === 1
+          ? texts[0]
+          : new Intl.ListFormat(fieldLanguage(this), {
+              style: 'short',
+              type: 'unit'
+            }).format(texts);
     }
     this.#valueEl.textContent = text;
     this.#valueEl.classList.toggle('placeholder', empty);
@@ -275,7 +320,11 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     setAttr(trigger, 'aria-label', name);
     setAttr(trigger, 'aria-required', this.required ? 'true' : null);
     setAttr(this.#listbox, 'aria-label', name);
-    setAttr(this.#listbox, 'aria-multiselectable', this.multiple ? 'true' : null);
+    setAttr(
+      this.#listbox,
+      'aria-multiselectable',
+      this.multiple ? 'true' : null
+    );
     setAttr(this.#clear, 'aria-label', this.labelClear);
     this.#clear.hidden = !this.clearable || empty || disabled;
 
@@ -287,8 +336,13 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     } else {
       this.setFormValue(empty ? null : values[0]);
     }
-    const missing = this.required && empty;
-    this.setValidity(missing ? { valueMissing: true } : {}, nativeMessage('choose'), trigger);
+    // As a native required select: its empty-valued option (a placeholder) is no answer.
+    const missing = this.required && (empty || values[0] === '');
+    this.setValidity(
+      missing ? { valueMissing: true } : {},
+      nativeMessage('choose'),
+      trigger
+    );
     // Invalid for any reason once touched: a missing value, or an error set with setCustomValidity.
     const userInvalid = this.#touched && !this.validity.valid;
     setAttr(trigger, 'aria-invalid', userInvalid ? 'true' : null);
@@ -297,8 +351,13 @@ export class PunicaSelect extends FormControl(PunicaElement) {
 
     const want = this.open && !disabled;
     if (want && !this.#surface.open) {
-      this.#surface.show(this.#field, { matchWidth: true }, () => this.#close('outside'));
-      const first = options.find((o) => o.selected && !o.disabled) || this.#nav.items[0] || null;
+      this.#surface.show(this.#field, { matchWidth: true }, () =>
+        this.#close('outside')
+      );
+      const first =
+        options.find((o) => o.selected && !o.disabled) ||
+        this.#nav.items[0] ||
+        null;
       if (!this.#nav.active) this.#nav.set(first);
       this.toggleState('open', true);
       trigger.setAttribute('aria-expanded', 'true');
@@ -315,7 +374,14 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   }
 
   #optionFrom(event) {
-    return event.composedPath().find((node) => node.localName === 'punica-option' && node.parentElement === this) || null;
+    return (
+      event
+        .composedPath()
+        .find(
+          (node) =>
+            node.localName === 'punica-option' && node.parentElement === this
+        ) || null
+    );
   }
 
   /** @param {string} reason */
@@ -328,7 +394,11 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   /** @param {string[]} values */
   #commit(values) {
     const before = this.#values();
-    if (before.length === values.length && before.every((v, i) => v === values[i])) return;
+    if (
+      before.length === values.length &&
+      before.every((v, i) => v === values[i])
+    )
+      return;
     this.#dirty = true;
     this.#touched = true;
     this.value = this.multiple ? values : values[0] ?? null;
@@ -341,7 +411,9 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     if (this.multiple) {
       const values = this.#values();
       // Keep the list's own order, whatever order the user clicked in.
-      const next = values.includes(value) ? values.filter((v) => v !== value) : [...values, value];
+      const next = values.includes(value)
+        ? values.filter((v) => v !== value)
+        : [...values, value];
       const order = this.options.map(valueOf);
       next.sort((a, b) => order.indexOf(a) - order.indexOf(b));
       this.#commit(next);
@@ -383,7 +455,11 @@ export class PunicaSelect extends FormControl(PunicaElement) {
       // Tab takes the highlighted option and moves on.
       if (nav.active && !this.multiple) this.#pick(nav.active);
       else this.#close('blur');
-    } else if (key === 'Enter' || key === ' ' || (key === 'ArrowUp' && event.altKey)) {
+    } else if (
+      key === 'Enter' ||
+      key === ' ' ||
+      (key === 'ArrowUp' && event.altKey)
+    ) {
       event.preventDefault();
       if (nav.active) this.#pick(nav.active);
       if (key === 'ArrowUp') this.#close('select');
@@ -391,7 +467,11 @@ export class PunicaSelect extends FormControl(PunicaElement) {
       event.preventDefault();
     } else {
       const items = nav.items;
-      const index = this.#typeahead(event, items.map(textOf), items.indexOf(nav.active));
+      const index = this.#typeahead(
+        event,
+        items.map(textOf),
+        items.indexOf(nav.active)
+      );
       if (index >= 0) {
         event.preventDefault();
         nav.set(items[index]);
