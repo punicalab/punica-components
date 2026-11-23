@@ -11,7 +11,8 @@ const setAttr = (el, name, value) => {
 // A ValidityState keeps its flags on the prototype; copy the set ones out.
 const flagsOf = (validity) => {
   const flags = {};
-  for (const key in validity) if (key !== 'valid' && validity[key]) flags[key] = true;
+  for (const key in validity)
+    if (key !== 'valid' && validity[key]) flags[key] = true;
   return flags;
 };
 
@@ -28,7 +29,7 @@ const flagsOf = (validity) => {
  * @attr {string} type - Any text-like input type, `text` by default.
  * @attr {string} value - Default value. The property holds the current value.
  * @attr {string} name - Name the value is submitted under.
- * @attr {string} label - Accessible name, when no `<label>` points at the field.
+ * @attr {string} label - Accessible name, when no `<label>` points at the field. An `aria-label` on the element names it too; `label` wins.
  * @attr {string} placeholder - Shown while the field is empty.
  * @attr {boolean} disabled - Takes no input and submits nothing.
  * @attr {boolean} readonly - Shows its value and takes no edits.
@@ -72,6 +73,8 @@ const flagsOf = (validity) => {
  */
 export class PunicaInput extends FormControl(PunicaElement) {
   static properties = {
+    // A name written on the element the usual way names the control too; `label` wins.
+    ariaLabel: { attribute: 'aria-label', reflect: false },
     type: { default: 'text' },
     value: { reflect: false, default: '' },
     label: {},
@@ -122,7 +125,11 @@ export class PunicaInput extends FormControl(PunicaElement) {
       this.emit('change', { value: this.value });
     });
     input.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' && !event.isComposing && !event.defaultPrevented) {
+      if (
+        event.key === 'Enter' &&
+        !event.isComposing &&
+        !event.defaultPrevented
+      ) {
         this.form?.requestSubmit();
       }
     });
@@ -131,8 +138,16 @@ export class PunicaInput extends FormControl(PunicaElement) {
     this.#clear.addEventListener('click', () => this.#onClear());
     // A press on the padding or an adornment puts the caret in the field.
     this.$('.base').addEventListener('mousedown', (event) => {
-      if (event.target === input || event.target === this.#clear || this.isDisabled) return;
-      if (event.target.closest?.('button, a, input, select, textarea, [tabindex]')) return;
+      if (
+        event.target === input ||
+        event.target === this.#clear ||
+        this.isDisabled
+      )
+        return;
+      if (
+        event.target.closest?.('button, a, input, select, textarea, [tabindex]')
+      )
+        return;
       event.preventDefault();
       input.focus();
     });
@@ -159,7 +174,8 @@ export class PunicaInput extends FormControl(PunicaElement) {
     if (input.value !== value) input.value = value;
 
     setAttr(this.#clear, 'aria-label', this.labelClear);
-    this.#clear.hidden = !this.clearable || !input.value || this.readonly || this.isDisabled;
+    this.#clear.hidden =
+      !this.clearable || !input.value || this.readonly || this.isDisabled;
 
     this.setFormValue(input.value);
     this.setValidity(flagsOf(input.validity), input.validationMessage, input);
@@ -201,7 +217,10 @@ export class PunicaInput extends FormControl(PunicaElement) {
 
   #name() {
     if (this.label) return this.label;
-    const text = [...this.labels].map((l) => l.textContent.trim()).filter(Boolean);
+    if (this.ariaLabel) return this.ariaLabel;
+    const text = [...this.labels]
+      .map((l) => l.textContent.trim())
+      .filter(Boolean);
     return text.length ? text.join(' ') : null;
   }
 
