@@ -186,6 +186,9 @@ export class PunicaTextarea extends FormControl(PunicaElement) {
   #touch() {
     this.#touched = true;
     this.toggleState('user-invalid', !this.validity.valid);
+    // The inner control says so too (aria-invalid), in the update: an update already run this turn
+    // (a submit reads the validity first) would leave it unsaid.
+    this.requestUpdate();
   }
 
   /** Grows the textarea to its content where `field-sizing` is missing. */
