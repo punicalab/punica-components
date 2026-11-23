@@ -243,6 +243,18 @@ describe('punica-input', () => {
     expect(el.validity.valueMissing).toBe(true);
   });
 
+  it('says it is invalid on its inner input once a submit found it so, after its validity was read', async () => {
+    const form = await fixture(
+      '<form><punica-input name="who" label="Who" required></punica-input></form>'
+    );
+    const el = form.querySelector('punica-input');
+    el.value = '';
+    expect(el.validity.valid).toBe(false);
+    form.checkValidity();
+    await settle();
+    expect(el.shadowRoot.querySelector('input').getAttribute('aria-invalid')).toBe('true');
+  });
+
   it('is left out of the form data when disabled', async () => {
     const form = await fixture(
       '<form><punica-input name="who" label="Who" value="Ada" disabled></punica-input></form>'
