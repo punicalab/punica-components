@@ -18,6 +18,42 @@ const text = (el, name) => (part(el, name).hidden ? null : part(el, name).textCo
 describe('punica-field', () => {
   afterEach(cleanup);
 
+  it('report="inline": a submit shows the fields\' messages alone, with no bubble, and focuses the first invalid control', async () => {
+    const form = await fixture(
+      '<form><punica-field label="Name" report="inline"><punica-input name="name" required></punica-input></punica-field><punica-field label="E-mail" report="inline"><punica-input name="email" required></punica-input></punica-field><button>Send</button></form>'
+    );
+    let submitted = false;
+    form.addEventListener('submit', (e) => ((submitted = true), e.preventDefault()));
+    const canceled = [];
+    for (const c of form.querySelectorAll('punica-input')) c.addEventListener('invalid', (e) => queueMicrotask(() => canceled.push(e.defaultPrevented)));
+    const [name, email] = form.querySelectorAll('punica-field');
+    await settle();
+    form.querySelector('button').click();
+    await settle();
+    expect(submitted).toBe(false);
+    expect(name.matches(':state(invalid)')).toBe(true);
+    expect(email.matches(':state(invalid)')).toBe(true);
+    expect(document.activeElement).toBe(name.control);
+    expect(canceled).toEqual([true, true]);
+    // checkValidity() reports too, but it is not a submit: focus stays where it is.
+    email.control.focus();
+    form.checkValidity();
+    await settle();
+    expect(document.activeElement).toBe(email.control);
+  });
+
+  it('report="browser" (the default) leaves the browser\'s bubble: the invalid event is not canceled', async () => {
+    const form = await fixture('<form><punica-field label="Name"><punica-input name="name" required></punica-input></punica-field></form>');
+    const field = form.querySelector('punica-field');
+    await settle();
+    let prevented = null;
+    field.control.addEventListener('invalid', (e) => queueMicrotask(() => (prevented = e.defaultPrevented)));
+    form.checkValidity();
+    await settle();
+    expect(prevented).toBe(false);
+    expect(field.matches(':state(invalid)')).toBe(true);
+  });
+
   it('shows its label and help, and hides what it was not given', async () => {
     const el = await fixture(html);
     expect(part(el, 'label').hidden).toBe(false);

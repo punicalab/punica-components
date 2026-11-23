@@ -1,6 +1,21 @@
 import { PunicaElement, define } from '../../core/element.js';
 import styles from './field.css';
 
+/** Forms a submit was just asked of (a click on a submit button, Enter in a field), until the task ends. */
+const submitting = new WeakSet();
+/** Forms whose submit already focused its first invalid control. */
+const focused = new WeakSet();
+/** @param {Event} event */
+const asksSubmit = (event) =>
+  event.type === 'keydown'
+    ? /** @type {KeyboardEvent} */ (event).key === 'Enter'
+    : event.composedPath().some(
+        (node) =>
+          node instanceof Element &&
+          (node.matches('button:not([type]), button[type="submit"], input[type="submit"], input[type="image"]') ||
+            (node.localName === 'punica-button' && node.getAttribute('type') === 'submit'))
+      );
+
 /**
  * A label, a help text and an error message around one form control.
  *
@@ -21,6 +36,7 @@ import styles from './field.css';
  * @attr {string} help - Text under the control.
  * @attr {string} error - An error message to show now, in place of the control's own.
  * @attr {boolean} required - Shows the required mark; also shown when the control is `required`.
+ * @attr {'browser' | 'inline'} report - How a submit reports the control invalid: `browser` (default) leaves the browser's own bubble beside the field's message; `inline` shows the field's message alone and focuses the first invalid control of the submit, as the browser would.
  *
  * @slot - The control: one `punica-*` form control or a native one.
  * @slot label - Rich label content, in place of `label`.
@@ -46,7 +62,8 @@ export class PunicaField extends PunicaElement {
     label: {},
     help: {},
     error: {},
-    required: { type: Boolean }
+    required: { type: Boolean },
+    report: { default: 'browser' }
   };
 
   static styles = styles;
@@ -80,15 +97,23 @@ export class PunicaField extends PunicaElement {
       if (event.target.closest?.('a, button, input, select, textarea')) return;
       this.control?.focus();
     });
-    // `invalid` does not bubble; the capture phase still passes here. The
-    // event is left alone, so the browser still focuses the first invalid
-    // control of a submit and shows its own bubble there.
+    // `invalid` does not bubble; the capture phase still passes here. With
+    // `report="browser"` the event is left alone, so the browser focuses the
+    // first invalid control of a submit and shows its own bubble there.
     this.addEventListener(
       'invalid',
       (event) => {
         if (event.target !== this.control) return;
         this.#touched = true;
         this.#refresh();
+        if (this.report !== 'inline') return;
+        // The field says it: no bubble of the browser's beside it. A submit still lands on its first invalid control.
+        event.preventDefault();
+        const form = this.closest('form');
+        if (form && submitting.has(form) && !focused.has(form)) {
+          focused.add(form);
+          this.control.focus();
+        }
       },
       { capture: true }
     );
@@ -106,6 +131,19 @@ export class PunicaField extends PunicaElement {
     // A reset of the owning form clears what the field was showing.
     const form = this.closest('form');
     if (form) {
+      for (const type of ['click', 'keydown']) {
+        this.listen(
+          form,
+          type,
+          (event) => {
+            if (!asksSubmit(event)) return;
+            submitting.add(form);
+            focused.delete(form);
+            setTimeout(() => submitting.delete(form));
+          },
+          { capture: true }
+        );
+      }
       this.listen(form, 'reset', () => {
         this.#touched = false;
         this.#later();
