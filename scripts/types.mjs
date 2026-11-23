@@ -170,6 +170,24 @@ for (const el of elements) {
     `export interface ${name} extends HTMLElement {\n`;
   const defaults = await defaultsOf(el.path);
   for (const a of attrs.filter((a) => !NATIVE.has(camel(a.name)))) {
+    // A property the element documents with a type of its own that cannot hold the attribute's (`@prop {string[]} value`
+    // beside `@attr {string} value`: the attribute is the default written as text, the property holds the array). A
+    // property that can also hold it (`string | string[] | null` of a select that may be multiple) keeps the
+    // attribute's type, the single case code reads.
+    const attrType = a.type?.text || 'string';
+    const prop = (el.members || []).find(
+      (m) =>
+        m.kind === 'field' &&
+        !m.static &&
+        m.name === camel(a.name) &&
+        m.description &&
+        m.type?.text &&
+        !m.type.text.split('|').map((part) => part.trim()).includes(attrType)
+    );
+    if (prop) {
+      index += doc(prop.description) + `  ${prop.name}: ${tsType(prop.type)};\n`;
+      continue;
+    }
     const nullable =
       tsType(a.type) !== 'boolean' && !defaults.has(camel(a.name));
     index +=
