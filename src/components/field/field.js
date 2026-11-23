@@ -9,17 +9,12 @@ const focused = new WeakSet();
 const asksSubmit = (event) =>
   event.type === 'keydown'
     ? /** @type {KeyboardEvent} */ (event).key === 'Enter'
-    : event
-        .composedPath()
-        .some(
-          (node) =>
-            node instanceof Element &&
-            (node.matches(
-              'button:not([type]), button[type="submit"], input[type="submit"], input[type="image"]'
-            ) ||
-              (node.localName === 'punica-button' &&
-                node.getAttribute('type') === 'submit'))
-        );
+    : event.composedPath().some(
+        (node) =>
+          node instanceof Element &&
+          (node.matches('button:not([type]), button[type="submit"], input[type="submit"], input[type="image"]') ||
+            (node.localName === 'punica-button' && node.getAttribute('type') === 'submit'))
+      );
 
 /**
  * A label, a help text and an error message around one form control.
@@ -186,23 +181,12 @@ export class PunicaField extends PunicaElement {
   #name(control) {
     if (this.#named && this.#named !== control) this.#named = null;
     if (!control) return;
-    if (
-      control.localName.includes('-') &&
-      !customElements.get(control.localName)
-    ) {
+    if (control.localName.includes('-') && !customElements.get(control.localName)) {
       // Not upgraded yet: it cannot say whether it has a name. Come back.
-      customElements
-        .whenDefined(control.localName)
-        .then(() => this.isConnected && this.update());
+      customElements.whenDefined(control.localName).then(() => this.isConnected && this.update());
       return;
     }
-    const label =
-      this.label ||
-      this.$('slot[name=label]')
-        .assignedNodes()
-        .map((n) => n.textContent.trim())
-        .join(' ') ||
-      null;
+    const label = this.label || this.$('slot[name=label]').assignedNodes().map((n) => n.textContent.trim()).join(' ') || null;
     if ('label' in control) {
       if (this.#named === control || !control.label) {
         if (label || this.#named === control) control.label = label;
@@ -211,12 +195,8 @@ export class PunicaField extends PunicaElement {
       return;
     }
     // A native control: name it the same way, unless something already does.
-    const has =
-      control.hasAttribute('aria-labelledby') || control.labels?.length;
-    if (
-      this.#named === control ||
-      (!has && !control.hasAttribute('aria-label'))
-    ) {
+    const has = control.hasAttribute('aria-labelledby') || control.labels?.length;
+    if (this.#named === control || (!has && !control.hasAttribute('aria-label'))) {
       if (label) control.setAttribute('aria-label', label);
       else control.removeAttribute('aria-label');
       this.#named = label ? control : null;
@@ -227,12 +207,7 @@ export class PunicaField extends PunicaElement {
   #refresh() {
     const control = this.control;
     let message = this.error || '';
-    if (
-      !message &&
-      this.#touched &&
-      control?.validity &&
-      !control.validity.valid
-    ) {
+    if (!message && this.#touched && control?.validity && !control.validity.valid) {
       message = control.validationMessage || '';
     }
     const box = this.$('.error');
@@ -249,12 +224,7 @@ export class PunicaField extends PunicaElement {
   #describe(control, message) {
     if (this.#described && this.#described !== control) this.#described = null;
     if (!control) return;
-    const help =
-      this.help ||
-      this.$('slot[name=help]')
-        .assignedNodes()
-        .map((n) => n.textContent.trim())
-        .join(' ');
+    const help = this.help || this.$('slot[name=help]').assignedNodes().map((n) => n.textContent.trim()).join(' ');
     const text = [help, message].filter(Boolean).join(' ') || null;
     if ('description' in control) {
       if (this.#described === control || !control.description) {
@@ -264,13 +234,9 @@ export class PunicaField extends PunicaElement {
       return;
     }
     // A native control: the same, through its attribute.
-    if (
-      this.#described === control ||
-      !control.hasAttribute('aria-description')
-    ) {
+    if (this.#described === control || !control.hasAttribute('aria-description')) {
       if (text) control.setAttribute('aria-description', text);
-      else if (this.#described === control)
-        control.removeAttribute('aria-description');
+      else if (this.#described === control) control.removeAttribute('aria-description');
       this.#described = text ? control : null;
     }
   }
