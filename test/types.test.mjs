@@ -115,6 +115,33 @@ test('a property with a default is not nullable; one without is', () => {
   );
 });
 
+test('a property documented with a type the attribute cannot hold has that type', () => {
+  assert.deepEqual(
+    check(`
+      import type { PunicaCheckboxGroup, PunicaSelect, PunicaTokenizer } from '@punica/components';
+
+      const tokens: PunicaTokenizer = document.createElement('punica-tokenizer');
+      const group: PunicaCheckboxGroup = document.createElement('punica-checkbox-group');
+      const select: PunicaSelect = document.createElement('punica-select');
+      tokens.value = ['a', 'b'];
+      const words: string[] = tokens.value;
+      const checked: string[] = group.value;
+      // A select may be multiple, but its single value is what code reads.
+      const picked: string | null = select.value;
+      export { words, checked, picked };
+    `),
+    []
+  );
+  assert.equal(
+    check(`
+      const tokens = document.createElement('punica-tokenizer');
+      const one: string = tokens.value;
+      export { one };
+    `).length,
+    1
+  );
+});
+
 test('what the helpers do not take is refused', () => {
   const problems = check(`
     import { confirm, toast } from '@punica/components';
