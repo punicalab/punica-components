@@ -97,6 +97,24 @@ test('every element says when its pending update has run', () => {
   );
 });
 
+test('a property with a default is not nullable; one without is', () => {
+  assert.deepEqual(
+    check(`
+      import type { PunicaButton, PunicaInput, PunicaTextarea } from '@punica/components';
+
+      const input: PunicaInput = document.createElement('punica-input');
+      const area: PunicaTextarea = document.createElement('punica-textarea');
+      const button: PunicaButton = document.createElement('punica-button');
+      const value: string = input.value;
+      const text: string = area.value;
+      const kind: 'button' | 'submit' | 'reset' = button.type;
+      const placeholder: string | null = input.placeholder;
+      export { value, text, kind, placeholder };
+    `),
+    []
+  );
+});
+
 test('what the helpers do not take is refused', () => {
   const problems = check(`
     import { confirm, toast } from '@punica/components';
