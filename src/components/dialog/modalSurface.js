@@ -1,4 +1,8 @@
-import { deepActiveElement, composedContains } from '../../core/a11y.js';
+import {
+  deepActiveElement,
+  composedContains,
+  firstFocusable
+} from '../../core/a11y.js';
 import { sheet } from '../../core/element.js';
 
 /**
@@ -34,12 +38,23 @@ function lockScroll(owner, on) {
     lockSheet ||= sheet(LOCK_CSS);
     gutterSheet ||= sheet(GUTTER_CSS);
     // Read before the lock hides the scrollbar.
-    const scrollbar = window.innerWidth - document.documentElement.clientWidth > 0;
-    document.adoptedStyleSheets = [...document.adoptedStyleSheets, lockSheet, ...(scrollbar ? [gutterSheet] : [])];
+    const scrollbar =
+      window.innerWidth - document.documentElement.clientWidth > 0;
+    document.adoptedStyleSheets = [
+      ...document.adoptedStyleSheets,
+      lockSheet,
+      ...(scrollbar ? [gutterSheet] : [])
+    ];
   } else if (!want && has) {
-    document.adoptedStyleSheets = document.adoptedStyleSheets.filter((s) => s !== lockSheet && s !== gutterSheet);
+    document.adoptedStyleSheets = document.adoptedStyleSheets.filter(
+      (s) => s !== lockSheet && s !== gutterSheet
+    );
   }
 }
+
+/** What a person would call a control, as against a scroller the browser lets take focus. */
+const CONTROL =
+  'a[href], button, input, select, textarea, [tabindex], [contenteditable="true"]';
 
 /**
  * Closes a dialog and takes it out of the top layer if it was there as a
@@ -117,17 +132,23 @@ export const ModalSurface = (Base) =>
         }
       });
       dialog.addEventListener('keydown', (event) => {
-        if (event.key !== 'Escape' || event.defaultPrevented || !this.modeless) return;
+        if (event.key !== 'Escape' || event.defaultPrevented || !this.modeless)
+          return;
         event.preventDefault();
         this.requestClose('escape');
       });
       dialog.addEventListener('pointerdown', (event) => {
-        this.#downOnBackdrop = event.target === dialog && this.isBackdropHit(event);
+        this.#downOnBackdrop =
+          event.target === dialog && this.isBackdropHit(event);
       });
       dialog.addEventListener('click', (event) => {
-        const hit = this.#downOnBackdrop && event.target === dialog && this.isBackdropHit(event);
+        const hit =
+          this.#downOnBackdrop &&
+          event.target === dialog &&
+          this.isBackdropHit(event);
         this.#downOnBackdrop = false;
-        if (hit && !this.noLightDismiss && !this.modeless) this.requestClose('backdrop');
+        if (hit && !this.noLightDismiss && !this.modeless)
+          this.requestClose('backdrop');
       });
     }
 
@@ -182,7 +203,11 @@ export const ModalSurface = (Base) =>
      */
     requestClose(reason = 'api', returnValue) {
       if (!this.open) return false;
-      const event = this.emit('request-close', { reason }, { cancelable: true });
+      const event = this.emit(
+        'request-close',
+        { reason },
+        { cancelable: true }
+      );
       if (event.defaultPrevented) return false;
       this.closeWith(reason, returnValue);
       return true;
@@ -203,7 +228,8 @@ export const ModalSurface = (Base) =>
     connected() {
       super.connected();
       // Moved while open: open again in the new place.
-      if (this.open && !this.#shown) queueMicrotask(() => this.isConnected && this.#sync());
+      if (this.open && !this.#shown)
+        queueMicrotask(() => this.isConnected && this.#sync());
     }
 
     disconnected() {
@@ -224,10 +250,12 @@ export const ModalSurface = (Base) =>
     #name() {
       const dialog = this.dialogElement;
       const sources = this.label ? [] : this.labelSources;
-      const text = this.label || sources.map((el) => el.textContent.trim()).join(' ');
+      const text =
+        this.label || sources.map((el) => el.textContent.trim()).join(' ');
       // Both: element references are what a browser follows; the attribute is
       // the same name for one that cannot point out of a shadow tree.
-      if ('ariaLabelledByElements' in dialog) dialog.ariaLabelledByElements = sources.length ? sources : null;
+      if ('ariaLabelledByElements' in dialog)
+        dialog.ariaLabelledByElements = sources.length ? sources : null;
       if (text) dialog.setAttribute('aria-label', text);
       else dialog.removeAttribute('aria-label');
     }
@@ -248,6 +276,19 @@ export const ModalSurface = (Base) =>
         } else {
           dialog.showModal();
           lockScroll(this, true);
+          // The browser's own pick looks only at the dialog's descendants, not at what its slots show: the content's
+          // `autofocus` control is never found, and a scrolling panel can be taken for a stop. Focus the content's
+          // `autofocus` control; else, where the pick is no control (a scroller), the content's first control.
+          const auto = /** @type {HTMLElement | null} */ (
+            this.querySelector('[autofocus]')
+          );
+          const at = deepActiveElement();
+          const control =
+            at instanceof HTMLElement &&
+            (at.matches(CONTROL) ||
+              !!(/** @type {HTMLElement} */ (at).shadowRoot?.delegatesFocus));
+          if (auto) auto.focus();
+          else if (!control) firstFocusable(this)?.focus();
         }
         this.surfaceOpened();
         this.emit('open');
@@ -255,13 +296,22 @@ export const ModalSurface = (Base) =>
         this.#shown = false;
         lockScroll(this, false);
         const active = deepActiveElement();
-        const inside = !active || active === document.body || composedContains(this, active) || composedContains(dialog, active);
+        const inside =
+          !active ||
+          active === document.body ||
+          composedContains(this, active) ||
+          composedContains(dialog, active);
         closeDialog(dialog);
         const back = this.#returnFocus;
         this.#returnFocus = null;
         const reason = this.#reason;
         this.#reason = 'api';
-        if (inside && back instanceof HTMLElement && back.isConnected && deepActiveElement() !== back) {
+        if (
+          inside &&
+          back instanceof HTMLElement &&
+          back.isConnected &&
+          deepActiveElement() !== back
+        ) {
           back.focus({ preventScroll: true });
         }
         this.surfaceClosed();
