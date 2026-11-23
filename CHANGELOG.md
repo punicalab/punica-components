@@ -15,6 +15,7 @@
 - A single `punica-select` with no default (no `value`, no option marked `selected`) and no `placeholder` takes its first enabled option, as a native select does: it showed nothing and its value was `null`, so a form moved from a native select submitted nothing where it had submitted the first choice. To start empty, give it a `placeholder`.
 - `punica-select` is as wide as its widest option (and its placeholder), as a native select is, and narrower when its container is, with the value ending in an ellipsis. It took the width of the value it showed, so picking another option resized it, and a form moved from a native select drew it narrower.
 - `punica-field report="inline"`: a submit shows the field's message alone, without the browser's bubble beside it, and focuses the first invalid control of the form as the browser would (`checkValidity()` still moves no focus). With the default, `browser`, a page that shows errors under its fields got each message twice.
+- `punica-autocomplete show-value`: the field shows a picked option's value instead of its label, as a native input with a `<datalist>` does; typing finds an option by its value or its label, and a row from `options` shows the value with the label beside it (`option-label` part). For a code picked by its code or its name (an account, a partner).
 - `punica-segmented-control` can wrap onto more lines: `--punica-segmented-control-wrap: wrap`; its indicator is placed on the chosen segment's box, so it follows it to another line.
 
 ### Patch Changes

@@ -114,6 +114,37 @@ describe('punica-autocomplete', () => {
     expect(input(el).value).toBe('Izmir');
   });
 
+  it('show-value: finds a row by its value or its label, shows the value, and takes free text, as an input with a datalist', async () => {
+    const el = await fixture('<punica-autocomplete label="Account" show-value free-text></punica-autocomplete>');
+    el.options = [
+      { value: '1200', label: 'Bank account' },
+      { value: '2410', label: 'Suppliers' }
+    ];
+    await settle();
+    type(el, 'supp');
+    await settle();
+    expect(shown(el)).toHaveLength(1);
+    const row = rows(el).find((o) => !o.hidden);
+    expect(row.value).toBe('2410');
+    expect(row.querySelector('[part="option-label"]').textContent).toBe('Suppliers');
+    row.click();
+    await settle();
+    expect(el.value).toBe('2410');
+    expect(input(el).value).toBe('2410');
+    type(el, '12');
+    await settle();
+    expect(rows(el).filter((o) => !o.hidden).map((o) => o.value)).toEqual(['1200']);
+    type(el, '1200');
+    input(el).blur();
+    await settle();
+    expect(el.value).toBe('1200');
+    expect(input(el).value).toBe('1200');
+    type(el, '9999');
+    input(el).blur();
+    await settle();
+    expect(el.value).toBe('9999');
+  });
+
   it('takes typed text that names an option, and puts back text that names none', async () => {
     const el = await fixture(html);
     type(el, 'podgorica');
