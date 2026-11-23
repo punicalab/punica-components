@@ -39,6 +39,7 @@ import styles from './section.css';
  * @cssprop --punica-section-gap - Space between the header and the body.
  * @cssprop --punica-section-padding - Padding around the whole section.
  * @cssprop --punica-section-heading-size - Font size of the heading.
+ * @cssprop --punica-section-heading-gap - Space between the heading and the description.
  * @cssprop --punica-section-divider-color - Colour of the divider.
  *
  * @cssstate open - A collapsible section's body is showing.
@@ -100,7 +101,11 @@ export class PunicaSection extends PunicaElement {
       this.open = !this.open;
       this.emit('toggle', { open: this.open });
     });
-    for (const slot of [this.#headingSlot, this.#descriptionSlot, this.#actionsSlot]) {
+    for (const slot of [
+      this.#headingSlot,
+      this.#descriptionSlot,
+      this.#actionsSlot
+    ]) {
       slot.addEventListener('slotchange', () => this.requestUpdate());
     }
   }
@@ -138,12 +143,16 @@ export class PunicaSection extends PunicaElement {
     this.#body.hidden = !open;
     this.toggleState('open', this.collapsible && this.open);
 
-    const hasHeading = !!this.heading || this.#headingSlot.assignedNodes().length > 0;
+    const hasHeading =
+      !!this.heading || this.#headingSlot.assignedNodes().length > 0;
     heading.hidden = !hasHeading;
-    const hasDescription = this.#descriptionSlot.assignedNodes({ flatten: true }).length > 0;
+    const hasDescription =
+      this.#descriptionSlot.assignedNodes({ flatten: true }).length > 0;
     this.#description.hidden = !hasDescription;
-    this.#actions.hidden = !this.#actionsSlot.assignedNodes({ flatten: true }).length;
-    this.$('.header').hidden = !hasHeading && !hasDescription && this.#actions.hidden;
+    this.#actions.hidden = !this.#actionsSlot.assignedNodes({ flatten: true })
+      .length;
+    this.$('.header').hidden =
+      !hasHeading && !hasDescription && this.#actions.hidden;
 
     const base = this.#base;
     if (this.label) {
@@ -160,11 +169,15 @@ export class PunicaSection extends PunicaElement {
 
   /** Swaps the heading element for one of the right rank, keeping its content. */
   #setLevel() {
-    const level = Number.isInteger(this.level) && this.level >= 1 && this.level <= 6 ? this.level : 2;
+    const level =
+      Number.isInteger(this.level) && this.level >= 1 && this.level <= 6
+        ? this.level
+        : 2;
     const old = this.#heading;
     if (old.localName === `h${level}`) return;
     const next = document.createElement(`h${level}`);
-    for (const name of ['part', 'class', 'id']) next.setAttribute(name, old.getAttribute(name));
+    for (const name of ['part', 'class', 'id'])
+      next.setAttribute(name, old.getAttribute(name));
     next.hidden = old.hidden;
     next.append(...old.childNodes);
     old.replaceWith(next);
