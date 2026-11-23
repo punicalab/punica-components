@@ -120,6 +120,52 @@ describe('punica-select', () => {
     );
   });
 
+  it('takes its first enabled option when nothing is marked and it has no placeholder, as a native select does', async () => {
+    const form = await fixture(
+      '<form><punica-select name="metric"><punica-option value="a" disabled>A</punica-option><punica-option value="b">B</punica-option><punica-option value="c">C</punica-option></punica-select></form>'
+    );
+    const el = form.querySelector('punica-select');
+    await settle();
+    expect(el.value).toBe('b');
+    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe('B');
+    expect(el.matches(':state(placeholder)')).toBe(false);
+    expect(new FormData(form).get('metric')).toBe('b');
+    // The empty-valued first option is a choice too ("Whole firm").
+    const any = await fixture(
+      '<punica-select><punica-option value="">Whole firm</punica-option><punica-option value="x">X</punica-option></punica-select>'
+    );
+    await settle();
+    expect(any.value).toBe('');
+    expect(any.shadowRoot.querySelector('[part="value"]').textContent).toBe('Whole firm');
+  });
+
+  it('takes the first option of options added after it, until a value is set', async () => {
+    const el = await fixture('<punica-select></punica-select>');
+    await settle();
+    expect(el.value).toBe(null);
+    const option = (value) => Object.assign(document.createElement('punica-option'), { value, textContent: value.toUpperCase() });
+    el.append(option('x'), option('y'));
+    await settle();
+    expect(el.value).toBe('x');
+    el.value = 'y';
+    el.replaceChildren(option('p'), option('y'));
+    await settle();
+    expect(el.value).toBe('y');
+  });
+
+  it('stays empty with a placeholder, multiple or not', async () => {
+    const one = await fixture(
+      '<punica-select placeholder="Pick one"><punica-option value="a">A</punica-option></punica-select>'
+    );
+    const many = await fixture(
+      '<punica-select multiple><punica-option value="a">A</punica-option></punica-select>'
+    );
+    await settle();
+    expect(one.value).toBe(null);
+    expect(one.matches(':state(placeholder)')).toBe(true);
+    expect(many.value).toEqual([]);
+  });
+
   it('with no empty-valued option, the empty string is nothing picked', async () => {
     const el = await fixture(
       '<punica-select value="" placeholder="Pick one"><punica-option value="a">A</punica-option></punica-select>'
@@ -441,7 +487,8 @@ describe('punica-select', () => {
     });
 
     it('blocks checkValidity when required and empty', async () => {
-      const f = await fixture(form('required'));
+      // Empty means a placeholder: without one it takes its first option, as a native select does.
+      const f = await fixture(form('required placeholder="Pick a country"'));
       const el = f.querySelector('punica-select');
       expect(f.checkValidity()).toBe(false);
       expect(el.validity.valueMissing).toBe(true);
