@@ -159,6 +159,7 @@ export class PunicaElement extends Base {
   /** @type {Map<string, unknown> | null} */
   #pending = null;
   #scheduled = false;
+  #updating = false;
   #updated = false;
   #reflecting = null;
   /** @type {AbortController | null} */
@@ -233,15 +234,33 @@ export class PunicaElement extends Base {
     if (this.#scheduled || !this.isConnected || !this.#updated) return;
     this.#scheduled = true;
     queueMicrotask(() => {
+      // Already run by `updateNow()`.
+      if (!this.#scheduled) return;
       this.#scheduled = false;
       if (this.isConnected) this.#flush();
     });
   }
 
+  /**
+   * Runs the scheduled update now instead of at the end of the microtask. A form control calls it so that what the
+   * form reads (its value, its validity) follows an assignment at once, as a native control's does. Inside an update
+   * it waits for the microtask, as before.
+   */
+  updateNow() {
+    if (!this.#scheduled || this.#updating || !this.isConnected) return;
+    this.#scheduled = false;
+    this.#flush();
+  }
+
   #flush() {
     const changed = this.#pending || new Map();
     this.#pending = null;
-    this.update(changed);
+    this.#updating = true;
+    try {
+      this.update(changed);
+    } finally {
+      this.#updating = false;
+    }
   }
 
   /** Resolves after the pending update, if any, has run. */

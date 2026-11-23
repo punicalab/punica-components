@@ -1,5 +1,5 @@
 import { PunicaElement, define } from '../../core/element.js';
-import { FormControl } from '../../core/form.js';
+import { FormControl, submitForm } from '../../core/form.js';
 import { icons } from '../../core/icons.js';
 import styles from './input.css';
 
@@ -130,7 +130,7 @@ export class PunicaInput extends FormControl(PunicaElement) {
         !event.isComposing &&
         !event.defaultPrevented
       ) {
-        this.form?.requestSubmit();
+        submitForm(this.form);
       }
     });
     input.addEventListener('blur', () => this.#touch());

@@ -1,5 +1,5 @@
 import { PunicaElement, define } from '../../core/element.js';
-import { FormControl } from '../../core/form.js';
+import { FormControl, submitForm } from '../../core/form.js';
 import { overlayCss } from '../../core/overlay.js';
 import { icons } from '../../core/icons.js';
 import { FieldSurface, fieldLanguage, fieldName, setAttr, nativeMessage } from '../select/field.js';
@@ -120,7 +120,7 @@ export class PunicaDatePicker extends FormControl(PunicaElement) {
         this.#commitText();
         // The form must read the typed date, not the one before it.
         this.update(new Map());
-        this.form?.requestSubmit();
+        submitForm(this.form);
       } else if (event.key === 'ArrowDown' && !this.open) {
         event.preventDefault();
         this.show();
