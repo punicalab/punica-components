@@ -4,6 +4,7 @@ import {
   firstFocusable
 } from '../../core/a11y.js';
 import { sheet } from '../../core/element.js';
+import { modalClosed, modalOpened } from '../../core/modalStack.js';
 
 /**
  * Page scroll lock. While at least one modal surface is open, a stylesheet
@@ -239,6 +240,7 @@ export const ModalSurface = (Base) =>
       if (dialog.open) closeDialog(dialog);
       this.#shown = false;
       lockScroll(this, false);
+      modalClosed(this);
     }
 
     update(changed) {
@@ -289,6 +291,7 @@ export const ModalSurface = (Base) =>
               !!(/** @type {HTMLElement} */ (at).shadowRoot?.delegatesFocus));
           if (auto) auto.focus();
           else if (!control) firstFocusable(this)?.focus();
+          modalOpened(this);
         }
         this.surfaceOpened();
         this.emit('open');
@@ -302,6 +305,7 @@ export const ModalSurface = (Base) =>
           composedContains(this, active) ||
           composedContains(dialog, active);
         closeDialog(dialog);
+        modalClosed(this);
         const back = this.#returnFocus;
         this.#returnFocus = null;
         const reason = this.#reason;
