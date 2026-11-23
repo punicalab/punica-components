@@ -1,6 +1,13 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { userEvent } from 'vitest/browser';
-import { contract, fixture, cleanup, settle, once, a11y } from '../../../test/contract.js';
+import {
+  contract,
+  fixture,
+  cleanup,
+  settle,
+  once,
+  a11y
+} from '../../../test/contract.js';
 import { deepActiveElement } from '../../core/a11y.js';
 import './dialog.js';
 import './dialogHeader.js';
@@ -10,7 +17,10 @@ import './dialogFooter.js';
 // The width a fixed panel spans: the visible viewport, without a scrollbar
 // or the gutter the scroll lock keeps for one (Linux and Windows draw it in
 // the page; macOS draws over it).
-const viewportWidth = () => Math.round(window.visualViewport?.width ?? document.documentElement.clientWidth);
+const viewportWidth = () =>
+  Math.round(
+    window.visualViewport?.width ?? document.documentElement.clientWidth
+  );
 
 const html = `<punica-dialog>
   <punica-dialog-header>Delete file</punica-dialog-header>
@@ -22,7 +32,14 @@ const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const native = (el) => el.shadowRoot.querySelector('dialog');
 const backdropClick = (el, x = 2, y = 2) => {
   for (const type of ['pointerdown', 'click']) {
-    native(el).dispatchEvent(new MouseEvent(type, { bubbles: true, composed: true, clientX: x, clientY: y }));
+    native(el).dispatchEvent(
+      new MouseEvent(type, {
+        bubbles: true,
+        composed: true,
+        clientX: x,
+        clientY: y
+      })
+    );
   }
 };
 const open = async (el) => {
@@ -30,7 +47,12 @@ const open = async (el) => {
   await settle();
 };
 
-for (const tag of ['punica-dialog', 'punica-dialog-header', 'punica-dialog-content', 'punica-dialog-footer']) {
+for (const tag of [
+  'punica-dialog',
+  'punica-dialog-header',
+  'punica-dialog-content',
+  'punica-dialog-footer'
+]) {
   contract(tag, { html, open });
 }
 
@@ -47,9 +69,13 @@ describe('punica-dialog', () => {
     expect(dialog.matches(':modal')).toBe(true);
     expect(dialog.getAttribute('aria-label')).toBe('Delete file');
     if ('ariaLabelledByElements' in dialog) {
-      expect(dialog.ariaLabelledByElements).toEqual([el.querySelector('punica-dialog-header')]);
+      expect(dialog.ariaLabelledByElements).toEqual([
+        el.querySelector('punica-dialog-header')
+      ]);
     }
-    expect(el.querySelector('punica-dialog-header').internals.role).toBe('heading');
+    expect(el.querySelector('punica-dialog-header').internals.role).toBe(
+      'heading'
+    );
     await wait(260);
     expect(await a11y(el.parentElement)).toEqual([]);
     el.label = 'Remove';
@@ -58,7 +84,9 @@ describe('punica-dialog', () => {
   });
 
   it('opens from markup: the open attribute at connect does not throw', async () => {
-    const el = await fixture(html.replace('<punica-dialog', '<punica-dialog open'));
+    const el = await fixture(
+      html.replace('<punica-dialog', '<punica-dialog open')
+    );
     expect(native(el).matches(':modal')).toBe(true);
     const detached = document.createElement('punica-dialog');
     detached.open = true;
@@ -76,14 +104,36 @@ describe('punica-dialog', () => {
     await userEvent.keyboard('{Tab}');
     expect(document.activeElement).toBe(el.querySelector('#ok'));
     await userEvent.keyboard('{Tab}');
-    expect(el.shadowRoot.activeElement).toBe(el.shadowRoot.querySelector('.close'));
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector('.close')
+    );
     await userEvent.keyboard('{Tab}');
     await userEvent.keyboard('{Tab}');
     expect(deepActiveElement()).not.toBe(opener);
-    expect(el.contains(deepActiveElement()) || el.shadowRoot.contains(deepActiveElement())).toBe(true);
+    expect(
+      el.contains(deepActiveElement()) ||
+        el.shadowRoot.contains(deepActiveElement())
+    ).toBe(true);
     el.hide();
     await settle();
     expect(document.activeElement).toBe(opener);
+  });
+
+  it("focuses the content's autofocus control, else its first control, also when the content scrolls", async () => {
+    const rows = Array.from({ length: 40 }, (_, i) => `<p>Line ${i}</p>`).join(
+      ''
+    );
+    const wrap = await fixture(
+      `<div><punica-dialog label="Long"><punica-dialog-content>${rows}<input id="a"><input id="b" autofocus></punica-dialog-content></punica-dialog></div>`
+    );
+    const el = wrap.querySelector('punica-dialog');
+    await open(el);
+    expect(document.activeElement).toBe(el.querySelector('#b'));
+    el.hide();
+    await settle();
+    el.querySelector('#b').removeAttribute('autofocus');
+    await open(el);
+    expect(document.activeElement).toBe(el.querySelector('#a'));
   });
 
   it('closes on a real Escape, stays in sync and reports the reason', async () => {
@@ -96,7 +146,10 @@ describe('punica-dialog', () => {
     const closed = once(el, 'punica-close');
     await userEvent.keyboard('{Escape}');
     expect((await asked).detail).toEqual({ reason: 'escape' });
-    expect((await closed).detail).toEqual({ reason: 'escape', returnValue: '' });
+    expect((await closed).detail).toEqual({
+      reason: 'escape',
+      returnValue: ''
+    });
     expect(el.open).toBe(false);
     expect(el.hasAttribute('open')).toBe(false);
     expect(native(el).open).toBe(false);
@@ -131,7 +184,9 @@ describe('punica-dialog', () => {
   });
 
   it('closes from the close button, named by label-close', async () => {
-    const el = await fixture(html.replace('<punica-dialog', '<punica-dialog label-close="Kapat"'));
+    const el = await fixture(
+      html.replace('<punica-dialog', '<punica-dialog label-close="Kapat"')
+    );
     await open(el);
     const button = el.shadowRoot.querySelector('.close');
     expect(button.getAttribute('aria-label')).toBe('Kapat');
@@ -161,7 +216,11 @@ describe('punica-dialog', () => {
   it('reports returnValue and fires nothing more than open and close for the API', async () => {
     const el = await fixture(html);
     const seen = [];
-    for (const type of ['punica-open', 'punica-request-close', 'punica-close']) {
+    for (const type of [
+      'punica-open',
+      'punica-request-close',
+      'punica-close'
+    ]) {
       el.addEventListener(type, (event) => seen.push([type, event.detail]));
     }
     await open(el);
@@ -175,7 +234,9 @@ describe('punica-dialog', () => {
   });
 
   it('opens without a backdrop when modeless, and Escape still closes it', async () => {
-    const el = await fixture(html.replace('<punica-dialog', '<punica-dialog modeless'));
+    const el = await fixture(
+      html.replace('<punica-dialog', '<punica-dialog modeless')
+    );
     await open(el);
     expect(native(el).open).toBe(true);
     expect(native(el).matches(':modal')).toBe(false);
@@ -195,12 +256,16 @@ describe('punica-dialog', () => {
   });
 
   it('applies size', async () => {
-    const el = await fixture(html.replace('<punica-dialog', '<punica-dialog size="small"'));
+    const el = await fixture(
+      html.replace('<punica-dialog', '<punica-dialog size="small"')
+    );
     await open(el);
     expect(Math.round(native(el).getBoundingClientRect().width)).toBe(320);
     el.size = 'large';
     await settle();
-    expect(Math.round(native(el).getBoundingClientRect().width)).toBe(Math.min(720, viewportWidth() - 32));
+    expect(Math.round(native(el).getBoundingClientRect().width)).toBe(
+      Math.min(720, viewportWidth() - 32)
+    );
   });
 
   it('keeps two open dialogs apart and adds nothing to the body', async () => {
@@ -250,9 +315,15 @@ describe('punica-dialog', () => {
     tall.style.height = '3000px';
     document.body.appendChild(tall);
     try {
-      const wrap = await fixture(`<div>${html}${html}${html.replace('<punica-dialog', '<punica-dialog modeless')}</div>`);
+      const wrap = await fixture(
+        `<div>${html}${html}${html.replace(
+          '<punica-dialog',
+          '<punica-dialog modeless'
+        )}</div>`
+      );
       const [a, b, modeless] = wrap.querySelectorAll('punica-dialog');
-      const rootOverflow = () => getComputedStyle(document.documentElement).overflowY;
+      const rootOverflow = () =>
+        getComputedStyle(document.documentElement).overflowY;
       const before = rootOverflow();
       await open(modeless);
       expect(rootOverflow()).toBe(before);
@@ -271,7 +342,10 @@ describe('punica-dialog', () => {
       expect(rootOverflow()).toBe(before);
       expect(document.documentElement.getAttribute('style')).toBe(null);
       expect(document.body.style.overflow).toBe('');
-      expect(getComputedStyle(a.querySelector('punica-dialog-content')).overscrollBehaviorY).toBe('contain');
+      expect(
+        getComputedStyle(a.querySelector('punica-dialog-content'))
+          .overscrollBehaviorY
+      ).toBe('contain');
     } finally {
       tall.remove();
       window.scrollTo(0, 0);
@@ -279,8 +353,10 @@ describe('punica-dialog', () => {
   });
 
   it('keeps a scrollbar gutter only where the page had a scrollbar that took room', async () => {
-    const gutter = () => getComputedStyle(document.documentElement).scrollbarGutter;
-    const takesRoom = () => window.innerWidth - document.documentElement.clientWidth > 0;
+    const gutter = () =>
+      getComputedStyle(document.documentElement).scrollbarGutter;
+    const takesRoom = () =>
+      window.innerWidth - document.documentElement.clientWidth > 0;
     // A page that does not scroll: no gutter, or an empty strip opens at the edge.
     const el = await fixture(html);
     await open(el);
