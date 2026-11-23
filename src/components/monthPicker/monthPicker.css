@@ -1,0 +1,145 @@
+:host {
+  --punica-month-picker-radius: var(--punica-radius);
+  --punica-month-picker-height: var(--punica-size-md);
+  --punica-month-picker-padding: var(--punica-space-12);
+  --punica-month-picker-border-color: var(--punica-color-border);
+  --punica-month-picker-background: transparent;
+  --punica-month-picker-min-width: 160px;
+  --punica-month-picker-panel-padding: var(--punica-space-12);
+  --punica-month-picker-month-width: 72px;
+  --punica-month-picker-accent: var(--punica-color-primary);
+
+  --_height: var(--punica-month-picker-height);
+  --_pad: var(--punica-month-picker-padding);
+  --_radius: var(--punica-month-picker-radius);
+  --_border: var(--punica-month-picker-border-color);
+  --_bg: var(--punica-month-picker-background);
+
+  display: inline-flex;
+  vertical-align: middle;
+  min-inline-size: var(--punica-month-picker-min-width);
+}
+
+:host([size='small']) {
+  --punica-month-picker-height: var(--punica-size-sm);
+  --punica-month-picker-padding: var(--punica-space-8);
+}
+:host([size='large']) {
+  --punica-month-picker-height: var(--punica-size-lg);
+  --punica-month-picker-padding: var(--punica-space-16);
+}
+:host([full-width]) {
+  display: flex;
+  inline-size: 100%;
+}
+
+[part~='panel'] {
+  padding: var(--punica-month-picker-panel-padding);
+  font-size: var(--punica-font-size-sm);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--punica-space-4);
+  margin-block-end: var(--punica-space-8);
+}
+
+.title {
+  flex: 1 1 auto;
+  text-align: center;
+  font-weight: var(--punica-font-weight-semi-bold);
+}
+
+.nav {
+  all: unset;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--punica-size-sm);
+  block-size: var(--punica-size-sm);
+  border-radius: var(--punica-radius-full);
+  font-size: var(--punica-font-size);
+  cursor: pointer;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+.nav:hover {
+  background: var(--punica-color-hover);
+}
+.nav:focus-visible {
+  outline: var(--punica-focus-ring);
+}
+.nav:disabled {
+  opacity: var(--punica-disabled-opacity);
+  cursor: default;
+}
+.nav:dir(rtl) .icon {
+  scale: -1 1;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: var(--punica-space-4);
+  margin: calc(-1 * var(--punica-space-4));
+}
+
+td {
+  inline-size: var(--punica-month-picker-month-width);
+  block-size: var(--punica-space-36);
+  padding: 0;
+  border: var(--punica-border-width) solid transparent;
+  border-radius: var(--punica-radius-sm);
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  transition: background-color var(--punica-duration-fast) var(--punica-ease);
+}
+
+.spoken {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+td:hover {
+  background: var(--punica-color-hover);
+}
+td:focus-visible {
+  outline: var(--punica-focus-ring);
+  outline-offset: var(--punica-focus-ring-offset);
+}
+td.current {
+  border-color: var(--punica-month-picker-accent);
+}
+td.selected {
+  background: var(--punica-month-picker-accent);
+  border-color: var(--punica-month-picker-accent);
+  color: var(--punica-color-on-accent);
+}
+td.disabled {
+  background: none;
+  color: var(--punica-color-text-muted);
+  opacity: var(--punica-disabled-opacity);
+  cursor: not-allowed;
+}
+
+@media (forced-colors: active) {
+  td.current {
+    border-color: CanvasText;
+  }
+  td.selected {
+    background: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+  td.disabled {
+    color: GrayText;
+    opacity: 1;
+  }
+}

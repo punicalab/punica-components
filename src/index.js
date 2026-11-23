@@ -104,6 +104,7 @@ export * from './components/menu/menuRadioItem.js';
 export * from './components/metadataList/metadataList.js';
 export * from './components/metadataList/metadataListItem.js';
 export * from './components/mobileNav/mobileNav.js';
+export * from './components/monthPicker/monthPicker.js';
 export * from './components/numberInput/numberInput.js';
 export * from './components/outline/outline.js';
 export * from './components/overflowList/overflowList.js';
