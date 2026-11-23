@@ -331,4 +331,15 @@ describe('punica-autocomplete', () => {
       expect(data).toBe('Bar');
     });
   });
+
+  it('selects its text or a range of it, as a native input does', async () => {
+    const el = await fixture('<punica-autocomplete label="Field" free-text value="$item.<field>"></punica-autocomplete>');
+    await settle();
+    const input = el.shadowRoot.querySelector('input');
+    el.focus();
+    el.setSelectionRange(6, 13);
+    expect([input.selectionStart, input.selectionEnd]).toEqual([6, 13]);
+    el.select();
+    expect([input.selectionStart, input.selectionEnd]).toEqual([0, 13]);
+  });
 });
