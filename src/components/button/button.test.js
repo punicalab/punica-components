@@ -1,4 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest';
+import { userEvent } from 'vitest/browser';
 import { contract, fixture, cleanup, settle } from '../../../test/contract.js';
 import './button.js';
 
@@ -45,6 +46,57 @@ describe('punica-button', () => {
     });
     form.querySelector('punica-button').click();
     expect(data).toEqual({ a: '1', go: 'yes' });
+  });
+
+  it('is its form\'s default button: Enter in a native field submits through it, once', async () => {
+    const form = await fixture(
+      '<form><input name="a" value="1"><input name="b" value="2"><textarea name="c"></textarea><punica-button type="submit" name="go" value="yes">Go</punica-button></form>'
+    );
+    const sent = [];
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      sent.push(Object.fromEntries(new FormData(form)));
+    });
+    await userEvent.click(form.querySelector('[name=b]'));
+    await userEvent.keyboard('{Enter}');
+    expect(sent).toEqual([{ a: '1', b: '2', c: '', go: 'yes' }]);
+    // Enter in a textarea is a new line.
+    await userEvent.click(form.querySelector('textarea'));
+    await userEvent.keyboard('{Enter}');
+    expect(sent.length).toBe(1);
+  });
+
+  it('submits a form of one field once on Enter, where the browser would submit it too', async () => {
+    const form = await fixture('<form><input name="a"><punica-button type="submit">Go</punica-button></form>');
+    let sent = 0;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      sent++;
+    });
+    await userEvent.click(form.querySelector('input'));
+    await userEvent.keyboard('{Enter}');
+    expect(sent).toBe(1);
+  });
+
+  it('blocks Enter while it is disabled, and leaves it to a native default button before it', async () => {
+    const form = await fixture(
+      '<form><input name="a"><input name="b"><punica-button type="submit" disabled>Go</punica-button></form>'
+    );
+    let sent = 0;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      sent++;
+    });
+    await userEvent.click(form.querySelector('[name=a]'));
+    await userEvent.keyboard('{Enter}');
+    expect(sent).toBe(0);
+    form.insertAdjacentHTML('afterbegin', '<button type="submit" name="native">N</button>');
+    let submitter;
+    form.addEventListener('submit', (e) => (submitter = e.submitter));
+    await userEvent.click(form.querySelector('[name=a]'));
+    await userEvent.keyboard('{Enter}');
+    expect(sent).toBe(1);
+    expect(submitter?.name).toBe('native');
   });
 
   it('resets its form', async () => {
