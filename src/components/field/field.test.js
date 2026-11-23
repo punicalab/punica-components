@@ -5,7 +5,8 @@ import '../input/input.js';
 import '../checkbox/checkbox.js';
 import './field.js';
 
-const html = '<punica-field label="Email" help="We never share it."><punica-input type="email" name="email"></punica-input></punica-field>';
+const html =
+  '<punica-field label="Email" help="We never share it."><punica-input type="email" name="email"></punica-input></punica-field>';
 
 contract('punica-field', { html });
 contract('punica-field', {
@@ -13,7 +14,8 @@ contract('punica-field', {
 });
 
 const part = (el, name) => el.shadowRoot.querySelector(`[part=${name}]`);
-const text = (el, name) => (part(el, name).hidden ? null : part(el, name).textContent.trim());
+const text = (el, name) =>
+  part(el, name).hidden ? null : part(el, name).textContent.trim();
 
 describe('punica-field', () => {
   afterEach(cleanup);
@@ -23,9 +25,15 @@ describe('punica-field', () => {
       '<form><punica-field label="Name" report="inline"><punica-input name="name" required></punica-input></punica-field><punica-field label="E-mail" report="inline"><punica-input name="email" required></punica-input></punica-field><button>Send</button></form>'
     );
     let submitted = false;
-    form.addEventListener('submit', (e) => ((submitted = true), e.preventDefault()));
+    form.addEventListener(
+      'submit',
+      (e) => ((submitted = true), e.preventDefault())
+    );
     const canceled = [];
-    for (const c of form.querySelectorAll('punica-input')) c.addEventListener('invalid', (e) => queueMicrotask(() => canceled.push(e.defaultPrevented)));
+    for (const c of form.querySelectorAll('punica-input'))
+      c.addEventListener('invalid', (e) =>
+        queueMicrotask(() => canceled.push(e.defaultPrevented))
+      );
     const [name, email] = form.querySelectorAll('punica-field');
     await settle();
     form.querySelector('button').click();
@@ -43,11 +51,15 @@ describe('punica-field', () => {
   });
 
   it('report="browser" (the default) leaves the browser\'s bubble: the invalid event is not canceled', async () => {
-    const form = await fixture('<form><punica-field label="Name"><punica-input name="name" required></punica-input></punica-field></form>');
+    const form = await fixture(
+      '<form><punica-field label="Name"><punica-input name="name" required></punica-input></punica-field></form>'
+    );
     const field = form.querySelector('punica-field');
     await settle();
     let prevented = null;
-    field.control.addEventListener('invalid', (e) => queueMicrotask(() => (prevented = e.defaultPrevented)));
+    field.control.addEventListener('invalid', (e) =>
+      queueMicrotask(() => (prevented = e.defaultPrevented))
+    );
     form.checkValidity();
     await settle();
     expect(prevented).toBe(false);
@@ -57,7 +69,9 @@ describe('punica-field', () => {
   it('shows its label and help, and hides what it was not given', async () => {
     const el = await fixture(html);
     expect(part(el, 'label').hidden).toBe(false);
-    expect(el.shadowRoot.querySelector('.label-text').textContent).toBe('Email');
+    expect(el.shadowRoot.querySelector('.label-text').textContent).toBe(
+      'Email'
+    );
     expect(text(el, 'help')).toBe('We never share it.');
     expect(text(el, 'error')).toBe(null);
     expect(part(el, 'required').hidden).toBe(true);
@@ -73,14 +87,18 @@ describe('punica-field', () => {
     const input = el.querySelector('punica-input');
     await settle();
     expect(input.label).toBe('Email');
-    expect(input.shadowRoot.querySelector('input').getAttribute('aria-label')).toBe('Email');
+    expect(
+      input.shadowRoot.querySelector('input').getAttribute('aria-label')
+    ).toBe('Email');
     el.label = 'Work email';
     await settle();
     expect(input.label).toBe('Work email');
   });
 
   it('leaves a control that has its own label alone', async () => {
-    const el = await fixture('<punica-field label="Email"><punica-input label="Your email address"></punica-input></punica-field>');
+    const el = await fixture(
+      '<punica-field label="Email"><punica-input label="Your email address"></punica-input></punica-field>'
+    );
     await settle();
     el.label = 'Mail';
     await settle();
@@ -88,8 +106,12 @@ describe('punica-field', () => {
   });
 
   it('names a native control with aria-label unless something already names it', async () => {
-    const a = await fixture('<punica-field label="City"><input></punica-field>');
-    const b = await fixture('<punica-field label="City"><input aria-label="Town"></punica-field>');
+    const a = await fixture(
+      '<punica-field label="City"><input></punica-field>'
+    );
+    const b = await fixture(
+      '<punica-field label="City"><input aria-label="Town"></punica-field>'
+    );
     await settle();
     expect(a.querySelector('input').getAttribute('aria-label')).toBe('City');
     expect(b.querySelector('input').getAttribute('aria-label')).toBe('Town');
@@ -102,8 +124,12 @@ describe('punica-field', () => {
   });
 
   it('shows the required mark from its own attribute or from the control', async () => {
-    const own = await fixture('<punica-field label="Email" required><punica-input></punica-input></punica-field>');
-    const fromControl = await fixture('<punica-field label="Email"><punica-input required></punica-input></punica-field>');
+    const own = await fixture(
+      '<punica-field label="Email" required><punica-input></punica-input></punica-field>'
+    );
+    const fromControl = await fixture(
+      '<punica-field label="Email"><punica-input required></punica-input></punica-field>'
+    );
     await settle();
     for (const el of [own, fromControl]) {
       expect(part(el, 'required').hidden).toBe(false);
@@ -113,7 +139,9 @@ describe('punica-field', () => {
   });
 
   it('shows the validation message only after invalid fired, and clears it once valid', async () => {
-    const form = await fixture('<form><punica-field label="Email"><punica-input type="email" name="email" required></punica-input></punica-field></form>');
+    const form = await fixture(
+      '<form><punica-field label="Email"><punica-input type="email" name="email" required></punica-input></punica-field></form>'
+    );
     const el = form.firstElementChild;
     const input = el.querySelector('punica-input');
     await settle();
@@ -134,7 +162,9 @@ describe('punica-field', () => {
   });
 
   it('shows the validation message on blur when the control is invalid', async () => {
-    const el = await fixture('<punica-field label="Terms"><punica-checkbox required>I agree</punica-checkbox></punica-field>');
+    const el = await fixture(
+      '<punica-field label="Terms"><punica-checkbox required>I agree</punica-checkbox></punica-field>'
+    );
     const box = el.querySelector('punica-checkbox');
     await settle();
     box.focus();
@@ -147,8 +177,10 @@ describe('punica-field', () => {
     expect(text(el, 'error')).toBe(null);
   });
 
-  it('shows error at once, over the control\'s own message', async () => {
-    const el = await fixture('<punica-field label="Email" error="Already taken"><punica-input required></punica-input></punica-field>');
+  it("shows error at once, over the control's own message", async () => {
+    const el = await fixture(
+      '<punica-field label="Email" error="Already taken"><punica-input required></punica-input></punica-field>'
+    );
     expect(text(el, 'error')).toBe('Already taken');
     expect(part(el, 'error').getAttribute('aria-live')).toBe('polite');
     el.error = null;
@@ -157,7 +189,9 @@ describe('punica-field', () => {
   });
 
   it('forgets the message when its form is reset', async () => {
-    const form = await fixture('<form><punica-field label="Email"><punica-input name="email" required></punica-input></punica-field></form>');
+    const form = await fixture(
+      '<form><punica-field label="Email"><punica-input name="email" required></punica-input></punica-field></form>'
+    );
     const el = form.firstElementChild;
     await settle();
     form.checkValidity();
@@ -176,7 +210,9 @@ describe('punica-field', () => {
     expect(inner.getAttribute('aria-description')).toBe('We never share it.');
     el.error = 'Already taken';
     await settle();
-    expect(inner.getAttribute('aria-description')).toBe('We never share it. Already taken');
+    expect(inner.getAttribute('aria-description')).toBe(
+      'We never share it. Already taken'
+    );
     el.help = null;
     el.error = null;
     await settle();
@@ -185,15 +221,23 @@ describe('punica-field', () => {
   });
 
   it('leaves a control that has its own description alone, and describes a native one by attribute', async () => {
-    const own = await fixture('<punica-field label="Email" help="Hint"><punica-input description="Our own words"></punica-input></punica-field>');
-    const native = await fixture('<punica-field label="City" help="Where you live"><input></punica-field>');
+    const own = await fixture(
+      '<punica-field label="Email" help="Hint"><punica-input description="Our own words"></punica-input></punica-field>'
+    );
+    const native = await fixture(
+      '<punica-field label="City" help="Where you live"><input></punica-field>'
+    );
     await settle();
     expect(own.querySelector('punica-input').description).toBe('Our own words');
-    expect(native.querySelector('input').getAttribute('aria-description')).toBe('Where you live');
+    expect(native.querySelector('input').getAttribute('aria-description')).toBe(
+      'Where you live'
+    );
   });
 
   it('a control reported invalid says so to assistive technology, and stops once valid', async () => {
-    const el = await fixture('<punica-field label="Email"><punica-input name="email"></punica-input></punica-field>');
+    const el = await fixture(
+      '<punica-field label="Email"><punica-input name="email"></punica-input></punica-field>'
+    );
     const input = el.querySelector('punica-input');
     const inner = input.shadowRoot.querySelector('input');
     await settle();
@@ -210,7 +254,9 @@ describe('punica-field', () => {
   });
 
   it('takes rich content through the label and help slots', async () => {
-    const el = await fixture('<punica-field><span slot="label">Email <em>(work)</em></span><punica-input></punica-input><span slot="help">Read the <a href="#p">policy</a></span></punica-field>');
+    const el = await fixture(
+      '<punica-field><span slot="label">Email <em>(work)</em></span><punica-input></punica-input><span slot="help">Read the <a href="#p">policy</a></span></punica-field>'
+    );
     await settle();
     expect(part(el, 'label').hidden).toBe(false);
     expect(part(el, 'help').hidden).toBe(false);
