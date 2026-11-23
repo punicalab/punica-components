@@ -38,7 +38,7 @@ const textOf = (option) =>
  * @attr {boolean} multiple - Several options can be picked; `value` is then an array.
  * @attr {string} placeholder - Text shown while nothing is picked.
  * @attr {boolean} clearable - Shows a button that empties the value.
- * @attr {string} label - Accessible name.
+ * @attr {string} label - Accessible name. An `aria-label` on the element names it too; `label` wins.
  * @attr {boolean} open - The list is showing.
  * @attr {string} name - Name the value is submitted under; one entry per value.
  * @attr {boolean} disabled - Takes no input and submits nothing.
@@ -79,6 +79,8 @@ const textOf = (option) =>
  */
 export class PunicaSelect extends FormControl(PunicaElement) {
   static properties = {
+    // A name written on the element the usual way names the control too; `label` wins.
+    ariaLabel: { attribute: 'aria-label', reflect: false },
     defaultValue: { attribute: 'value', reflect: false },
     value: { type: Object, attribute: false },
     multiple: { type: Boolean },

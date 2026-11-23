@@ -39,6 +39,20 @@ contract('punica-option', {
 describe('punica-option', () => {
   afterEach(cleanup);
 
+  it('is named by an aria-label on the element, label first', async () => {
+    const el = await fixture(
+      '<punica-select aria-label="Hook token"></punica-select>'
+    );
+    await settle();
+    const inner = el.shadowRoot.querySelector(
+      '[part="combobox"], [role="combobox"]'
+    );
+    expect(inner.getAttribute('aria-label')).toBe('Hook token');
+    el.label = 'Token';
+    await settle();
+    expect(inner.getAttribute('aria-label')).toBe('Token');
+  });
+
   it('is a dumb option row: role, selected and label through internals', async () => {
     const wrap = await fixture(
       '<div role="listbox" aria-label="Fruit"><punica-option value="a" selected>Apple</punica-option><punica-option label="Pear"></punica-option></div>'

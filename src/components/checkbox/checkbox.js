@@ -6,7 +6,8 @@ import styles from './checkbox.css';
 // A ValidityState keeps its flags on the prototype; copy the set ones out.
 const flagsOf = (validity) => {
   const flags = {};
-  for (const key in validity) if (key !== 'valid' && validity[key]) flags[key] = true;
+  for (const key in validity)
+    if (key !== 'valid' && validity[key]) flags[key] = true;
   return flags;
 };
 
@@ -23,7 +24,7 @@ const flagsOf = (validity) => {
  * @attr {boolean} indeterminate - Neither ticked nor empty; the next user toggle clears it.
  * @attr {string} value - Submitted with `name` while ticked, `on` by default.
  * @attr {string} name - Name the value is submitted under.
- * @attr {string} label - Accessible name, for a checkbox with no text.
+ * @attr {string} label - Accessible name, for a checkbox with no text. An `aria-label` on the element names it too; `label` wins.
  * @attr {boolean} disabled - Takes no input and submits nothing.
  * @attr {boolean} required - Has to be ticked before the form submits.
  * @attr {string} description - Read by assistive technology after the control's name; a `punica-field` around it sets it to its help and its error.
@@ -53,6 +54,8 @@ const flagsOf = (validity) => {
  */
 export class PunicaCheckbox extends FormControl(PunicaElement) {
   static properties = {
+    // A name written on the element the usual way names the control too; `label` wins.
+    ariaLabel: { attribute: 'aria-label', reflect: false },
     checked: { type: Boolean },
     indeterminate: { type: Boolean },
     value: { default: 'on' },
@@ -92,7 +95,9 @@ export class PunicaCheckbox extends FormControl(PunicaElement) {
     });
     const slot = this.$('slot');
     slot.addEventListener('slotchange', () => {
-      const filled = slot.assignedNodes().some((n) => n.nodeType === 1 || n.textContent.trim());
+      const filled = slot
+        .assignedNodes()
+        .some((n) => n.nodeType === 1 || n.textContent.trim());
       this.$('.label').hidden = !filled;
     });
     // A <label for> outside clicks the host itself; hand it to the box.
@@ -113,16 +118,24 @@ export class PunicaCheckbox extends FormControl(PunicaElement) {
 
     this.toggleState('checked', this.checked);
     this.toggleState('indeterminate', this.indeterminate);
-    this.setFormValue(this.checked ? this.value ?? 'on' : null, String(this.checked));
+    this.setFormValue(
+      this.checked ? this.value ?? 'on' : null,
+      String(this.checked)
+    );
     this.setValidity(flagsOf(input.validity), input.validationMessage, input);
-    if (this.#touched && !this.validity.valid) input.setAttribute('aria-invalid', 'true');
+    if (this.#touched && !this.validity.valid)
+      input.setAttribute('aria-invalid', 'true');
     else input.removeAttribute('aria-invalid');
-    if (this.description) input.setAttribute('aria-description', this.description);
+    if (this.description)
+      input.setAttribute('aria-description', this.description);
     else input.removeAttribute('aria-description');
   }
 
   firstUpdated() {
-    this.#default = { checked: this.checked, indeterminate: this.indeterminate };
+    this.#default = {
+      checked: this.checked,
+      indeterminate: this.indeterminate
+    };
   }
 
   formReset() {
@@ -137,7 +150,10 @@ export class PunicaCheckbox extends FormControl(PunicaElement) {
 
   #name() {
     if (this.label) return this.label;
-    const text = [...this.labels].map((l) => l.textContent.trim()).filter(Boolean);
+    if (this.ariaLabel) return this.ariaLabel;
+    const text = [...this.labels]
+      .map((l) => l.textContent.trim())
+      .filter(Boolean);
     return text.length ? text.join(' ') : null;
   }
 

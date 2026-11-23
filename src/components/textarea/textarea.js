@@ -10,7 +10,8 @@ const setAttr = (el, name, value) => {
 // A ValidityState keeps its flags on the prototype; copy the set ones out.
 const flagsOf = (validity) => {
   const flags = {};
-  for (const key in validity) if (key !== 'valid' && validity[key]) flags[key] = true;
+  for (const key in validity)
+    if (key !== 'valid' && validity[key]) flags[key] = true;
   return flags;
 };
 
@@ -24,7 +25,7 @@ const flagsOf = (validity) => {
  *
  * @attr {string} value - Default value. The property holds the current value.
  * @attr {string} name - Name the value is submitted under.
- * @attr {string} label - Accessible name, when no `<label>` points at the field.
+ * @attr {string} label - Accessible name, when no `<label>` points at the field. An `aria-label` on the element names it too; `label` wins.
  * @attr {string} placeholder - Shown while the field is empty.
  * @attr {number} rows - Visible lines, 3 by default; the least height when `resize` is `auto`.
  * @attr {'none' | 'vertical' | 'auto'} resize - `none` by default; `vertical` shows a drag handle, `auto` grows with the content.
@@ -58,6 +59,8 @@ const flagsOf = (validity) => {
  */
 export class PunicaTextarea extends FormControl(PunicaElement) {
   static properties = {
+    // A name written on the element the usual way names the control too; `label` wins.
+    ariaLabel: { attribute: 'aria-label', reflect: false },
     value: { reflect: false, default: '' },
     label: {},
     /** Read after the name by assistive technology; a punica-field around the control sets it. */
@@ -130,7 +133,11 @@ export class PunicaTextarea extends FormControl(PunicaElement) {
     this.#fit();
 
     this.setFormValue(textarea.value);
-    this.setValidity(flagsOf(textarea.validity), textarea.validationMessage, textarea);
+    this.setValidity(
+      flagsOf(textarea.validity),
+      textarea.validationMessage,
+      textarea
+    );
     const userInvalid = this.#touched && !this.validity.valid;
     this.toggleState('user-invalid', userInvalid);
     setAttr(textarea, 'aria-invalid', userInvalid ? 'true' : null);
@@ -169,7 +176,10 @@ export class PunicaTextarea extends FormControl(PunicaElement) {
 
   #name() {
     if (this.label) return this.label;
-    const text = [...this.labels].map((l) => l.textContent.trim()).filter(Boolean);
+    if (this.ariaLabel) return this.ariaLabel;
+    const text = [...this.labels]
+      .map((l) => l.textContent.trim())
+      .filter(Boolean);
     return text.length ? text.join(' ') : null;
   }
 
