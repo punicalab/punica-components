@@ -33,6 +33,28 @@
   inline-size: 100%;
 }
 
+/* The value and, under it, every option's text in one cell: the box is as wide as the widest, as a native select is,
+   and narrower when its container is (the value then ends in an ellipsis). */
+.value-box {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.value-box > * {
+  grid-area: 1 / 1;
+}
+.sizer {
+  display: grid;
+  block-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+  white-space: nowrap;
+}
+.sizer > * {
+  grid-area: 1 / 1;
+}
+
 [part='trigger'] {
   gap: var(--punica-space-8);
   cursor: pointer;

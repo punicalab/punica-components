@@ -101,7 +101,7 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     <div part="field" class="field">
       <slot name="start"></slot>
       <button part="trigger" class="control" type="button" role="combobox" aria-haspopup="listbox" aria-controls="listbox" aria-expanded="false">
-        <span part="value" class="value"></span>
+        <span class="value-box"><span part="value" class="value"></span><span class="sizer" aria-hidden="true"></span></span>
         <span part="caret" class="caret">${icons.chevronDown}</span>
       </button>
       <button part="clear" class="icon-button clear" type="button" hidden>${icons.close}</button>
@@ -112,6 +112,9 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   #field = this.$('.field');
   #trigger = this.$('[part="trigger"]');
   #valueEl = this.$('[part="value"]');
+  #sizer = this.$('.sizer');
+  /** The texts the sizer holds, serialised. */
+  #sized = '';
   #clear = this.$('[part="clear"]');
   #listbox = this.$('#listbox');
   #slot = this.$('slot:not([name])');
@@ -318,6 +321,17 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     }
     this.#valueEl.textContent = text;
     this.#valueEl.classList.toggle('placeholder', empty);
+    // As wide as its widest option (and placeholder), as a native select is: picking another one does not resize it.
+    const widths = options.map(textOf);
+    if (this.placeholder) widths.push(this.placeholder);
+    if (!this.multiple) widths.push(text);
+    const sized = JSON.stringify(widths);
+    if (sized !== this.#sized) {
+      this.#sized = sized;
+      this.#sizer.replaceChildren(
+        ...widths.map((w) => Object.assign(document.createElement('span'), { textContent: w }))
+      );
+    }
     this.toggleState('placeholder', empty);
     this.toggleState('disabled', disabled);
 

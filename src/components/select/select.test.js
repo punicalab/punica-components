@@ -120,6 +120,23 @@ describe('punica-select', () => {
     );
   });
 
+  it('is as wide as its widest option, as a native select is: picking another does not resize it', async () => {
+    const el = await fixture(
+      '<punica-select style="--punica-select-min-width: 0"><punica-option value="a">A</punica-option><punica-option value="long">A much longer option than the others</punica-option></punica-select>'
+    );
+    await settle();
+    const first = el.getBoundingClientRect().width;
+    el.value = 'long';
+    await settle();
+    expect(el.getBoundingClientRect().width).toBe(first);
+    const value = el.shadowRoot.querySelector('[part="value"]');
+    expect(value.scrollWidth).toBeLessThanOrEqual(value.clientWidth);
+    // In a narrower container it narrows, and the value ends in an ellipsis.
+    el.style.inlineSize = '80px';
+    await settle();
+    expect(el.getBoundingClientRect().width).toBe(80);
+  });
+
   it('takes its first enabled option when nothing is marked and it has no placeholder, as a native select does', async () => {
     const form = await fixture(
       '<form><punica-select name="metric"><punica-option value="a" disabled>A</punica-option><punica-option value="b">B</punica-option><punica-option value="c">C</punica-option></punica-select></form>'
