@@ -1,5 +1,12 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import { contract, fixture, cleanup, settle, once, a11y } from '../../../test/contract.js';
+import {
+  contract,
+  fixture,
+  cleanup,
+  settle,
+  once,
+  a11y
+} from '../../../test/contract.js';
 import './select.js';
 
 const html = `<punica-select label="Country" name="country" placeholder="Pick one">
@@ -10,7 +17,13 @@ const html = `<punica-select label="Country" name="country" placeholder="Pick on
 </punica-select>`;
 
 const key = (el, k, init = {}) => {
-  const event = new KeyboardEvent('keydown', { key: k, bubbles: true, composed: true, cancelable: true, ...init });
+  const event = new KeyboardEvent('keydown', {
+    key: k,
+    bubbles: true,
+    composed: true,
+    cancelable: true,
+    ...init
+  });
   el.dispatchEvent(event);
   return event;
 };
@@ -27,7 +40,9 @@ describe('punica-option', () => {
   afterEach(cleanup);
 
   it('is a dumb option row: role, selected and label through internals', async () => {
-    const wrap = await fixture('<div role="listbox" aria-label="Fruit"><punica-option value="a" selected>Apple</punica-option><punica-option label="Pear"></punica-option></div>');
+    const wrap = await fixture(
+      '<div role="listbox" aria-label="Fruit"><punica-option value="a" selected>Apple</punica-option><punica-option label="Pear"></punica-option></div>'
+    );
     const [a, b] = wrap.children;
     expect(a.internals.role).toBe('option');
     expect(a.internals.ariaSelected).toBe('true');
@@ -65,6 +80,43 @@ describe('punica-select', () => {
     expect(trigger(el).hasAttribute('aria-invalid')).toBe(false);
   });
 
+  it('shows and submits an option whose value is the empty string, as a native select does ("Any client")', async () => {
+    const form = await fixture(
+      '<form><punica-select name="client" value=""><punica-option value="">Any client</punica-option><punica-option value="c1">Acme</punica-option></punica-select></form>'
+    );
+    const el = form.querySelector('punica-select');
+    await settle();
+    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe(
+      'Any client'
+    );
+    expect(el.matches(':state(placeholder)')).toBe(false);
+    expect(el.selectedOptions.map((o) => o.textContent)).toEqual([
+      'Any client'
+    ]);
+    expect(new FormData(form).get('client')).toBe('');
+    // As a native required select, the empty-valued option is no answer.
+    el.required = true;
+    await settle();
+    expect(el.validity.valueMissing).toBe(true);
+    el.value = 'c1';
+    await settle();
+    expect(el.validity.valueMissing).toBe(false);
+    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe(
+      'Acme'
+    );
+  });
+
+  it('with no empty-valued option, the empty string is nothing picked', async () => {
+    const el = await fixture(
+      '<punica-select value="" placeholder="Pick one"><punica-option value="a">A</punica-option></punica-select>'
+    );
+    await settle();
+    expect(el.matches(':state(placeholder)')).toBe(true);
+    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe(
+      'Pick one'
+    );
+  });
+
   it('is a combobox button over a listbox in its own shadow root', async () => {
     const el = await fixture(html);
     const button = trigger(el);
@@ -72,9 +124,13 @@ describe('punica-select', () => {
     expect(button.getAttribute('role')).toBe('combobox');
     expect(button.getAttribute('aria-expanded')).toBe('false');
     expect(button.getAttribute('aria-label')).toBe('Country');
-    expect(el.shadowRoot.getElementById(button.getAttribute('aria-controls'))).toBe(listbox(el));
+    expect(
+      el.shadowRoot.getElementById(button.getAttribute('aria-controls'))
+    ).toBe(listbox(el));
     expect(listbox(el).getAttribute('role')).toBe('listbox');
-    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe('Pick one');
+    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe(
+      'Pick one'
+    );
     // Nothing of the 1.x global surface is left.
     expect(document.getElementById('select')).toBe(null);
     expect(document.body.querySelector(':scope > style')).toBe(null);
@@ -135,7 +191,9 @@ describe('punica-select', () => {
     expect(el.value).toBe('me');
     expect(el.open).toBe(false);
     expect(listbox(el).matches(':popover-open')).toBe(false);
-    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe('Montenegro');
+    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe(
+      'Montenegro'
+    );
     expect(el.options[1].selected).toBe(true);
     expect(el.options[1].internals.ariaSelected).toBe('true');
     expect(el.options[0].selected).toBe(false);
@@ -204,11 +262,15 @@ describe('punica-select', () => {
     el.value = 'fr';
     await settle();
     expect(changes).toBe(0);
-    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe('France');
+    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe(
+      'France'
+    );
   });
 
   it('takes several values with multiple and stays open', async () => {
-    const el = await fixture(html.replace('<punica-select', '<punica-select multiple'));
+    const el = await fixture(
+      html.replace('<punica-select', '<punica-select multiple')
+    );
     expect(el.value).toEqual([]);
     el.show();
     await settle();
@@ -221,14 +283,18 @@ describe('punica-select', () => {
     expect((await changed).detail.value).toEqual(['tr', 'fr']);
     await settle();
     expect(el.open).toBe(true);
-    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe('Türkiye, France');
+    expect(el.shadowRoot.querySelector('[part="value"]').textContent).toBe(
+      'Türkiye, France'
+    );
     key(trigger(el), ' ');
     await settle();
     expect(el.value).toEqual(['fr']);
   });
 
   it('clears with the clear button', async () => {
-    const el = await fixture(html.replace('<punica-select', '<punica-select clearable value="tr"'));
+    const el = await fixture(
+      html.replace('<punica-select', '<punica-select clearable value="tr"')
+    );
     const clear = el.shadowRoot.querySelector('[part="clear"]');
     expect(clear.hidden).toBe(false);
     expect(clear.getAttribute('aria-label')).toBe('Clear');
@@ -240,16 +306,22 @@ describe('punica-select', () => {
   });
 
   it('takes its default from the value attribute or a selected option', async () => {
-    const a = await fixture(html.replace('<punica-select', '<punica-select value="me"'));
+    const a = await fixture(
+      html.replace('<punica-select', '<punica-select value="me"')
+    );
     expect(a.value).toBe('me');
     const b = await fixture(html.replace('value="fr"', 'value="fr" selected'));
     await settle();
     expect(b.value).toBe('fr');
-    expect(b.shadowRoot.querySelector('[part="value"]').textContent).toBe('France');
+    expect(b.shadowRoot.querySelector('[part="value"]').textContent).toBe(
+      'France'
+    );
   });
 
   it('keeps two open selects apart', async () => {
-    const wrap = await fixture(`<div>${html}${html.replace('Country', 'Second')}</div>`);
+    const wrap = await fixture(
+      `<div>${html}${html.replace('Country', 'Second')}</div>`
+    );
     const [a, b] = wrap.querySelectorAll('punica-select');
     a.show();
     b.show();
@@ -274,11 +346,15 @@ describe('punica-select', () => {
     const el = await fixture(html);
     el.show();
     await settle();
-    el.options[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, composed: true }));
+    el.options[0].dispatchEvent(
+      new PointerEvent('pointerdown', { bubbles: true, composed: true })
+    );
     await settle();
     expect(el.open).toBe(true);
     const closed = once(el, 'punica-close');
-    document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, composed: true }));
+    document.body.dispatchEvent(
+      new PointerEvent('pointerdown', { bubbles: true, composed: true })
+    );
     expect((await closed).detail.reason).toBe('outside');
   });
 
@@ -316,7 +392,9 @@ describe('punica-select', () => {
   });
 
   describe('in a form', () => {
-    const form = (attrs = '') => `<form><punica-select label="Country" name="country" ${attrs}>
+    const form = (
+      attrs = ''
+    ) => `<form><punica-select label="Country" name="country" ${attrs}>
       <punica-option value="tr">Türkiye</punica-option>
       <punica-option value="me">Montenegro</punica-option>
     </punica-select></form>`;
@@ -365,7 +443,12 @@ describe('punica-select', () => {
     });
 
     it('is disabled by a disabled fieldset', async () => {
-      const f = await fixture(`<form><fieldset disabled>${form('value="me"').replace(/<\/?form>/g, '')}</fieldset></form>`);
+      const f = await fixture(
+        `<form><fieldset disabled>${form('value="me"').replace(
+          /<\/?form>/g,
+          ''
+        )}</fieldset></form>`
+      );
       await settle();
       const el = f.querySelector('punica-select');
       expect(trigger(el).disabled).toBe(true);
