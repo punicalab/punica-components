@@ -63,7 +63,7 @@ function defaultButton(form) {
  * @attr {boolean} full-width - Fills its container's inline size.
  * @attr {string} name - Submitted with `value` when this button submits the form.
  * @attr {string} value - Submitted with `name`.
- * @attr {string} label - Accessible name, for a button with no text.
+ * @attr {string} label - Accessible name, for a button with no text. An `aria-label` on the element names it too; `label` wins.
  *
  * @slot - The label.
  * @slot start - Content before the label, an icon.
@@ -94,7 +94,9 @@ export class PunicaButton extends FormControl(PunicaElement) {
     ariaHasPopup: { attribute: 'aria-haspopup', reflect: false },
     ariaControls: { attribute: 'aria-controls', reflect: false },
     ariaPressed: { attribute: 'aria-pressed', reflect: false },
-    ariaDescription: { attribute: 'aria-description', reflect: false }
+    ariaDescription: { attribute: 'aria-description', reflect: false },
+    // A name written on the host the usual way names the native button too; `label` wins when both are there.
+    ariaLabel: { attribute: 'aria-label', reflect: false }
   };
 
   static styles = styles;
@@ -132,7 +134,8 @@ export class PunicaButton extends FormControl(PunicaElement) {
     button.setAttribute('aria-busy', String(this.loading));
     if (this.loading) button.setAttribute('aria-disabled', 'true');
     else button.removeAttribute('aria-disabled');
-    if (this.label) button.setAttribute('aria-label', this.label);
+    const name = this.label || this.ariaLabel;
+    if (name) button.setAttribute('aria-label', name);
     else button.removeAttribute('aria-label');
     for (const [prop, attribute] of FORWARDED) {
       if (this[prop] == null) button.removeAttribute(attribute);

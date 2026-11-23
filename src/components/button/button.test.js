@@ -134,6 +134,24 @@ describe('punica-button', () => {
     ).toBe('Close');
   });
 
+  it('names the native button from an aria-label on the element, label first', async () => {
+    const el = await fixture(
+      '<punica-button aria-label="Close"><svg></svg></punica-button>'
+    );
+    const inner = el.shadowRoot.querySelector('button');
+    expect(inner.getAttribute('aria-label')).toBe('Close');
+    el.setAttribute('aria-label', 'Shut');
+    await settle();
+    expect(inner.getAttribute('aria-label')).toBe('Shut');
+    el.label = 'Dismiss';
+    await settle();
+    expect(inner.getAttribute('aria-label')).toBe('Dismiss');
+    el.label = null;
+    el.removeAttribute('aria-label');
+    await settle();
+    expect(inner.hasAttribute('aria-label')).toBe(false);
+  });
+
   it('is exactly as tall as the other controls of its size, border included', async () => {
     const row = await fixture(`<div>
       <punica-button size="small">S</punica-button>
