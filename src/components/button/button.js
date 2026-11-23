@@ -13,7 +13,20 @@ const FORWARDED = [
  * The input types whose Enter submits their form (HTML's "fields that block
  * implicit submission"): a field of one line.
  */
-const IMPLICIT = new Set(['text', 'search', 'url', 'tel', 'email', 'password', 'date', 'month', 'week', 'time', 'datetime-local', 'number']);
+const IMPLICIT = new Set([
+  'text',
+  'search',
+  'url',
+  'tel',
+  'email',
+  'password',
+  'date',
+  'month',
+  'week',
+  'time',
+  'datetime-local',
+  'number'
+]);
 
 /**
  * The form's default button: its first submit button in tree order, native or
@@ -23,8 +36,13 @@ const IMPLICIT = new Set(['text', 'search', 'url', 'tel', 'email', 'password', '
 function defaultButton(form) {
   for (const el of form.elements) {
     if (el.localName === 'punica-button' && el.type === 'submit') return el;
-    if ((el.localName === 'button' || el.localName === 'input') && /** @type {any} */ (el).type === 'submit') return el;
-    if (el.localName === 'input' && /** @type {any} */ (el).type === 'image') return el;
+    if (
+      (el.localName === 'button' || el.localName === 'input') &&
+      /** @type {any} */ (el).type === 'submit'
+    )
+      return el;
+    if (el.localName === 'input' && /** @type {any} */ (el).type === 'image')
+      return el;
   }
   return null;
 }
@@ -128,15 +146,24 @@ export class PunicaButton extends FormControl(PunicaElement) {
     // that button is a native one: a custom element is not a default button to the browser, so a form whose submit
     // button was a punica-button lost Enter once it had two fields. Each button listens while connected; only the
     // form's default button acts, and a disabled one blocks the submission as a native one does.
-    this.listen(this.getRootNode(), 'keydown', (event) => this.#onEnter(/** @type {KeyboardEvent} */ (event)));
+    this.listen(this.getRootNode(), 'keydown', (event) =>
+      this.#onEnter(/** @type {KeyboardEvent} */ (event))
+    );
   }
 
   /** @param {KeyboardEvent} event */
   #onEnter(event) {
-    if (event.key !== 'Enter' || event.defaultPrevented || event.isComposing) return;
-    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (event.key !== 'Enter' || event.defaultPrevented || event.isComposing)
+      return;
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
+      return;
     const field = event.composedPath()[0];
-    if (!(field instanceof HTMLInputElement) || !IMPLICIT.has(field.type) || !field.form) return;
+    if (
+      !(field instanceof HTMLInputElement) ||
+      !IMPLICIT.has(field.type) ||
+      !field.form
+    )
+      return;
     if (defaultButton(field.form) !== this) return;
     event.preventDefault();
     this.click();
