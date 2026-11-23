@@ -19,6 +19,8 @@
 
 ### Patch Changes
 
+- A toast shown while a modal dialog, drawer or sheet is open is above it and can be clicked: the toaster moves into the topmost open modal surface and back when it closes (everything outside a modal is inert and under it in the top layer). A toast's countdown and its bar go on across the move.
+
 - 6422cf4: A custom error (`setCustomValidity`) on a form control is added to what is wrong with its value (`badInput`, `valueMissing`, …) instead of replacing it, as on a native control: `validity.badInput` stayed false while a message was set.
 - `punica-empty-state` gives no place to its icon, description and actions while their slots are empty: each added the gap around it, so a heading alone stood 8px taller than its padding and text.
 - `punica-field` takes its line height from `--punica-field-line-height` (1.43 by default, as before), so a page can set it like the field's other properties instead of overriding the element's `line-height`.

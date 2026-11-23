@@ -3,6 +3,7 @@ import { contract, fixture, cleanup, settle, once, a11y } from '../../../test/co
 import './toast.js';
 import '../button/button.js';
 import { toast } from './toaster.js';
+import '../dialog/dialog.js';
 
 const html = `<punica-toaster>
   <punica-toast color="info" duration="0">Saved</punica-toast>
@@ -18,6 +19,43 @@ contract('punica-toaster', { html, axeDisable: ['color-contrast'] });
 contract('punica-toast', { html: '<punica-toast duration="0">Saved</punica-toast>', axeDisable: ['color-contrast'] });
 
 describe('punica-toaster', () => {
+  it('follows an open modal dialog, so a toast is above it and can be clicked, and goes home when it closes', async () => {
+    const toaster = await fixture('<punica-toaster></punica-toaster>');
+    const home = toaster.parentNode;
+    const dlg = await fixture('<punica-dialog label="Edit"><p>Body</p></punica-dialog>');
+    dlg.open = true;
+    await settle();
+    const t = toast('Saved', { toaster, duration: 4000 });
+    await settle();
+    expect(toaster.parentNode).toBe(dlg);
+    const box = t.getBoundingClientRect();
+    const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+    // Not inert behind the modal: the point lands on the toast.
+    expect(hit === t || t.contains(hit)).toBe(true);
+    await new Promise((r) => setTimeout(r, 300));
+    dlg.open = false;
+    await settle();
+    expect(toaster.parentNode).toBe(home);
+    expect(t.isConnected).toBe(true);
+    // The countdown went on across the moves: less than the whole duration is left.
+    const bar = t.shadowRoot.querySelector('[part="progress"]');
+    expect(parseFloat(bar.style.getPropertyValue('--_elapsed'))).toBeGreaterThan(200);
+  });
+
+  it('goes home when the modal it is in is removed without closing', async () => {
+    const toaster = await fixture('<punica-toaster></punica-toaster>');
+    const home = toaster.parentNode;
+    const dlg = await fixture('<punica-dialog label="Edit"><p>Body</p></punica-dialog>');
+    dlg.open = true;
+    await settle();
+    toast('Saved', { toaster });
+    await settle();
+    expect(toaster.parentNode).toBe(dlg);
+    dlg.remove();
+    await settle();
+    expect(toaster.parentNode).toBe(home);
+  });
+
   afterEach(() => {
     cleanup();
     document.querySelectorAll('punica-toaster').forEach((el) => el.remove());

@@ -122,6 +122,7 @@
   transform-origin: 0 50%;
   animation: shrink linear forwards;
   animation-duration: var(--_duration, 0ms);
+  animation-delay: calc(-1 * var(--_elapsed, 0ms));
 }
 
 :host(:dir(rtl)) [part='progress'] {
