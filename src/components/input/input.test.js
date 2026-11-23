@@ -222,6 +222,27 @@ describe('punica-input', () => {
     expect(submitted).toEqual([['who', 'Ada!']]);
   });
 
+  it('a value assigned by a script is what its validity and a submit right after it read, as a native one', async () => {
+    await import('../button/button.js');
+    const form = await fixture(
+      '<form><punica-input name="who" label="Who" required></punica-input><punica-button type="submit">Go</punica-button></form>'
+    );
+    const el = form.querySelector('punica-input');
+    let submitted = null;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitted = entries(form);
+    });
+    expect(el.validity.valueMissing).toBe(true);
+    el.value = 'Ada';
+    expect(el.validity.valueMissing).toBe(false);
+    expect(el.checkValidity()).toBe(true);
+    form.querySelector('punica-button').click();
+    expect(submitted).toEqual([['who', 'Ada']]);
+    el.value = '';
+    expect(el.validity.valueMissing).toBe(true);
+  });
+
   it('is left out of the form data when disabled', async () => {
     const form = await fixture(
       '<form><punica-input name="who" label="Who" value="Ada" disabled></punica-input></form>'

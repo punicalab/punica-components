@@ -1,5 +1,5 @@
 import { PunicaElement, define } from '../../core/element.js';
-import { FormControl } from '../../core/form.js';
+import { FormControl, submitForm } from '../../core/form.js';
 import { icons } from '../../core/icons.js';
 import styles from './numberInput.css';
 
@@ -325,7 +325,7 @@ export class PunicaNumberInput extends FormControl(PunicaElement) {
     if (event.key === 'Enter' && !event.isComposing) {
       this.#commit();
       this.#input.value = this.#format(this.value, true);
-      this.form?.requestSubmit();
+      submitForm(this.form);
       return;
     }
     if (this.readonly) return;

@@ -46,19 +46,25 @@ export const FormControl = (Base) =>
       return this.internals.labels;
     }
     /** @returns {ValidityState} */
+    // Each reads the control as it is now: an update scheduled by an assignment (`control.value = ''`) runs first, as
+    // a native control's validity follows its value at once.
     get validity() {
+      this.updateNow();
       return this.internals.validity;
     }
     get validationMessage() {
+      this.updateNow();
       return this.internals.validationMessage;
     }
     get willValidate() {
       return this.internals.willValidate;
     }
     checkValidity() {
+      this.updateNow();
       return this.internals.checkValidity();
     }
     reportValidity() {
+      this.updateNow();
       return this.internals.reportValidity();
     }
 
@@ -133,9 +139,23 @@ export const FormControl = (Base) =>
       const form = this.form;
       if (!form) return;
       if (type === 'reset') form.reset();
-      else form.requestSubmit();
+      else submitForm(form);
     }
   };
+
+/**
+ * Submits a form the way a native submit button or Enter in a field does, after the form's controls have run the
+ * updates their assignments scheduled: a script that sets `control.value` and submits at once has its value and its
+ * validity read, as with native controls (the browser reads them from ElementInternals, which an update fills).
+ * @param {HTMLFormElement | null | undefined} form
+ * @param {HTMLElement | null} [submitter]
+ */
+export function submitForm(form, submitter) {
+  if (!form) return;
+  for (const control of form.elements) /** @type {any} */ (control).updateNow?.();
+  if (submitter) form.requestSubmit(submitter);
+  else form.requestSubmit();
+}
 
 /**
  * The set flags of a ValidityStateFlags object or of a native ValidityState,

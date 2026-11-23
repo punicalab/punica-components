@@ -1,5 +1,5 @@
 import { PunicaElement, define } from '../../core/element.js';
-import { FormControl } from '../../core/form.js';
+import { FormControl, submitForm } from '../../core/form.js';
 import { overlayCss } from '../../core/overlay.js';
 import { isRtl } from '../../core/a11y.js';
 import { icons } from '../../core/icons.js';
@@ -522,7 +522,7 @@ export class PunicaPowerSearch extends FormControl(PunicaElement) {
   #search() {
     this.#commitQuery();
     const event = this.emit('search', { value: this.value }, { cancelable: true });
-    if (!event.defaultPrevented) this.form?.requestSubmit();
+    if (!event.defaultPrevented) submitForm(this.form);
   }
 
   /** @param {KeyboardEvent} event */
