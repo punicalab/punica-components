@@ -171,6 +171,22 @@ export class PunicaAutocomplete extends FormControl(PunicaElement) {
     this.#input.focus(options);
   }
 
+  /** Selects all the text in the field, as punica-input and a native input do. */
+  select() {
+    this.#input.select();
+  }
+
+  /**
+   * Selects a range of the text in the field, as punica-input and a native input do: a page that writes a value with a
+   * part to fill in (`$item.<field>`) selects that part for the person to type over.
+   * @param {number} start
+   * @param {number} end
+   * @param {'forward' | 'backward' | 'none'} [direction]
+   */
+  setSelectionRange(start, end, direction) {
+    this.#input.setSelectionRange(start, end, direction);
+  }
+
   connected() {
     // Children inserted with the element are upgraded after it.
     queueMicrotask(() => this.isConnected && this.update(new Map()));
