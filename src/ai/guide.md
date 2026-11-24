@@ -61,6 +61,12 @@ for a label, help text and an error message:
 </form>
 ```
 
+A value set from script (`control.value = 'x'`) reaches the form at the end
+of the current microtask, as every property does. A script that submits in
+the same turn awaits it first: `await control.updateComplete;
+form.requestSubmit()`. Reading the control's `validity`,
+`validationMessage` or `checkValidity()` also brings it up to date at once.
+
 ## Overlays
 
 Dialogs, menus, popovers and drawers open in the browser's top layer: no
@@ -107,7 +113,9 @@ project has them, look their APIs up there instead of guessing.
 - **Forms**: in a project that has `@punica/form-kit`, do not wire
   `punica-field` and its controls by hand. Describe the form as a class
   (`@TextField`, `@SelectField`, …) and render it with `KitForm`; the kit
-  draws these elements, validates and shows the errors.
+  draws these elements, validates and shows the errors. A form whose markup
+  is your own (no React) is bound to the engine with `bindForm` of
+  `@punica/form-kit/dom` (from form-kit 0.5).
 - **Messages and confirmations**: `toast()` and `confirm()` are what an
   application shows a failed request and asks before a deletion with.
 
