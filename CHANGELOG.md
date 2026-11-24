@@ -22,6 +22,7 @@
 
 ### Patch Changes
 
+- An element's shadow root no longer starts and ends with the whitespace of its template: in an element laid out inline (`punica-link`, a chip drawn inline) it was text, drawn as a space beside the element's own ("Production : Jasper" for `<punica-link>Production</punica-link>: Jasper`).
 - `punica-link` shows keyboard focus on the element as `:state(focus-visible)`, as `punica-button` does: the element matches `:focus` but never `:focus-visible` while its anchor has focus, so a page that draws the link with a class of its own (a card, a row) had no way to show its ring for the keyboard only.
 - `punica-collapsible` leaves a click cancelled inside its trigger (`preventDefault()`, a copy button in a heading row) as it is, as `<summary>` does: it opened or closed anyway.
 

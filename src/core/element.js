@@ -149,7 +149,9 @@ export class PunicaElement extends Base {
   static _template() {
     if (!Object.hasOwn(this, '_templateCache')) {
       const t = document.createElement('template');
-      t.innerHTML = this.template;
+      // Without the template's leading and trailing whitespace: in an element laid out inline (a link, a chip) it was
+      // text, drawn as a space beside the element's own ("Production : Jasper").
+      t.innerHTML = this.template.trim();
       this._templateCache = t;
     }
     return this._templateCache;

@@ -13,6 +13,16 @@ const anchor = (el) => el.shadowRoot.querySelector('a');
 describe('punica-link', () => {
   afterEach(cleanup);
 
+  it('adds no space of its own beside the text around it', async () => {
+    const wrap = await fixture('<p style="font: 16px monospace"><span>a</span><punica-link href="#x">b</punica-link>: c</p>');
+    const el = wrap.querySelector('punica-link');
+    expect([...el.shadowRoot.childNodes].filter((n) => n.nodeType === Node.TEXT_NODE && !n.textContent.trim())).toEqual([]);
+    const span = wrap.querySelector('span').getBoundingClientRect();
+    const link = el.getBoundingClientRect();
+    expect(Math.round(link.left - span.right)).toBe(0);
+    expect(Math.round(link.width)).toBe(Math.round(span.width));
+  });
+
   it('says on the element when its anchor has keyboard focus, as :state(focus-visible)', async () => {
     const el = await fixture('<punica-link href="#here">Here</punica-link>');
     await userEvent.keyboard('{Tab}');
