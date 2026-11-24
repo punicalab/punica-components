@@ -3,6 +3,7 @@
   --punica-section-padding: var(--punica-space-0);
   --punica-section-heading-size: var(--punica-font-size-lg);
   --punica-section-divider-color: var(--punica-color-border);
+  --punica-section-heading-gap: var(--punica-space-4);
 
   display: block;
   color: var(--punica-color-text);
@@ -29,14 +30,15 @@
 
 :host([divider]) .header {
   padding-block-end: var(--punica-space-12);
-  border-block-end: var(--punica-border-width) solid var(--punica-section-divider-color);
+  border-block-end: var(--punica-border-width) solid
+    var(--punica-section-divider-color);
 }
 
 .titles {
   display: flex;
   flex: 1 1 16rem;
   flex-direction: column;
-  gap: var(--punica-space-4);
+  gap: var(--punica-section-heading-gap);
   min-inline-size: 0;
 }
 

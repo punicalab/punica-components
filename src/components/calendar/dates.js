@@ -265,3 +265,77 @@ export function parseFieldTime(text, language) {
   }
   return Number.isInteger(h) && h >= 0 && h < 24 && min >= 0 && min < 60 ? h * 60 + min : null;
 }
+
+/* ----------------------------------------------------------------- month */
+
+/** @typedef {{ y: number, m: number }} CalendarMonth */
+
+/**
+ * Parses `yyyy-mm`.
+ * @param {string | null | undefined} text
+ * @returns {CalendarMonth | null}
+ */
+export function parseIsoMonth(text) {
+  const match = /^(\d{4})-(\d{2})$/.exec(text || '');
+  if (!match) return null;
+  const [y, m] = match.slice(1).map(Number);
+  return isRealDate(y, m, 1) ? { y, m } : null;
+}
+
+/** @param {CalendarMonth | null} month @returns {string | null} `yyyy-mm` */
+export function toIsoMonth(month) {
+  return month ? `${pad(month.y, 4)}-${pad(month.m)}` : null;
+}
+
+/** @param {CalendarMonth} a @param {CalendarMonth} b @returns {number} negative, zero or positive */
+export function compareMonths(a, b) {
+  return a.y - b.y || a.m - b.m;
+}
+
+/** @param {CalendarMonth} month @param {number} months @returns {CalendarMonth} */
+export function shiftMonth(month, months) {
+  const index = month.y * 12 + (month.m - 1) + months;
+  return { y: Math.floor(index / 12), m: ((index % 12) + 12) % 12 + 1 };
+}
+
+const MONTH_FIELD_FORMAT = { year: 'numeric', month: '2-digit', numberingSystem: 'latn' };
+
+/**
+ * The text a month field shows: all-numeric, in the language's own order
+ * (`03/2026`, `03.2026`, `2026/03`).
+ * @param {string} language
+ * @param {CalendarMonth | null} month
+ */
+export function formatFieldMonth(language, month) {
+  return month ? formatDate(language, { ...month, d: 1 }, MONTH_FIELD_FORMAT) : '';
+}
+
+/**
+ * Parses what a person typed: `yyyy-mm`, or a month and a year in the
+ * language's own order with any separators. A number of three or four digits
+ * is the year wherever it stands; a two-digit year is this century.
+ * @param {string} text
+ * @param {string} language
+ * @returns {CalendarMonth | null}
+ */
+export function parseFieldMonth(text, language) {
+  const trimmed = (text || '').trim();
+  const iso = parseIsoMonth(trimmed);
+  if (iso) return iso;
+  const numbers = trimmed.match(/\d+/g);
+  if (!numbers || numbers.length !== 2 || /[a-z]/i.test(trimmed)) return null;
+  const long = numbers.map((n) => n.length >= 3);
+  let yearAt;
+  if (long[0] !== long[1]) yearAt = long[0] ? 0 : 1;
+  else {
+    const order = new Intl.DateTimeFormat(language, { calendar: 'gregory', ...MONTH_FIELD_FORMAT, timeZone: 'UTC' })
+      .formatToParts(new Date(Date.UTC(2001, 1, 1)))
+      .map((part) => part.type)
+      .filter((type) => type === 'year' || type === 'month');
+    yearAt = order.indexOf('year') === 0 ? 0 : 1;
+  }
+  let y = Number(numbers[yearAt]);
+  const m = Number(numbers[1 - yearAt]);
+  if (numbers[yearAt].length <= 2) y += 2000;
+  return isRealDate(y, m, 1) ? { y, m } : null;
+}

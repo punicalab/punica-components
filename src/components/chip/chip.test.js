@@ -149,6 +149,25 @@ describe('punica-chip', () => {
   });
 });
 
+describe('punica-chip soft', () => {
+  afterEach(cleanup);
+
+  it('is a tint of its colour under its shade, readable in light and dark for every colour', async () => {
+    const colors = ['primary', 'secondary', 'error', 'warning', 'info', 'success', 'neutral'];
+    for (const scheme of ['light', 'dark']) {
+      const wrap = await fixture(
+        `<div style="color-scheme: ${scheme}; background: var(--punica-color-surface); padding: 8px">${colors.map((c) => `<punica-chip variant="soft" color="${c}">${c}</punica-chip>`).join('')}<i style="color: var(--punica-color-success-dark); background: var(--punica-color-success-light)"></i></div>`
+      );
+      const success = wrap.children[5];
+      const probe = getComputedStyle(wrap.lastElementChild);
+      expect(getComputedStyle(success).backgroundColor).toBe(probe.backgroundColor);
+      expect(getComputedStyle(success).color).toBe(probe.color);
+      expect(await a11y(wrap)).toEqual([]);
+      cleanup();
+    }
+  });
+});
+
 describe('punica-chip disabled', () => {
   afterEach(cleanup);
 

@@ -1,5 +1,40 @@
 # @punica/components
 
+## 2.3.0
+
+### Minor Changes
+
+- `punica-month-picker`: a month field, what `<input type="month">` is in every browser. Its value is `yyyy-mm`; the field writes the month and year in the language's order (`03/2026`, `03.2026`, `2026/03`) and reads them typed that way, ISO, or with the year on either side; its button opens the twelve months of a year (arrows, Home/End, PageUp/PageDown for the year). `min`, `max`, `disabledMonths`, `required`, `name`, form reset and `<fieldset disabled>` as on the date picker; `punica-input-group` takes it as a field.
+- `punica-button` shows keyboard focus on the element as `:state(focus-visible)`: the element matches `:focus` but never `:focus-visible` while its native button has focus, so a page that draws the button with a class of its own (its box, its ring) had no way to show the ring for the keyboard only.
+- 67d4392: `punica-field` describes its control to assistive technology: its help and the error it shows become the control's `description` (new on `punica-input`, `-textarea`, `-select` and `-checkbox`, read as `aria-description` on the inner control) or `aria-description` on a native control, unless the control has its own. Those four controls set `aria-invalid` on their inner control once touched and invalid for any reason, an error set with `setCustomValidity` included (`punica-select` said it only for a missing value). `punica-select` and `punica-checkbox` count as touched when reported invalid (a submit, `checkValidity()`, `reportValidity()`), as the text controls already did.
+- `punica-chip variant="soft"`: a tint of the colour under its shade, for a status or a tag that should not shout; readable in light and dark for every colour.
+- `punica-button type="submit"` is its form's default button when it is the first submit button: Enter in a native field of one line submits through it (once), and a disabled one blocks it, as a native default button does. A form whose submit button was a `punica-button` lost Enter once it had two fields.
+- A modal dialog, drawer, alert dialog or sheet focuses its content's `autofocus` control when it opens, as its documentation says; the browser looked only at the dialog's own descendants, not at what its slots show. Where the browser would put focus on no control (a content tall enough to scroll made the panel a stop), it focuses the content's first control.
+- `punica-input`, `-textarea`, `-select` and `-checkbox` (and the pickers that share `fieldName`) are named by an `aria-label` written on the element, as `punica-button` is; `label` wins, then `aria-label`, then the `<label>`s that point at them. A control named the usual way outside a field (a row of inputs) was read without a name.
+- `punica-button` names its native button from an `aria-label` written on the element (as it already passes `aria-expanded`, `aria-pressed` and the rest); `label` wins when both are set. An icon-only button named the usual way was read without a name.
+- `punica-section` takes the space between its heading and its description from `--punica-section-heading-gap` (4px as before).
+- An option or a segment whose value is the empty string is a choice, as on a native select or radio ("Any client", "All"): `punica-select` shows it and submits it (and, required, counts it as no answer, as a native select does); `punica-radio-group` and `punica-segmented-control` select it. With no such item the empty string is still nothing chosen.
+- A single `punica-select` with no default (no `value`, no option marked `selected`) and no `placeholder` takes its first enabled option, as a native select does: it showed nothing and its value was `null`, so a form moved from a native select submitted nothing where it had submitted the first choice. To start empty, give it a `placeholder`.
+- `punica-select` is as wide as its widest option (and its placeholder), as a native select is, and narrower when its container is, with the value ending in an ellipsis. It took the width of the value it showed, so picking another option resized it, and a form moved from a native select drew it narrower.
+- `punica-field report="inline"`: a submit shows the field's message alone, without the browser's bubble beside it, and focuses the first invalid control of the form as the browser would (`checkValidity()` still moves no focus). With the default, `browser`, a page that shows errors under its fields got each message twice.
+- `punica-autocomplete show-value`: the field shows a picked option's value instead of its label, as a native input with a `<datalist>` does; typing finds an option by its value or its label, and a row from `options` shows the value with the label beside it (`option-label` part). For a code picked by its code or its name (an account, a partner).
+- `punica-segmented-control` can wrap onto more lines: `--punica-segmented-control-wrap: wrap`; its indicator is placed on the chosen segment's box, so it follows it to another line.
+
+### Patch Changes
+
+- An element's shadow root no longer starts and ends with the whitespace of its template: in an element laid out inline (`punica-link`, a chip drawn inline) it was text, drawn as a space beside the element's own ("Production : Jasper" for `<punica-link>Production</punica-link>: Jasper`).
+- `punica-link` shows keyboard focus on the element as `:state(focus-visible)`, as `punica-button` does: the element matches `:focus` but never `:focus-visible` while its anchor has focus, so a page that draws the link with a class of its own (a card, a row) had no way to show its ring for the keyboard only.
+- `punica-collapsible` leaves a click cancelled inside its trigger (`preventDefault()`, a copy button in a heading row) as it is, as `<summary>` does: it opened or closed anyway.
+
+- A toast shown while a modal dialog, drawer or sheet is open is above it and can be clicked: the toaster moves into the topmost open modal surface and back when it closes (everything outside a modal is inert and under it in the top layer). A toast's countdown and its bar go on across the move.
+
+- 6422cf4: A custom error (`setCustomValidity`) on a form control is added to what is wrong with its value (`badInput`, `valueMissing`, …) instead of replacing it, as on a native control: `validity.badInput` stayed false while a message was set.
+- `punica-empty-state` gives no place to its icon, description and actions while their slots are empty: each added the gap around it, so a heading alone stood 8px taller than its padding and text.
+- `punica-field` takes its line height from `--punica-field-line-height` (1.43 by default, as before), so a page can set it like the field's other properties instead of overriding the element's `line-height`.
+- A property the element gives a default (`value` of `punica-input`, `type` of `punica-button` …) is typed without `| null`: it never holds null. The generated typings made every non-boolean attribute nullable.
+- Every element's type has `updateComplete` (the promise of its pending update): the generated typings listed only a class's own members, so TypeScript refused it on every element.
+- 6901c2f: `punica-input` follows a validity that changes while its value does not: a half-typed number or date (`badInput`) reads as an empty value throughout, and the element kept reporting itself valid.
+
 ## 2.2.0
 
 ### Minor Changes

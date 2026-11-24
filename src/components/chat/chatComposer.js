@@ -1,5 +1,5 @@
 import { PunicaElement, define } from '../../core/element.js';
-import { FormControl } from '../../core/form.js';
+import { FormControl, submitForm } from '../../core/form.js';
 import { icons } from '../../core/icons.js';
 import styles from './chatComposer.css';
 
@@ -225,7 +225,7 @@ export class PunicaChatComposer extends FormControl(PunicaElement) {
     if (event.defaultPrevented) return;
     // The form reads the value before the field is cleared.
     this.setFormValue(value);
-    this.form?.requestSubmit();
+    submitForm(this.form);
     this.value = '';
     this.#textarea.value = '';
     this.#provisional = null;

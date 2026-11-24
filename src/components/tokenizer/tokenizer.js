@@ -1,5 +1,5 @@
 import { PunicaElement, define } from '../../core/element.js';
-import { FormControl } from '../../core/form.js';
+import { FormControl, submitForm } from '../../core/form.js';
 import { overlayCss } from '../../core/overlay.js';
 import { isRtl } from '../../core/a11y.js';
 import { icons } from '../../core/icons.js';
@@ -400,7 +400,7 @@ export class PunicaTokenizer extends FormControl(PunicaElement) {
         event.preventDefault();
         this.#addText(input.value);
       } else {
-        this.form?.requestSubmit();
+        submitForm(this.form);
       }
     } else if (this.separator && event.key === this.separator) {
       event.preventDefault();

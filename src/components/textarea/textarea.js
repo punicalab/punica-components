@@ -10,7 +10,8 @@ const setAttr = (el, name, value) => {
 // A ValidityState keeps its flags on the prototype; copy the set ones out.
 const flagsOf = (validity) => {
   const flags = {};
-  for (const key in validity) if (key !== 'valid' && validity[key]) flags[key] = true;
+  for (const key in validity)
+    if (key !== 'valid' && validity[key]) flags[key] = true;
   return flags;
 };
 
@@ -24,13 +25,14 @@ const flagsOf = (validity) => {
  *
  * @attr {string} value - Default value. The property holds the current value.
  * @attr {string} name - Name the value is submitted under.
- * @attr {string} label - Accessible name, when no `<label>` points at the field.
+ * @attr {string} label - Accessible name, when no `<label>` points at the field. An `aria-label` on the element names it too; `label` wins.
  * @attr {string} placeholder - Shown while the field is empty.
  * @attr {number} rows - Visible lines, 3 by default; the least height when `resize` is `auto`.
  * @attr {'none' | 'vertical' | 'auto'} resize - `none` by default; `vertical` shows a drag handle, `auto` grows with the content.
  * @attr {boolean} disabled - Takes no input and submits nothing.
  * @attr {boolean} readonly - Shows its value and takes no edits.
  * @attr {boolean} required - A value is needed before the form submits.
+ * @attr {string} description - Read by assistive technology after the control's name; a `punica-field` around it sets it to its help and its error.
  * @attr {number} minlength - Fewest characters allowed.
  * @attr {number} maxlength - Most characters allowed.
  * @attr {string} autocomplete - Passed to the native textarea.
@@ -57,8 +59,12 @@ const flagsOf = (validity) => {
  */
 export class PunicaTextarea extends FormControl(PunicaElement) {
   static properties = {
+    // A name written on the element the usual way names the control too; `label` wins.
+    ariaLabel: { attribute: 'aria-label', reflect: false },
     value: { reflect: false, default: '' },
     label: {},
+    /** Read after the name by assistive technology; a punica-field around the control sets it. */
+    description: {},
     placeholder: {},
     rows: { type: Number, default: 3 },
     resize: { default: 'none' },
@@ -127,8 +133,15 @@ export class PunicaTextarea extends FormControl(PunicaElement) {
     this.#fit();
 
     this.setFormValue(textarea.value);
-    this.setValidity(flagsOf(textarea.validity), textarea.validationMessage, textarea);
-    this.toggleState('user-invalid', this.#touched && !this.validity.valid);
+    this.setValidity(
+      flagsOf(textarea.validity),
+      textarea.validationMessage,
+      textarea
+    );
+    const userInvalid = this.#touched && !this.validity.valid;
+    this.toggleState('user-invalid', userInvalid);
+    setAttr(textarea, 'aria-invalid', userInvalid ? 'true' : null);
+    setAttr(textarea, 'aria-description', this.description || null);
   }
 
   formReset() {
@@ -163,13 +176,19 @@ export class PunicaTextarea extends FormControl(PunicaElement) {
 
   #name() {
     if (this.label) return this.label;
-    const text = [...this.labels].map((l) => l.textContent.trim()).filter(Boolean);
+    if (this.ariaLabel) return this.ariaLabel;
+    const text = [...this.labels]
+      .map((l) => l.textContent.trim())
+      .filter(Boolean);
     return text.length ? text.join(' ') : null;
   }
 
   #touch() {
     this.#touched = true;
     this.toggleState('user-invalid', !this.validity.valid);
+    // The inner control says so too (aria-invalid), in the update: an update already run this turn
+    // (a submit reads the validity first) would leave it unsaid.
+    this.requestUpdate();
   }
 
   /** Grows the textarea to its content where `field-sizing` is missing. */

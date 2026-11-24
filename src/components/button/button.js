@@ -10,6 +10,44 @@ const FORWARDED = [
 ];
 
 /**
+ * The input types whose Enter submits their form (HTML's "fields that block
+ * implicit submission"): a field of one line.
+ */
+const IMPLICIT = new Set([
+  'text',
+  'search',
+  'url',
+  'tel',
+  'email',
+  'password',
+  'date',
+  'month',
+  'week',
+  'time',
+  'datetime-local',
+  'number'
+]);
+
+/**
+ * The form's default button: its first submit button in tree order, native or
+ * a `punica-button type="submit"`.
+ * @param {HTMLFormElement} form
+ */
+function defaultButton(form) {
+  for (const el of form.elements) {
+    if (el.localName === 'punica-button' && el.type === 'submit') return el;
+    if (
+      (el.localName === 'button' || el.localName === 'input') &&
+      /** @type {any} */ (el).type === 'submit'
+    )
+      return el;
+    if (el.localName === 'input' && /** @type {any} */ (el).type === 'image')
+      return el;
+  }
+  return null;
+}
+
+/**
  * A button: an action, or a form's submit or reset.
  *
  * @element punica-button
@@ -17,7 +55,7 @@ const FORWARDED = [
  * @attr {'filled' | 'outlined' | 'text'} variant - Visual weight, `filled` by default.
  * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Accent, `primary` by default.
  * @attr {'small' | 'medium' | 'large'} size - Control height, `medium` by default.
- * @attr {'button' | 'submit' | 'reset'} type - What a click does to the owning form, `button` by default.
+ * @attr {'button' | 'submit' | 'reset'} type - What a click does to the owning form, `button` by default. The first submit button of a form is its default button: Enter in a native field of one line clicks it.
  * @attr {boolean} disabled - Takes no clicks and no focus.
  * @attr {boolean} required - Part of the form control contract; a button never blocks a form.
  * @attr {boolean} loading - Shows a spinner, keeps focus, ignores clicks.
@@ -25,7 +63,7 @@ const FORWARDED = [
  * @attr {boolean} full-width - Fills its container's inline size.
  * @attr {string} name - Submitted with `value` when this button submits the form.
  * @attr {string} value - Submitted with `name`.
- * @attr {string} label - Accessible name, for a button with no text.
+ * @attr {string} label - Accessible name, for a button with no text. An `aria-label` on the element names it too; `label` wins.
  *
  * @slot - The label.
  * @slot start - Content before the label, an icon.
@@ -34,6 +72,10 @@ const FORWARDED = [
  * @csspart base - The native button.
  * @csspart label - The wrapper around the default slot.
  * @csspart spinner - The loading indicator.
+ *
+ * @cssstate focus-visible - The native button has focus the browser would show a ring for (the keyboard's). The
+ *   element itself does not match `:focus-visible`; a page that draws the button with its own class puts its ring
+ *   on the element with `punica-button.x:state(focus-visible)`.
  *
  * @cssprop --punica-button-radius - Corner radius.
  * @cssprop --punica-button-height - Minimum block size.
@@ -56,7 +98,9 @@ export class PunicaButton extends FormControl(PunicaElement) {
     ariaHasPopup: { attribute: 'aria-haspopup', reflect: false },
     ariaControls: { attribute: 'aria-controls', reflect: false },
     ariaPressed: { attribute: 'aria-pressed', reflect: false },
-    ariaDescription: { attribute: 'aria-description', reflect: false }
+    ariaDescription: { attribute: 'aria-description', reflect: false },
+    // A name written on the host the usual way names the native button too; `label` wins when both are there.
+    ariaLabel: { attribute: 'aria-label', reflect: false }
   };
 
   static styles = styles;
@@ -75,6 +119,13 @@ export class PunicaButton extends FormControl(PunicaElement) {
   constructor() {
     super();
     this.#button.addEventListener('click', (event) => this.#onClick(event));
+    // The host matches :focus, never :focus-visible, while its native button has focus: the state says which focus it is.
+    this.#button.addEventListener('focus', () =>
+      this.toggleState('focus-visible', this.#button.matches(':focus-visible'))
+    );
+    this.#button.addEventListener('blur', () =>
+      this.toggleState('focus-visible', false)
+    );
     // A click that lands on the host while it cannot act goes nowhere.
     this.addEventListener(
       'click',
@@ -94,12 +145,42 @@ export class PunicaButton extends FormControl(PunicaElement) {
     button.setAttribute('aria-busy', String(this.loading));
     if (this.loading) button.setAttribute('aria-disabled', 'true');
     else button.removeAttribute('aria-disabled');
-    if (this.label) button.setAttribute('aria-label', this.label);
+    const name = this.label || this.ariaLabel;
+    if (name) button.setAttribute('aria-label', name);
     else button.removeAttribute('aria-label');
     for (const [prop, attribute] of FORWARDED) {
       if (this[prop] == null) button.removeAttribute(attribute);
       else button.setAttribute(attribute, this[prop]);
     }
+  }
+
+  connected() {
+    super.connected?.();
+    // Enter in a native field of one line submits the form through its default button, as the platform does when
+    // that button is a native one: a custom element is not a default button to the browser, so a form whose submit
+    // button was a punica-button lost Enter once it had two fields. Each button listens while connected; only the
+    // form's default button acts, and a disabled one blocks the submission as a native one does.
+    this.listen(this.getRootNode(), 'keydown', (event) =>
+      this.#onEnter(/** @type {KeyboardEvent} */ (event))
+    );
+  }
+
+  /** @param {KeyboardEvent} event */
+  #onEnter(event) {
+    if (event.key !== 'Enter' || event.defaultPrevented || event.isComposing)
+      return;
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
+      return;
+    const field = event.composedPath()[0];
+    if (
+      !(field instanceof HTMLInputElement) ||
+      !IMPLICIT.has(field.type) ||
+      !field.form
+    )
+      return;
+    if (defaultButton(field.form) !== this) return;
+    event.preventDefault();
+    this.click();
   }
 
   /** Moves focus to the button. */

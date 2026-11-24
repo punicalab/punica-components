@@ -46,6 +46,20 @@ describe('punica-collapsible', () => {
     expect((await event).detail).toEqual({ open: false });
   });
 
+  it('does not toggle on a click cancelled inside the trigger, as <summary>', async () => {
+    const el = await fixture(html);
+    const trigger = el.querySelector('button');
+    const inner = document.createElement('span');
+    trigger.append(inner);
+    inner.addEventListener('click', (e) => e.preventDefault());
+    inner.click();
+    await settle();
+    expect(el.open).toBe(false);
+    trigger.click();
+    await settle();
+    expect(el.open).toBe(true);
+  });
+
   it('is operated by the keyboard through the native button', async () => {
     const el = await fixture(html);
     const trigger = el.querySelector('button');

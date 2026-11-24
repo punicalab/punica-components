@@ -82,6 +82,66 @@ test('the helpers are typed as the guide shows them used', () => {
   );
 });
 
+test('every element says when its pending update has run', () => {
+  assert.deepEqual(
+    check(`
+      import type { PunicaDialog, PunicaDrawer } from '@punica/components';
+
+      const dialog: PunicaDialog = document.createElement('punica-dialog');
+      const drawer: PunicaDrawer = document.createElement('punica-drawer');
+      const done: Promise<void> = dialog.updateComplete;
+      void drawer.updateComplete.then(() => drawer.hide());
+      export { done };
+    `),
+    []
+  );
+});
+
+test('a property with a default is not nullable; one without is', () => {
+  assert.deepEqual(
+    check(`
+      import type { PunicaButton, PunicaInput, PunicaTextarea } from '@punica/components';
+
+      const input: PunicaInput = document.createElement('punica-input');
+      const area: PunicaTextarea = document.createElement('punica-textarea');
+      const button: PunicaButton = document.createElement('punica-button');
+      const value: string = input.value;
+      const text: string = area.value;
+      const kind: 'button' | 'submit' | 'reset' = button.type;
+      const placeholder: string | null = input.placeholder;
+      export { value, text, kind, placeholder };
+    `),
+    []
+  );
+});
+
+test('a property documented with a type the attribute cannot hold has that type', () => {
+  assert.deepEqual(
+    check(`
+      import type { PunicaCheckboxGroup, PunicaSelect, PunicaTokenizer } from '@punica/components';
+
+      const tokens: PunicaTokenizer = document.createElement('punica-tokenizer');
+      const group: PunicaCheckboxGroup = document.createElement('punica-checkbox-group');
+      const select: PunicaSelect = document.createElement('punica-select');
+      tokens.value = ['a', 'b'];
+      const words: string[] = tokens.value;
+      const checked: string[] = group.value;
+      // A select may be multiple, but its single value is what code reads.
+      const picked: string | null = select.value;
+      export { words, checked, picked };
+    `),
+    []
+  );
+  assert.equal(
+    check(`
+      const tokens = document.createElement('punica-tokenizer');
+      const one: string = tokens.value;
+      export { one };
+    `).length,
+    1
+  );
+});
+
 test('what the helpers do not take is refused', () => {
   const problems = check(`
     import { confirm, toast } from '@punica/components';
