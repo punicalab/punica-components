@@ -1,4 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest';
+import { userEvent } from 'vitest/browser';
 import { contract, fixture, cleanup, settle } from '../../../test/contract.js';
 import './link.js';
 
@@ -11,6 +12,18 @@ const anchor = (el) => el.shadowRoot.querySelector('a');
 
 describe('punica-link', () => {
   afterEach(cleanup);
+
+  it('says on the element when its anchor has keyboard focus, as :state(focus-visible)', async () => {
+    const el = await fixture('<punica-link href="#here">Here</punica-link>');
+    await userEvent.keyboard('{Tab}');
+    expect(el.matches(':focus')).toBe(true);
+    expect(el.matches(':state(focus-visible)')).toBe(true);
+    el.shadowRoot.querySelector('a').blur();
+    expect(el.matches(':state(focus-visible)')).toBe(false);
+    await userEvent.click(el);
+    expect(el.matches(':focus')).toBe(true);
+    expect(el.matches(':state(focus-visible)')).toBe(false);
+  });
 
   it('is a native anchor that takes focus and carries href, target and download', async () => {
     const el = await fixture('<punica-link href="/files/a.pdf" download="a.pdf" target="files">File</punica-link>');
