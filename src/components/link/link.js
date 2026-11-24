@@ -27,6 +27,10 @@ const SCRIPT_SCHEME = /^(javascript|vbscript):$/i;
  * @csspart base - The native anchor.
  * @csspart external-icon - The icon of an external link.
  *
+ * @cssstate focus-visible - The native anchor has focus the browser would show a ring for (the keyboard's). The
+ *   element itself does not match `:focus-visible`; a page that draws the link with its own class (a card, a row)
+ *   puts its ring on the element with `punica-link.x:state(focus-visible)`.
+ *
  * @cssprop --punica-link-color - Text colour.
  * @cssprop --punica-link-color-hover - Text colour under the pointer.
  */
@@ -54,6 +58,13 @@ export class PunicaLink extends PunicaElement {
   #anchor = this.$('a');
   #external = this.$('.external');
   #externalText = this.$('.hidden-text');
+
+  constructor() {
+    super();
+    // The host matches :focus, never :focus-visible, while its anchor has focus: the state says which focus it is.
+    this.#anchor.addEventListener('focus', () => this.toggleState('focus-visible', this.#anchor.matches(':focus-visible')));
+    this.#anchor.addEventListener('blur', () => this.toggleState('focus-visible', false));
+  }
 
   update() {
     const a = this.#anchor;
