@@ -111,10 +111,10 @@ export function createPunicaServer({ manifest, guide, version, source, fetch: fe
     'validate_markup',
     {
       title: 'Check punica markup',
-      description: 'Checks HTML, JSX, Vue or script that uses punica elements: unknown tags and 1.x names, attributes, values, slots, events and icon names. Returns each problem with its line and a fix.',
+      description: 'Checks HTML, JSX, Vue, script or CSS that uses punica elements: unknown tags and 1.x names, attributes, values, slots, events and icon names, and `::part()` rules that take an element\'s focus away. Returns each problem with its line and a fix.',
       inputSchema: {
         code: z.string().describe('The markup or script to check'),
-        kind: z.enum(['html', 'jsx', 'vue', 'js']).optional().describe('Guessed from the code when absent')
+        kind: z.enum(['html', 'jsx', 'vue', 'js', 'css']).optional().describe('Guessed from the code when absent')
       },
       annotations: { readOnlyHint: true }
     },
