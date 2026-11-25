@@ -153,6 +153,14 @@ describe('validate', () => {
     expect(rules('<template><punica-select @change="f" v-if="x"></punica-select></template>')).toEqual(['native-event-name']);
   });
 
+  it('warns of display: contents on a part that takes the focus', () => {
+    expect(validate('.bare::part(base) { display: contents; }', { kind: 'css' })[0]).toMatchObject({ rule: 'part-display-contents', severity: 'warning', fix: 'display: inherit' });
+    expect(rules('punica-side-nav-item::part(base){display:contents}', 'css')).toEqual(['part-display-contents']);
+    expect(rules('<style>.b::part(label) { display: contents }</style><punica-button class="b">x</punica-button>')).toEqual([]);
+    expect(rules('punica-section::part(base) { display: contents }', 'css')).toEqual([]);
+    expect(rules('punica-button::part(base) { display: inherit }', 'css')).toEqual([]);
+  });
+
   it('guesses the kind of source', () => {
     expect(guessKind('<punica-button>x</punica-button>')).toBe('html');
     expect(guessKind('return <punica-button className="a" />')).toBe('jsx');

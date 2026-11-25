@@ -21,8 +21,8 @@ const json = flags.has('--json');
 const brief = flags.has('--brief');
 const out = (value) => console.log(json ? JSON.stringify(value, null, 2) : value);
 
-const EXTENSIONS = new Set(['.html', '.htm', '.js', '.mjs', '.jsx', '.ts', '.tsx', '.vue', '.svelte', '.astro', '.md', '.mdx']);
-const KIND = { '.jsx': 'jsx', '.tsx': 'jsx', '.vue': 'vue', '.js': undefined, '.ts': undefined };
+const EXTENSIONS = new Set(['.html', '.htm', '.js', '.mjs', '.jsx', '.ts', '.tsx', '.vue', '.svelte', '.astro', '.md', '.mdx', '.css', '.scss', '.less']);
+const KIND = { '.jsx': 'jsx', '.tsx': 'jsx', '.vue': 'vue', '.js': undefined, '.ts': undefined, '.css': 'css', '.scss': 'css', '.less': 'css' };
 
 const commands = {
   search() {

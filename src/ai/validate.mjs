@@ -1,8 +1,8 @@
 // Checks markup that uses punica elements against custom-elements.json:
 // what a model (or a person) most often gets wrong is a tag, attribute,
 // value, slot or event that does not exist, or a 1.x name. Reads HTML, JSX
-// and Vue templates with a small tag scanner, and the event names in
-// script. Pure: no Node and no DOM.
+// and Vue templates with a small tag scanner, the event names in script,
+// and `::part()` rules in CSS. Pure: no Node and no DOM.
 import { closest } from './knowledge.mjs';
 
 /** @typedef {{ line: number, column: number, severity: 'error' | 'warning', rule: string, message: string, fix?: string }} Finding */
@@ -34,7 +34,7 @@ const camelToKebab = (name) => name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()
 export function createValidator(knowledge) {
   /**
    * @param {string} source
-   * @param {{ kind?: 'html' | 'jsx' | 'vue' | 'js' }} [options] guessed from the text when absent
+   * @param {{ kind?: 'html' | 'jsx' | 'vue' | 'js' | 'css' }} [options] guessed from the text when absent
    * @returns {Finding[]}
    */
   function validate(source, options = {}) {
@@ -57,9 +57,54 @@ export function createValidator(knowledge) {
     const report = (offset, severity, rule, message, fix) => findings.push({ ...where(offset), severity, rule, message, ...(fix ? { fix } : {}) });
 
     const usesPunica = /punica-/.test(text);
-    if (kind !== 'js') scanMarkup(text, kind, report);
-    scanScript(text, usesPunica, report);
+    if (kind !== 'css') {
+      if (kind !== 'js') scanMarkup(text, kind, report);
+      scanScript(text, usesPunica, report);
+    }
+    scanStyles(text, report);
     return findings.sort((a, b) => a.line - b.line || a.column - b.column);
+  }
+
+  // Parts that are, or hold, the native control an element takes focus
+  // through: `display: contents` on one leaves the control without a box,
+  // and an element without a box takes no focus.
+  const FOCUS_PART = /native (?:button|anchor|input|text area|checkbox)|`button` or `a`|link or button|`<a>` or `<button>`|with the control|focusable/i;
+  const focusParts = new Map();
+  for (const element of knowledge.elements.values()) {
+    for (const part of element.parts) {
+      if (!FOCUS_PART.test(part.description)) continue;
+      if (!focusParts.has(part.name)) focusParts.set(part.name, []);
+      focusParts.get(part.name).push(element.tag);
+    }
+  }
+
+  /** CSS anywhere in the source: a stylesheet, a `<style>`, a string. */
+  function scanStyles(text, report) {
+    if (!text.includes('::part(')) return;
+    const ruleRe = /([^{}]*)\{([^{}]*)\}/g;
+    let match;
+    while ((match = ruleRe.exec(text))) {
+      if (!/\bdisplay\s*:\s*contents\b/.test(match[2])) continue;
+      for (const found of match[1].matchAll(/::part\(\s*([\w-]+)\s*\)/g)) {
+        let tags = focusParts.get(found[1]);
+        if (!tags) continue;
+        // `punica-section::part(base)` names its element: only that one counts.
+        const compound = match[1].slice(0, found.index).split(/[\s,>+~]/).pop();
+        const named = /^punica-[a-z0-9-]+/.exec(compound)?.[0];
+        if (named) {
+          if (!tags.includes(named)) continue;
+          tags = [named];
+        }
+        const shown = tags.length > 4 ? `${tags.slice(0, 4).map((t) => `<${t}>`).join(', ')} and ${tags.length - 4} more` : tags.map((t) => `<${t}>`).join(', ');
+        report(
+          match.index + found.index,
+          'warning',
+          'part-display-contents',
+          `\`display: contents\` on \`::part(${found[1]})\` takes the part's box away. In ${shown} that part is, or holds, the native control the element is focused through: without a box it takes no focus and leaves the Tab order. Keep a box (\`display: inherit\`, flex, grid or block).`,
+          'display: inherit'
+        );
+      }
+    }
   }
 
   function scanMarkup(text, kind, report) {
