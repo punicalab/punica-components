@@ -32,7 +32,7 @@ const missingMessage = () => {
  * @slot start - Content before the label, an icon.
  * @slot end - Content after the label.
  *
- * @fires punica-change - The user pressed or released the button; `detail: { pressed, checked, value }`, where `checked` equals `pressed`.
+ * @fires {{ pressed: boolean, checked: boolean, value: string }} punica-change - The user pressed or released the button; `detail: { pressed, checked, value }`, where `checked` equals `pressed`.
  *
  * @csspart base - The native button.
  * @csspart label - The wrapper around the default slot.

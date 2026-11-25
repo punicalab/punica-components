@@ -21,7 +21,7 @@ import styles from './toast.css';
  * @slot start - Content before the message, an icon.
  * @slot action - A button after the message.
  *
- * @fires punica-dismiss - The toast is going away. `detail.reason` is `user` (close button, Escape) or `timeout`. A call to `dismiss()` fires nothing.
+ * @fires {{ reason: 'user' | 'timeout' }} punica-dismiss - The toast is going away. `detail.reason` is `user` (close button, Escape) or `timeout`. A call to `dismiss()` fires nothing.
  *
  * @csspart base - The toast's box.
  * @csspart message - The wrapper around the message.

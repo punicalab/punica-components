@@ -31,7 +31,7 @@ const missingMessage = () => {
  *
  * @slot - The label.
  *
- * @fires punica-change - The user flipped the switch; `detail: { checked, value }`.
+ * @fires {{ checked: boolean, value: string }} punica-change - The user flipped the switch; `detail: { checked, value }`.
  *
  * @csspart base - The native button.
  * @csspart track - The lever's track.

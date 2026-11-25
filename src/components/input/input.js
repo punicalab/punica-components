@@ -51,8 +51,8 @@ const flagsOf = (validity) => {
  * @slot start - Content before the text, an icon.
  * @slot end - Content after the text.
  *
- * @fires punica-input - The value changed while the user is editing; `detail: { value }`.
- * @fires punica-change - The user committed a new value; `detail: { value }`.
+ * @fires {{ value: string }} punica-input - The value changed while the user is editing; `detail: { value }`.
+ * @fires {{ value: string }} punica-change - The user committed a new value; `detail: { value }`.
  *
  * @csspart base - The bordered box around the slots and the input.
  * @csspart input - The native input.

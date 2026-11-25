@@ -32,7 +32,7 @@ const nameOf = (el) =>
  * @slot - The `punica-avatar` elements.
  *
  * @fires punica-open - The list of hidden names opened.
- * @fires punica-close - The list of hidden names closed. `detail.reason` is `escape`, `outside` or `api`.
+ * @fires {{ reason: 'escape' | 'outside' | 'api' }} punica-close - The list of hidden names closed. `detail.reason` is `escape`, `outside` or `api`.
  *
  * @csspart base - The row.
  * @csspart overflow - The "+N" avatar, a button or a count.

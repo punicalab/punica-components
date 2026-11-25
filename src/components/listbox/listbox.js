@@ -26,7 +26,7 @@ import styles from './listbox.css';
  *
  * @slot - The `punica-listbox-item` options.
  *
- * @fires punica-change - The user changed the selection. `detail.value` is the new value.
+ * @fires {{ value: string | string[] | null }} punica-change - The user changed the selection. `detail.value` is the new value.
  *
  * @cssprop --punica-listbox-background - Background of the list.
  * @cssprop --punica-listbox-padding - Block padding of the list.

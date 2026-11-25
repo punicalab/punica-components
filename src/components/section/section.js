@@ -25,7 +25,7 @@ import styles from './section.css';
  * @slot description - A line under the heading.
  * @slot actions - Buttons at the end of the header row.
  *
- * @fires punica-toggle - The user expanded or collapsed a collapsible section. `detail` is `{ open }`.
+ * @fires {{ open: boolean }} punica-toggle - The user expanded or collapsed a collapsible section. `detail` is `{ open }`.
  *
  * @csspart base - The native `<section>`.
  * @csspart header - The row holding the heading, the description and the actions.

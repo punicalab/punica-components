@@ -52,9 +52,9 @@ const COLUMNS = 3;
  *
  * @slot start - Content before the input, an icon.
  *
- * @fires punica-change - The user typed or picked a month. `detail.value` is the `yyyy-mm` month or null.
+ * @fires {{ value: string | null }} punica-change - The user typed or picked a month. `detail.value` is the `yyyy-mm` month or null.
  * @fires punica-open - The months opened.
- * @fires punica-close - The months closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'api' }} punica-close - The months closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
  *
  * @csspart field - The bordered box.
  * @csspart input - The text input.

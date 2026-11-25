@@ -40,8 +40,8 @@ function instanceStyle(root) {
  *
  * @slot fallback - Shown when there is no picture or it failed, in place of the placeholder glyph.
  *
- * @fires punica-load - The picture loaded. `detail` is `{ src }`.
- * @fires punica-error - The picture failed to load. `detail` is `{ src }`.
+ * @fires {{ src: string }} punica-load - The picture loaded. `detail` is `{ src }`.
+ * @fires {{ src: string }} punica-error - The picture failed to load. `detail` is `{ src }`.
  *
  * @csspart base - The box, a link with `href`.
  * @csspart image - The native img.

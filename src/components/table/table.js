@@ -28,7 +28,7 @@ import styles from './table.css';
  * @slot empty - Shown while the body has no row.
  * @slot toolbar - A `punica-table-selection-toolbar`, drawn above the rows across the table's width.
  *
- * @fires punica-select - The user changed the selection. `detail` is `{ value, item }`: the selected rows' values and the row that was toggled (null for select-all).
+ * @fires {{ value: (string | null)[], item: HTMLElement | null }} punica-select - The user changed the selection. `detail` is `{ value, item }`: the selected rows' values and the row that was toggled (null for select-all).
  *
  * @csspart caption - The visible caption.
  * @csspart empty - The wrapper of the `empty` slot.

@@ -42,7 +42,7 @@ const INTERACTIVE = 'a[href], button, input, select, textarea, [tabindex]:not([t
  * @slot title - The card's title; its accessible name.
  * @slot description - Text under the title; its accessible description.
  *
- * @fires punica-change - The user toggled a checkbox card; `detail: { checked, value }`. A radio card fires nothing; its group does.
+ * @fires {{ checked: boolean, value: string }} punica-change - The user toggled a checkbox card; `detail: { checked, value }`. A radio card fires nothing; its group does.
  *
  * @csspart base - The card's box.
  * @csspart media - The wrapper around the `media` slot.

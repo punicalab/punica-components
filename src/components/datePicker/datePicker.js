@@ -40,9 +40,9 @@ import styles from './datePicker.css';
  *
  * @slot start - Content before the input, an icon.
  *
- * @fires punica-change - The user typed or picked a date. `detail.value` is the ISO date or null.
+ * @fires {{ value: string | null }} punica-change - The user typed or picked a date. `detail.value` is the ISO date or null.
  * @fires punica-open - The calendar opened.
- * @fires punica-close - The calendar closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'api' }} punica-close - The calendar closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
  *
  * @csspart field - The bordered box.
  * @csspart input - The text input.

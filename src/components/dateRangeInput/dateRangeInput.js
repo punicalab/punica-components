@@ -47,10 +47,10 @@ import styles from './dateRangeInput.css';
  *
  * @slot start - Content before the inputs, an icon.
  *
- * @fires punica-change - The user typed a date or completed a range. `detail` is `{ value, valueStart, valueEnd }`, `value` being `start/end` or null.
- * @fires punica-input - The user picked the start on the calendar and the end is still open. Same `detail`, `valueEnd` null.
+ * @fires {{ value: string | null, valueStart: string | null, valueEnd: string | null }} punica-change - The user typed a date or completed a range. `detail` is `{ value, valueStart, valueEnd }`, `value` being `start/end` or null.
+ * @fires {{ value: string | null, valueStart: string | null, valueEnd: null }} punica-input - The user picked the start on the calendar and the end is still open. Same `detail`, `valueEnd` null.
  * @fires punica-open - The calendar opened.
- * @fires punica-close - The calendar closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'api' }} punica-close - The calendar closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
  *
  * @csspart field - The bordered box, a group.
  * @csspart input - Both text inputs.

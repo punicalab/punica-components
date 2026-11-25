@@ -20,7 +20,7 @@ import styles from './stepper.css';
  *
  * @slot - The `punica-step` elements.
  *
- * @fires punica-change - The user chose another step. `detail.value` is its value.
+ * @fires {{ value: string }} punica-change - The user chose another step. `detail.value` is its value.
  *
  * @cssprop --punica-stepper-gap - Space between a step and its connector.
  */

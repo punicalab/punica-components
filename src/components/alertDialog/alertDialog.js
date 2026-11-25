@@ -34,8 +34,8 @@ import styles from './alertDialog.css';
  * @slot - The description: what happens if the user confirms. It is the dialog's accessible description.
  *
  * @fires punica-open - The dialog opened.
- * @fires punica-request-close - A button or Escape is about to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the dialog open, for example while the confirmed work runs.
- * @fires punica-close - The dialog closed. `detail` is `{ reason, returnValue }`; `reason` is `confirm`, `cancel`, `escape` or `api`.
+ * @fires {{ reason: 'confirm' | 'cancel' | 'escape' | 'api' | (string & {}) }} punica-request-close - A button or Escape is about to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the dialog open, for example while the confirmed work runs.
+ * @fires {{ reason: 'confirm' | 'cancel' | 'escape' | 'api' | (string & {}), returnValue: string }} punica-close - The dialog closed. `detail` is `{ reason, returnValue }`; `reason` is `confirm`, `cancel`, `escape` or `api`.
  *
  * @csspart dialog - The native dialog.
  * @csspart panel - The column holding heading, description and actions.

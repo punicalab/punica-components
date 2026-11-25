@@ -33,7 +33,7 @@ const valueOf = (item) => item.value ?? item.textContent.trim();
  *
  * @slot - The `<punica-radio>` elements.
  *
- * @fires punica-change - The user chose another radio; `detail: { value }`.
+ * @fires {{ value: string }} punica-change - The user chose another radio; `detail: { value }`.
  *
  * @cssprop --punica-radio-group-gap - Space between the radios.
  *

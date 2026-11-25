@@ -22,8 +22,8 @@ const ITEM = 'punica-tree-item';
  * @slot start - Content before the label, an icon.
  * @slot end - Content after the label.
  *
- * @fires punica-toggle - The user expanded or collapsed the node. `detail` is `{ open, item }`.
- * @fires punica-load - The node is `lazy` and was expanded. `detail` is `{ item }`.
+ * @fires {{ open: boolean, item: HTMLElement }} punica-toggle - The user expanded or collapsed the node. `detail` is `{ open, item }`.
+ * @fires {{ item: HTMLElement }} punica-load - The node is `lazy` and was expanded. `detail` is `{ item }`.
  *
  * @csspart row - The node's own line.
  * @csspart toggle - The expand indicator.

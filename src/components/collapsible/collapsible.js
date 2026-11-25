@@ -18,7 +18,7 @@ import styles from './collapsible.css';
  * @slot - The content that is shown and hidden.
  * @slot trigger - The element that toggles the content: a `<button>` or a `punica-button`.
  *
- * @fires punica-toggle - The user expanded or collapsed the content. `detail.open` is the new state.
+ * @fires {{ open: boolean }} punica-toggle - The user expanded or collapsed the content. `detail.open` is the new state.
  *
  * @csspart content - The animated region around the default slot.
  *

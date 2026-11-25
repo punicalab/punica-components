@@ -30,7 +30,7 @@ import styles from './carousel.css';
  *
  * @slot - The `punica-carousel-item` slides.
  *
- * @fires punica-change - The user moved to another slide. `detail.index` (also `detail.value`).
+ * @fires {{ index: number, value: number }} punica-change - The user moved to another slide. `detail.index` (also `detail.value`).
  *
  * @csspart base - The wrapper.
  * @csspart track - The scrolling track.

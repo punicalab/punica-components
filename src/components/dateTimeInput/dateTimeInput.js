@@ -52,9 +52,9 @@ function splitDateTime(value) {
  *
  * @prop {string | null} value - The current date-time, or null.
  *
- * @fires punica-change - The user changed the date or the time. `detail.value` is the date-time, or null while one of them is empty.
+ * @fires {{ value: string | null }} punica-change - The user changed the date or the time. `detail.value` is the date-time, or null while one of them is empty.
  * @fires punica-open - The calendar or the list of times opened.
- * @fires punica-close - The calendar or the list of times closed. `detail.reason` as on the two fields.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'api' }} punica-close - The calendar or the list of times closed. `detail.reason` as on the two fields.
  *
  * @csspart group - The wrapper around the two fields.
  * @csspart date - The `punica-date-picker`.
