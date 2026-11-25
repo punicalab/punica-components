@@ -43,6 +43,8 @@ await import('./design-tokens.mjs').then(async ({ designTokens }) => {
   const files = designTokens(await readFile('src/tokens/tokens.css', 'utf8'));
   for (const [scheme, tree] of Object.entries(files)) await writeFile(`dist/tokens/${scheme}.tokens.json`, JSON.stringify(tree, null, 2) + '\n');
 });
+// Server-side rendering runs in Node from these files as they are
+await cp('src/ssr', 'dist/ssr', { recursive: true });
 
 if (watch) {
   for (const options of [esm, iife]) (await context(options)).watch();
