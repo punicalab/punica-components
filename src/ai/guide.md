@@ -67,6 +67,12 @@ the same turn awaits it first: `await control.updateComplete;
 form.requestSubmit()`. Reading the control's `validity`,
 `validationMessage` or `checkValidity()` also brings it up to date at once.
 
+An empty control holds `''` when it holds text (`punica-input`,
+`punica-textarea`) and `null` when it holds a choice: the pickers
+(`punica-date-picker`, `-time-picker`, `-month-picker`,
+`-date-time-input`), `punica-select` with a placeholder, `punica-autocomplete`.
+Test for nothing with `value == null` or `!value`, not `value === ''`.
+
 ## Overlays
 
 Dialogs, menus, popovers and drawers open in the browser's top layer: no
@@ -90,6 +96,14 @@ them; set `color-scheme` for light and dark:
 Restyle inside an element with `::part(name)` and `:state(name)`; each
 element lists its parts, states and its own `--punica-<element>-*`
 properties. Right-to-left works with `dir="rtl"` on any ancestor.
+
+Never give `display: contents` to a part that is the native control
+(`punica-button::part(base)`, `punica-link::part(base)`,
+`punica-side-nav-item::part(base)`, …): an element without a box takes no
+focus, and the control leaves the Tab order with nothing on screen to show
+it. To let a button lay out like its container, keep the box and pass the
+layout on: `::part(base) { all: unset; display: inherit; }`. Parts that only
+hold text, such as `label`, may take `display: contents`.
 
 ## Frameworks
 
@@ -135,10 +149,17 @@ audit has to find, use a native `<h1>`. Roles of native elements inside an
 element (the `button` in a `punica-button`, the `dialog` in a
 `punica-alert-dialog`) are found as usual.
 
+Playwright's CSS locators go into open shadow roots: `locator('input')`
+also finds the native input inside every `punica-input`, picker and
+`punica-checkbox`. Name the element instead (`locator('punica-input')`,
+`locator('punica-field[label="Email"] punica-input')`), and read its value
+with `evaluate((el) => el.value)` on that element (`inputValue()` takes only native controls).
+
 ## Check your work
 
 `npx punica-components validate <files>` checks tags, attributes, values,
-slots, events and icon names against this version and exits 1 on an error.
+slots, events and icon names against this version, and in CSS the
+`::part()` rules that take an element's focus away; it exits 1 on an error.
 `npx punica-components info <tag>` prints one element's whole API; with
 `--brief` (in the MCP server: `get_component` with `brief: true`) it leaves
 out CSS parts, custom properties and states. Ask for the brief form first

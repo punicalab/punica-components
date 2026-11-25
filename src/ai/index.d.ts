@@ -28,7 +28,7 @@ export interface Knowledge {
   formatMarkdown(tag: string, options?: { brief?: boolean }): string;
 }
 export interface Finding { line: number; column: number; severity: 'error' | 'warning'; rule: string; message: string; fix?: string }
-export type SourceKind = 'html' | 'jsx' | 'vue' | 'js';
+export type SourceKind = 'html' | 'jsx' | 'vue' | 'js' | 'css';
 export declare const DOCS_URL: string;
 export declare function createKnowledge(manifest: unknown): Knowledge;
 export declare function createValidator(knowledge: Knowledge): { validate(source: string, options?: { kind?: SourceKind }): Finding[] };
