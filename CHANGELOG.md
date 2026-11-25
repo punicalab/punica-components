@@ -1,5 +1,11 @@
 # @punica/components
 
+## 2.5.2
+
+### Patch Changes
+
+- `search()` of the assistant API (`@punica/components/ai`, `search_components` of the MCP server) names the functions of an element's folder with each result, `confirm()` on `punica-alert-dialog` and `toast()` on `punica-toast`, and counts their names in the match, so an assistant finds them before it reads the element.
+
 ## 2.5.1
 
 ### Patch Changes
