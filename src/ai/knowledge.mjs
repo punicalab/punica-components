@@ -192,7 +192,7 @@ export function createKnowledge(manifest) {
     for (const element of elements.values()) {
       const tagWords = element.tag.replace(/^punica-/, '').split('-');
       const text = element.description.toLowerCase();
-      const api = [...element.attributes.map((a) => a.name), ...element.events.map((e) => e.name), ...element.slots.map((s) => s.name)].join(' ');
+      const api = [...element.attributes.map((a) => a.name), ...element.events.map((e) => e.name), ...element.slots.map((s) => s.name), ...element.functions.map((f) => f.name.toLowerCase())].join(' ');
       let score = 0;
       for (const { word, weight } of words) {
         let s = 0;
@@ -209,7 +209,7 @@ export function createKnowledge(manifest) {
       // A part of another element ("The body of a `punica-dialog`") ranks
       // below the element it belongs to, and a longer tag below a shorter one.
       const part = /^(?:the |one |a |an )?[^.]*?\b(?:of|in|for|inside) (?:a|an|the) `punica-/i.test(firstSentence(element.description)) ? 4 : 0;
-      scored.push({ tag: element.tag, description: firstSentence(element.description), score: score - part - tagWords.length * 0.1 });
+      scored.push({ tag: element.tag, description: firstSentence(element.description), functions: element.functions.map((f) => f.name), score: score - part - tagWords.length * 0.1 });
     }
     return scored.sort((a, b) => b.score - a.score).slice(0, limit);
   }

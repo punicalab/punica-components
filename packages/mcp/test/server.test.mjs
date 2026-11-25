@@ -35,6 +35,11 @@ test('lists the tools and says to look things up', async () => {
 test('search_components and get_component', async () => {
   const { call } = await connect();
   assert.match(await call('search_components', { query: 'modal' }), /punica-dialog/);
+  // The functions of an element's module are named in the search, before get_component
+  const confirm = await call('search_components', { query: 'confirm dialog', limit: 3 });
+  assert.match(confirm, /punica-alert-dialog: [^\n]* Script: `confirm\(\)` from '@punica\/components'\./);
+  assert.match(await call('search_components', { query: 'toast notification', limit: 3 }), /Script: `toast\(\)`/);
+  assert.doesNotMatch(confirm, /punica-dialog-header: [^\n]*Script/);
   const api = await call('get_component', { tags: ['select', 'punica-modal'] });
   assert.match(api, /## <punica-select>/);
   assert.match(api, /punica-modal is the 1.x name/);
