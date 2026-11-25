@@ -48,6 +48,23 @@ test('search_components and get_component', async () => {
   assert.match(brief, /For styling: /);
 });
 
+test('get_component shows the functions of the module of the element', async () => {
+  const { call } = await connect();
+
+  // confirm() and toast() were only named in descriptions: runs grepped the .d.ts for them
+  const dialog = await call('get_component', { tags: ['punica-alert-dialog'], brief: true });
+  assert.match(dialog, /### Functions\n\n`import \{ confirm \} from '@punica\/components';`/);
+  assert.match(dialog, /confirm\(options\?: \{ heading\?: string, .*\}\): Promise<boolean>/);
+
+  // The toast and its toaster share a folder: both show toast()
+  const toasts = await call('get_component', { tags: ['punica-toast', 'punica-toaster'], brief: true });
+  assert.equal(toasts.match(/toast\(message: string, options\?: /g).length, 2);
+
+  // A helper module of a folder, which defines no element, is not part of the API
+  const select = await call('get_component', { tags: ['punica-date-picker', 'punica-select'] });
+  assert.doesNotMatch(select, /### Functions/);
+});
+
 test('validate_markup reports problems with fixes', async () => {
   const { call } = await connect();
   assert.match(await call('validate_markup', { code: '<punica-button variant="filled">Save</punica-button>' }), /No problems/);
