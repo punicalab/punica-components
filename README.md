@@ -65,6 +65,12 @@ Tokens are `--punica-*` custom properties, built in and overridable:
 The full list is `src/tokens/tokens.css`, also shipped as
 `@punica/components/tokens.css`.
 
+For design tools and token pipelines the same tokens ship as Design Tokens
+(the W3C Design Tokens Community Group format), one file per colour scheme:
+`@punica/components/tokens/light.tokens.json` and `dark.tokens.json`. Import
+both as two modes (Figma variables through Tokens Studio, Style Dictionary).
+Each token names its CSS property in `$extensions["com.punicalab.css"]`.
+
 ## Frameworks
 
 They are plain custom elements, so they work in any framework. React 19 sets
@@ -72,6 +78,29 @@ properties and listens to `punica-*` events directly; React 18, Vue and
 Angular need a property binding or a listener for the custom events. The
 details and examples are on the
 [frameworks page](https://components.punicalab.com/docs/frameworks).
+
+## Server-side rendering (experimental)
+
+`@punica/components/ssr` writes each element's shadow root into the HTML as
+Declarative Shadow DOM, so a server-rendered page shows the elements styled
+before the script arrives (or without it), and nothing moves when they
+upgrade. It runs in Node, in a worker with
+[happy-dom](https://github.com/capricorn86/happy-dom), which you install
+beside it:
+
+```js
+import { createRenderer } from '@punica/components/ssr';
+
+const renderer = await createRenderer(); // once, for the life of the server
+const html = await renderer.render('<punica-field label="Name"><punica-input name="name"></punica-input></punica-field>');
+```
+
+- Load `@punica/components/tokens.css` in the page's `<head>`: the rendered
+  styles read the `--punica-*` tokens before the script installs them.
+- The script, loaded as usual, takes the elements over. What the user typed
+  or checked before it came is kept.
+- Starting a renderer takes a few hundred milliseconds; each `render`, a few.
+  `renderToString(html)` starts and closes one for a single call.
 
 ## Types and editors
 
@@ -137,7 +166,7 @@ rewrites what can be rewritten and lists the rest.
 |---|---|
 | `npm test` | 2,700+ tests in Chromium: the shared contract for every element, behaviour, axe |
 | `npm run audit` | The static gate for the [contract](docs/contract.md) |
-| `npm run build` | `dist/` (ES modules, global script, `tokens.css`), `custom-elements.json`, types |
+| `npm run build` | `dist/` (ES modules, global script, `tokens.css`, `tokens/*.tokens.json`), `custom-elements.json`, types |
 | `npm run lint` | ESLint |
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup, adding an element and

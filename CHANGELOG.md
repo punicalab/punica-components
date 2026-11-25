@@ -1,5 +1,16 @@
 # @punica/components
 
+## 2.5.0
+
+### Minor Changes
+
+- d49223d: The tokens ship as Design Tokens (the W3C Design Tokens Community Group format, 2025.10) for design tools and token pipelines: `@punica/components/tokens/light.tokens.json` and `dark.tokens.json`, one per colour scheme, generated from `tokens.css` at build. The `light-dark()` pairs are split into the two files; everything else is the same in both. Each token names its CSS custom property in `$extensions["com.punicalab.css"]`; the focus ring is a `border` token that refers to its width and colour.
+- 0209a34: Server-side rendering, experimental: `@punica/components/ssr` (`createRenderer`, `renderToString`) writes each element's shadow root into the HTML as Declarative Shadow DOM. A server-rendered page shows the elements styled before the script arrives, or without it, and nothing moves when they upgrade; what the user typed or checked before the script came is kept. It renders in Node, in a worker with happy-dom (an optional peer dependency).
+
+### Patch Changes
+
+- 79ac105: The global script (`dist/punica-components.min.js`, the CDN build) parses on a page that names no charset. A regex in `punica-outline` held combining marks as raw characters; a page without `<meta charset>`, served without a charset, read them as windows-1252 and the whole script failed (`Private field '#z' must be declared in an enclosing class`). The build now stops when the global script has a non-ASCII byte.
+
 ## 2.4.0
 
 ### Minor Changes
