@@ -38,6 +38,8 @@ const iife = {
 await rm('dist/esm', { recursive: true, force: true });
 await mkdir('dist', { recursive: true });
 await cp('src/tokens/tokens.css', 'dist/tokens.css');
+// Server-side rendering runs in Node from these files as they are
+await cp('src/ssr', 'dist/ssr', { recursive: true });
 
 if (watch) {
   for (const options of [esm, iife]) (await context(options)).watch();
