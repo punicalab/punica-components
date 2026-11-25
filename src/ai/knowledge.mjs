@@ -144,11 +144,26 @@ export function closest(name, names) {
 export function createKnowledge(manifest) {
   /** @type {Map<string, ReturnType<typeof normalize>>} */
   const elements = new Map();
+  /** Functions of a module that defines an element, by its folder: the package's root exports them. */
+  const functions = new Map();
   for (const mod of manifest.modules || []) {
-    for (const d of mod.declarations || []) {
+    const declarations = mod.declarations || [];
+    for (const d of declarations) {
       if (d.kind === 'class' && d.tagName) elements.set(d.tagName, normalize(d, mod.path));
     }
+    if (!declarations.some((d) => d.kind === 'class' && d.tagName)) continue;
+    const folder = mod.path.replace(/[^/]*$/, '');
+    for (const d of declarations) {
+      if (d.kind !== 'function' || !d.description) continue;
+      const params = (d.parameters || []).map((p) => `${p.name}${p.optional ? '?' : ''}: ${p.type?.text || 'unknown'}`);
+      const notes = (d.parameters || []).filter((p) => p.description).map((p) => `\`${p.name}\`: ${p.description}`);
+      functions.set(folder, [
+        ...(functions.get(folder) || []),
+        { name: d.name, signature: `${d.name}(${params.join(', ')}): ${d.return?.type?.text || 'void'}`, description: [d.description, ...notes].join('\n\n') }
+      ]);
+    }
   }
+  for (const element of elements.values()) element.functions = functions.get(`src/${element.module}`.replace(/[^/]*$/, '')) || [];
   const tags = [...elements.keys()].sort();
   const allEvents = new Set([...elements.values()].flatMap((e) => e.events.map((ev) => ev.name)));
   /** The glyphs `<punica-icon name>` draws; any other name draws nothing. */
@@ -225,6 +240,10 @@ export function createKnowledge(manifest) {
     else table('Attributes', ['Attribute', 'Property', 'Type', 'Description'], e.attributes.map((a) => [`\`${a.name}\``, `\`${a.property}\``, `\`${a.type}\``, a.description]));
     table('Properties (no attribute)', ['Property', 'Type', 'Description'], e.properties.map((p) => [`\`${p.name}\``, p.type ? `\`${p.type}\`` : '', (p.readonly ? 'Read-only. ' : '') + p.description]));
     table('Methods', ['Method', 'Description'], e.methods.map((m) => [`\`${m.signature}\``, m.description]));
+    if (e.functions.length) {
+      lines.push('', '### Functions', '', `\`import { ${e.functions.map((f) => f.name).join(', ')} } from '@punica/components';\``);
+      for (const f of e.functions) lines.push('', '```ts', f.signature, '```', '', f.description);
+    }
     table('Events', ['Event', 'Description'], e.events.map((ev) => [`\`${ev.name}\``, ev.description]));
     table('Slots', ['Slot', 'Description'], e.slots.map((s) => [s.name ? `\`${s.name}\`` : '(default)', s.description]));
     if (!brief) {
