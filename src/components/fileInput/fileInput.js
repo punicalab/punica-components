@@ -52,7 +52,7 @@ const accepts = (file, accept) => {
  *
  * @prop {File[]} files - The chosen files. Assign a list, or an empty list to clear.
  *
- * @fires punica-change - The user chose or dropped files; `detail: { files }`.
+ * @fires {{ files: File[] }} punica-change - The user chose or dropped files; `detail: { files }`.
  *
  * @csspart base - The drop zone.
  * @csspart icon - The upload glyph.

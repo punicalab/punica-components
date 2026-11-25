@@ -32,10 +32,10 @@ const autoGrows = () => typeof CSS !== 'undefined' && CSS.supports('field-sizing
  * @slot end - Controls between the field and the send button: a `punica-chat-dictation-button`.
  * @slot footer - A line under the field: a disclaimer, a model picker.
  *
- * @fires punica-input - The text changed while typing or dictating. `detail.value`.
- * @fires punica-submit - The person sent the message; cancelable. `detail.value`. Prevent it to keep the text in the field and the form unsubmitted.
- * @fires punica-stop - The person pressed stop while `busy`. `detail` is `{}`.
- * @fires punica-attach - Files were pasted or dropped. `detail.files` is a `File[]`.
+ * @fires {{ value: string }} punica-input - The text changed while typing or dictating. `detail.value`.
+ * @fires {{ value: string }} punica-submit - The person sent the message; cancelable. `detail.value`. Prevent it to keep the text in the field and the form unsubmitted.
+ * @fires {Record<string, never>} punica-stop - The person pressed stop while `busy`. `detail` is `{}`.
+ * @fires {{ files: File[] }} punica-attach - Files were pasted or dropped. `detail.files` is a `File[]`.
  *
  * @csspart base - The whole composer.
  * @csspart field - The bordered box around the text area and its controls.

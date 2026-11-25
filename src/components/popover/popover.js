@@ -29,7 +29,7 @@ import styles from './popover.css';
  * @slot trigger - The element that opens the panel and anchors it.
  *
  * @fires punica-open - The panel opened.
- * @fires punica-close - The panel closed. `detail.reason` is `escape`, `outside` or `api`.
+ * @fires {{ reason: 'escape' | 'outside' | 'api' }} punica-close - The panel closed. `detail.reason` is `escape`, `outside` or `api`.
  *
  * @csspart panel - The floating panel.
  *

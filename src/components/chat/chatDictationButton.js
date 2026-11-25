@@ -29,9 +29,9 @@ const MIC = icons.mic;
  * @prop {boolean} listening - Recognition is running (read-only).
  * @prop {boolean} supported - The browser has speech recognition (read-only); false hides the button.
  *
- * @fires punica-input - Words heard and not settled yet; cancelable. `detail` is `{ value, final: false }`, the words of the current phrase.
- * @fires punica-change - A phrase settled; cancelable. `detail` is `{ value, final: true }`.
- * @fires punica-error - Recognition failed. `detail.error` is the browser's code: `not-allowed` (microphone permission denied), `no-speech`, `audio-capture`, `network`, `service-not-allowed`, `language-not-supported`, or `start-failed`.
+ * @fires {{ value: string, final: false }} punica-input - Words heard and not settled yet; cancelable. `detail` is `{ value, final: false }`, the words of the current phrase.
+ * @fires {{ value: string, final: true }} punica-change - A phrase settled; cancelable. `detail` is `{ value, final: true }`.
+ * @fires {{ error: 'not-allowed' | 'no-speech' | 'audio-capture' | 'network' | 'service-not-allowed' | 'language-not-supported' | 'start-failed' | string }} punica-error - Recognition failed. `detail.error` is the browser's code: `not-allowed` (microphone permission denied), `no-speech`, `audio-capture`, `network`, `service-not-allowed`, `language-not-supported`, or `start-failed`.
  *
  * @csspart base - The native button.
  * @csspart icon - The microphone glyph.

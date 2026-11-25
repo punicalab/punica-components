@@ -21,8 +21,8 @@ import styles from './split.css';
  * @slot start - The first pane.
  * @slot end - The second pane.
  *
- * @fires punica-input - The position changes while the divider is dragged. `detail.position` (also `detail.value`).
- * @fires punica-change - The user finished a drag or pressed a key. `detail.position` (also `detail.value`).
+ * @fires {{ position: number, value: number }} punica-input - The position changes while the divider is dragged. `detail.position` (also `detail.value`).
+ * @fires {{ position: number, value: number }} punica-change - The user finished a drag or pressed a key. `detail.position` (also `detail.value`).
  *
  * @csspart base - The flex container.
  * @csspart start - The first pane.

@@ -46,10 +46,10 @@ const textOf = (option) => option.text ?? option.getAttribute('label') ?? option
  * @slot start - Content before the input, an icon.
  * @slot end - Content after the input.
  *
- * @fires punica-input - The user typed. `detail.value` is the text in the input.
- * @fires punica-change - The user picked an option, committed free text or cleared. `detail.value` is the new value.
+ * @fires {{ value: string }} punica-input - The user typed. `detail.value` is the text in the input.
+ * @fires {{ value: string | null }} punica-change - The user picked an option, committed free text or cleared. `detail.value` is the new value.
  * @fires punica-open - The list opened.
- * @fires punica-close - The list closed. `detail.reason` is `select`, `escape`, `outside`, `blur`, `empty` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'empty' | 'api' }} punica-close - The list closed. `detail.reason` is `select`, `escape`, `outside`, `blur`, `empty` or `api`.
  *
  * @csspart field - The bordered box.
  * @csspart input - The text input, a combobox.

@@ -39,10 +39,10 @@ import styles from './virtualTable.css';
  * @prop {unknown} value - Key of the selected row, or null.
  * @prop {unknown[]} selectedValues - `[value]` while a row is selected, else `[]` (read-only); what a `punica-table-selection-toolbar` counts.
  *
- * @fires punica-sort - A sortable header was activated. `detail` is `{ column, direction }`; cancel it to keep the indicator where it was.
- * @fires punica-select - A row was picked. `detail` is `{ value, item }`: the row's key and the row. A selection toolbar's clear button fires it with `{ value: null, item: null }`.
- * @fires punica-range-change - The rows in view changed, by scroll, resize or new data. `detail` is `{ start, end }`: the first index in view and the one after the last.
- * @fires punica-near-end - The view came within one screen of the last row, once per `rows` value. `detail` is `{ end }`.
+ * @fires {{ column: string, direction: 'ascending' | 'descending' }} punica-sort - A sortable header was activated. `detail` is `{ column, direction }`; cancel it to keep the indicator where it was.
+ * @fires {{ value: any, item: any }} punica-select - A row was picked. `detail` is `{ value, item }`: the row's key and the row. A selection toolbar's clear button fires it with `{ value: null, item: null }`.
+ * @fires {{ start: number, end: number }} punica-range-change - The rows in view changed, by scroll, resize or new data. `detail` is `{ start, end }`: the first index in view and the one after the last.
+ * @fires {{ end: number }} punica-near-end - The view came within one screen of the last row, once per `rows` value. `detail` is `{ end }`.
  *
  * @csspart viewport - The scrolling element, which has the `table` or `grid` role.
  * @csspart header - The sticky header group.

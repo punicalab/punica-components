@@ -26,7 +26,7 @@ import styles from './sideNavItem.css';
  * @slot end - After the label: a badge.
  * @slot children - Nested `punica-side-nav-item` elements.
  *
- * @fires punica-toggle - The user expanded or collapsed the nested items. `detail` is `{ open }`.
+ * @fires {{ open: boolean }} punica-toggle - The user expanded or collapsed the nested items. `detail` is `{ open }`.
  *
  * @csspart base - The row with the control.
  * @csspart control - The native `<a>` or `<button>`.

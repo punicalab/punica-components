@@ -61,7 +61,11 @@ test('every function a module exports beside its element is declared', () => {
   assert.deepEqual(functions, ['confirm', 'qrMatrix', 'toast']);
 
   for (const name of functions) {
-    assert.match(text, new RegExp(`^export function ${name}\\(`, 'm'), name);
+    assert.match(
+      text,
+      new RegExp(`^export declare function ${name}\\(`, 'm'),
+      name
+    );
   }
 });
 
@@ -176,4 +180,64 @@ test('a component imported by its own path is typed', () => {
 
   assert.equal(exports['./components/*'].types, './dist/types/index.d.ts');
   assert.equal(exports['./components/*'].default, './dist/esm/components/*');
+});
+
+test('an event carries the detail its element documents', () => {
+  assert.deepEqual(
+    check(`
+      import type { PunicaSelect } from '@punica/components';
+
+      const select: PunicaSelect = document.createElement('punica-select');
+      const dialog = document.createElement('punica-dialog');
+      const box = document.createElement('punica-checkbox');
+      select.addEventListener('punica-change', (event) => {
+        const value: string | string[] | null = event.detail.value;
+        void value;
+      });
+      dialog.addEventListener('punica-close', (event) => {
+        // The listed reasons, and any a requestClose() call names.
+        const reason: string = event.detail.reason;
+        const known: boolean = event.detail.reason === 'backdrop';
+        const returned: string = event.detail.returnValue;
+        void [reason, known, returned];
+      });
+      box.addEventListener('punica-change', (event) => {
+        const checked: boolean = event.detail.checked;
+        void checked;
+      });
+    `),
+    []
+  );
+  assert.equal(
+    check(`
+      import type { PunicaSelect } from '@punica/components';
+
+      const select: PunicaSelect = document.createElement('punica-select');
+      select.addEventListener('punica-change', (event) => {
+        const wrong: number = event.detail.value;
+        void wrong;
+      });
+    `).length,
+    1
+  );
+});
+
+test('every event that documents its detail has it typed', () => {
+  const documented = manifest.modules
+    .flatMap((mod) => mod.declarations || [])
+    .filter((decl) => decl.tagName)
+    .flatMap((decl) =>
+      (decl.events || [])
+        .filter((e) => /`detail/.test(e.description || ''))
+        .map((e) => ({
+          tag: decl.tagName,
+          name: e.name,
+          typed: !!e.type?.text
+        }))
+    );
+
+  assert.deepEqual(
+    documented.filter((e) => !e.typed).map((e) => `${e.tag} ${e.name}`),
+    []
+  );
 });

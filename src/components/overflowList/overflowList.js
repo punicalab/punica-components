@@ -15,7 +15,7 @@ import styles from './overflowList.css';
  *
  * @slot - The children to lay out.
  *
- * @fires punica-overflow - The number of overflowing children changed. `detail.count` is the new number.
+ * @fires {{ count: number }} punica-overflow - The number of overflowing children changed. `detail.count` is the new number.
  *
  * @csspart base - The row.
  * @csspart items - The wrapper around the children that fit.

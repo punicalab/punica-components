@@ -53,9 +53,9 @@ const textOf = (option) =>
  * @slot - The `punica-option` rows.
  * @slot start - Content before the value, an icon.
  *
- * @fires punica-change - The user picked or cleared. `detail.value` is the new value.
+ * @fires {{ value: string | string[] | null }} punica-change - The user picked or cleared. `detail.value` is the new value.
  * @fires punica-open - The list opened.
- * @fires punica-close - The list closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'api' }} punica-close - The list closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
  *
  * @csspart field - The bordered box.
  * @csspart trigger - The combobox button.

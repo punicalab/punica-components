@@ -30,8 +30,8 @@ const decimals = (n) => {
  * @attr {boolean} required - Part of the form control contract; this control always has a value, so it never blocks a form.
  * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Accent, `primary` by default.
  *
- * @fires punica-input - The value changed during a drag or a key press; `detail: { value }`.
- * @fires punica-change - The user committed a value: a key press, or the end of a drag; `detail: { value }`.
+ * @fires {{ value: number }} punica-input - The value changed during a drag or a key press; `detail: { value }`.
+ * @fires {{ value: number }} punica-change - The user committed a value: a key press, or the end of a drag; `detail: { value }`.
  *
  * @csspart base - The area that takes the pointer.
  * @csspart track - The full track.

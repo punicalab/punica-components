@@ -45,7 +45,7 @@ const valueOf = (box) => box.value ?? box.getAttribute('value') ?? 'on';
  * @slot - The `<punica-checkbox>` elements.
  * @slot label - Rich legend content, in place of `label`.
  *
- * @fires punica-change - The user ticked or cleared a box; `detail: { value }` with the new array. The box's own `punica-change` does not travel past the group.
+ * @fires {{ value: string[] }} punica-change - The user ticked or cleared a box; `detail: { value }` with the new array. The box's own `punica-change` does not travel past the group.
  *
  * @csspart label - The legend.
  * @csspart items - The wrapper around the boxes.

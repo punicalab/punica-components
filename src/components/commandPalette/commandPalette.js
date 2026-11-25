@@ -28,10 +28,10 @@ import styles from './commandPalette.css';
  * @slot empty - Shown when nothing matches.
  *
  * @fires punica-open - The palette opened.
- * @fires punica-input - The query changed. `detail` is `{ value }`.
- * @fires punica-select - A command was chosen. `detail` is `{ value, item }`; `value` is the item's `value`, or its text. Cancelable: preventing it keeps the palette open.
- * @fires punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the palette open.
- * @fires punica-close - The palette closed. `detail` is `{ reason, returnValue }`; `reason` is `select`, `escape`, `backdrop` or `api`.
+ * @fires {{ value: string }} punica-input - The query changed. `detail` is `{ value }`.
+ * @fires {{ value: string, item: HTMLElement }} punica-select - A command was chosen. `detail` is `{ value, item }`; `value` is the item's `value`, or its text. Cancelable: preventing it keeps the palette open.
+ * @fires {{ reason: 'select' | 'escape' | 'backdrop' | 'api' | (string & {}) }} punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the palette open.
+ * @fires {{ reason: 'select' | 'escape' | 'backdrop' | 'api' | (string & {}), returnValue: string }} punica-close - The palette closed. `detail` is `{ reason, returnValue }`; `reason` is `select`, `escape`, `backdrop` or `api`.
  *
  * @csspart dialog - The native dialog.
  * @csspart search - The row holding the input.

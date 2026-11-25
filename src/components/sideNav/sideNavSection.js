@@ -13,7 +13,7 @@ import styles from './sideNavSection.css';
  *
  * @slot - `punica-side-nav-item` elements.
  *
- * @fires punica-toggle - The user hid or showed the items. `detail` is `{ open }`.
+ * @fires {{ open: boolean }} punica-toggle - The user hid or showed the items. `detail` is `{ open }`.
  *
  * @csspart base - The group.
  * @csspart heading - The heading of a section that is not collapsible.

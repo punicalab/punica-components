@@ -19,7 +19,7 @@ import styles from './tableHeaderCell.css';
  *
  * @slot - The header's text.
  *
- * @fires punica-sort - The user asked for a sort. `detail` is `{ column, direction }`; cancelable.
+ * @fires {{ column: string, direction: 'ascending' | 'descending' }} punica-sort - The user asked for a sort. `detail` is `{ column, direction }`; cancelable.
  *
  * @csspart button - The native sort button.
  * @csspart sort-icon - The direction indicator.

@@ -29,8 +29,8 @@ import styles from './dialog.css';
  * @slot - `punica-dialog-header`, `punica-dialog-content`, `punica-dialog-footer`.
  *
  * @fires punica-open - The dialog opened.
- * @fires punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the dialog open.
- * @fires punica-close - The dialog closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `close-button` or `api`.
+ * @fires {{ reason: 'escape' | 'backdrop' | 'close-button' | 'api' | (string & {}) }} punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the dialog open.
+ * @fires {{ reason: 'escape' | 'backdrop' | 'close-button' | 'api' | (string & {}), returnValue: string }} punica-close - The dialog closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `close-button` or `api`.
  *
  * @csspart dialog - The native dialog.
  * @csspart panel - The grid holding header, content and footer.

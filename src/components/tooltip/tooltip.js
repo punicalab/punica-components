@@ -30,7 +30,7 @@ import styles from './tooltip.css';
  * @slot content - The description, in place of `text`.
  *
  * @fires punica-open - The tooltip opened.
- * @fires punica-close - The tooltip closed. `detail.reason` is `pointer`, `blur`, `escape` or `api`.
+ * @fires {{ reason: 'pointer' | 'blur' | 'escape' | 'api' }} punica-close - The tooltip closed. `detail.reason` is `pointer`, `blur`, `escape` or `api`.
  *
  * @csspart panel - The floating tooltip.
  * @csspart text - The element holding `text`.

@@ -118,8 +118,8 @@ const fill = (template, count) => String(template ?? '').replace('{count}', Stri
  *
  * @prop {AgendaEvent[]} events - The events.
  *
- * @fires punica-select - An event was activated. `detail` is `{ value, item }`: its `id` (or index) and the event object as given.
- * @fires punica-change - The user moved to another period or view. `detail` is `{ view, date }`, the date as `YYYY-MM-DD`.
+ * @fires {{ value: string, item: any }} punica-select - An event was activated. `detail` is `{ value, item }`: its `id` (or index) and the event object as given.
+ * @fires {{ view: string, date: string }} punica-change - The user moved to another period or view. `detail` is `{ view, date }`, the date as `YYYY-MM-DD`.
  *
  * @csspart base - The whole agenda.
  * @csspart toolbar - The row of navigation and view buttons.

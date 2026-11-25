@@ -24,7 +24,7 @@ const THRESHOLD = 8;
  * @slot header - A title bar above the messages.
  * @slot composer - The input area below the messages, usually a `punica-chat-composer`.
  *
- * @fires punica-scroll-state - The view started or stopped following the latest content. `detail.atBottom`.
+ * @fires {{ atBottom: boolean }} punica-scroll-state - The view started or stopped following the latest content. `detail.atBottom`.
  *
  * @csspart header - The wrapper around the header slot.
  * @csspart body - The area that holds the scroller and the jump button.

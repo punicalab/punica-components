@@ -24,7 +24,7 @@ import styles from './chatToolCall.css';
  * @slot input - What the tool was called with; a `punica-code-block` or a `<pre>`.
  * @slot output - What the tool returned.
  *
- * @fires punica-toggle - The person expanded or collapsed the call. `detail.open`.
+ * @fires {{ open: boolean }} punica-toggle - The person expanded or collapsed the call. `detail.open`.
  *
  * @csspart base - The bordered box.
  * @csspart header - The native button that unfolds the call.

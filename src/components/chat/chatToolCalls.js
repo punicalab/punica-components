@@ -12,7 +12,7 @@ import styles from './chatToolCalls.css';
  *
  * @slot - The `punica-chat-tool-call` items.
  *
- * @fires punica-toggle - The person expanded or collapsed the list. `detail.open`.
+ * @fires {{ open: boolean }} punica-toggle - The person expanded or collapsed the list. `detail.open`.
  *
  * @csspart header - The native button that folds the list.
  * @csspart label - The header's text.

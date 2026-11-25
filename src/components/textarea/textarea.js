@@ -39,8 +39,8 @@ const flagsOf = (validity) => {
  * @attr {string} inputmode - Virtual keyboard hint, passed to the native textarea.
  * @attr {boolean} full-width - Fills its container's inline size.
  *
- * @fires punica-input - The value changed while the user is editing; `detail: { value }`.
- * @fires punica-change - The user committed a new value; `detail: { value }`.
+ * @fires {{ value: string }} punica-input - The value changed while the user is editing; `detail: { value }`.
+ * @fires {{ value: string }} punica-change - The user committed a new value; `detail: { value }`.
  *
  * @csspart base - The bordered box around the textarea.
  * @csspart textarea - The native textarea.

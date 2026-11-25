@@ -27,8 +27,8 @@ import styles from './drawer.css';
  * @slot footer - Actions at the end of the drawer.
  *
  * @fires punica-open - The drawer opened.
- * @fires punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the drawer open.
- * @fires punica-close - The drawer closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `close-button` or `api`.
+ * @fires {{ reason: 'escape' | 'backdrop' | 'close-button' | 'api' | (string & {}) }} punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the drawer open.
+ * @fires {{ reason: 'escape' | 'backdrop' | 'close-button' | 'api' | (string & {}), returnValue: string }} punica-close - The drawer closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `close-button` or `api`.
  *
  * @csspart dialog - The native dialog, the sliding panel.
  * @csspart header - The row holding the title and the close button.

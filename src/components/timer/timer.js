@@ -23,7 +23,7 @@ const pad = (n) => String(n).padStart(2, '0');
  * @prop {number} elapsed - Milliseconds counted so far (read-only).
  * @prop {number | null} remaining - Milliseconds left of a countdown, null for a stopwatch (read-only).
  *
- * @fires punica-complete - A countdown reached zero. Fired once; `detail` is `{}`.
+ * @fires {Record<string, never>} punica-complete - A countdown reached zero. Fired once; `detail` is `{}`.
  *
  * @csspart base - The native `<time>` element with the written duration.
  * @csspart status - The live region that announces at `announce-every`.

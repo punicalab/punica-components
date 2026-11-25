@@ -20,7 +20,7 @@ import styles from './pagination.css';
  * @slot previous - Content of the previous button, a chevron by default.
  * @slot next - Content of the next button, a chevron by default.
  *
- * @fires punica-change - The user chose another page. `detail.page` (also `detail.value`) is its number.
+ * @fires {{ page: number, value: number }} punica-change - The user chose another page. `detail.page` (also `detail.value`) is its number.
  *
  * @csspart base - The `nav` element.
  * @csspart list - The list of buttons.

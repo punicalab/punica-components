@@ -8,7 +8,8 @@ export interface ElementInfo {
   attributes: AttributeInfo[];
   properties: (NamedInfo & { type: string; readonly: boolean })[];
   methods: (NamedInfo & { signature: string })[];
-  events: NamedInfo[];
+  /** `detail` is the type of the event's detail, empty when undocumented. */
+  events: (NamedInfo & { detail: string })[];
   slots: NamedInfo[];
   parts: NamedInfo[];
   cssProperties: NamedInfo[];

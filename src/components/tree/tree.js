@@ -22,9 +22,9 @@ const isDisabled = (item) => item.hasAttribute('disabled');
  *
  * @slot - The top-level `punica-tree-item` elements.
  *
- * @fires punica-select - The user selected or, with `multiple`, deselected an item. `detail` is `{ value, item }`.
- * @fires punica-toggle - The user expanded or collapsed an item; fired on the item. `detail` is `{ open, item }`.
- * @fires punica-load - A `lazy` item was expanded and wants its children; fired on the item. `detail` is `{ item }`.
+ * @fires {{ value: string, item: HTMLElement }} punica-select - The user selected or, with `multiple`, deselected an item. `detail` is `{ value, item }`.
+ * @fires {{ open: boolean, item: HTMLElement }} punica-toggle - The user expanded or collapsed an item; fired on the item. `detail` is `{ open, item }`.
+ * @fires {{ item: HTMLElement }} punica-load - A `lazy` item was expanded and wants its children; fired on the item. `detail` is `{ item }`.
  *
  * @cssprop --punica-tree-indent - Indent of each level.
  */
