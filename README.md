@@ -65,6 +65,12 @@ Tokens are `--punica-*` custom properties, built in and overridable:
 The full list is `src/tokens/tokens.css`, also shipped as
 `@punica/components/tokens.css`.
 
+For design tools and token pipelines the same tokens ship as Design Tokens
+(the W3C Design Tokens Community Group format), one file per colour scheme:
+`@punica/components/tokens/light.tokens.json` and `dark.tokens.json`. Import
+both as two modes (Figma variables through Tokens Studio, Style Dictionary).
+Each token names its CSS property in `$extensions["com.punicalab.css"]`.
+
 ## Frameworks
 
 They are plain custom elements, so they work in any framework. React 19 sets
@@ -160,7 +166,7 @@ rewrites what can be rewritten and lists the rest.
 |---|---|
 | `npm test` | 2,700+ tests in Chromium: the shared contract for every element, behaviour, axe |
 | `npm run audit` | The static gate for the [contract](docs/contract.md) |
-| `npm run build` | `dist/` (ES modules, global script, `tokens.css`), `custom-elements.json`, types |
+| `npm run build` | `dist/` (ES modules, global script, `tokens.css`, `tokens/*.tokens.json`), `custom-elements.json`, types |
 | `npm run lint` | ESLint |
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup, adding an element and
