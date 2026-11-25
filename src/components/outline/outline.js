@@ -203,7 +203,7 @@ export class PunicaOutline extends PunicaElement {
       this.#text(heading)
         .toLowerCase()
         .normalize('NFKD')
-        .replace(/[̀-ͯ]/g, '')
+        .replace(/[\u0300-\u036f]/g, '')
         .replace(/[^\p{L}\p{N}]+/gu, '-')
         .replace(/^-+|-+$/g, '') || 'section';
     const root = /** @type {Document | ShadowRoot} */ (heading.getRootNode());
