@@ -44,6 +44,7 @@
     },
     "./core/*": "./dist/esm/core/*",
     "./tokens.css": "./dist/tokens.css",
+    "./tokens/*.tokens.json": "./dist/tokens/*.tokens.json",
     "./react": {
       "types": "./dist/types/react.d.ts"
     },
