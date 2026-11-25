@@ -2,7 +2,7 @@
 // A component's sibling .css is imported as text and becomes a shared
 // constructable stylesheet at runtime.
 import { build, context } from 'esbuild';
-import { cp, mkdir, readFile, rm } from 'node:fs/promises';
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { writeBarrel } from './barrel.mjs';
 
 const watch = process.argv.includes('--watch');
@@ -38,6 +38,11 @@ const iife = {
 await rm('dist/esm', { recursive: true, force: true });
 await mkdir('dist', { recursive: true });
 await cp('src/tokens/tokens.css', 'dist/tokens.css');
+await import('./design-tokens.mjs').then(async ({ designTokens }) => {
+  await mkdir('dist/tokens', { recursive: true });
+  const files = designTokens(await readFile('src/tokens/tokens.css', 'utf8'));
+  for (const [scheme, tree] of Object.entries(files)) await writeFile(`dist/tokens/${scheme}.tokens.json`, JSON.stringify(tree, null, 2) + '\n');
+});
 
 if (watch) {
   for (const options of [esm, iife]) (await context(options)).watch();
