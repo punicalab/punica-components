@@ -153,6 +153,9 @@ test('the instructions name the imports', async () => {
   const { client } = await connect();
   const text = client.getInstructions();
   assert.match(text, /import '@punica\/components'/);
-  assert.match(text, /`toast` and `confirm` are named exports/);
+  assert.match(text, /`confirm`, `qrMatrix` and `toast` are named exports/);
+  // with their signatures, so the options are not grepped from the .d.ts
+  assert.match(text, /`confirm\(options\?: \{[^`]*confirmLabel\?: string[^`]*\}\): Promise<boolean>`/);
+  assert.match(text, /`toast\(message: string, options\?: \{[^`]*duration\?: number[^`]*\}\): HTMLElement`/);
   assert.match(text, /import type \{\} from '@punica\/components\/react'/);
 });
