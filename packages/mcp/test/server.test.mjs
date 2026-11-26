@@ -37,8 +37,9 @@ test('search_components and get_component', async () => {
   assert.match(await call('search_components', { query: 'modal' }), /punica-dialog/);
   // The functions of an element's module are named in the search, before get_component
   const confirm = await call('search_components', { query: 'confirm dialog', limit: 3 });
-  assert.match(confirm, /punica-alert-dialog: [^\n]* Script: `confirm\(\)` from '@punica\/components'\./);
-  assert.match(await call('search_components', { query: 'toast notification', limit: 3 }), /Script: `toast\(\)`/);
+  // with its signature: runs that only searched grepped the .d.ts for it
+  assert.match(confirm, /punica-alert-dialog: [^\n]* Script: `import \{ confirm \} from '@punica\/components'`; `confirm\(options\?: \{ heading\?: string, [^`]*\}\): Promise<boolean>`\./);
+  assert.match(await call('search_components', { query: 'toast notification', limit: 3 }), /Script: `import \{ toast \} from '@punica\/components'`; `toast\(message: string, /);
   assert.doesNotMatch(confirm, /punica-dialog-header: [^\n]*Script/);
   const api = await call('get_component', { tags: ['select', 'punica-modal'] });
   assert.match(api, /## <punica-select>/);
@@ -68,6 +69,21 @@ test('get_component shows the functions of the module of the element', async () 
   // A helper module of a folder, which defines no element, is not part of the API
   const select = await call('get_component', { tags: ['punica-date-picker', 'punica-select'] });
   assert.doesNotMatch(select, /### Functions/);
+});
+
+test('get_component says how the element is written in JSX', async () => {
+  const { call } = await connect();
+
+  // Runs read dist/types/react.d.ts to learn how punica-* tags and their events are typed in JSX
+  const input = await call('get_component', { tags: ['punica-input'], brief: true });
+  assert.match(input, /### In React \(JSX\)\n\n`import type \{\} from '@punica\/components\/react';`/);
+  assert.match(input, /`<punica-input onpunica-input=\{\(event\) => setValue\(event\.detail\.value\)\} \/>`, `event` a `CustomEvent<\{ value: string \}>`/);
+  assert.match(input, /`label-clear` or, in React 19, `labelClear`/);
+
+  // No events: no event example
+  const icon = await call('get_component', { tags: ['punica-icon'], brief: true });
+  assert.match(icon, /### In React \(JSX\)/);
+  assert.doesNotMatch(icon, /Events are `on`/);
 });
 
 test('get_component shows the type of each event detail', async () => {
