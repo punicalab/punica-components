@@ -57,8 +57,8 @@ const decimals = (n) => {
  * @slot start - Content before the number, a currency sign.
  * @slot end - Content after the number, a unit.
  *
- * @fires punica-input - The number changed while the user is editing or stepping; `detail: { value }`.
- * @fires punica-change - The user committed a new number; `detail: { value }`.
+ * @fires {{ value: number | null }} punica-input - The number changed while the user is editing or stepping; `detail: { value }`.
+ * @fires {{ value: number | null }} punica-change - The user committed a new number; `detail: { value }`.
  *
  * @csspart base - The bordered box.
  * @csspart input - The native input.

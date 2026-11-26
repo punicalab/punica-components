@@ -70,6 +70,17 @@ test('get_component shows the functions of the module of the element', async () 
   assert.doesNotMatch(select, /### Functions/);
 });
 
+test('get_component shows the type of each event detail', async () => {
+  const { call } = await connect();
+
+  // Runs read react.d.ts to learn what an event's detail holds
+  const select = await call('get_component', { tags: ['punica-select'], brief: true });
+  assert.match(select, /\| Event \| Detail \| Description \|/);
+  assert.match(select, /\| `punica-change` \| `\{ value: string \\\| string\[\] \\\| null \}` \|/);
+  // An event that carries nothing has an empty cell
+  assert.match(select, /\| `punica-open` \| {2}\|/);
+});
+
 test('validate_markup reports problems with fixes', async () => {
   const { call } = await connect();
   assert.match(await call('validate_markup', { code: '<punica-button variant="filled">Save</punica-button>' }), /No problems/);

@@ -33,9 +33,9 @@ import styles from './lightbox.css';
  * @slot - Thumbnails: `<img>` elements, or buttons and links holding one.
  *
  * @fires punica-open - The viewer opened.
- * @fires punica-change - The user moved to another image. `detail` is `{ index }`.
- * @fires punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the viewer open.
- * @fires punica-close - The viewer closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `close-button` or `api`.
+ * @fires {{ index: number }} punica-change - The user moved to another image. `detail` is `{ index }`.
+ * @fires {{ reason: 'escape' | 'backdrop' | 'close-button' | 'api' | (string & {}) }} punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the viewer open.
+ * @fires {{ reason: 'escape' | 'backdrop' | 'close-button' | 'api' | (string & {}), returnValue: string }} punica-close - The viewer closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `close-button` or `api`.
  *
  * @csspart dialog - The native dialog, covering the viewport.
  * @csspart figure - The image with its caption.

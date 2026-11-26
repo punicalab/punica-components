@@ -44,7 +44,7 @@ const MENU_ICON = icons.menu;
  * @slot footer - Under the main content and the panel.
  *
  * @fires punica-open - The navigation drawer opened.
- * @fires punica-close - The navigation drawer closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `close-button`, `navigate`, `resize` (the shell grew past `collapse-below`) or `api`.
+ * @fires {{ reason: 'escape' | 'backdrop' | 'close-button' | 'navigate' | 'resize' | 'api' | (string & {}), returnValue: string }} punica-close - The navigation drawer closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `close-button`, `navigate`, `resize` (the shell grew past `collapse-below`) or `api`.
  *
  * @csspart base - The grid.
  * @csspart skip-link - The skip-to-content button.

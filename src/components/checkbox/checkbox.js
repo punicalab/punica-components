@@ -32,7 +32,7 @@ const flagsOf = (validity) => {
  *
  * @slot - The label.
  *
- * @fires punica-change - The user toggled the box; `detail: { checked, value }`.
+ * @fires {{ checked: boolean, value: string }} punica-change - The user toggled the box; `detail: { checked, value }`.
  *
  * @csspart base - The label element around everything.
  * @csspart input - The native checkbox, laid invisibly over the box.

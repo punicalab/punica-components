@@ -46,9 +46,9 @@ const DOUBLE = (d) =>
  * @prop {((date: string) => boolean) | null} disabledDates - Answers true for an ISO date that cannot be picked.
  * @prop {string} month - The month on show, `yyyy-mm`. Read-only; move it with `showDate()`.
  *
- * @fires punica-change - The user picked a date, or completed a range. `detail` is `{ value }`; with `range`, `{ value: 'start/end', valueStart, valueEnd }`.
- * @fires punica-input - With `range`, the user picked the start and the end is still open. `detail` is `{ value, valueStart, valueEnd: null }`.
- * @fires punica-select - The user activated a day, changed or not. `detail` is `{ value, item }`.
+ * @fires {{ value: string, valueStart?: string, valueEnd?: string }} punica-change - The user picked a date, or completed a range. `detail` is `{ value }`; with `range`, `{ value: 'start/end', valueStart, valueEnd }`.
+ * @fires {{ value: string, valueStart: string, valueEnd: null }} punica-input - With `range`, the user picked the start and the end is still open. `detail` is `{ value, valueStart, valueEnd: null }`.
+ * @fires {{ value: string, item: HTMLElement | undefined }} punica-select - The user activated a day, changed or not. `detail` is `{ value, item }`.
  *
  * @csspart header - The row holding the title and the navigation buttons.
  * @csspart title - The month and year.

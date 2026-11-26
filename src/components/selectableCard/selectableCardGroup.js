@@ -22,7 +22,7 @@ import styles from './selectableCardGroup.css';
  *
  * @slot - The `<punica-selectable-card>` elements.
  *
- * @fires punica-change - The user chose another card; `detail: { value }`.
+ * @fires {{ value: string }} punica-change - The user chose another card; `detail: { value }`.
  *
  * @cssprop --punica-selectable-card-group-gap - Space between the cards.
  * @cssprop --punica-selectable-card-group-min-width - Narrowest a card gets in a row before the row wraps.

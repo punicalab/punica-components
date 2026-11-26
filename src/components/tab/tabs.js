@@ -21,7 +21,7 @@ import styles from './tabs.css';
  * @slot - The `punica-tab-panel` elements.
  * @slot tab - The `punica-tab` elements; a tab places itself here.
  *
- * @fires punica-change - The user selected another tab. `detail.value` is its value.
+ * @fires {{ value: string }} punica-change - The user selected another tab. `detail.value` is its value.
  *
  * @csspart tablist - The element with `role="tablist"`.
  * @csspart indicator - The line that slides under the selected tab.

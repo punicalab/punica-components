@@ -101,7 +101,7 @@ function normalize(declaration, path) {
         signature: `${m.name}(${(m.parameters || []).map((p) => p.name + (p.optional ? '?' : '')).join(', ')})`,
         description: m.description
       })),
-    events: (d.events || []).filter((e) => e.name).map((e) => ({ name: e.name, description: e.description || '' })),
+    events: (d.events || []).filter((e) => e.name).map((e) => ({ name: e.name, detail: e.type?.text || '', description: e.description || '' })),
     slots: (d.slots || []).map((s) => ({ name: s.name || '', description: s.description || '' })),
     // Attributes the element reads off its children, as its slot docs say:
     // "Each may carry `span`".
@@ -244,7 +244,7 @@ export function createKnowledge(manifest) {
       lines.push('', '### Functions', '', `\`import { ${e.functions.map((f) => f.name).join(', ')} } from '@punica/components';\``);
       for (const f of e.functions) lines.push('', '```ts', f.signature, '```', '', f.description);
     }
-    table('Events', ['Event', 'Description'], e.events.map((ev) => [`\`${ev.name}\``, ev.description]));
+    table('Events', ['Event', 'Detail', 'Description'], e.events.map((ev) => [`\`${ev.name}\``, ev.detail ? `\`${ev.detail}\`` : '', ev.description]));
     table('Slots', ['Slot', 'Description'], e.slots.map((s) => [s.name ? `\`${s.name}\`` : '(default)', s.description]));
     if (!brief) {
       table('CSS parts', ['Part', 'Description'], e.parts.map((p) => [`\`${p.name}\``, p.description]));

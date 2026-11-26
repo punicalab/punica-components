@@ -36,9 +36,9 @@ import styles from './timePicker.css';
  *
  * @slot start - Content before the input, an icon.
  *
- * @fires punica-change - The user typed or picked a time. `detail.value` is `HH:mm` or null.
+ * @fires {{ value: string | null }} punica-change - The user typed or picked a time. `detail.value` is `HH:mm` or null.
  * @fires punica-open - The list opened.
- * @fires punica-close - The list closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'api' }} punica-close - The list closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
  *
  * @csspart field - The bordered box.
  * @csspart input - The text input, a combobox.

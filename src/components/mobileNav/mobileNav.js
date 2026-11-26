@@ -31,8 +31,8 @@ import styles from './mobileNav.css';
  * @slot trigger - The button that opens the drawer.
  *
  * @fires punica-open - The drawer opened.
- * @fires punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the drawer open.
- * @fires punica-close - The drawer closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `close-button`, `navigate` (a link inside was activated) or `api`.
+ * @fires {{ reason: 'escape' | 'backdrop' | 'close-button' | 'navigate' | 'api' | (string & {}) }} punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the drawer open.
+ * @fires {{ reason: 'escape' | 'backdrop' | 'close-button' | 'navigate' | 'api' | (string & {}), returnValue: string }} punica-close - The drawer closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `close-button`, `navigate` (a link inside was activated) or `api`.
  *
  * @csspart dialog - The native dialog, the sliding panel.
  * @csspart header - The row holding the header slot and the close button.

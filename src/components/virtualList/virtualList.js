@@ -22,8 +22,8 @@ import styles from './virtualList.css';
  * @prop {unknown[]} items - The data, one entry per row.
  * @prop {(item: unknown, index: number) => Node | string} renderItem - Builds the content of one row; a string is shown as text.
  *
- * @fires punica-range-change - The rows in view changed, by scroll, resize or new data. `detail` is `{ start, end }`: the first index in view and the one after the last.
- * @fires punica-near-end - The view came within one screen of the last item, once per `items` value. `detail` is `{ end }`.
+ * @fires {{ start: number, end: number }} punica-range-change - The rows in view changed, by scroll, resize or new data. `detail` is `{ start, end }`: the first index in view and the one after the last.
+ * @fires {{ end: number }} punica-near-end - The view came within one screen of the last item, once per `items` value. `detail` is `{ end }`.
  *
  * @csspart viewport - The scrolling element, which has the `list` role.
  * @csspart item - The wrapper of one row.

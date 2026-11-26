@@ -28,7 +28,7 @@ const FOCUSABLE =
  * @slot menu - The dropdown: links, buttons or further items, or one `punica-top-nav-mega-menu`.
  *
  * @fires punica-open - The menu opened.
- * @fires punica-close - The menu closed. `detail` is `{ reason }`: `escape`, `outside` or `api`.
+ * @fires {{ reason: 'escape' | 'outside' | 'api' }} punica-close - The menu closed. `detail` is `{ reason }`: `escape`, `outside` or `api`.
  *
  * @csspart control - The native `<a>` or `<button>`.
  * @csspart label - The wrapper around the default slot.

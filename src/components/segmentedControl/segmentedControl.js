@@ -23,7 +23,7 @@ import styles from './segmentedControl.css';
  *
  * @slot - The `<punica-segmented-control-item>` elements.
  *
- * @fires punica-change - The user chose another segment; `detail: { value }`.
+ * @fires {{ value: string }} punica-change - The user chose another segment; `detail: { value }`.
  *
  * @csspart base - The bar.
  * @csspart indicator - The sliding highlight behind the chosen segment.

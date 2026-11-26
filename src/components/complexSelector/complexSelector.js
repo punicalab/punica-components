@@ -56,9 +56,9 @@ const textOf = (option) => option.text ?? option.getAttribute('label') ?? option
  * @slot - `punica-option-group`, `punica-complex-option` and `punica-option` elements.
  * @slot start - Content before the value in the trigger, an icon.
  *
- * @fires punica-change - The user picked, unpicked or cleared. `detail.value` is the new value.
+ * @fires {{ value: string | string[] | null }} punica-change - The user picked, unpicked or cleared. `detail.value` is the new value.
  * @fires punica-open - The panel opened.
- * @fires punica-close - The panel closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'api' }} punica-close - The panel closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
  *
  * @csspart field - The bordered box of the trigger.
  * @csspart trigger - The button that opens the panel, a combobox.

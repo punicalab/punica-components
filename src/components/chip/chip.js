@@ -22,7 +22,7 @@ import styles from './chip.css';
  * @slot - The label.
  * @slot start - Content before the label, an icon or an avatar.
  *
- * @fires punica-change - The user toggled a selectable chip. `detail.selected` is the new state.
+ * @fires {{ selected: boolean }} punica-change - The user toggled a selectable chip. `detail.selected` is the new state.
  * @fires punica-dismiss - The user pressed the remove button, or Delete or Backspace on the chip. Cancelable: unless prevented, the chip hides itself with `hidden`.
  *
  * @csspart base - The label area; a native button when selectable.

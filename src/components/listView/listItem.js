@@ -21,7 +21,7 @@ import styles from './listItem.css';
  * @slot start - Leading content, an icon or avatar.
  * @slot end - Trailing content, outside the button or link.
  *
- * @fires punica-select - The user activated an interactive row. `detail` is `{ value, item }`.
+ * @fires {{ value: string, item: HTMLElement }} punica-select - The user activated an interactive row. `detail` is `{ value, item }`.
  *
  * @csspart row - The whole row.
  * @csspart base - The row's main area: a `div`, or the native `button` or `a` when interactive.
