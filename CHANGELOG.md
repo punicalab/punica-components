@@ -1,5 +1,11 @@
 # @punica/components
 
+## 2.6.2
+
+### Patch Changes
+
+- 5ea9dbb: The guide (`get_guide`, `@punica/components/ai`) opens with where an element's API comes from: `get_component` or `info --brief`, with the functions of its module and its JSX form, instead of the `.d.ts` files in `node_modules`.
+
 ## 2.6.1
 
 ### Patch Changes
