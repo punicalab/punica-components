@@ -6,6 +6,12 @@ break from 1.x: names you may remember from 1.x (`punica-typography`,
 Use only the tags, attributes, events and slots this document lists; never
 guess one.
 
+`get_component` (`brief: true` for markup; on the command line
+`npx punica-components info <tag> --brief`) gives an element's whole API,
+the functions of its module (`confirm()`, `toast()`) and how it is written
+in JSX. Ask it instead of reading the `.d.ts` files in `node_modules`;
+`validate_markup` checks the result.
+
 ## Loading
 
 ```html
