@@ -148,3 +148,11 @@ test('get_tokens lists the design tokens and validate_markup checks var() names'
   assert.match(checked, /warning unknown-token: `--punica-spce-16`.*Did you mean `--punica-space-16`/);
   assert.doesNotMatch(checked, /--punica-color-text/);
 });
+
+test('the instructions name the imports', async () => {
+  const { client } = await connect();
+  const text = client.getInstructions();
+  assert.match(text, /import '@punica\/components'/);
+  assert.match(text, /`toast` and `confirm` are named exports/);
+  assert.match(text, /import type \{\} from '@punica\/components\/react'/);
+});
