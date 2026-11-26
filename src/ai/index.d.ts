@@ -33,7 +33,14 @@ export interface Finding { line: number; column: number; severity: 'error' | 'wa
 export type SourceKind = 'html' | 'jsx' | 'vue' | 'js' | 'css';
 export declare const DOCS_URL: string;
 export declare function createKnowledge(manifest: unknown): Knowledge;
-export declare function createValidator(knowledge: Knowledge): { validate(source: string, options?: { kind?: SourceKind }): Finding[] };
+/** A design token of tokens.css; `light` and `dark` when its value is a light-dark() pair. */
+export interface Token { name: string; group: string; value: string; light?: string; dark?: string }
+/** `tokens` (from parseTokens) turns on the `unknown-token` check of `var(--punica-*)` names. */
+export declare function createValidator(knowledge: Knowledge, options?: { tokens?: Token[] }): { validate(source: string, options?: { kind?: SourceKind }): Finding[] };
+/** The tokens declared in tokens.css, in order. */
+export declare function parseTokens(css: string): Token[];
+/** The tokens as Markdown tables by group; `query` keeps the names or groups that contain it. */
+export declare function formatTokens(tokens: Token[], query?: string): string;
 export declare function guessKind(source: string): SourceKind;
 export declare function enumValues(type: string | undefined): string[] | null;
 export declare function closest(name: string, names: Iterable<string>): string | null;

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import manifest from '../../custom-elements.json';
-import { createKnowledge, createValidator, enumValues, guessKind } from './index.mjs';
+import { createKnowledge, createValidator, enumValues, guessKind, parseTokens, formatTokens } from './index.mjs';
+import tokensCss from '../tokens/tokens.css?raw';
 
 const knowledge = createKnowledge(manifest);
 const { validate } = createValidator(knowledge);
@@ -165,5 +166,41 @@ describe('validate', () => {
     expect(guessKind('<punica-button>x</punica-button>')).toBe('html');
     expect(guessKind('return <punica-button className="a" />')).toBe('jsx');
     expect(guessKind("el.addEventListener('punica-change', f)")).toBe('js');
+  });
+});
+
+describe('design tokens', () => {
+  const tokens = parseTokens(tokensCss);
+  const checked = createValidator(knowledge, { tokens });
+  const tokenRules = (source) => checked.validate(source, { kind: 'css' }).filter((f) => f.rule === 'unknown-token');
+
+  it('reads the tokens of tokens.css with their group and light and dark values', () => {
+    expect(tokens.length).toBeGreaterThan(90);
+    expect(tokens.find((t) => t.name === '--punica-color-primary')).toMatchObject({ group: 'palettes' });
+    expect(tokens.find((t) => t.name === '--punica-color-primary').light).toMatch(/^#/);
+    expect(tokens.find((t) => t.name === '--punica-space-24')).toMatchObject({ value: '24px', group: 'spacing, named by pixel value' });
+    // The reduced-motion block redeclares durations: still one token each
+    expect(new Set(tokens.map((t) => t.name)).size).toBe(tokens.length);
+  });
+
+  it('formats them by group and filters by a word', () => {
+    expect(formatTokens(tokens, 'radius')).toMatch(/--punica-radius/);
+    expect(formatTokens(tokens, 'radius')).not.toMatch(/--punica-space-/);
+  });
+
+  it('warns about a var() name that is neither a token nor an element property', () => {
+    expect(tokenRules('.a { gap: var(--punica-spce-16); }')[0]).toMatchObject({ severity: 'warning', fix: '--punica-space-16' });
+    const far = tokenRules('.a { border-color: var(--punica-color-outline); }')[0];
+    expect(far.fix).toBeUndefined();
+    expect(far.message).toMatch(/--punica-color-border/);
+    expect(tokenRules('.a { color: var(--punica-color-text); gap: var(--punica-space-8); }')).toEqual([]);
+    // an element's own custom property
+    expect(tokenRules('.a { height: var(--punica-button-height); }')).toEqual([]);
+    // built in a template
+    expect(tokenRules('el.style.gap = `var(--punica-space-${n})`;')).toEqual([]);
+  });
+
+  it('leaves var() names alone without tokens', () => {
+    expect(rules('.a { gap: var(--punica-spce-16); }', 'css')).toEqual([]);
   });
 });

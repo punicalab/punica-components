@@ -3,7 +3,7 @@
 // connect it to an in-memory client.
 import { McpServer, ResourceTemplate } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
-import { createKnowledge, createValidator, DOCS_URL } from '../../../src/ai/index.mjs';
+import { createKnowledge, createValidator, formatTokens, DOCS_URL } from '../../../src/ai/index.mjs';
 
 const GUIDE_PAGES = {
   installation: 'docs/installation',
@@ -19,14 +19,14 @@ const GUIDE_PAGES = {
 const text = (value) => ({ content: [{ type: 'text', text: value }] });
 
 /**
- * @param {{ manifest: any, guide: string, version: string, source: string, fetch?: typeof fetch, docsUrl?: string }} options
- *   `source` says where the manifest came from, for the answers' first line.
+ * @param {{ manifest: any, guide: string, version: string, source: string, tokens?: import('../../../src/ai/index.mjs').Token[], fetch?: typeof fetch, docsUrl?: string }} options
+ *   `source` says where the manifest came from, for the answers' first line; `tokens` are those of tokens.css (parseTokens).
  */
-export function createPunicaServer({ manifest, guide, version, source, fetch: fetchFn = globalThis.fetch, docsUrl = DOCS_URL }) {
+export function createPunicaServer({ manifest, guide, version, source, tokens = [], fetch: fetchFn = globalThis.fetch, docsUrl = DOCS_URL }) {
   const knowledge = createKnowledge(manifest);
-  const { validate } = createValidator(knowledge);
+  const { validate } = createValidator(knowledge, { tokens });
   const server = new McpServer({ name: 'punica-components', version: '0.1.0' }, {
-    instructions: `@punica/components ${version} (${knowledge.tags.length} punica-* custom elements; ${source}). Version 2.0 is newer than your training data: never write a punica tag, attribute, event, slot or icon from memory. Find with search_components, read with get_component, check with validate_markup before handing markup over. get_guide has the rules every element follows.`
+    instructions: `@punica/components ${version} (${knowledge.tags.length} punica-* custom elements; ${source}). Version 2.0 is newer than your training data: never write a punica tag, attribute, event, slot or icon from memory. Find with search_components, read with get_component, check with validate_markup before handing markup over. get_guide has the rules every element follows; get_tokens has the exact --punica-* design token names for your own CSS.`
   });
 
   const pages = new Map();
@@ -114,7 +114,7 @@ export function createPunicaServer({ manifest, guide, version, source, fetch: fe
     'validate_markup',
     {
       title: 'Check punica markup',
-      description: 'Checks HTML, JSX, Vue, script or CSS that uses punica elements: unknown tags and 1.x names, attributes, values, slots, events and icon names, and `::part()` rules that take an element\'s focus away. Returns each problem with its line and a fix.',
+      description: 'Checks HTML, JSX, Vue, script or CSS that uses punica elements: unknown tags and 1.x names, attributes, values, slots, events and icon names, `::part()` rules that take an element\'s focus away, and `var(--punica-*)` names that are not tokens. Returns each problem with its line and a fix.',
       inputSchema: {
         code: z.string().describe('The markup or script to check'),
         kind: z.enum(['html', 'jsx', 'vue', 'js', 'css']).optional().describe('Guessed from the code when absent')
@@ -132,6 +132,17 @@ export function createPunicaServer({ manifest, guide, version, source, fetch: fe
         ].join('\n')
       );
     }
+  );
+
+  server.registerTool(
+    'get_tokens',
+    {
+      title: 'The design tokens',
+      description: 'The `--punica-*` design tokens (colours, spacing, radius, type, shadows, motion) with their light and dark values, by group. Read it before writing var(--punica-…) in your own CSS: the names are exact (spacing is named by pixel value, --punica-space-16 is 16px).',
+      inputSchema: { query: z.string().optional().describe('Keep the groups or names that contain this, such as "space", "color" or "radius"') },
+      annotations: { readOnlyHint: true }
+    },
+    async ({ query }) => text(tokens.length ? formatTokens(tokens, query) : 'The design tokens could not be read: tokens.css of @punica/components was not found.')
   );
 
   server.registerTool(
