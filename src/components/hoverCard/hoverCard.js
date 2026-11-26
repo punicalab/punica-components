@@ -26,7 +26,7 @@ import styles from './hoverCard.css';
  * @slot trigger - The element the card belongs to.
  *
  * @fires punica-open - The panel opened.
- * @fires punica-close - The panel closed. `detail.reason` is `pointer`, `blur`, `escape` or `api`.
+ * @fires {{ reason: 'pointer' | 'blur' | 'escape' | 'api' }} punica-close - The panel closed. `detail.reason` is `pointer`, `blur`, `escape` or `api`.
  *
  * @csspart panel - The floating panel.
  *

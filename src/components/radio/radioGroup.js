@@ -33,7 +33,7 @@ const valueOf = (item) => item.value ?? item.textContent.trim();
  *
  * @slot - The `<punica-radio>` elements.
  *
- * @fires punica-change - The user chose another radio; `detail: { value }`.
+ * @fires {{ value: string }} punica-change - The user chose another radio; `detail: { value }`.
  *
  * @cssprop --punica-radio-group-gap - Space between the radios.
  *
@@ -75,18 +75,21 @@ export class PunicaRadioGroup extends FormControl(PunicaElement) {
    * @returns {any[]}
    */
   get items() {
-    const tag = /** @type {typeof PunicaRadioGroup} */ (this.constructor).itemTag;
+    const tag = /** @type {typeof PunicaRadioGroup} */ (this.constructor)
+      .itemTag;
     return this.$('slot')
       .assignedElements({ flatten: true })
       .filter((el) => el.localName === tag);
   }
 
   update() {
-    const flag = /** @type {typeof PunicaRadioGroup} */ (this.constructor).itemFlag;
+    const flag = /** @type {typeof PunicaRadioGroup} */ (this.constructor)
+      .itemFlag;
     const internals = this.internals;
     internals.role = 'radiogroup';
     internals.ariaLabel = this.label || null;
-    internals.ariaOrientation = this.orientation === 'horizontal' ? 'horizontal' : 'vertical';
+    internals.ariaOrientation =
+      this.orientation === 'horizontal' ? 'horizontal' : 'vertical';
     internals.ariaRequired = this.required ? 'true' : null;
     internals.ariaDisabled = this.isDisabled ? 'true' : null;
 
@@ -94,17 +97,24 @@ export class PunicaRadioGroup extends FormControl(PunicaElement) {
     const items = this.items;
     for (const item of items) {
       // Until the items were read once, their own flag stands.
-      if (this.#adopted) item[flag] = value !== '' && valueOf(item) === value;
+      // An item whose value is the empty string is a choice like any other ("All").
+      if (this.#adopted) item[flag] = valueOf(item) === value;
       item.requestUpdate?.();
     }
     const enabled = this.#enabled();
-    for (const item of items) if (!enabled.includes(item)) item.removeAttribute('tabindex');
+    for (const item of items)
+      if (!enabled.includes(item)) item.removeAttribute('tabindex');
     setRovingTabindex(enabled, enabled.find((item) => item[flag]) || null);
 
-    this.setFormValue(value === '' ? null : value, value);
-    const missing = this.required && value === '';
-    this.setValidity(missing ? { valueMissing: true } : {}, missing ? missingMessage() : '', enabled[0]);
-    this.selectionChanged(items.find((item) => item[flag]) || null);
+    const chosen = items.find((item) => item[flag]) || null;
+    this.setFormValue(chosen ? value : null, value);
+    const missing = this.required && !chosen;
+    this.setValidity(
+      missing ? { valueMissing: true } : {},
+      missing ? missingMessage() : '',
+      enabled[0]
+    );
+    this.selectionChanged(chosen);
   }
 
   /**
@@ -140,7 +150,8 @@ export class PunicaRadioGroup extends FormControl(PunicaElement) {
 
   /** Items arrived: with no value of its own the group takes theirs. */
   #adopt() {
-    const flag = /** @type {typeof PunicaRadioGroup} */ (this.constructor).itemFlag;
+    const flag = /** @type {typeof PunicaRadioGroup} */ (this.constructor)
+      .itemFlag;
     if (!this.value) {
       const chosen = this.items.find((item) => item[flag]);
       const value = chosen ? valueOf(chosen) : '';

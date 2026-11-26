@@ -1,6 +1,13 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { userEvent } from 'vitest/browser';
-import { contract, fixture, cleanup, settle, once, a11y } from '../../../test/contract.js';
+import {
+  contract,
+  fixture,
+  cleanup,
+  settle,
+  once,
+  a11y
+} from '../../../test/contract.js';
 import './section.js';
 
 const html = `<punica-section heading="Notifications">
@@ -14,7 +21,9 @@ const toggle = (el) => el.shadowRoot.querySelector('.toggle');
 const body = (el) => el.shadowRoot.querySelector('[part=body]');
 
 contract('punica-section', { html });
-contract('punica-section', { html: html.replace('<punica-section', '<punica-section collapsible open') });
+contract('punica-section', {
+  html: html.replace('<punica-section', '<punica-section collapsible open')
+});
 
 describe('punica-section', () => {
   afterEach(cleanup);
@@ -47,14 +56,21 @@ describe('punica-section', () => {
   });
 
   it('takes its heading from the heading slot over the attribute', async () => {
-    const el = await fixture(`<punica-section heading="Plain"><span slot="heading">Billing <em>and</em> plans</span><p>Body</p></punica-section>`);
+    const el = await fixture(
+      `<punica-section heading="Plain"><span slot="heading">Billing <em>and</em> plans</span><p>Body</p></punica-section>`
+    );
     expect(base(el).getAttribute('aria-labelledby')).toBe(heading(el).id);
     expect(heading(el).querySelector('.text').checkVisibility()).toBe(false);
-    expect(heading(el).querySelector('slot[name=heading]').assignedElements()[0].textContent).toBe('Billing and plans');
+    expect(
+      heading(el).querySelector('slot[name=heading]').assignedElements()[0]
+        .textContent
+    ).toBe('Billing and plans');
   });
 
   it('is named by label when given, and has no header row with nothing in it', async () => {
-    const el = await fixture('<punica-section><p>Only a body.</p></punica-section>');
+    const el = await fixture(
+      '<punica-section><p>Only a body.</p></punica-section>'
+    );
     expect(el.shadowRoot.querySelector('[part=header]').hidden).toBe(true);
     expect(base(el).hasAttribute('aria-labelledby')).toBe(false);
     el.label = 'Summary';
@@ -64,7 +80,9 @@ describe('punica-section', () => {
   });
 
   it('hides empty description and actions, and draws a divider under the header', async () => {
-    const el = await fixture('<punica-section heading="Profile" divider><p>Body</p></punica-section>');
+    const el = await fixture(
+      '<punica-section heading="Profile" divider><p>Body</p></punica-section>'
+    );
     expect(el.shadowRoot.querySelector('[part=description]').hidden).toBe(true);
     expect(el.shadowRoot.querySelector('[part=actions]').hidden).toBe(true);
     expect(base(el).hasAttribute('aria-describedby')).toBe(false);
@@ -89,7 +107,9 @@ describe('punica-section', () => {
   });
 
   it('is a disclosure when collapsible: a button in the heading, closed until open', async () => {
-    const el = await fixture(html.replace('<punica-section', '<punica-section collapsible'));
+    const el = await fixture(
+      html.replace('<punica-section', '<punica-section collapsible')
+    );
     const button = toggle(el);
     expect(button.parentElement).toBe(heading(el));
     expect(button.getAttribute('aria-expanded')).toBe('false');
@@ -121,11 +141,14 @@ describe('punica-section', () => {
   });
 
   it('works by keyboard: Tab reaches the toggle, Enter and Space flip it', async () => {
-    const el = await fixture(html.replace('<punica-section', '<punica-section collapsible'));
+    const el = await fixture(
+      html.replace('<punica-section', '<punica-section collapsible')
+    );
     const button = toggle(el);
     await userEvent.keyboard('{Tab}');
     let tries = 0;
-    while (el.shadowRoot.activeElement !== button && tries++ < 5) await userEvent.keyboard('{Tab}');
+    while (el.shadowRoot.activeElement !== button && tries++ < 5)
+      await userEvent.keyboard('{Tab}');
     expect(el.shadowRoot.activeElement).toBe(button);
     await userEvent.keyboard('{Enter}');
     await settle();
@@ -136,13 +159,28 @@ describe('punica-section', () => {
   });
 
   it('is a plain heading again when no longer collapsible, and always shows its body', async () => {
-    const el = await fixture(html.replace('<punica-section', '<punica-section collapsible'));
+    const el = await fixture(
+      html.replace('<punica-section', '<punica-section collapsible')
+    );
     el.collapsible = false;
     await settle();
     expect(toggle(el)).toBe(null);
     expect(heading(el).textContent.trim()).toBe('Notifications');
     expect(body(el).hidden).toBe(false);
     expect(el.matches(':state(open)')).toBe(false);
+  });
+
+  it('spaces its heading and description by --punica-section-heading-gap', async () => {
+    const el = await fixture(
+      '<punica-section heading="Members" style="--punica-section-heading-gap: 10px"><p slot="description" style="margin:0">Who works here.</p></punica-section>'
+    );
+    const heading = el.shadowRoot
+      .querySelector('.heading')
+      .getBoundingClientRect();
+    const description = el.shadowRoot
+      .querySelector('.description')
+      .getBoundingClientRect();
+    expect(Math.round(description.top - heading.bottom)).toBe(10);
   });
 
   it('writes the heading as text', async () => {

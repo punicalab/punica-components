@@ -23,7 +23,7 @@ import styles from './segmentedControl.css';
  *
  * @slot - The `<punica-segmented-control-item>` elements.
  *
- * @fires punica-change - The user chose another segment; `detail: { value }`.
+ * @fires {{ value: string }} punica-change - The user chose another segment; `detail: { value }`.
  *
  * @csspart base - The bar.
  * @csspart indicator - The sliding highlight behind the chosen segment.
@@ -32,6 +32,7 @@ import styles from './segmentedControl.css';
  * @cssprop --punica-segmented-control-radius - Corner radius of the bar.
  * @cssprop --punica-segmented-control-background - Background of the bar.
  * @cssprop --punica-segmented-control-indicator-color - Background of the indicator.
+ * @cssprop --punica-segmented-control-wrap - `wrap` lets the segments go onto more lines when the bar is narrower than they are; `nowrap` by default.
  *
  * @cssstate invalid - Required and nothing is chosen.
  * @cssstate valid - Meets its constraint.
@@ -95,6 +96,8 @@ export class PunicaSegmentedControl extends PunicaRadioGroup {
     const start = isRtl(this) ? base.right - box.right : box.left - base.left;
     indicator.style.setProperty('--_start', `${start}px`);
     indicator.style.setProperty('--_size', `${box.width}px`);
+    indicator.style.setProperty('--_top', `${box.top - base.top}px`);
+    indicator.style.setProperty('--_block', `${box.height}px`);
     // Shown only once placed, so the first placement does not slide in.
     indicator.hidden = false;
   }

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import manifest from '../../custom-elements.json';
-import { createKnowledge, createValidator, enumValues, guessKind } from './index.mjs';
+import { createKnowledge, createValidator, enumValues, guessKind, parseTokens, formatTokens } from './index.mjs';
+import tokensCss from '../tokens/tokens.css?raw';
 
 const knowledge = createKnowledge(manifest);
 const { validate } = createValidator(knowledge);
@@ -26,6 +27,36 @@ describe('knowledge', () => {
     const md = knowledge.formatMarkdown('punica-select');
     expect(md).toContain('## <punica-select>');
     expect(md).toContain('`punica-change`');
+  });
+
+  it('gives the brief form: what markup needs, without what only styling needs', () => {
+    const whole = knowledge.formatMarkdown('punica-select');
+    const brief = knowledge.formatMarkdown('punica-select', { brief: true });
+
+    for (const kept of ['## <punica-select>', '### Attributes', '`full-width`', '### Events', '`punica-change`', '### Slots', 'Import: ']) {
+      expect(brief, kept).toContain(kept);
+    }
+    for (const left of ['### CSS parts', '### CSS custom properties', '### Custom states', '--punica-']) {
+      expect(whole, left).toContain(left);
+      expect(brief, left).not.toContain(left);
+    }
+    // It says what it left out, so nobody thinks there is nothing to style
+    expect(brief).toMatch(/For styling: \d+ CSS parts, \d+ custom properties.*ask for the whole API/);
+    // The attributes are the same ones, each on one line
+    const names = (text) => [...text.matchAll(/^\| `([a-z-]+)` \|/gm)].map((match) => match[1]);
+    const attributes = knowledge.get('select').attributes.map((a) => a.name);
+    expect(names(brief).filter((name) => attributes.includes(name))).toEqual(attributes);
+    expect(brief.length).toBeLessThan(whole.length * 0.85);
+  });
+
+  it('keeps in the brief form what an element cannot be used without', () => {
+    // The names of the glyphs are the API of the icon
+    expect(knowledge.formatMarkdown('punica-icon', { brief: true })).toContain('### Icon names');
+    // A name that is no element is answered the same way
+    expect(knowledge.formatMarkdown('punica-modal', { brief: true })).toContain('punica-dialog');
+    // Over the whole library it is much shorter
+    const size = (brief) => knowledge.tags.reduce((sum, tag) => sum + knowledge.formatMarkdown(tag, { brief }).length, 0);
+    expect(size(true)).toBeLessThan(size(false) * 0.8);
   });
 
   it('finds an element by the words people use for it', () => {
@@ -123,9 +154,53 @@ describe('validate', () => {
     expect(rules('<template><punica-select @change="f" v-if="x"></punica-select></template>')).toEqual(['native-event-name']);
   });
 
+  it('warns of display: contents on a part that takes the focus', () => {
+    expect(validate('.bare::part(base) { display: contents; }', { kind: 'css' })[0]).toMatchObject({ rule: 'part-display-contents', severity: 'warning', fix: 'display: inherit' });
+    expect(rules('punica-side-nav-item::part(base){display:contents}', 'css')).toEqual(['part-display-contents']);
+    expect(rules('<style>.b::part(label) { display: contents }</style><punica-button class="b">x</punica-button>')).toEqual([]);
+    expect(rules('punica-section::part(base) { display: contents }', 'css')).toEqual([]);
+    expect(rules('punica-button::part(base) { display: inherit }', 'css')).toEqual([]);
+  });
+
   it('guesses the kind of source', () => {
     expect(guessKind('<punica-button>x</punica-button>')).toBe('html');
     expect(guessKind('return <punica-button className="a" />')).toBe('jsx');
     expect(guessKind("el.addEventListener('punica-change', f)")).toBe('js');
+  });
+});
+
+describe('design tokens', () => {
+  const tokens = parseTokens(tokensCss);
+  const checked = createValidator(knowledge, { tokens });
+  const tokenRules = (source) => checked.validate(source, { kind: 'css' }).filter((f) => f.rule === 'unknown-token');
+
+  it('reads the tokens of tokens.css with their group and light and dark values', () => {
+    expect(tokens.length).toBeGreaterThan(90);
+    expect(tokens.find((t) => t.name === '--punica-color-primary')).toMatchObject({ group: 'palettes' });
+    expect(tokens.find((t) => t.name === '--punica-color-primary').light).toMatch(/^#/);
+    expect(tokens.find((t) => t.name === '--punica-space-24')).toMatchObject({ value: '24px', group: 'spacing, named by pixel value' });
+    // The reduced-motion block redeclares durations: still one token each
+    expect(new Set(tokens.map((t) => t.name)).size).toBe(tokens.length);
+  });
+
+  it('formats them by group and filters by a word', () => {
+    expect(formatTokens(tokens, 'radius')).toMatch(/--punica-radius/);
+    expect(formatTokens(tokens, 'radius')).not.toMatch(/--punica-space-/);
+  });
+
+  it('warns about a var() name that is neither a token nor an element property', () => {
+    expect(tokenRules('.a { gap: var(--punica-spce-16); }')[0]).toMatchObject({ severity: 'warning', fix: '--punica-space-16' });
+    const far = tokenRules('.a { border-color: var(--punica-color-outline); }')[0];
+    expect(far.fix).toBeUndefined();
+    expect(far.message).toMatch(/--punica-color-border/);
+    expect(tokenRules('.a { color: var(--punica-color-text); gap: var(--punica-space-8); }')).toEqual([]);
+    // an element's own custom property
+    expect(tokenRules('.a { height: var(--punica-button-height); }')).toEqual([]);
+    // built in a template
+    expect(tokenRules('el.style.gap = `var(--punica-space-${n})`;')).toEqual([]);
+  });
+
+  it('leaves var() names alone without tokens', () => {
+    expect(rules('.a { gap: var(--punica-spce-16); }', 'css')).toEqual([]);
   });
 });

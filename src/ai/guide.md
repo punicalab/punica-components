@@ -6,6 +6,12 @@ break from 1.x: names you may remember from 1.x (`punica-typography`,
 Use only the tags, attributes, events and slots this document lists; never
 guess one.
 
+`get_component` (`brief: true` for markup; on the command line
+`npx punica-components info <tag> --brief`) gives an element's whole API,
+the functions of its module (`confirm()`, `toast()`) and how it is written
+in JSX. Ask it instead of reading the `.d.ts` files in `node_modules`;
+`validate_markup` checks the result.
+
 ## Loading
 
 ```html
@@ -61,6 +67,18 @@ for a label, help text and an error message:
 </form>
 ```
 
+A value set from script (`control.value = 'x'`) reaches the form at the end
+of the current microtask, as every property does. A script that submits in
+the same turn awaits it first: `await control.updateComplete;
+form.requestSubmit()`. Reading the control's `validity`,
+`validationMessage` or `checkValidity()` also brings it up to date at once.
+
+An empty control holds `''` when it holds text (`punica-input`,
+`punica-textarea`) and `null` when it holds a choice: the pickers
+(`punica-date-picker`, `-time-picker`, `-month-picker`,
+`-date-time-input`), `punica-select` with a placeholder, `punica-autocomplete`.
+Test for nothing with `value == null` or `!value`, not `value === ''`.
+
 ## Overlays
 
 Dialogs, menus, popovers and drawers open in the browser's top layer: no
@@ -70,8 +88,11 @@ sheets and menus also have `show()` and `hide()`); they fire `punica-open` and `
 
 ## Theming
 
-Design tokens are `--punica-*` custom properties, built in. Override any of
-them; set `color-scheme` for light and dark:
+Design tokens are `--punica-*` custom properties, built in. Their names are
+exact and not guessable (spacing is named by pixel value: `--punica-space-16`
+is 16px); a `var()` with a name that does not exist falls back without an
+error. The list is in `@punica/components/tokens.css` (the MCP server's
+`get_tokens`). Override any of them; set `color-scheme` for light and dark:
 
 ```css
 :root {
@@ -85,6 +106,14 @@ Restyle inside an element with `::part(name)` and `:state(name)`; each
 element lists its parts, states and its own `--punica-<element>-*`
 properties. Right-to-left works with `dir="rtl"` on any ancestor.
 
+Never give `display: contents` to a part that is the native control
+(`punica-button::part(base)`, `punica-link::part(base)`,
+`punica-side-nav-item::part(base)`, …): an element without a box takes no
+focus, and the control leaves the Tab order with nothing on screen to show
+it. To let a button lay out like its container, keep the box and pass the
+layout on: `::part(base) { all: unset; display: inherit; }`. Parts that only
+hold text, such as `label`, may take `display: contents`.
+
 ## Frameworks
 
 - **React 19**: props that name a property are set as properties; listen
@@ -97,9 +126,51 @@ properties. Right-to-left works with `dir="rtl"` on any ancestor.
   elements (`compilerOptions.isCustomElement`).
 - **Angular**: `CUSTOM_ELEMENTS_SCHEMA`, `(punica-change)="…"`, `[value]="…"`.
 
+## With the other Punica libraries
+
+`@punica/components` is one of three libraries made to be used together:
+Punica Form (`@punica/form`, forms and their rules) and Punica Request
+(`@punica/request`, the HTTP client). Each has an MCP server; when the
+project has them, look their APIs up there instead of guessing.
+
+- **Forms**: in a project that has `@punica/form-kit`, do not wire
+  `punica-field` and its controls by hand. Describe the form as a class
+  (`@TextField`, `@SelectField`, …) and render it with `KitForm`; the kit
+  draws these elements, validates and shows the errors. A form whose markup
+  is your own (no React) is bound to the engine with `bindForm` of
+  `@punica/form-kit/dom` (from form-kit 0.5).
+- **Messages and confirmations**: `toast()` and `confirm()` are what an
+  application shows a failed request and asks before a deletion with.
+
+A whole application on the three, with its tests:
+https://github.com/punicalab/punica-starter (start with its `AGENTS.md`).
+
+## Testing
+
+Elements carry their role through `ElementInternals`: a `punica-heading` is
+a heading and a `punica-table-row` a row to a screen reader, with no `role`
+attribute in the markup. Tools that read the markup instead of the
+accessibility tree do not see those roles yet: Playwright's `getByRole`,
+Testing Library's `getByRole`, and rules of axe-core such as
+`page-has-heading-one`. In tests, find such an element by its tag
+(`page.locator('punica-table-row')`); for the one heading of a page that an
+audit has to find, use a native `<h1>`. Roles of native elements inside an
+element (the `button` in a `punica-button`, the `dialog` in a
+`punica-alert-dialog`) are found as usual.
+
+Playwright's CSS locators go into open shadow roots: `locator('input')`
+also finds the native input inside every `punica-input`, picker and
+`punica-checkbox`. Name the element instead (`locator('punica-input')`,
+`locator('punica-field[label="Email"] punica-input')`), and read its value
+with `evaluate((el) => el.value)` on that element (`inputValue()` takes only native controls).
+
 ## Check your work
 
 `npx punica-components validate <files>` checks tags, attributes, values,
-slots, events and icon names against this version and exits 1 on an error.
-`npx punica-components info <tag>` prints one element's whole API.
+slots, events and icon names against this version, and in CSS the
+`::part()` rules that take an element's focus away; it exits 1 on an error.
+`npx punica-components info <tag>` prints one element's whole API; with
+`--brief` (in the MCP server: `get_component` with `brief: true`) it leaves
+out CSS parts, custom properties and states. Ask for the brief form first
+and for the whole one only when you style the inside of an element.
 Documentation with live examples: https://components.punicalab.com

@@ -23,7 +23,7 @@ import styles from './topNav.css';
  * @slot end - After the items: actions, an account.
  *
  * @fires punica-open - The menu of items that do not fit, or an item's own menu, opened.
- * @fires punica-close - That menu closed. `detail` is `{ reason }`.
+ * @fires {{ reason: string }} punica-close - That menu closed. `detail` is `{ reason }`.
  *
  * @csspart base - The native `<nav>`.
  * @csspart start - The wrapper of the `start` slot.

@@ -21,7 +21,7 @@ import styles from './toast.css';
  * @slot start - Content before the message, an icon.
  * @slot action - A button after the message.
  *
- * @fires punica-dismiss - The toast is going away. `detail.reason` is `user` (close button, Escape) or `timeout`. A call to `dismiss()` fires nothing.
+ * @fires {{ reason: 'user' | 'timeout' }} punica-dismiss - The toast is going away. `detail.reason` is `user` (close button, Escape) or `timeout`. A call to `dismiss()` fires nothing.
  *
  * @csspart base - The toast's box.
  * @csspart message - The wrapper around the message.
@@ -96,12 +96,19 @@ export class PunicaToast extends PunicaElement {
     this.#holds.clear();
     this.toggleState('leaving', false);
     this.toggleState('paused', false);
-    // Appended again after a removal: the countdown goes on.
+    // Appended again after a removal (or moved: the toaster follows a modal dialog): the countdown goes on from
+    // where it stood, and the bar with it.
+    const total = Math.max(0, this.duration ?? 0);
+    this.#progress.style.setProperty('--_elapsed', `${Math.max(0, total - this.#remaining)}ms`);
     this.#run();
   }
 
   disconnected() {
+    if (this.#timer && !this.paused && this.#remaining) {
+      this.#remaining = Math.max(1, this.#remaining - (performance.now() - this.#startedAt));
+    }
     clearTimeout(this.#timer);
+    this.#timer = 0;
     clearTimeout(this.#leaveTimer);
   }
 
@@ -112,6 +119,7 @@ export class PunicaToast extends PunicaElement {
     this.#remaining = Math.max(0, this.duration ?? 0);
     this.#progress.hidden = !this.#remaining;
     this.#progress.style.setProperty('--_duration', `${this.#remaining}ms`);
+    this.#progress.style.setProperty('--_elapsed', '0ms');
     this.#run();
   }
 

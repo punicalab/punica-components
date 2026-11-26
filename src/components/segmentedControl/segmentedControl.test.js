@@ -3,14 +3,21 @@ import { userEvent } from 'vitest/browser';
 import { contract, fixture, cleanup, settle } from '../../../test/contract.js';
 import './segmentedControl.js';
 
-const control = (attrs = '', first = '') => `<punica-segmented-control label="View" ${attrs}>
+const control = (
+  attrs = '',
+  first = ''
+) => `<punica-segmented-control label="View" ${attrs}>
   <punica-segmented-control-item value="day" ${first}>Day</punica-segmented-control-item>
   <punica-segmented-control-item value="week">Week</punica-segmented-control-item>
   <punica-segmented-control-item value="month">Month view</punica-segmented-control-item>
 </punica-segmented-control>`;
 
-contract('punica-segmented-control-item', { html: '<punica-segmented-control-item value="day" selected>Day</punica-segmented-control-item>' });
-contract('punica-segmented-control', { html: control('name="view" value="week"') });
+contract('punica-segmented-control-item', {
+  html: '<punica-segmented-control-item value="day" selected>Day</punica-segmented-control-item>'
+});
+contract('punica-segmented-control', {
+  html: control('name="view" value="week"')
+});
 
 const entries = (form) => [...new FormData(form)];
 const selected = (el) => [...el.children].map((i) => i.selected);
@@ -26,11 +33,32 @@ describe('punica-segmented-control', () => {
     expect(el.internals.role).toBe('radiogroup');
     expect(el.internals.ariaLabel).toBe('View');
     expect(el.internals.ariaOrientation).toBe('horizontal');
-    expect([...el.children].map((i) => [i.internals.role, i.internals.ariaChecked, i.getAttribute('tabindex')])).toEqual([
+    expect(
+      [...el.children].map((i) => [
+        i.internals.role,
+        i.internals.ariaChecked,
+        i.getAttribute('tabindex')
+      ])
+    ).toEqual([
       ['radio', 'false', '-1'],
       ['radio', 'true', '0'],
       ['radio', 'false', '-1']
     ]);
+  });
+
+  it('chooses an item whose value is the empty string, as a native radio does ("All")', async () => {
+    const el = await fixture(
+      '<punica-segmented-control label="Kind" value=""><punica-segmented-control-item value="">All</punica-segmented-control-item><punica-segmented-control-item value="image">Images</punica-segmented-control-item></punica-segmented-control>'
+    );
+    await wait(50);
+    const [all, images] = el.items;
+    expect(all.matches(':state(selected)')).toBe(true);
+    expect(images.matches(':state(selected)')).toBe(false);
+    expect(el.shadowRoot.querySelector('.indicator').hidden).toBe(false);
+    el.value = 'image';
+    await settle();
+    expect(images.matches(':state(selected)')).toBe(true);
+    expect(all.matches(':state(selected)')).toBe(false);
   });
 
   it('takes its first value from a selected item when it has none', async () => {
@@ -39,7 +67,11 @@ describe('punica-segmented-control', () => {
   });
 
   it('slides its indicator behind the selected item, also in RTL', async () => {
-    const wrap = await fixture(`<div>${control('value="week"')}<div dir="rtl">${control('value="month"')}</div></div>`);
+    const wrap = await fixture(
+      `<div>${control('value="week"')}<div dir="rtl">${control(
+        'value="month"'
+      )}</div></div>`
+    );
     for (const el of wrap.querySelectorAll('punica-segmented-control')) {
       const indicator = el.shadowRoot.querySelector('.indicator');
       const over = async (item) => {
@@ -57,16 +89,38 @@ describe('punica-segmented-control', () => {
     }
   });
 
+  it('wraps onto more lines when told to, its indicator following the chosen segment there', async () => {
+    const el = await fixture(
+      '<punica-segmented-control label="Period" value="year" style="--punica-segmented-control-wrap: wrap; max-inline-size: 180px"><punica-segmented-control-item value="day">Day</punica-segmented-control-item><punica-segmented-control-item value="week">Week</punica-segmented-control-item><punica-segmented-control-item value="month">Month</punica-segmented-control-item><punica-segmented-control-item value="year">Year</punica-segmented-control-item></punica-segmented-control>'
+    );
+    await wait(350);
+    const [day, , , year] = el.items;
+    expect(year.getBoundingClientRect().top).toBeGreaterThan(
+      day.getBoundingClientRect().top
+    );
+    const indicator = el.shadowRoot
+      .querySelector('.indicator')
+      .getBoundingClientRect();
+    const box = year.getBoundingClientRect();
+    expect(Math.round(indicator.top)).toBe(Math.round(box.top));
+    expect(Math.round(indicator.left)).toBe(Math.round(box.left));
+    expect(Math.round(indicator.height)).toBe(Math.round(box.height));
+  });
+
   it('hides its indicator while nothing is selected', async () => {
     const el = await fixture(control());
     expect(el.shadowRoot.querySelector('.indicator').hidden).toBe(true);
   });
 
   it('has one tab stop; arrows, Home and End move and select', async () => {
-    const wrap = await fixture(`<div>${control('value="week"')}<button>after</button></div>`);
+    const wrap = await fixture(
+      `<div>${control('value="week"')}<button>after</button></div>`
+    );
     const el = wrap.firstElementChild;
     const seen = [];
-    wrap.addEventListener('punica-change', (e) => seen.push([e.target.localName, e.detail]));
+    wrap.addEventListener('punica-change', (e) =>
+      seen.push([e.target.localName, e.detail])
+    );
     await userEvent.tab();
     expect(focused(el)).toBe(1);
     await userEvent.keyboard('{ArrowRight}');
@@ -113,7 +167,9 @@ describe('punica-segmented-control', () => {
   });
 
   it('appears in the form data, and is left out when disabled', async () => {
-    const form = await fixture(`<form>${control('name="view" value="week"')}</form>`);
+    const form = await fixture(
+      `<form>${control('name="view" value="week"')}</form>`
+    );
     await settle();
     expect(entries(form)).toEqual([['view', 'week']]);
     form.firstElementChild.disabled = true;
@@ -124,15 +180,26 @@ describe('punica-segmented-control', () => {
   });
 
   it('goes back to the value attribute, or to its first state, on form.reset()', async () => {
-    const form = await fixture(`<form>${control('name="a" value="week"')}${control('name="b"', 'selected')}</form>`);
+    const form = await fixture(
+      `<form>${control('name="a" value="week"')}${control(
+        'name="b"',
+        'selected'
+      )}</form>`
+    );
     const [a, b] = form.children;
     a.children[2].click();
     b.children[2].click();
     await settle();
-    expect(entries(form)).toEqual([['a', 'month'], ['b', 'month']]);
+    expect(entries(form)).toEqual([
+      ['a', 'month'],
+      ['b', 'month']
+    ]);
     form.reset();
     await settle();
-    expect(entries(form)).toEqual([['a', 'week'], ['b', 'day']]);
+    expect(entries(form)).toEqual([
+      ['a', 'week'],
+      ['b', 'day']
+    ]);
     expect(selected(a)).toEqual([false, true, false]);
   });
 
@@ -147,7 +214,11 @@ describe('punica-segmented-control', () => {
   });
 
   it('is disabled by a disabled fieldset', async () => {
-    const form = await fixture(`<form><fieldset disabled>${control('name="a" value="day"')}</fieldset></form>`);
+    const form = await fixture(
+      `<form><fieldset disabled>${control(
+        'name="a" value="day"'
+      )}</fieldset></form>`
+    );
     await settle();
     const el = form.querySelector('punica-segmented-control');
     expect(el.children[0].internals.ariaDisabled).toBe('true');
@@ -157,11 +228,15 @@ describe('punica-segmented-control', () => {
   });
 
   it('draws the indicator apart from the bar in dark mode', async () => {
-    const wrap = await fixture(`<div style="color-scheme: dark">${control('value="week"')}</div>`);
+    const wrap = await fixture(
+      `<div style="color-scheme: dark">${control('value="week"')}</div>`
+    );
     const el = wrap.firstElementChild;
     await settle();
     const bar = getComputedStyle(el.shadowRoot.querySelector('.base'));
-    const indicator = getComputedStyle(el.shadowRoot.querySelector('.indicator'));
+    const indicator = getComputedStyle(
+      el.shadowRoot.querySelector('.indicator')
+    );
     expect(indicator.backgroundColor).not.toBe(bar.backgroundColor);
     expect(indicator.boxShadow).toMatch(/inset/);
   });
@@ -177,8 +252,12 @@ describe('punica-segmented-control direction change', () => {
         <punica-segmented-control-item value="month">Month</punica-segmented-control-item>
       </punica-segmented-control></div>`);
     const control = wrap.querySelector('punica-segmented-control');
-    const indicator = () => control.shadowRoot.querySelector('[part=indicator]').getBoundingClientRect();
-    const week = () => control.querySelector('[value=week]').getBoundingClientRect();
+    const indicator = () =>
+      control.shadowRoot
+        .querySelector('[part=indicator]')
+        .getBoundingClientRect();
+    const week = () =>
+      control.querySelector('[value=week]').getBoundingClientRect();
     await settle();
     expect(Math.abs(indicator().left - week().left)).toBeLessThan(3);
     wrap.dir = 'rtl';

@@ -23,10 +23,10 @@ import styles from './splitButton.css';
  * @slot - The primary button's label.
  * @slot menu - The menu's items: `punica-menu-item` and its siblings.
  *
- * @fires punica-action - The primary button was activated. `detail` is `{}`.
- * @fires punica-select - A menu item was chosen. `detail` is `{ value, item }`. Cancelable: preventing it keeps the menu open.
+ * @fires {Record<string, never>} punica-action - The primary button was activated. `detail` is `{}`.
+ * @fires {{ value: string, item: HTMLElement }} punica-select - A menu item was chosen. `detail` is `{ value, item }`. Cancelable: preventing it keeps the menu open.
  * @fires punica-open - The menu opened.
- * @fires punica-close - The menu closed. `detail.reason` is `select`, `escape`, `outside`, `tab` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'tab' | 'api' }} punica-close - The menu closed. `detail.reason` is `select`, `escape`, `outside`, `tab` or `api`.
  *
  * @csspart base - The wrapper around both buttons.
  * @csspart primary - The primary button.

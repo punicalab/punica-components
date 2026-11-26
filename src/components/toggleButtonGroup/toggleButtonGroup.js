@@ -39,7 +39,7 @@ const valueOf = (button) => button.value ?? button.textContent.trim();
  *
  * @slot - The `<punica-toggle-button>` elements.
  *
- * @fires punica-change - The user pressed or released a button; `detail: { value, values }`.
+ * @fires {{ value: string | null, values: string[] }} punica-change - The user pressed or released a button; `detail: { value, values }`.
  *
  * @cssstate invalid - Required and nothing is pressed.
  * @cssstate valid - Meets its constraint.

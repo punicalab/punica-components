@@ -17,7 +17,7 @@ import styles from './menuCheckboxItem.css';
  * @slot start - Content before the label.
  * @slot end - Content after the label, a keyboard shortcut.
  *
- * @fires punica-change - The user switched the option. `detail` is `{ value, checked }`.
+ * @fires {{ value: string, checked: boolean }} punica-change - The user switched the option. `detail` is `{ value, checked }`.
  *
  * @csspart indicator - The check mark.
  * @csspart label - The wrapper around the label.

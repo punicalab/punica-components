@@ -54,6 +54,21 @@ export function installTokens() {
 }
 
 /**
+ * What the user did, before the script came, to the control of a root drawn
+ * from Declarative Shadow DOM: null when there is no such root or nothing
+ * was changed.
+ * @param {ShadowRoot | null} root
+ */
+function typedBeforeUpgrade(root) {
+  const control = root?.querySelector('input:not([type="hidden"]), textarea');
+  if (!control) return null;
+  const checkable = control.type === 'checkbox' || control.type === 'radio';
+  const changed = checkable ? control.checked !== control.defaultChecked : control.value !== control.defaultValue;
+  if (!changed) return null;
+  return { checkable, value: control.value, checked: control.checked, focused: root.activeElement === control };
+}
+
+/**
  * Registers a custom element unless the tag is already taken.
  * @param {string} tag
  * @param {CustomElementConstructor} ctor
@@ -149,7 +164,9 @@ export class PunicaElement extends Base {
   static _template() {
     if (!Object.hasOwn(this, '_templateCache')) {
       const t = document.createElement('template');
-      t.innerHTML = this.template;
+      // Without the template's leading and trailing whitespace: in an element laid out inline (a link, a chip) it was
+      // text, drawn as a space beside the element's own ("Production : Jasper").
+      t.innerHTML = this.template.trim();
       this._templateCache = t;
     }
     return this._templateCache;
@@ -159,6 +176,7 @@ export class PunicaElement extends Base {
   /** @type {Map<string, unknown> | null} */
   #pending = null;
   #scheduled = false;
+  #updating = false;
   #updated = false;
   #reflecting = null;
   /** @type {AbortController | null} */
@@ -172,6 +190,11 @@ export class PunicaElement extends Base {
     ctor.finalize();
     installTokens();
     if (ctor.shadow) {
+      // A root from Declarative Shadow DOM (a server-rendered page) is
+      // replaced by attachShadow; what the user already typed or checked in
+      // its control is carried over once the element is up.
+      const early = typedBeforeUpgrade(this.shadowRoot);
+      if (early) queueMicrotask(() => this.#carryOver(early));
       const root = this.attachShadow({ mode: 'open', ...ctor.shadowOptions });
       root.adoptedStyleSheets = ctor._sheets();
       if (ctor.template) {
@@ -180,6 +203,16 @@ export class PunicaElement extends Base {
         root.appendChild(document.importNode(ctor._template().content, true));
       }
     }
+  }
+
+  /** @param {{ checkable: boolean, value: string, checked: boolean, focused: boolean }} early */
+  #carryOver(early) {
+    if (early.checkable) {
+      if ('checked' in this) this.checked = early.checked;
+    } else if ('value' in this) {
+      this.value = early.value;
+    }
+    if (early.focused) this.focus();
   }
 
   /* ---------------------------------------------------------------- props */
@@ -233,15 +266,33 @@ export class PunicaElement extends Base {
     if (this.#scheduled || !this.isConnected || !this.#updated) return;
     this.#scheduled = true;
     queueMicrotask(() => {
+      // Already run by `updateNow()`.
+      if (!this.#scheduled) return;
       this.#scheduled = false;
       if (this.isConnected) this.#flush();
     });
   }
 
+  /**
+   * Runs the scheduled update now instead of at the end of the microtask. A form control calls it so that what the
+   * form reads (its value, its validity) follows an assignment at once, as a native control's does. Inside an update
+   * it waits for the microtask, as before.
+   */
+  updateNow() {
+    if (!this.#scheduled || this.#updating || !this.isConnected) return;
+    this.#scheduled = false;
+    this.#flush();
+  }
+
   #flush() {
     const changed = this.#pending || new Map();
     this.#pending = null;
-    this.update(changed);
+    this.#updating = true;
+    try {
+      this.update(changed);
+    } finally {
+      this.#updating = false;
+    }
   }
 
   /** Resolves after the pending update, if any, has run. */

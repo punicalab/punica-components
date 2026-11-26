@@ -3,6 +3,9 @@
   --punica-chip-padding: var(--punica-space-12);
   --punica-chip-radius: var(--punica-radius-full);
   --_accent: var(--punica-color-primary);
+  /* soft: a tint of the colour under its shade. Primary's -light is a lighter accent, not a tint. */
+  --_tint: color-mix(in srgb, var(--punica-color-primary) 14%, transparent);
+  --_shade: var(--punica-color-primary-dark);
   --_background: var(--_accent);
   --_text: var(--punica-color-on-accent);
   --_border: transparent;
@@ -34,21 +37,34 @@
 
 :host([color='secondary']) {
   --_accent: var(--punica-color-secondary);
+  /* secondary's -light is too strong a tint for its shade to read on: the same mix as primary's. */
+  --_tint: color-mix(in srgb, var(--punica-color-secondary) 14%, transparent);
+  --_shade: var(--punica-color-secondary-dark);
 }
 :host([color='error']) {
   --_accent: var(--punica-color-error);
+  --_tint: var(--punica-color-error-light);
+  --_shade: var(--punica-color-error-dark);
 }
 :host([color='warning']) {
   --_accent: var(--punica-color-warning);
+  --_tint: var(--punica-color-warning-light);
+  --_shade: var(--punica-color-warning-dark);
 }
 :host([color='info']) {
   --_accent: var(--punica-color-info);
+  --_tint: var(--punica-color-info-light);
+  --_shade: var(--punica-color-info-dark);
 }
 :host([color='success']) {
   --_accent: var(--punica-color-success);
+  --_tint: var(--punica-color-success-light);
+  --_shade: var(--punica-color-success-dark);
 }
 :host([color='neutral']) {
   --_accent: var(--punica-color-text);
+  --_tint: var(--punica-color-neutral-light);
+  --_shade: var(--punica-color-neutral-dark);
   /* A grey drawn from the text colour: --punica-color-neutral under the text
      colour is 2.9:1 in dark mode. */
   --_background: color-mix(in srgb, var(--punica-color-text) 16%, var(--punica-color-surface));
@@ -65,6 +81,12 @@
 :host([color='neutral'][selectable]:not([variant='outlined']):state(selected)) {
   --_background: var(--punica-color-text);
   --_text: var(--punica-color-surface);
+}
+
+/* A tint of the colour under its shade: a status, a tag that should not shout. */
+:host([variant='soft']) {
+  --_background: var(--_tint);
+  --_text: var(--_shade);
 }
 
 :host([variant='outlined']) {

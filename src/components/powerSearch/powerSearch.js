@@ -1,5 +1,5 @@
 import { PunicaElement, define } from '../../core/element.js';
-import { FormControl } from '../../core/form.js';
+import { FormControl, submitForm } from '../../core/form.js';
 import { overlayCss } from '../../core/overlay.js';
 import { isRtl } from '../../core/a11y.js';
 import { icons } from '../../core/icons.js';
@@ -80,11 +80,11 @@ const parse = (text) => {
  *
  * @slot start - Content before the tokens, in place of the search icon.
  *
- * @fires punica-input - The user typed in the query; `detail: { value }` with the whole value.
- * @fires punica-change - A filter was added or removed, or the query was committed; `detail: { value }`.
- * @fires punica-search - The user pressed Enter; `detail: { value }`. Cancelable: cancelled, the form is not submitted.
+ * @fires {{ value: any }} punica-input - The user typed in the query; `detail: { value }` with the whole value.
+ * @fires {{ value: any }} punica-change - A filter was added or removed, or the query was committed; `detail: { value }`.
+ * @fires {{ value: any }} punica-search - The user pressed Enter; `detail: { value }`. Cancelable: cancelled, the form is not submitted.
  * @fires punica-open - The suggestions opened.
- * @fires punica-close - The suggestions closed. `detail.reason` is `select`, `escape`, `outside`, `blur`, `empty` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'empty' | 'api' }} punica-close - The suggestions closed. `detail.reason` is `select`, `escape`, `outside`, `blur`, `empty` or `api`.
  *
  * @csspart field - The bordered box.
  * @csspart icon - The search glyph.
@@ -522,7 +522,7 @@ export class PunicaPowerSearch extends FormControl(PunicaElement) {
   #search() {
     this.#commitQuery();
     const event = this.emit('search', { value: this.value }, { cancelable: true });
-    if (!event.defaultPrevented) this.form?.requestSubmit();
+    if (!event.defaultPrevented) submitForm(this.form);
   }
 
   /** @param {KeyboardEvent} event */

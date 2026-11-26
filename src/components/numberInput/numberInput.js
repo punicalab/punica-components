@@ -1,5 +1,5 @@
 import { PunicaElement, define } from '../../core/element.js';
-import { FormControl } from '../../core/form.js';
+import { FormControl, submitForm } from '../../core/form.js';
 import { icons } from '../../core/icons.js';
 import styles from './numberInput.css';
 
@@ -57,8 +57,8 @@ const decimals = (n) => {
  * @slot start - Content before the number, a currency sign.
  * @slot end - Content after the number, a unit.
  *
- * @fires punica-input - The number changed while the user is editing or stepping; `detail: { value }`.
- * @fires punica-change - The user committed a new number; `detail: { value }`.
+ * @fires {{ value: number | null }} punica-input - The number changed while the user is editing or stepping; `detail: { value }`.
+ * @fires {{ value: number | null }} punica-change - The user committed a new number; `detail: { value }`.
  *
  * @csspart base - The bordered box.
  * @csspart input - The native input.
@@ -325,7 +325,7 @@ export class PunicaNumberInput extends FormControl(PunicaElement) {
     if (event.key === 'Enter' && !event.isComposing) {
       this.#commit();
       this.#input.value = this.#format(this.value, true);
-      this.form?.requestSubmit();
+      submitForm(this.form);
       return;
     }
     if (this.readonly) return;

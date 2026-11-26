@@ -90,7 +90,7 @@ function tidy(text) {
  * @prop {((text: string, language: string | null) => DocumentFragment | null) | null} highlight -
  *   Returns the code as a fragment of marked-up text, or null for plain text.
  *
- * @fires punica-toggle - The user expanded or cut the block. `detail` is `{ open }`.
+ * @fires {{ open: boolean }} punica-toggle - The user expanded or cut the block. `detail` is `{ open }`.
  *
  * @csspart base - The frame.
  * @csspart header - The row with the language and the copy button.

@@ -3,7 +3,8 @@
 #
 #   @punica/components       its package.json version, set by `npm run version`
 #                            (changesets) on develop before develop goes to main
-#   @punica/components-mcp   packages/mcp/package.json, bumped by hand
+#   @punica/components-mcp   packages/mcp/package.json, bumped by hand with
+#                            every new library version (checked below)
 #
 # A version already on npm is skipped, so a merge that changes no version
 # publishes nothing. Nothing is published unless every check passes.
@@ -71,6 +72,19 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: The MCP server goes with the library
+        # The server bundles custom-elements.json and the guide of the library.
+        # A new library version with an MCP version npm has already would
+        # leave the server's copy behind (0.2.0 stayed on 2.2.0 this way).
+        run: |
+          library=$(node -p "require('./package.json').version")
+          server=$(node -p "require('./packages/mcp/package.json').version")
+          if ! npm view "@punica/components@$library" version >/dev/null 2>&1 \
+            && npm view "@punica/components-mcp@$server" version >/dev/null 2>&1; then
+            echo "::error::@punica/components $library is new but @punica/components-mcp $server is on npm: bump packages/mcp/package.json."
+            exit 1
+          fi
 
       - name: Publish @punica/components
         # The checks above ran already; prepublishOnly would run them again.

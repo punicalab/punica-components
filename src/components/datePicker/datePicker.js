@@ -1,5 +1,5 @@
 import { PunicaElement, define } from '../../core/element.js';
-import { FormControl } from '../../core/form.js';
+import { FormControl, submitForm } from '../../core/form.js';
 import { overlayCss } from '../../core/overlay.js';
 import { icons } from '../../core/icons.js';
 import { FieldSurface, fieldLanguage, fieldName, setAttr, nativeMessage } from '../select/field.js';
@@ -40,9 +40,9 @@ import styles from './datePicker.css';
  *
  * @slot start - Content before the input, an icon.
  *
- * @fires punica-change - The user typed or picked a date. `detail.value` is the ISO date or null.
+ * @fires {{ value: string | null }} punica-change - The user typed or picked a date. `detail.value` is the ISO date or null.
  * @fires punica-open - The calendar opened.
- * @fires punica-close - The calendar closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'api' }} punica-close - The calendar closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
  *
  * @csspart field - The bordered box.
  * @csspart input - The text input.
@@ -120,7 +120,7 @@ export class PunicaDatePicker extends FormControl(PunicaElement) {
         this.#commitText();
         // The form must read the typed date, not the one before it.
         this.update(new Map());
-        this.form?.requestSubmit();
+        submitForm(this.form);
       } else if (event.key === 'ArrowDown' && !this.open) {
         event.preventDefault();
         this.show();

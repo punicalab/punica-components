@@ -38,7 +38,10 @@
   font-size: var(--punica-font-size-lg);
   font-weight: var(--punica-font-weight-semi-bold);
 }
-.heading[hidden] {
+.heading[hidden],
+.icon[hidden],
+.description[hidden],
+.actions[hidden] {
   display: none;
 }
 :host([size='section']) .heading {

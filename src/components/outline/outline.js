@@ -38,7 +38,7 @@ function scrollerOf(target) {
  * @prop {string | null} active - Id of the heading whose section is being read (read-only).
  * @prop {Element[]} headings - The headings listed, in document order (read-only).
  *
- * @fires punica-select - The user activated a link. `detail` is `{ value, item }`: the heading's id and the heading. Cancelable: preventing it keeps the page where it is.
+ * @fires {{ value: string, item: HTMLElement }} punica-select - The user activated a link. `detail` is `{ value, item }`: the heading's id and the heading. Cancelable: preventing it keeps the page where it is.
  *
  * @csspart base - The native `<nav>`.
  * @csspart list - Every `<ul>`, the outer one and the nested ones.
@@ -203,7 +203,7 @@ export class PunicaOutline extends PunicaElement {
       this.#text(heading)
         .toLowerCase()
         .normalize('NFKD')
-        .replace(/[̀-ͯ]/g, '')
+        .replace(/[\u0300-\u036f]/g, '')
         .replace(/[^\p{L}\p{N}]+/gu, '-')
         .replace(/^-+|-+$/g, '') || 'section';
     const root = /** @type {Document | ShadowRoot} */ (heading.getRootNode());

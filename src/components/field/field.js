@@ -1,6 +1,21 @@
 import { PunicaElement, define } from '../../core/element.js';
 import styles from './field.css';
 
+/** Forms a submit was just asked of (a click on a submit button, Enter in a field), until the task ends. */
+const submitting = new WeakSet();
+/** Forms whose submit already focused its first invalid control. */
+const focused = new WeakSet();
+/** @param {Event} event */
+const asksSubmit = (event) =>
+  event.type === 'keydown'
+    ? /** @type {KeyboardEvent} */ (event).key === 'Enter'
+    : event.composedPath().some(
+        (node) =>
+          node instanceof Element &&
+          (node.matches('button:not([type]), button[type="submit"], input[type="submit"], input[type="image"]') ||
+            (node.localName === 'punica-button' && node.getAttribute('type') === 'submit'))
+      );
+
 /**
  * A label, a help text and an error message around one form control.
  *
@@ -10,7 +25,10 @@ import styles from './field.css';
  * `invalid` event fired: a submit, `reportValidity()` or `checkValidity()`)
  * or the user left it while invalid, the field shows the control's
  * `validationMessage` and keeps it up to date until the control is valid
- * again. `error` shows a message of your own at any time.
+ * again. `error` shows a message of your own at any time. The help and the
+ * message shown are the control's description (its `description`, or
+ * `aria-description` on a native control), and an invalid control says so
+ * (`aria-invalid`) once touched.
  *
  * @element punica-field
  *
@@ -18,6 +36,7 @@ import styles from './field.css';
  * @attr {string} help - Text under the control.
  * @attr {string} error - An error message to show now, in place of the control's own.
  * @attr {boolean} required - Shows the required mark; also shown when the control is `required`.
+ * @attr {'browser' | 'inline'} report - How a submit reports the control invalid: `browser` (default) leaves the browser's own bubble beside the field's message; `inline` shows the field's message alone and focuses the first invalid control of the submit, as the browser would.
  *
  * @slot - The control: one `punica-*` form control or a native one.
  * @slot label - Rich label content, in place of `label`.
@@ -33,6 +52,7 @@ import styles from './field.css';
  * @cssprop --punica-field-label-color - Label colour.
  * @cssprop --punica-field-help-color - Help text colour.
  * @cssprop --punica-field-error-color - Error text colour.
+ * @cssprop --punica-field-line-height - Line height of the label, the help and the error, 1.43 by default.
  *
  * @cssstate invalid - An error message is showing.
  * @cssstate required - The required mark is showing.
@@ -42,7 +62,8 @@ export class PunicaField extends PunicaElement {
     label: {},
     help: {},
     error: {},
-    required: { type: Boolean }
+    required: { type: Boolean },
+    report: { default: 'browser' }
   };
 
   static styles = styles;
@@ -60,6 +81,8 @@ export class PunicaField extends PunicaElement {
   #touched = false;
   /** The control whose name this field wrote, so it can keep it current. */
   #named = null;
+  /** The control whose description this field wrote, so it can keep it current. */
+  #described = null;
 
   constructor() {
     super();
@@ -74,15 +97,23 @@ export class PunicaField extends PunicaElement {
       if (event.target.closest?.('a, button, input, select, textarea')) return;
       this.control?.focus();
     });
-    // `invalid` does not bubble; the capture phase still passes here. The
-    // event is left alone, so the browser still focuses the first invalid
-    // control of a submit and shows its own bubble there.
+    // `invalid` does not bubble; the capture phase still passes here. With
+    // `report="browser"` the event is left alone, so the browser focuses the
+    // first invalid control of a submit and shows its own bubble there.
     this.addEventListener(
       'invalid',
       (event) => {
         if (event.target !== this.control) return;
         this.#touched = true;
         this.#refresh();
+        if (this.report !== 'inline') return;
+        // The field says it: no bubble of the browser's beside it. A submit still lands on its first invalid control.
+        event.preventDefault();
+        const form = this.closest('form');
+        if (form && submitting.has(form) && !focused.has(form)) {
+          focused.add(form);
+          this.control.focus();
+        }
       },
       { capture: true }
     );
@@ -100,6 +131,19 @@ export class PunicaField extends PunicaElement {
     // A reset of the owning form clears what the field was showing.
     const form = this.closest('form');
     if (form) {
+      for (const type of ['click', 'keydown']) {
+        this.listen(
+          form,
+          type,
+          (event) => {
+            if (!asksSubmit(event)) return;
+            submitting.add(form);
+            focused.delete(form);
+            setTimeout(() => submitting.delete(form));
+          },
+          { capture: true }
+        );
+      }
       this.listen(form, 'reset', () => {
         this.#touched = false;
         this.#later();
@@ -170,6 +214,31 @@ export class PunicaField extends PunicaElement {
     if (box.textContent !== message) box.textContent = message;
     box.hidden = !message;
     this.toggleState('invalid', !!message);
+    this.#describe(control, message);
+  }
+
+  /**
+   * Gives the control the field's help and error as its description, read
+   * after its name, unless it has one of its own.
+   */
+  #describe(control, message) {
+    if (this.#described && this.#described !== control) this.#described = null;
+    if (!control) return;
+    const help = this.help || this.$('slot[name=help]').assignedNodes().map((n) => n.textContent.trim()).join(' ');
+    const text = [help, message].filter(Boolean).join(' ') || null;
+    if ('description' in control) {
+      if (this.#described === control || !control.description) {
+        if (text || this.#described === control) control.description = text;
+        this.#described = text ? control : null;
+      }
+      return;
+    }
+    // A native control: the same, through its attribute.
+    if (this.#described === control || !control.hasAttribute('aria-description')) {
+      if (text) control.setAttribute('aria-description', text);
+      else if (this.#described === control) control.removeAttribute('aria-description');
+      this.#described = text ? control : null;
+    }
   }
 
   /** Refreshes after the control has brought its validity up to date. */

@@ -18,7 +18,7 @@ import styles from './collapsible.css';
  * @slot - The content that is shown and hidden.
  * @slot trigger - The element that toggles the content: a `<button>` or a `punica-button`.
  *
- * @fires punica-toggle - The user expanded or collapsed the content. `detail.open` is the new state.
+ * @fires {{ open: boolean }} punica-toggle - The user expanded or collapsed the content. `detail.open` is the new state.
  *
  * @csspart content - The animated region around the default slot.
  *
@@ -42,8 +42,11 @@ export class PunicaCollapsible extends PunicaElement {
 
   constructor() {
     super();
-    this.#triggerSlot.addEventListener('click', () => {
+    this.#triggerSlot.addEventListener('click', (event) => {
       const trigger = this.#trigger;
+      // A click something in the trigger cancelled (a copy button in a heading
+      // row) leaves it as it is, as <summary> does.
+      if (event.defaultPrevented) return;
       if (this.disabled || !trigger || trigger.hasAttribute('disabled')) return;
       this.open = !this.open;
       this.emit('toggle', { open: this.open });

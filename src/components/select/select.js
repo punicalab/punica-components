@@ -3,16 +3,26 @@ import { FormControl } from '../../core/form.js';
 import { overlayCss } from '../../core/overlay.js';
 import { createTypeahead } from '../../core/a11y.js';
 import { icons } from '../../core/icons.js';
-import { FieldSurface, OptionNavigator, fieldLanguage, fieldName, setAttr, nativeMessage } from './field.js';
+import {
+  FieldSurface,
+  OptionNavigator,
+  fieldLanguage,
+  fieldName,
+  setAttr,
+  nativeMessage
+} from './field.js';
 import './option.js';
 import fieldStyles from './field.css';
 import styles from './select.css';
 
 /** @param {any} option an option that may not be upgraded yet */
 const valueOf = (option) =>
-  option.optionValue ?? option.getAttribute('value') ?? option.textContent.trim();
+  option.optionValue ??
+  option.getAttribute('value') ??
+  option.textContent.trim();
 /** @param {any} option */
-const textOf = (option) => option.text ?? option.getAttribute('label') ?? option.textContent.trim();
+const textOf = (option) =>
+  option.text ?? option.getAttribute('label') ?? option.textContent.trim();
 
 /**
  * A select: one value, or several with `multiple`, picked from a list of
@@ -26,13 +36,14 @@ const textOf = (option) => option.text ?? option.getAttribute('label') ?? option
  *
  * @attr {string} value - Default value; space-separated with `multiple`.
  * @attr {boolean} multiple - Several options can be picked; `value` is then an array.
- * @attr {string} placeholder - Text shown while nothing is picked.
+ * @attr {string} placeholder - Text shown while nothing is picked. Without one, a single select with no default takes its first enabled option, as a native select does.
  * @attr {boolean} clearable - Shows a button that empties the value.
- * @attr {string} label - Accessible name.
+ * @attr {string} label - Accessible name. An `aria-label` on the element names it too; `label` wins.
  * @attr {boolean} open - The list is showing.
  * @attr {string} name - Name the value is submitted under; one entry per value.
  * @attr {boolean} disabled - Takes no input and submits nothing.
  * @attr {boolean} required - A value is needed before the form submits.
+ * @attr {string} description - Read by assistive technology after the control's name; a `punica-field` around it sets it to its help and its error.
  * @attr {'small' | 'medium' | 'large'} size - Control height, `medium` by default.
  * @attr {boolean} full-width - Fills its container's inline size.
  * @attr {string} label-clear - Name of the clear button, `Clear` by default.
@@ -42,9 +53,9 @@ const textOf = (option) => option.text ?? option.getAttribute('label') ?? option
  * @slot - The `punica-option` rows.
  * @slot start - Content before the value, an icon.
  *
- * @fires punica-change - The user picked or cleared. `detail.value` is the new value.
+ * @fires {{ value: string | string[] | null }} punica-change - The user picked or cleared. `detail.value` is the new value.
  * @fires punica-open - The list opened.
- * @fires punica-close - The list closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'api' }} punica-close - The list closed. `detail.reason` is `select`, `escape`, `outside`, `blur` or `api`.
  *
  * @csspart field - The bordered box.
  * @csspart trigger - The combobox button.
@@ -68,12 +79,16 @@ const textOf = (option) => option.text ?? option.getAttribute('label') ?? option
  */
 export class PunicaSelect extends FormControl(PunicaElement) {
   static properties = {
+    // A name written on the element the usual way names the control too; `label` wins.
+    ariaLabel: { attribute: 'aria-label', reflect: false },
     defaultValue: { attribute: 'value', reflect: false },
     value: { type: Object, attribute: false },
     multiple: { type: Boolean },
     placeholder: {},
     clearable: { type: Boolean },
     label: {},
+    /** Read after the name by assistive technology; a punica-field around the control sets it. */
+    description: {},
     open: { type: Boolean },
     size: {},
     fullWidth: { type: Boolean },
@@ -86,7 +101,7 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     <div part="field" class="field">
       <slot name="start"></slot>
       <button part="trigger" class="control" type="button" role="combobox" aria-haspopup="listbox" aria-controls="listbox" aria-expanded="false">
-        <span part="value" class="value"></span>
+        <span class="value-box"><span part="value" class="value"></span><span class="sizer" aria-hidden="true"></span></span>
         <span part="caret" class="caret">${icons.chevronDown}</span>
       </button>
       <button part="clear" class="icon-button clear" type="button" hidden>${icons.close}</button>
@@ -97,6 +112,9 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   #field = this.$('.field');
   #trigger = this.$('[part="trigger"]');
   #valueEl = this.$('[part="value"]');
+  #sizer = this.$('.sizer');
+  /** The texts the sizer holds, serialised. */
+  #sized = '';
   #clear = this.$('[part="clear"]');
   #listbox = this.$('#listbox');
   #slot = this.$('slot:not([name])');
@@ -120,7 +138,14 @@ export class PunicaSelect extends FormControl(PunicaElement) {
       if (this.open) this.#close('api');
       else this.show();
     });
-    this.#trigger.addEventListener('keydown', (event) => this.#onKeydown(event));
+    this.#trigger.addEventListener('keydown', (event) =>
+      this.#onKeydown(event)
+    );
+    // Reported invalid (a submit, checkValidity(), reportValidity()): touched, as the text controls are.
+    this.addEventListener('invalid', () => {
+      this.#touched = true;
+      this.requestUpdate();
+    });
     this.#trigger.addEventListener('keyup', (event) => {
       if (event.key === ' ') event.preventDefault();
     });
@@ -131,18 +156,25 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     });
     this.#slot.addEventListener('slotchange', () => this.#sync());
     // A press on the list must not take focus from the combobox.
-    this.#listbox.addEventListener('mousedown', (event) => event.preventDefault());
+    this.#listbox.addEventListener('mousedown', (event) =>
+      event.preventDefault()
+    );
     this.#listbox.addEventListener('click', (event) => {
       const option = this.#optionFrom(event);
       if (option && !option.disabled) this.#pick(option);
     });
     this.#listbox.addEventListener('pointermove', (event) => {
       const option = this.#optionFrom(event);
-      if (option && !option.disabled && option !== this.#nav.active) this.#nav.set(option);
+      if (option && !option.disabled && option !== this.#nav.active)
+        this.#nav.set(option);
     });
     this.shadowRoot.addEventListener('focusout', (event) => {
       const next = /** @type {FocusEvent} */ (event).relatedTarget;
-      if (next instanceof Node && (this.shadowRoot.contains(next) || this.contains(next))) return;
+      if (
+        next instanceof Node &&
+        (this.shadowRoot.contains(next) || this.contains(next))
+      )
+        return;
       this.#touched = true;
       if (this.open) this.#close('blur');
       else this.requestUpdate();
@@ -151,7 +183,9 @@ export class PunicaSelect extends FormControl(PunicaElement) {
 
   /** The `punica-option` children, in order. @returns {any[]} */
   get options() {
-    return [...this.children].filter((child) => child.localName === 'punica-option');
+    return [...this.children].filter(
+      (child) => child.localName === 'punica-option'
+    );
   }
 
   /** The picked options. @returns {any[]} */
@@ -193,7 +227,10 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   }
 
   formRestore(state) {
-    if (state instanceof FormData) this.value = this.multiple ? state.getAll(this.name) : state.get(this.name);
+    if (state instanceof FormData)
+      this.value = this.multiple
+        ? state.getAll(this.name)
+        : state.get(this.name);
     else if (typeof state === 'string') this.value = state;
   }
 
@@ -201,18 +238,29 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   #values() {
     const value = this.value;
     if (Array.isArray(value)) return value.map(String);
-    return value == null || value === '' ? [] : [String(value)];
+    if (value == null) return [];
+    // An option whose value is the empty string is a choice, as on a native select ("Any client"); with no such
+    // option the empty string is nothing picked.
+    if (value === '')
+      return this.options.some((option) => valueOf(option) === '') ? [''] : [];
+    return [String(value)];
   }
 
   #defaultValue() {
     let values = [];
     if (this.defaultValue != null) {
-      values = this.multiple ? this.defaultValue.split(/\s+/).filter(Boolean) : [this.defaultValue];
+      values = this.multiple
+        ? this.defaultValue.split(/\s+/).filter(Boolean)
+        : [this.defaultValue];
     } else {
       values = this.options.filter((o) => this.#defaults.has(o)).map(valueOf);
     }
     if (this.multiple) return values;
-    return values.length ? values[0] : null;
+    if (values.length) return values[0];
+    // As a native select: one choice, nothing marked and no placeholder to show takes its first enabled option.
+    if (this.placeholder) return null;
+    const first = this.options.find((option) => !option.disabled);
+    return first ? valueOf(first) : null;
   }
 
   /** Takes in options that arrived and brings the tree up to date. */
@@ -243,22 +291,47 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   }
 
   update(changed) {
-    if (!this.#initialised || changed.has('defaultValue') || changed.has('multiple')) this.#applyDefault();
+    if (
+      !this.#initialised ||
+      changed.has('defaultValue') ||
+      changed.has('multiple')
+    )
+      this.#applyDefault();
     const options = this.options;
     const values = this.#values();
     const disabled = this.isDisabled;
     const name = fieldName(this);
 
     const known = new Map(options.map((option) => [valueOf(option), option]));
-    for (const option of options) option.selected = values.includes(valueOf(option));
-    const texts = values.map((value) => (known.has(value) ? textOf(known.get(value)) : value));
+    for (const option of options)
+      option.selected = values.includes(valueOf(option));
+    const texts = values.map((value) =>
+      known.has(value) ? textOf(known.get(value)) : value
+    );
     const empty = texts.length === 0;
     let text = this.placeholder || '';
     if (!empty) {
-      text = texts.length === 1 ? texts[0] : new Intl.ListFormat(fieldLanguage(this), { style: 'short', type: 'unit' }).format(texts);
+      text =
+        texts.length === 1
+          ? texts[0]
+          : new Intl.ListFormat(fieldLanguage(this), {
+              style: 'short',
+              type: 'unit'
+            }).format(texts);
     }
     this.#valueEl.textContent = text;
     this.#valueEl.classList.toggle('placeholder', empty);
+    // As wide as its widest option (and placeholder), as a native select is: picking another one does not resize it.
+    const widths = options.map(textOf);
+    if (this.placeholder) widths.push(this.placeholder);
+    if (!this.multiple) widths.push(text);
+    const sized = JSON.stringify(widths);
+    if (sized !== this.#sized) {
+      this.#sized = sized;
+      this.#sizer.replaceChildren(
+        ...widths.map((w) => Object.assign(document.createElement('span'), { textContent: w }))
+      );
+    }
     this.toggleState('placeholder', empty);
     this.toggleState('disabled', disabled);
 
@@ -267,7 +340,11 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     setAttr(trigger, 'aria-label', name);
     setAttr(trigger, 'aria-required', this.required ? 'true' : null);
     setAttr(this.#listbox, 'aria-label', name);
-    setAttr(this.#listbox, 'aria-multiselectable', this.multiple ? 'true' : null);
+    setAttr(
+      this.#listbox,
+      'aria-multiselectable',
+      this.multiple ? 'true' : null
+    );
     setAttr(this.#clear, 'aria-label', this.labelClear);
     this.#clear.hidden = !this.clearable || empty || disabled;
 
@@ -279,15 +356,28 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     } else {
       this.setFormValue(empty ? null : values[0]);
     }
-    const missing = this.required && empty;
-    this.setValidity(missing ? { valueMissing: true } : {}, nativeMessage('choose'), trigger);
-    setAttr(trigger, 'aria-invalid', this.#touched && missing ? 'true' : null);
-    this.toggleState('user-invalid', this.#touched && !this.validity.valid);
+    // As a native required select: its empty-valued option (a placeholder) is no answer.
+    const missing = this.required && (empty || values[0] === '');
+    this.setValidity(
+      missing ? { valueMissing: true } : {},
+      nativeMessage('choose'),
+      trigger
+    );
+    // Invalid for any reason once touched: a missing value, or an error set with setCustomValidity.
+    const userInvalid = this.#touched && !this.validity.valid;
+    setAttr(trigger, 'aria-invalid', userInvalid ? 'true' : null);
+    setAttr(trigger, 'aria-description', this.description || null);
+    this.toggleState('user-invalid', userInvalid);
 
     const want = this.open && !disabled;
     if (want && !this.#surface.open) {
-      this.#surface.show(this.#field, { matchWidth: true }, () => this.#close('outside'));
-      const first = options.find((o) => o.selected && !o.disabled) || this.#nav.items[0] || null;
+      this.#surface.show(this.#field, { matchWidth: true }, () =>
+        this.#close('outside')
+      );
+      const first =
+        options.find((o) => o.selected && !o.disabled) ||
+        this.#nav.items[0] ||
+        null;
       if (!this.#nav.active) this.#nav.set(first);
       this.toggleState('open', true);
       trigger.setAttribute('aria-expanded', 'true');
@@ -304,7 +394,14 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   }
 
   #optionFrom(event) {
-    return event.composedPath().find((node) => node.localName === 'punica-option' && node.parentElement === this) || null;
+    return (
+      event
+        .composedPath()
+        .find(
+          (node) =>
+            node.localName === 'punica-option' && node.parentElement === this
+        ) || null
+    );
   }
 
   /** @param {string} reason */
@@ -317,7 +414,11 @@ export class PunicaSelect extends FormControl(PunicaElement) {
   /** @param {string[]} values */
   #commit(values) {
     const before = this.#values();
-    if (before.length === values.length && before.every((v, i) => v === values[i])) return;
+    if (
+      before.length === values.length &&
+      before.every((v, i) => v === values[i])
+    )
+      return;
     this.#dirty = true;
     this.#touched = true;
     this.value = this.multiple ? values : values[0] ?? null;
@@ -330,7 +431,9 @@ export class PunicaSelect extends FormControl(PunicaElement) {
     if (this.multiple) {
       const values = this.#values();
       // Keep the list's own order, whatever order the user clicked in.
-      const next = values.includes(value) ? values.filter((v) => v !== value) : [...values, value];
+      const next = values.includes(value)
+        ? values.filter((v) => v !== value)
+        : [...values, value];
       const order = this.options.map(valueOf);
       next.sort((a, b) => order.indexOf(a) - order.indexOf(b));
       this.#commit(next);
@@ -372,7 +475,11 @@ export class PunicaSelect extends FormControl(PunicaElement) {
       // Tab takes the highlighted option and moves on.
       if (nav.active && !this.multiple) this.#pick(nav.active);
       else this.#close('blur');
-    } else if (key === 'Enter' || key === ' ' || (key === 'ArrowUp' && event.altKey)) {
+    } else if (
+      key === 'Enter' ||
+      key === ' ' ||
+      (key === 'ArrowUp' && event.altKey)
+    ) {
       event.preventDefault();
       if (nav.active) this.#pick(nav.active);
       if (key === 'ArrowUp') this.#close('select');
@@ -380,7 +487,11 @@ export class PunicaSelect extends FormControl(PunicaElement) {
       event.preventDefault();
     } else {
       const items = nav.items;
-      const index = this.#typeahead(event, items.map(textOf), items.indexOf(nav.active));
+      const index = this.#typeahead(
+        event,
+        items.map(textOf),
+        items.indexOf(nav.active)
+      );
       if (index >= 0) {
         event.preventDefault();
         nav.set(items[index]);

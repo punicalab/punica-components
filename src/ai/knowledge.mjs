@@ -101,7 +101,7 @@ function normalize(declaration, path) {
         signature: `${m.name}(${(m.parameters || []).map((p) => p.name + (p.optional ? '?' : '')).join(', ')})`,
         description: m.description
       })),
-    events: (d.events || []).filter((e) => e.name).map((e) => ({ name: e.name, description: e.description || '' })),
+    events: (d.events || []).filter((e) => e.name).map((e) => ({ name: e.name, detail: e.type?.text || '', description: e.description || '' })),
     slots: (d.slots || []).map((s) => ({ name: s.name || '', description: s.description || '' })),
     // Attributes the element reads off its children, as its slot docs say:
     // "Each may carry `span`".
@@ -144,11 +144,26 @@ export function closest(name, names) {
 export function createKnowledge(manifest) {
   /** @type {Map<string, ReturnType<typeof normalize>>} */
   const elements = new Map();
+  /** Functions of a module that defines an element, by its folder: the package's root exports them. */
+  const functions = new Map();
   for (const mod of manifest.modules || []) {
-    for (const d of mod.declarations || []) {
+    const declarations = mod.declarations || [];
+    for (const d of declarations) {
       if (d.kind === 'class' && d.tagName) elements.set(d.tagName, normalize(d, mod.path));
     }
+    if (!declarations.some((d) => d.kind === 'class' && d.tagName)) continue;
+    const folder = mod.path.replace(/[^/]*$/, '');
+    for (const d of declarations) {
+      if (d.kind !== 'function' || !d.description) continue;
+      const params = (d.parameters || []).map((p) => `${p.name}${p.optional ? '?' : ''}: ${p.type?.text || 'unknown'}`);
+      const notes = (d.parameters || []).filter((p) => p.description).map((p) => `\`${p.name}\`: ${p.description}`);
+      functions.set(folder, [
+        ...(functions.get(folder) || []),
+        { name: d.name, signature: `${d.name}(${params.join(', ')}): ${d.return?.type?.text || 'void'}`, description: [d.description, ...notes].join('\n\n') }
+      ]);
+    }
   }
+  for (const element of elements.values()) element.functions = functions.get(`src/${element.module}`.replace(/[^/]*$/, '')) || [];
   const tags = [...elements.keys()].sort();
   const allEvents = new Set([...elements.values()].flatMap((e) => e.events.map((ev) => ev.name)));
   /** The glyphs `<punica-icon name>` draws; any other name draws nothing. */
@@ -177,7 +192,7 @@ export function createKnowledge(manifest) {
     for (const element of elements.values()) {
       const tagWords = element.tag.replace(/^punica-/, '').split('-');
       const text = element.description.toLowerCase();
-      const api = [...element.attributes.map((a) => a.name), ...element.events.map((e) => e.name), ...element.slots.map((s) => s.name)].join(' ');
+      const api = [...element.attributes.map((a) => a.name), ...element.events.map((e) => e.name), ...element.slots.map((s) => s.name), ...element.functions.map((f) => f.name.toLowerCase())].join(' ');
       let score = 0;
       for (const { word, weight } of words) {
         let s = 0;
@@ -194,13 +209,21 @@ export function createKnowledge(manifest) {
       // A part of another element ("The body of a `punica-dialog`") ranks
       // below the element it belongs to, and a longer tag below a shorter one.
       const part = /^(?:the |one |a |an )?[^.]*?\b(?:of|in|for|inside) (?:a|an|the) `punica-/i.test(firstSentence(element.description)) ? 4 : 0;
-      scored.push({ tag: element.tag, description: firstSentence(element.description), score: score - part - tagWords.length * 0.1 });
+      scored.push({ tag: element.tag, description: firstSentence(element.description), functions: element.functions.map((f) => f.name), signatures: element.functions.map((f) => f.signature), score: score - part - tagWords.length * 0.1 });
     }
     return scored.sort((a, b) => b.score - a.score).slice(0, limit);
   }
 
-  /** The element's whole API as Markdown, the way a model reads it best. */
-  function formatMarkdown(tag) {
+  /**
+   * The element's API as Markdown, the way a model reads it best.
+   *
+   * `brief` is what writing markup needs: the description, attributes,
+   * properties, methods, events and slots. CSS parts, custom properties and
+   * states, which only styling needs, are left to the whole form.
+   * @param {string} tag
+   * @param {{ brief?: boolean }} [options]
+   */
+  function formatMarkdown(tag, { brief = false } = {}) {
     const e = get(tag);
     if (!e) {
       const old = legacy(normalizeTag(tag));
@@ -213,19 +236,52 @@ export function createKnowledge(manifest) {
       if (!rows.length) return;
       lines.push('', `### ${title}`, '', `| ${head.join(' | ')} |`, `|${head.map(() => '---').join('|')}|`, ...rows.map((r) => `| ${r.map(cell).join(' | ')} |`));
     };
-    table('Attributes', ['Attribute', 'Property', 'Type', 'Description'], e.attributes.map((a) => [`\`${a.name}\``, `\`${a.property}\``, `\`${a.type}\``, a.description]));
+    if (brief) table('Attributes', ['Attribute', 'Type', 'Description'], e.attributes.map((a) => [`\`${a.name}\``, `\`${a.type}\``, a.description]));
+    else table('Attributes', ['Attribute', 'Property', 'Type', 'Description'], e.attributes.map((a) => [`\`${a.name}\``, `\`${a.property}\``, `\`${a.type}\``, a.description]));
     table('Properties (no attribute)', ['Property', 'Type', 'Description'], e.properties.map((p) => [`\`${p.name}\``, p.type ? `\`${p.type}\`` : '', (p.readonly ? 'Read-only. ' : '') + p.description]));
     table('Methods', ['Method', 'Description'], e.methods.map((m) => [`\`${m.signature}\``, m.description]));
-    table('Events', ['Event', 'Description'], e.events.map((ev) => [`\`${ev.name}\``, ev.description]));
+    if (e.functions.length) {
+      lines.push('', '### Functions', '', `\`import { ${e.functions.map((f) => f.name).join(', ')} } from '@punica/components';\``);
+      for (const f of e.functions) lines.push('', '```ts', f.signature, '```', '', f.description);
+    }
+    table('Events', ['Event', 'Detail', 'Description'], e.events.map((ev) => [`\`${ev.name}\``, ev.detail ? `\`${ev.detail}\`` : '', ev.description]));
+    lines.push('', '### In React (JSX)', '', ...jsx(e));
     table('Slots', ['Slot', 'Description'], e.slots.map((s) => [s.name ? `\`${s.name}\`` : '(default)', s.description]));
-    table('CSS parts', ['Part', 'Description'], e.parts.map((p) => [`\`${p.name}\``, p.description]));
-    table('CSS custom properties', ['Property', 'Description'], e.cssProperties.map((p) => [`\`${p.name}\``, p.description]));
+    if (!brief) {
+      table('CSS parts', ['Part', 'Description'], e.parts.map((p) => [`\`${p.name}\``, p.description]));
+      table('CSS custom properties', ['Property', 'Description'], e.cssProperties.map((p) => [`\`${p.name}\``, p.description]));
+    }
     if (e.tag === 'punica-icon') lines.push('', `### Icon names`, '', icons.map((i) => `\`${i}\``).join(', ') + '. Any other name draws nothing: slot an `<svg>` instead.');
-    table('Custom states', ['State', 'Description'], e.states.map((s) => [`\`:state(${s.name})\``, s.description]));
+    if (!brief) table('Custom states', ['State', 'Description'], e.states.map((s) => [`\`:state(${s.name})\``, s.description]));
+    else if (e.parts.length || e.cssProperties.length || e.states.length) {
+      const left = [e.parts.length && `${e.parts.length} CSS parts`, e.cssProperties.length && `${e.cssProperties.length} custom properties`, e.states.length && `${e.states.length} states`].filter(Boolean);
+      lines.push('', `For styling: ${left.join(', ')}; ask for the whole API to see them.`);
+    }
     return lines.join('\n');
   }
 
   return { elements, tags, allEvents, icons, list, get, search, legacy, formatMarkdown };
+}
+
+/**
+ * How the element is written in JSX, as `@punica/components/react` types it
+ * (scripts/types.mjs): runs read that file to find out.
+ */
+function jsx(e) {
+  const out = [
+    "`import type {} from '@punica/components/react';` once, in the entry file, types every punica-* tag in JSX (React 18 and 19)."
+  ];
+  const dashed = e.attributes.find((a) => a.name.includes('-'));
+  const spelled = dashed ? ` (\`${dashed.name}\` or, in React 19, \`${dashed.name.replace(/-([a-z])/g, (_, c) => c.toUpperCase())}\`)` : '';
+  out.push(`Attributes are props under their own name${spelled}; \`class\` works as well as \`className\`.`);
+  const ev = e.events.find((x) => x.detail) || e.events[0];
+  if (ev) {
+    const read = ev.detail ? (/\bvalue\??:/.test(ev.detail) ? 'setValue(event.detail.value)' : 'handle(event.detail)') : 'handle(event)';
+    out.push(
+      `Events are \`on\` + the event name, the handler typed with the detail: \`<${e.tag} on${ev.name}={(event) => ${read}} />\`${ev.detail ? `, \`event\` a \`CustomEvent<${ev.detail}>\`` : ''}. \`onChange\`/\`onInput\` never fire. React 18 does not wire custom events: listen through a ref.`
+    );
+  }
+  return [out.join(' ')];
 }
 
 export function normalizeTag(tag) {

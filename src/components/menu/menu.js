@@ -39,9 +39,9 @@ const GROUPS = new Set(['punica-menu-group', 'punica-menu-radio-group']);
  * @slot - The menu's items.
  * @slot trigger - The menu button.
  *
- * @fires punica-select - An item was chosen. `detail` is `{ value, item }`; `value` is the item's `value`, or its text. Cancelable: preventing it keeps the menu open.
+ * @fires {{ value: string, item: HTMLElement }} punica-select - An item was chosen. `detail` is `{ value, item }`; `value` is the item's `value`, or its text. Cancelable: preventing it keeps the menu open.
  * @fires punica-open - The menu opened.
- * @fires punica-close - The menu closed. `detail.reason` is `select`, `escape`, `outside`, `tab` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'tab' | 'api' }} punica-close - The menu closed. `detail.reason` is `select`, `escape`, `outside`, `tab` or `api`.
  *
  * @csspart panel - The floating menu.
  *

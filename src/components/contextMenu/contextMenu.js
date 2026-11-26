@@ -22,9 +22,9 @@ import styles from './contextMenu.css';
  * @slot - The area the menu belongs to.
  * @slot menu - The menu's items.
  *
- * @fires punica-select - An item was chosen. `detail` is `{ value, item }`. Cancelable: preventing it keeps the menu open.
+ * @fires {{ value: string, item: HTMLElement }} punica-select - An item was chosen. `detail` is `{ value, item }`. Cancelable: preventing it keeps the menu open.
  * @fires punica-open - The menu opened.
- * @fires punica-close - The menu closed. `detail.reason` is `select`, `escape`, `outside`, `tab` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'tab' | 'api' }} punica-close - The menu closed. `detail.reason` is `select`, `escape`, `outside`, `tab` or `api`.
  *
  * @csspart menu - The `punica-menu` that shows the items; style its panel with `::part(menu)` and the `--punica-menu-*` properties.
  */

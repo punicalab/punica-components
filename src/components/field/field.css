@@ -3,6 +3,7 @@
   --punica-field-label-color: var(--punica-color-text);
   --punica-field-help-color: var(--punica-color-text);
   --punica-field-error-color: var(--punica-color-error);
+  --punica-field-line-height: 1.43;
 
   display: flex;
   flex-direction: column;
@@ -10,7 +11,7 @@
   gap: var(--punica-field-gap);
   font-family: var(--punica-font-family);
   font-size: var(--punica-font-size-sm);
-  line-height: 1.43;
+  line-height: var(--punica-field-line-height);
 }
 
 .label {

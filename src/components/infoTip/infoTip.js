@@ -28,7 +28,7 @@ import styles from './infoTip.css';
  * @slot - The explanation.
  *
  * @fires punica-open - The explanation opened.
- * @fires punica-close - The explanation closed. `detail.reason` is `button`, `escape`, `outside`, `blur`, `pointer` or `api`.
+ * @fires {{ reason: 'button' | 'escape' | 'outside' | 'blur' | 'pointer' | 'api' }} punica-close - The explanation closed. `detail.reason` is `button`, `escape`, `outside`, `blur`, `pointer` or `api`.
  *
  * @csspart button - The native button.
  * @csspart icon - The "i" glyph.

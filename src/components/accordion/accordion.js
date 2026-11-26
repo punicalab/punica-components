@@ -20,7 +20,7 @@ import styles from './accordion.css';
  * @slot indicator - The expand indicator, a chevron by default.
  * @slot end - Actions beside the summary, outside the button.
  *
- * @fires punica-toggle - The user expanded or collapsed the section. `detail.open` is the new state.
+ * @fires {{ open: boolean }} punica-toggle - The user expanded or collapsed the section. `detail.open` is the new state.
  *
  * @csspart header - The row holding the summary button and the `end` slot.
  * @csspart summary - The native button.

@@ -107,6 +107,14 @@ describe('punica-selectable-card', () => {
     expect(el.shadowRoot.querySelector('[part="media"]').hidden).toBe(false);
   });
 
+  it('exposes the column beside the media as a part, so a page can lay the card out in a row', async () => {
+    const el = await fixture(card('backup'));
+    const body = el.shadowRoot.querySelector('[part="body"]');
+    expect(body).not.toBeNull();
+    expect(body.querySelector('[part="title"]')).not.toBeNull();
+    expect(body.querySelector('[part="description"]')).not.toBeNull();
+  });
+
   it('shows a title given as markup as text', async () => {
     const el = await fixture(card('backup'));
     el.querySelector('[slot=title]').textContent = '<img src=x onerror=window.__pwn=1>';

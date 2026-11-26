@@ -1,5 +1,5 @@
 import { PunicaElement, define } from '../../core/element.js';
-import { FormControl } from '../../core/form.js';
+import { FormControl, submitForm } from '../../core/form.js';
 import { overlayCss } from '../../core/overlay.js';
 import { icons } from '../../core/icons.js';
 import { FieldSurface, OptionNavigator, fieldLanguage, fieldName, setAttr, nativeMessage } from '../select/field.js';
@@ -29,6 +29,7 @@ const textOf = (option) => option.text ?? option.getAttribute('label') ?? option
  * @attr {boolean} open - The list is showing, when it has rows to show.
  * @attr {boolean} free-text - Text that matches no option is taken as the value.
  * @attr {boolean} no-filter - The list is shown as given; for options already filtered by a server.
+ * @attr {boolean} show-value - The field shows a picked option's value instead of its label, as a native input with a `<datalist>` does: typing finds an option by its value or its label, and a row from `options` shows the value with the label beside it (an account's number and name).
  * @attr {boolean} clearable - Shows a button that empties the value.
  * @attr {string} name - Name the value is submitted under.
  * @attr {boolean} disabled - Takes no input and submits nothing.
@@ -45,16 +46,17 @@ const textOf = (option) => option.text ?? option.getAttribute('label') ?? option
  * @slot start - Content before the input, an icon.
  * @slot end - Content after the input.
  *
- * @fires punica-input - The user typed. `detail.value` is the text in the input.
- * @fires punica-change - The user picked an option, committed free text or cleared. `detail.value` is the new value.
+ * @fires {{ value: string }} punica-input - The user typed. `detail.value` is the text in the input.
+ * @fires {{ value: string | null }} punica-change - The user picked an option, committed free text or cleared. `detail.value` is the new value.
  * @fires punica-open - The list opened.
- * @fires punica-close - The list closed. `detail.reason` is `select`, `escape`, `outside`, `blur`, `empty` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'empty' | 'api' }} punica-close - The list closed. `detail.reason` is `select`, `escape`, `outside`, `blur`, `empty` or `api`.
  *
  * @csspart field - The bordered box.
  * @csspart input - The text input, a combobox.
  * @csspart clear - The clear button.
  * @csspart listbox - The floating list.
  * @csspart option - Each row made from `options`.
+ * @csspart option-label - With `show-value`, the label beside a row's value.
  *
  * @cssprop --punica-autocomplete-radius - Corner radius of the field.
  * @cssprop --punica-autocomplete-height - Minimum block size of the field.
@@ -81,6 +83,7 @@ export class PunicaAutocomplete extends FormControl(PunicaElement) {
     size: {},
     fullWidth: { type: Boolean },
     labelClear: { default: 'Clear' },
+    showValue: { type: Boolean },
     options: { type: Array, attribute: false }
   };
 
@@ -107,6 +110,8 @@ export class PunicaAutocomplete extends FormControl(PunicaElement) {
   #generated = [];
   /** The array those rows were made from. @type {unknown} */
   #generatedFrom = null;
+  /** The `showValue` those rows were made for. */
+  #generatedShow = false;
   /** What the user typed since the last commit; null while the text is the value's own. @type {string | null} */
   #typed = null;
   /** What the input's text was last written from. @type {string | null} */
@@ -166,6 +171,22 @@ export class PunicaAutocomplete extends FormControl(PunicaElement) {
     this.#input.focus(options);
   }
 
+  /** Selects all the text in the field, as punica-input and a native input do. */
+  select() {
+    this.#input.select();
+  }
+
+  /**
+   * Selects a range of the text in the field, as punica-input and a native input do: a page that writes a value with a
+   * part to fill in (`$item.<field>`) selects that part for the person to type over.
+   * @param {number} start
+   * @param {number} end
+   * @param {'forward' | 'backward' | 'none'} [direction]
+   */
+  setSelectionRange(start, end, direction) {
+    this.#input.setSelectionRange(start, end, direction);
+  }
+
   connected() {
     // Children inserted with the element are upgraded after it.
     queueMicrotask(() => this.isConnected && this.update(new Map()));
@@ -198,9 +219,10 @@ export class PunicaAutocomplete extends FormControl(PunicaElement) {
     return event.composedPath().find((node) => rows.includes(node)) || null;
   }
 
-  /** The text shown for a value: its option's label, else the value itself. */
+  /** The text shown for a value: its option's label, else the value itself (always the value with `show-value`). */
   #textFor(value) {
     if (value == null) return '';
+    if (this.showValue) return value;
     const option = this.#rows().find((row) => valueOf(row) === value);
     return option ? textOf(option) : value;
   }
@@ -213,7 +235,8 @@ export class PunicaAutocomplete extends FormControl(PunicaElement) {
     const value = this.value == null || this.value === '' ? null : this.value;
 
     // Rows from data, built as elements so a label is only ever text.
-    if (this.options !== this.#generatedFrom) {
+    if (this.options !== this.#generatedFrom || this.showValue !== this.#generatedShow) {
+      this.#generatedShow = this.showValue;
       this.#generatedFrom = this.options;
       for (const row of this.#generated) row.remove();
       this.#generated = (Array.isArray(this.options) ? this.options : []).map((item) => {
@@ -222,6 +245,18 @@ export class PunicaAutocomplete extends FormControl(PunicaElement) {
         option.setAttribute('part', 'option');
         option.value = String(data.value);
         option.textContent = String(data.label ?? data.value);
+        if (this.showValue) {
+          // The value is what the field takes and shows; the label stands beside it, as a datalist's row has it.
+          option.textContent = String(data.value);
+          if (data.label != null && String(data.label) !== String(data.value)) {
+            const label = document.createElement('span');
+            label.slot = 'end';
+            label.setAttribute('part', 'option-label');
+            label.className = 'option-label';
+            label.textContent = String(data.label);
+            option.append(label);
+          }
+        }
         option.disabled = !!data.disabled;
         return option;
       });
@@ -239,7 +274,11 @@ export class PunicaAutocomplete extends FormControl(PunicaElement) {
     const needle = (this.#typed ?? '').trim().toLocaleLowerCase(language);
     let visible = 0;
     for (const row of rows) {
-      const match = this.noFilter || !needle || textOf(row).toLocaleLowerCase(language).includes(needle);
+      const match =
+        this.noFilter ||
+        !needle ||
+        textOf(row).toLocaleLowerCase(language).includes(needle) ||
+        (this.showValue && (row.textContent ?? '').toLocaleLowerCase(language).includes(needle));
       row.hidden = !match;
       row.selected = value != null && valueOf(row) === value;
       if (match) visible++;
@@ -313,7 +352,12 @@ export class PunicaAutocomplete extends FormControl(PunicaElement) {
       return;
     }
     const lower = text.toLocaleLowerCase(language);
-    const match = this.#rows().find((row) => !row.disabled && textOf(row).toLocaleLowerCase(language) === lower);
+    const match = this.#rows().find(
+      (row) =>
+        !row.disabled &&
+        (textOf(row).toLocaleLowerCase(language) === lower ||
+          (this.showValue && valueOf(row).toLocaleLowerCase(language) === lower))
+    );
     if (match) this.#commit(valueOf(match));
     else if (this.freeText) this.#commit(text);
     // No such option: back to the value the field holds.
@@ -335,7 +379,7 @@ export class PunicaAutocomplete extends FormControl(PunicaElement) {
       this.#close('select');
       // The form must read the typed value, not the one before it.
       this.update(new Map());
-      this.form?.requestSubmit();
+      submitForm(this.form);
     } else if (event.key === 'Escape') {
       if (!showing) return;
       event.preventDefault();

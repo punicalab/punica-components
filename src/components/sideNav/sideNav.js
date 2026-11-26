@@ -22,7 +22,7 @@ import styles from './sideNav.css';
  * @slot header - Above the items: a brand, a workspace switcher.
  * @slot footer - Under the items: an account, settings.
  *
- * @fires punica-toggle - The user collapsed or expanded the navigation. `detail` is `{ open }`. Items and sections fire the same event for their own disclosure, so check `event.target`.
+ * @fires {{ open: boolean }} punica-toggle - The user collapsed or expanded the navigation. `detail` is `{ open }`. Items and sections fire the same event for their own disclosure, so check `event.target`.
  *
  * @csspart base - The native `<nav>`.
  * @csspart header - The header row.

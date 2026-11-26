@@ -1,5 +1,6 @@
 import { PunicaElement, define } from '../../core/element.js';
 import { overlayCss } from '../../core/overlay.js';
+import { MODAL_STACK_CHANGE, topModal } from '../../core/modalStack.js';
 import './toast.js';
 import styles from './toaster.css';
 
@@ -7,7 +8,10 @@ import styles from './toaster.css';
  * The region toasts appear in, at a corner or edge of the viewport.
  *
  * It is a `popover="manual"` element, so it sits in the top layer above the
- * page, and a polite live region, so a toast added to it is announced. Its
+ * page, and a polite live region, so a toast added to it is announced. While
+ * a modal dialog, drawer or sheet is open, the toaster moves into the topmost
+ * one and back when it closes: everything outside a modal is inert and under
+ * it, so a toast there could not be read above it nor clicked. Its
  * children are `punica-toast` elements; `toast()` adds one to the page's
  * toaster.
  *
@@ -34,6 +38,8 @@ export class PunicaToaster extends PunicaElement {
 
   #region = this.$('[part="region"]');
   #slot = this.$('slot');
+  /** Where the toaster stood before it followed a modal surface. @type {{ parent: Node, next: Node | null } | null} */
+  #home = null;
 
   constructor() {
     super();
@@ -58,7 +64,35 @@ export class PunicaToaster extends PunicaElement {
   }
 
   connected() {
-    queueMicrotask(() => this.#sync());
+    this.listen(document, MODAL_STACK_CHANGE, () => this.#follow());
+    queueMicrotask(() => {
+      this.#follow();
+      this.#sync();
+    });
+  }
+
+  disconnected() {
+    // Removed with the modal surface it was in: back to where it stood.
+    if (this.#home)
+      queueMicrotask(() => {
+        if (!this.isConnected) this.#follow();
+      });
+  }
+
+  /** Into the topmost modal surface while one is open; home again when none is. */
+  #follow() {
+    const top = topModal();
+    if (top && top.isConnected) {
+      if (this.parentNode === top) return;
+      if (!this.#home && this.parentNode)
+        this.#home = { parent: this.parentNode, next: this.nextSibling };
+      top.append(this);
+    } else if (this.#home) {
+      const { parent, next } = this.#home;
+      this.#home = null;
+      if (parent.isConnected)
+        parent.insertBefore(this, next?.parentNode === parent ? next : null);
+    }
   }
 
   update() {

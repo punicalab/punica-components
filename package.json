@@ -1,6 +1,6 @@
 {
   "name": "@punica/components",
-  "version": "2.1.0",
+  "version": "2.7.0",
   "description": "Punica web components: framework-free custom elements on platform standards.",
   "keywords": [
     "web-components",
@@ -38,9 +38,17 @@
       "types": "./dist/types/index.d.ts",
       "default": "./dist/esm/index.js"
     },
-    "./components/*": "./dist/esm/components/*",
+    "./components/*": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/esm/components/*"
+    },
     "./core/*": "./dist/esm/core/*",
     "./tokens.css": "./dist/tokens.css",
+    "./tokens/*.tokens.json": "./dist/tokens/*.tokens.json",
+    "./ssr": {
+      "types": "./dist/ssr/index.d.ts",
+      "default": "./dist/ssr/index.js"
+    },
     "./react": {
       "types": "./dist/types/react.d.ts"
     },
@@ -81,7 +89,9 @@
     "audit": "node scripts/audit.mjs",
     "lint": "eslint src scripts test bin packages/mcp/src packages/mcp/test packages/mcp/build.mjs eval",
     "format": "prettier --write \"./**/*.{ts,js,mjs,json,md}\"",
-    "test": "vitest run",
+    "test": "vitest run && npm run test:types && npm run test:ssr",
+    "test:types": "node --test test/types.test.mjs",
+    "test:ssr": "node --test test/ssr.test.mjs",
     "test:watch": "vitest",
     "changeset": "changeset",
     "version": "changeset version",
@@ -100,10 +110,14 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@types/react": ">=18"
+    "@types/react": ">=18",
+    "happy-dom": ">=20"
   },
   "peerDependenciesMeta": {
     "@types/react": {
+      "optional": true
+    },
+    "happy-dom": {
       "optional": true
     }
   },
@@ -121,6 +135,7 @@
     "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
     "globals": "^17.14.0",
+    "happy-dom": "^21.0.4",
     "playwright": "^1.65.1",
     "prettier": "^2.8.3",
     "typescript": "^5.9.0",

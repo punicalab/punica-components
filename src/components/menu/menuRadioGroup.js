@@ -11,7 +11,7 @@ import styles from './menuRadioGroup.css';
  *
  * @slot - The radio items.
  *
- * @fires punica-change - The user chose another item. `detail` is `{ value }`.
+ * @fires {{ value: string }} punica-change - The user chose another item. `detail` is `{ value }`.
  *
  * @csspart label - The visible label.
  */

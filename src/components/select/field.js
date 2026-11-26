@@ -22,13 +22,16 @@ export function fieldLanguage(el) {
 }
 
 /**
- * The accessible name of a field: its `label`, else the text of the
- * `<label>` elements pointing at it.
+ * The accessible name of a field: its `label`, else its own `aria-label`, else
+ * the text of the `<label>` elements pointing at it.
  * @param {HTMLElement & { label?: string | null, labels?: NodeList }} el
  * @returns {string | null}
  */
 export function fieldName(el) {
   if (el.label) return el.label;
+  // A name written on the element the usual way (`aria-label`).
+  const own = el.getAttribute?.('aria-label');
+  if (own) return own;
   const text = [...(el.labels || [])]
     .map((l) => l.textContent.trim())
     .filter(Boolean)
@@ -127,7 +130,9 @@ export class OptionNavigator {
   }
 
   get active() {
-    return this.#active && this.#active.isConnected && !this.#active.hidden ? this.#active : null;
+    return this.#active && this.#active.isConnected && !this.#active.hidden
+      ? this.#active
+      : null;
   }
 
   /** @param {any} option the row to highlight, or null for none */
@@ -135,7 +140,8 @@ export class OptionNavigator {
     if (this.#active && this.#active !== option) this.#active.active = false;
     this.#active = option || null;
     if ('ariaActiveDescendantElement' in this.#combobox) {
-      /** @type {any} */ (this.#combobox).ariaActiveDescendantElement = this.#active;
+      /** @type {any} */ (this.#combobox).ariaActiveDescendantElement =
+        this.#active;
     }
     if (!this.#active) {
       this.#combobox.removeAttribute('aria-activedescendant');
@@ -155,11 +161,21 @@ export class OptionNavigator {
     const items = this.items;
     const current = items.indexOf(this.active);
     let index = -1;
-    if (event.key === 'PageDown') index = Math.min(items.length - 1, Math.max(current, 0) + 10);
+    if (event.key === 'PageDown')
+      index = Math.min(items.length - 1, Math.max(current, 0) + 10);
     else if (event.key === 'PageUp') index = Math.max(0, current - 10);
-    else if (!homeEnd && (event.key === 'Home' || event.key === 'End')) return false;
-    else index = nextIndex(event, items.length, current, { orientation: 'vertical', loop: false });
-    if (index < 0) return ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp'].includes(event.key) || (homeEnd && ['Home', 'End'].includes(event.key));
+    else if (!homeEnd && (event.key === 'Home' || event.key === 'End'))
+      return false;
+    else
+      index = nextIndex(event, items.length, current, {
+        orientation: 'vertical',
+        loop: false
+      });
+    if (index < 0)
+      return (
+        ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp'].includes(event.key) ||
+        (homeEnd && ['Home', 'End'].includes(event.key))
+      );
     this.set(items[index]);
     return true;
   }
@@ -172,7 +188,10 @@ export class OptionNavigator {
  * @param {{ type?: 'date' | 'time' | 'datetime-local', value?: string, limit?: string }} [options]
  * @returns {string}
  */
-export function nativeMessage(kind, { type = 'date', value = '', limit = '' } = {}) {
+export function nativeMessage(
+  kind,
+  { type = 'date', value = '', limit = '' } = {}
+) {
   if (kind === 'choose') {
     // A required native select with nothing chosen: "Please select an item in the list."
     const select = document.createElement('select');

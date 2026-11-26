@@ -1,5 +1,5 @@
 import { PunicaElement, define } from '../../core/element.js';
-import { FormControl } from '../../core/form.js';
+import { FormControl, submitForm } from '../../core/form.js';
 import { overlayCss } from '../../core/overlay.js';
 import { isRtl } from '../../core/a11y.js';
 import { icons } from '../../core/icons.js';
@@ -40,10 +40,10 @@ const textOf = (option) => option.text ?? option.getAttribute('label') ?? option
  * @slot - `punica-option` rows to suggest.
  * @slot start - Content before the tokens, an icon.
  *
- * @fires punica-change - The user added or removed a token. `detail.value` is the new array.
- * @fires punica-input - The user typed. `detail.value` is the text in the input.
+ * @fires {{ value: string[] }} punica-change - The user added or removed a token. `detail.value` is the new array.
+ * @fires {{ value: string }} punica-input - The user typed. `detail.value` is the text in the input.
  * @fires punica-open - The suggestions opened.
- * @fires punica-close - The suggestions closed. `detail.reason` is `select`, `escape`, `outside`, `blur`, `empty` or `api`.
+ * @fires {{ reason: 'select' | 'escape' | 'outside' | 'blur' | 'empty' | 'api' }} punica-close - The suggestions closed. `detail.reason` is `select`, `escape`, `outside`, `blur`, `empty` or `api`.
  *
  * @csspart field - The bordered box.
  * @csspart tokens - The list of tokens.
@@ -400,7 +400,7 @@ export class PunicaTokenizer extends FormControl(PunicaElement) {
         event.preventDefault();
         this.#addText(input.value);
       } else {
-        this.form?.requestSubmit();
+        submitForm(this.form);
       }
     } else if (this.separator && event.key === this.separator) {
       event.preventDefault();

@@ -3,28 +3,57 @@ import { userEvent } from 'vitest/browser';
 import { contract, fixture, cleanup, settle } from '../../../test/contract.js';
 import './textarea.js';
 
-contract('punica-textarea', { html: '<punica-textarea label="Notes" value="Hello"></punica-textarea>' });
+contract('punica-textarea', {
+  html: '<punica-textarea label="Notes" value="Hello"></punica-textarea>'
+});
 
 const entries = (form) => [...new FormData(form)];
 
 describe('punica-textarea', () => {
   afterEach(cleanup);
 
+  it('is named by an aria-label on the element, label first', async () => {
+    const el = await fixture(
+      '<punica-textarea aria-label="Hook token"></punica-textarea>'
+    );
+    await settle();
+    const inner = el.shadowRoot.querySelector('textarea');
+    expect(inner.getAttribute('aria-label')).toBe('Hook token');
+    el.label = 'Token';
+    await settle();
+    expect(inner.getAttribute('aria-label')).toBe('Token');
+  });
+
   it('types into a native textarea and fires punica-input, then punica-change on commit', async () => {
-    const el = await fixture('<punica-textarea label="Notes"></punica-textarea>');
+    const el = await fixture(
+      '<punica-textarea label="Notes"></punica-textarea>'
+    );
     const seen = [];
-    el.addEventListener('punica-input', (e) => seen.push(['input', e.detail.value]));
-    el.addEventListener('punica-change', (e) => seen.push(['change', e.detail.value]));
+    el.addEventListener('punica-input', (e) =>
+      seen.push(['input', e.detail.value])
+    );
+    el.addEventListener('punica-change', (e) =>
+      seen.push(['change', e.detail.value])
+    );
     await userEvent.tab();
-    expect(el.shadowRoot.activeElement).toBe(el.shadowRoot.querySelector('textarea'));
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector('textarea')
+    );
     await userEvent.keyboard('a{Enter}b');
     expect(el.value).toBe('a\nb');
     await userEvent.tab();
-    expect(seen).toEqual([['input', 'a'], ['input', 'a\n'], ['input', 'a\nb'], ['change', 'a\nb']]);
+    expect(seen).toEqual([
+      ['input', 'a'],
+      ['input', 'a\n'],
+      ['input', 'a\nb'],
+      ['change', 'a\nb']
+    ]);
   });
 
   it('does not submit the form on Enter', async () => {
-    const form = await fixture('<form><punica-textarea name="n" label="Notes"></punica-textarea></form>');
+    const form = await fixture(
+      '<form><punica-textarea name="n" label="Notes"></punica-textarea></form>'
+    );
     let submits = 0;
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -36,7 +65,9 @@ describe('punica-textarea', () => {
   });
 
   it('keeps the value attribute as the default and fires nothing on a programmatic change', async () => {
-    const el = await fixture('<punica-textarea label="Notes" value="Hello"></punica-textarea>');
+    const el = await fixture(
+      '<punica-textarea label="Notes" value="Hello"></punica-textarea>'
+    );
     let fired = 0;
     el.addEventListener('punica-input', () => fired++);
     el.addEventListener('punica-change', () => fired++);
@@ -51,7 +82,9 @@ describe('punica-textarea', () => {
   });
 
   it('passes rows, constraints and the name to the native textarea', async () => {
-    const el = await fixture('<punica-textarea label="Notes" rows="5" placeholder="Write" readonly minlength="2" maxlength="9"></punica-textarea>');
+    const el = await fixture(
+      '<punica-textarea label="Notes" rows="5" placeholder="Write" readonly minlength="2" maxlength="9"></punica-textarea>'
+    );
     const inner = el.shadowRoot.querySelector('textarea');
     expect(inner.rows).toBe(5);
     expect(inner.placeholder).toBe('Write');
@@ -62,9 +95,14 @@ describe('punica-textarea', () => {
   });
 
   it('grows with its content when resize is auto, and not otherwise', async () => {
-    const auto = await fixture('<punica-textarea label="Notes" resize="auto" rows="2"></punica-textarea>');
-    const fixed = await fixture('<punica-textarea label="Notes" rows="2"></punica-textarea>');
-    const height = (el) => el.shadowRoot.querySelector('textarea').getBoundingClientRect().height;
+    const auto = await fixture(
+      '<punica-textarea label="Notes" resize="auto" rows="2"></punica-textarea>'
+    );
+    const fixed = await fixture(
+      '<punica-textarea label="Notes" rows="2"></punica-textarea>'
+    );
+    const height = (el) =>
+      el.shadowRoot.querySelector('textarea').getBoundingClientRect().height;
     const before = [height(auto), height(fixed)];
     const long = Array.from({ length: 12 }, (_, i) => `line ${i}`).join('\n');
     auto.value = long;
@@ -78,9 +116,13 @@ describe('punica-textarea', () => {
   });
 
   it('mirrors the native validity and marks user-invalid after blur', async () => {
-    const el = await fixture('<punica-textarea label="Notes" required></punica-textarea>');
+    const el = await fixture(
+      '<punica-textarea label="Notes" required></punica-textarea>'
+    );
     expect(el.validity.valueMissing).toBe(true);
-    expect(el.validationMessage).toBe(el.shadowRoot.querySelector('textarea').validationMessage);
+    expect(el.validationMessage).toBe(
+      el.shadowRoot.querySelector('textarea').validationMessage
+    );
     expect(el.matches(':state(user-invalid)')).toBe(false);
     el.focus();
     await userEvent.tab();
@@ -88,7 +130,9 @@ describe('punica-textarea', () => {
   });
 
   it('selects text through select() and setSelectionRange()', async () => {
-    const el = await fixture('<punica-textarea label="Notes" value="Hello there"></punica-textarea>');
+    const el = await fixture(
+      '<punica-textarea label="Notes" value="Hello there"></punica-textarea>'
+    );
     const inner = el.shadowRoot.querySelector('textarea');
     el.focus();
     el.select();
@@ -98,7 +142,9 @@ describe('punica-textarea', () => {
   });
 
   it('appears in the form data, and is left out when disabled', async () => {
-    const form = await fixture('<form><punica-textarea name="n" label="Notes" value="Hello"></punica-textarea></form>');
+    const form = await fixture(
+      '<form><punica-textarea name="n" label="Notes" value="Hello"></punica-textarea></form>'
+    );
     const el = form.firstElementChild;
     expect(entries(form)).toEqual([['n', 'Hello']]);
     el.disabled = true;
@@ -107,7 +153,9 @@ describe('punica-textarea', () => {
   });
 
   it('goes back to the value attribute on form.reset()', async () => {
-    const form = await fixture('<form><punica-textarea name="n" label="Notes" value="Hello"></punica-textarea></form>');
+    const form = await fixture(
+      '<form><punica-textarea name="n" label="Notes" value="Hello"></punica-textarea></form>'
+    );
     const el = form.firstElementChild;
     el.focus();
     await userEvent.keyboard('!');
@@ -119,7 +167,9 @@ describe('punica-textarea', () => {
   });
 
   it('blocks checkValidity() when required and empty', async () => {
-    const form = await fixture('<form><punica-textarea name="n" label="Notes" required></punica-textarea></form>');
+    const form = await fixture(
+      '<form><punica-textarea name="n" label="Notes" required></punica-textarea></form>'
+    );
     expect(form.checkValidity()).toBe(false);
     form.firstElementChild.value = 'x';
     await settle();
@@ -127,9 +177,14 @@ describe('punica-textarea', () => {
   });
 
   it('is disabled by a disabled fieldset', async () => {
-    const form = await fixture('<form><fieldset disabled><punica-textarea name="n" label="Notes" value="Hello"></punica-textarea></fieldset></form>');
+    const form = await fixture(
+      '<form><fieldset disabled><punica-textarea name="n" label="Notes" value="Hello"></punica-textarea></fieldset></form>'
+    );
     await settle();
-    expect(form.querySelector('punica-textarea').shadowRoot.querySelector('textarea').disabled).toBe(true);
+    expect(
+      form.querySelector('punica-textarea').shadowRoot.querySelector('textarea')
+        .disabled
+    ).toBe(true);
     expect(entries(form)).toEqual([]);
   });
 });

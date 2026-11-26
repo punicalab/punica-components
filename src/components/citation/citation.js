@@ -29,7 +29,7 @@ const CLOSE_DELAY = 200;
  * @slot snippet - The same, by name.
  *
  * @fires punica-open - The card opened.
- * @fires punica-close - The card closed. `detail.reason` is `escape`, `outside` or `api`.
+ * @fires {{ reason: 'escape' | 'outside' | 'api' }} punica-close - The card closed. `detail.reason` is `escape`, `outside` or `api`.
  *
  * @csspart marker - The link or button.
  * @csspart index - The number.

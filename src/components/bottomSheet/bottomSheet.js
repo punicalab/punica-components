@@ -29,9 +29,9 @@ import styles from './bottomSheet.css';
  * @slot footer - Actions at the end of the sheet.
  *
  * @fires punica-open - The sheet opened.
- * @fires punica-change - The user moved the sheet to another height. `detail` is `{ value }`, the new `snap`.
- * @fires punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the sheet open.
- * @fires punica-close - The sheet closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `drag`, `handle` or `api`.
+ * @fires {{ value: string }} punica-change - The user moved the sheet to another height. `detail` is `{ value }`, the new `snap`.
+ * @fires {{ reason: 'escape' | 'backdrop' | 'drag' | 'handle' | 'api' | (string & {}) }} punica-request-close - The user asked to close it. `detail` is `{ reason }`. Cancelable: preventing it keeps the sheet open.
+ * @fires {{ reason: 'escape' | 'backdrop' | 'drag' | 'handle' | 'api' | (string & {}), returnValue: string }} punica-close - The sheet closed. `detail` is `{ reason, returnValue }`; `reason` is `escape`, `backdrop`, `drag`, `handle` or `api`.
  *
  * @csspart dialog - The native dialog, the sheet.
  * @csspart handle - The drag handle.

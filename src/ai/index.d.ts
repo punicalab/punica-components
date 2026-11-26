@@ -8,7 +8,8 @@ export interface ElementInfo {
   attributes: AttributeInfo[];
   properties: (NamedInfo & { type: string; readonly: boolean })[];
   methods: (NamedInfo & { signature: string })[];
-  events: NamedInfo[];
+  /** `detail` is the type of the event's detail, empty when undocumented. */
+  events: (NamedInfo & { detail: string })[];
   slots: NamedInfo[];
   parts: NamedInfo[];
   cssProperties: NamedInfo[];
@@ -22,15 +23,24 @@ export interface Knowledge {
   icons: string[];
   list(): { tag: string; description: string }[];
   get(tag: string): ElementInfo | null;
-  search(query: string, limit?: number): { tag: string; description: string; score: number }[];
+  /** Ranked matches; `functions` and `signatures` are those the element's module exports (`confirm`, `toast`). */
+  search(query: string, limit?: number): { tag: string; description: string; functions: string[]; signatures: string[]; score: number }[];
   legacy(tag: string): { tag: string; replacement: string | null; message: string } | null;
-  formatMarkdown(tag: string): string;
+  /** The element's API as Markdown; `brief` leaves out what only styling needs. */
+  formatMarkdown(tag: string, options?: { brief?: boolean }): string;
 }
 export interface Finding { line: number; column: number; severity: 'error' | 'warning'; rule: string; message: string; fix?: string }
-export type SourceKind = 'html' | 'jsx' | 'vue' | 'js';
+export type SourceKind = 'html' | 'jsx' | 'vue' | 'js' | 'css';
 export declare const DOCS_URL: string;
 export declare function createKnowledge(manifest: unknown): Knowledge;
-export declare function createValidator(knowledge: Knowledge): { validate(source: string, options?: { kind?: SourceKind }): Finding[] };
+/** A design token of tokens.css; `light` and `dark` when its value is a light-dark() pair. */
+export interface Token { name: string; group: string; value: string; light?: string; dark?: string }
+/** `tokens` (from parseTokens) turns on the `unknown-token` check of `var(--punica-*)` names. */
+export declare function createValidator(knowledge: Knowledge, options?: { tokens?: Token[] }): { validate(source: string, options?: { kind?: SourceKind }): Finding[] };
+/** The tokens declared in tokens.css, in order. */
+export declare function parseTokens(css: string): Token[];
+/** The tokens as Markdown tables by group; `query` keeps the names or groups that contain it. */
+export declare function formatTokens(tokens: Token[], query?: string): string;
 export declare function guessKind(source: string): SourceKind;
 export declare function enumValues(type: string | undefined): string[] | null;
 export declare function closest(name: string, names: Iterable<string>): string | null;
