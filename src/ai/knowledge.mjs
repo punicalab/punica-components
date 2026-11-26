@@ -209,7 +209,7 @@ export function createKnowledge(manifest) {
       // A part of another element ("The body of a `punica-dialog`") ranks
       // below the element it belongs to, and a longer tag below a shorter one.
       const part = /^(?:the |one |a |an )?[^.]*?\b(?:of|in|for|inside) (?:a|an|the) `punica-/i.test(firstSentence(element.description)) ? 4 : 0;
-      scored.push({ tag: element.tag, description: firstSentence(element.description), functions: element.functions.map((f) => f.name), score: score - part - tagWords.length * 0.1 });
+      scored.push({ tag: element.tag, description: firstSentence(element.description), functions: element.functions.map((f) => f.name), signatures: element.functions.map((f) => f.signature), score: score - part - tagWords.length * 0.1 });
     }
     return scored.sort((a, b) => b.score - a.score).slice(0, limit);
   }
@@ -245,6 +245,7 @@ export function createKnowledge(manifest) {
       for (const f of e.functions) lines.push('', '```ts', f.signature, '```', '', f.description);
     }
     table('Events', ['Event', 'Detail', 'Description'], e.events.map((ev) => [`\`${ev.name}\``, ev.detail ? `\`${ev.detail}\`` : '', ev.description]));
+    lines.push('', '### In React (JSX)', '', ...jsx(e));
     table('Slots', ['Slot', 'Description'], e.slots.map((s) => [s.name ? `\`${s.name}\`` : '(default)', s.description]));
     if (!brief) {
       table('CSS parts', ['Part', 'Description'], e.parts.map((p) => [`\`${p.name}\``, p.description]));
@@ -260,6 +261,27 @@ export function createKnowledge(manifest) {
   }
 
   return { elements, tags, allEvents, icons, list, get, search, legacy, formatMarkdown };
+}
+
+/**
+ * How the element is written in JSX, as `@punica/components/react` types it
+ * (scripts/types.mjs): runs read that file to find out.
+ */
+function jsx(e) {
+  const out = [
+    "`import type {} from '@punica/components/react';` once, in the entry file, types every punica-* tag in JSX (React 18 and 19)."
+  ];
+  const dashed = e.attributes.find((a) => a.name.includes('-'));
+  const spelled = dashed ? ` (\`${dashed.name}\` or, in React 19, \`${dashed.name.replace(/-([a-z])/g, (_, c) => c.toUpperCase())}\`)` : '';
+  out.push(`Attributes are props under their own name${spelled}; \`class\` works as well as \`className\`.`);
+  const ev = e.events.find((x) => x.detail) || e.events[0];
+  if (ev) {
+    const read = ev.detail ? (/\bvalue\??:/.test(ev.detail) ? 'setValue(event.detail.value)' : 'handle(event.detail)') : 'handle(event)';
+    out.push(
+      `Events are \`on\` + the event name, the handler typed with the detail: \`<${e.tag} on${ev.name}={(event) => ${read}} />\`${ev.detail ? `, \`event\` a \`CustomEvent<${ev.detail}>\`` : ''}. \`onChange\`/\`onInput\` never fire. React 18 does not wire custom events: listen through a ref.`
+    );
+  }
+  return [out.join(' ')];
 }
 
 export function normalizeTag(tag) {

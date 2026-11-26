@@ -23,7 +23,8 @@ export interface Knowledge {
   icons: string[];
   list(): { tag: string; description: string }[];
   get(tag: string): ElementInfo | null;
-  search(query: string, limit?: number): { tag: string; description: string; score: number }[];
+  /** Ranked matches; `functions` and `signatures` are those the element's module exports (`confirm`, `toast`). */
+  search(query: string, limit?: number): { tag: string; description: string; functions: string[]; signatures: string[]; score: number }[];
   legacy(tag: string): { tag: string; replacement: string | null; message: string } | null;
   /** The element's API as Markdown; `brief` leaves out what only styling needs. */
   formatMarkdown(tag: string, options?: { brief?: boolean }): string;

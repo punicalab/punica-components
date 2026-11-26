@@ -68,8 +68,9 @@ export function createPunicaServer({ manifest, guide, version, source, fetch: fe
     async ({ query, limit }) => {
       const results = knowledge.search(query, limit || 10);
       if (!results.length) return text(`Nothing matches "${query}". Elements: ${knowledge.tags.join(', ')}`);
-      // A function of the element's module (`confirm()`, `toast()`) is named here, not only in get_component
-      const also = (r) => (r.functions?.length ? ` Script: ${r.functions.map((name) => `\`${name}()\``).join(', ')} from '@punica/components'.` : '');
+      // A function of the element's module (`confirm()`, `toast()`) comes with its signature here, not
+      // only in get_component: runs that only searched grepped the .d.ts for it
+      const also = (r) => (r.signatures?.length ? ` Script: \`import { ${r.functions.join(', ')} } from '@punica/components'\`; ${r.signatures.map((s) => `\`${s}\``).join('; ')}.` : '');
       return text(results.map((r) => `${r.tag}: ${r.description}${also(r)}`).join('\n'));
     }
   );
