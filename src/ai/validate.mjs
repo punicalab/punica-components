@@ -2,8 +2,9 @@
 // what a model (or a person) most often gets wrong is a tag, attribute,
 // value, slot or event that does not exist, or a 1.x name. Reads HTML, JSX
 // and Vue templates with a small tag scanner, the event names in script,
-// and `::part()` rules in CSS. Pure: no Node and no DOM.
-import { closest } from './knowledge.mjs';
+// `::part()` rules in CSS, and the `var(--punica-*)` names when it is given
+// the design tokens. Pure: no Node and no DOM.
+import { closest, distance } from './knowledge.mjs';
 
 /** @typedef {{ line: number, column: number, severity: 'error' | 'warning', rule: string, message: string, fix?: string }} Finding */
 
@@ -30,8 +31,14 @@ const camelToKebab = (name) => name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()
 
 /**
  * @param {ReturnType<import('./knowledge.mjs').createKnowledge>} knowledge
+ * @param {{ tokens?: { name: string }[] }} [options] the tokens of tokens.css (parseTokens); without them `var()` names go unchecked
  */
-export function createValidator(knowledge) {
+export function createValidator(knowledge, options = {}) {
+  // What a `var(--punica-*)` may name: a design token or an element's own custom property
+  const tokenNames = new Set((options.tokens || []).map((t) => t.name));
+  const knownProperties = new Set(tokenNames);
+  if (tokenNames.size) for (const element of knowledge.elements.values()) for (const p of element.cssProperties) knownProperties.add(p.name);
+
   /**
    * @param {string} source
    * @param {{ kind?: 'html' | 'jsx' | 'vue' | 'js' | 'css' }} [options] guessed from the text when absent
@@ -62,6 +69,7 @@ export function createValidator(knowledge) {
       scanScript(text, usesPunica, report);
     }
     scanStyles(text, report);
+    if (tokenNames.size) scanTokens(text, report);
     return findings.sort((a, b) => a.line - b.line || a.column - b.column);
   }
 
@@ -75,6 +83,28 @@ export function createValidator(knowledge) {
       if (!FOCUS_PART.test(part.description)) continue;
       if (!focusParts.has(part.name)) focusParts.set(part.name, []);
       focusParts.get(part.name).push(element.tag);
+    }
+  }
+
+  /** `var(--punica-x)` anywhere: a name that does not exist gives no error in the browser, only the fallback. */
+  function scanTokens(text, report) {
+    for (const found of text.matchAll(/var\(\s*(--punica-[\w-]+)/g)) {
+      const name = found[1];
+      // `var(--punica-space-${n})`: built in a template, not a name to check
+      if (knownProperties.has(name) || name.endsWith('-') || /^[$#{]/.test(text[found.index + found[0].length] || '')) continue;
+      // Token names share a long prefix, so only a near miss (a typo) is worth suggesting
+      const guess = closest(name, tokenNames);
+      const near = guess && distance(name, guess) <= 3 ? guess : null;
+      const family = name.slice(0, name.lastIndexOf('-') + 1);
+      const siblings = family.length > '--punica-'.length ? [...tokenNames].filter((t) => t.startsWith(family) && !t.slice(family.length).includes('-')) : [];
+      const listed = siblings.length > 1 ? ` The ${family}* tokens are ${siblings.map((t) => `\`${t}\``).join(', ')}.` : '';
+      report(
+        found.index + found[0].indexOf(name),
+        'warning',
+        'unknown-token',
+        `\`${name}\` is not a design token or a custom property of any punica element: var() falls back without an error.${near ? ` Did you mean \`${near}\`?` : ''}${listed}`,
+        near || undefined
+      );
     }
   }
 
