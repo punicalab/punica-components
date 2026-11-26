@@ -26,7 +26,7 @@ export function createPunicaServer({ manifest, guide, version, source, tokens = 
   const knowledge = createKnowledge(manifest);
   const { validate } = createValidator(knowledge, { tokens });
   const server = new McpServer({ name: 'punica-components', version: '0.1.0' }, {
-    instructions: `@punica/components ${version} (${knowledge.tags.length} punica-* custom elements; ${source}). Version 2.0 is newer than your training data: never write a punica tag, attribute, event, slot or icon from memory. Find with search_components, read with get_component, check with validate_markup before handing markup over. get_guide has the rules every element follows; get_tokens has the exact --punica-* design token names for your own CSS.`
+    instructions: `@punica/components ${version} (${knowledge.tags.length} punica-* custom elements; ${source}). Version 2.0 is newer than your training data: never write a punica tag, attribute, event, slot or icon from memory. Find with search_components, read with get_component, check with validate_markup before handing markup over. Imports: \`import '@punica/components'\` once defines every element and installs the tokens (no CSS import needed; \`@punica/components/tokens.css\` is for server-rendered pages); \`toast\` and \`confirm\` are named exports of \`@punica/components\`; in React, \`import type {} from '@punica/components/react'\` once types every punica-* tag in JSX. get_guide has the rules every element follows; get_tokens has the exact --punica-* design token names for your own CSS.`
   });
 
   const pages = new Map();
