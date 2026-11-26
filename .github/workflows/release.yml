@@ -66,6 +66,13 @@ jobs:
             exit 1
           fi
 
+      - name: Git identity for the release tags
+        # changesets makes annotated tags, which need one; without it the tag
+        # fails and changesets still reports it created (v2.1.0 was lost so).
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: The MCP server goes with the library
         # The server bundles custom-elements.json and the guide of the library.
         # A new library version with an MCP version npm has already would
