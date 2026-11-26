@@ -4,3 +4,4 @@
 // package's own.
 export { createKnowledge, enumValues, closest, distance, normalizeTag, firstSentence, DOCS_URL } from './knowledge.mjs';
 export { createValidator, guessKind } from './validate.mjs';
+export { parseTokens, formatTokens } from './tokens.mjs';

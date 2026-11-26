@@ -88,8 +88,11 @@ sheets and menus also have `show()` and `hide()`); they fire `punica-open` and `
 
 ## Theming
 
-Design tokens are `--punica-*` custom properties, built in. Override any of
-them; set `color-scheme` for light and dark:
+Design tokens are `--punica-*` custom properties, built in. Their names are
+exact and not guessable (spacing is named by pixel value: `--punica-space-16`
+is 16px); a `var()` with a name that does not exist falls back without an
+error. The list is in `@punica/components/tokens.css` (the MCP server's
+`get_tokens`). Override any of them; set `color-scheme` for light and dark:
 
 ```css
 :root {

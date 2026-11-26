@@ -4,9 +4,11 @@ import { readFileSync } from 'node:fs';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { createPunicaServer } from '../src/create.mjs';
+import { parseTokens } from '../../../src/ai/tokens.mjs';
 
 const manifest = JSON.parse(readFileSync(new URL('../../../custom-elements.json', import.meta.url), 'utf8'));
 const guide = readFileSync(new URL('../../../src/ai/guide.md', import.meta.url), 'utf8');
+const tokens = parseTokens(readFileSync(new URL('../../../src/tokens/tokens.css', import.meta.url), 'utf8'));
 
 // The documentation site, as the server fetches it.
 const site = {
@@ -17,7 +19,7 @@ const site = {
 const fakeFetch = async (url) => (site[url] ? { ok: true, status: 200, text: async () => site[url] } : { ok: false, status: 404, text: async () => '' });
 
 async function connect(fetchFn = fakeFetch) {
-  const server = createPunicaServer({ manifest, guide, version: '2.0.0', source: 'test', fetch: fetchFn, docsUrl: 'https://docs.test' });
+  const server = createPunicaServer({ manifest, guide, tokens, version: '2.0.0', source: 'test', fetch: fetchFn, docsUrl: 'https://docs.test' });
   const [a, b] = InMemoryTransport.createLinkedPair();
   const client = new Client({ name: 'test', version: '1.0.0' });
   await Promise.all([server.connect(a), client.connect(b)]);
@@ -28,7 +30,7 @@ async function connect(fetchFn = fakeFetch) {
 test('lists the tools and says to look things up', async () => {
   const { client } = await connect();
   const { tools } = await client.listTools();
-  assert.deepEqual(tools.map((t) => t.name).sort(), ['get_component', 'get_examples', 'get_guide', 'search_components', 'validate_markup']);
+  assert.deepEqual(tools.map((t) => t.name).sort(), ['get_component', 'get_examples', 'get_guide', 'get_tokens', 'search_components', 'validate_markup']);
   assert.match(client.getInstructions(), /never write a punica tag/);
 });
 
@@ -131,4 +133,18 @@ test('get_guide and the resources', async () => {
   assert.ok(resources.some((r) => r.uri === 'punica://component/punica-button'));
   const read = await client.readResource({ uri: 'punica://component/punica-switch' });
   assert.match(read.contents[0].text, /## <punica-switch>/);
+});
+
+test('get_tokens lists the design tokens and validate_markup checks var() names', async () => {
+  const { call } = await connect();
+  const all = await call('get_tokens', {});
+  assert.match(all, /`--punica-color-primary` \| light `#[0-9a-f]{6}`, dark `#[0-9a-f]{6}`/);
+  assert.match(all, /### spacing/);
+  const space = await call('get_tokens', { query: 'space' });
+  assert.match(space, /`--punica-space-24` \| `24px`/);
+  assert.doesNotMatch(space, /--punica-color-/);
+  assert.match(await call('get_tokens', { query: 'nothing-like-this' }), /No token matches/);
+  const checked = await call('validate_markup', { code: '.a { gap: var(--punica-spce-16); color: var(--punica-color-text); }', kind: 'css' });
+  assert.match(checked, /warning unknown-token: `--punica-spce-16`.*Did you mean `--punica-space-16`/);
+  assert.doesNotMatch(checked, /--punica-color-text/);
 });

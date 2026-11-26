@@ -15,7 +15,8 @@ looks them up and validates its answer.
 | `search_components` | Finds elements by what they are for: "date range", "side navigation", "confirm dialog" |
 | `get_component` | One or more elements' whole API: attributes and their values, properties, methods, events, slots, parts, CSS properties, states |
 | `get_examples` | An element's documentation page as Markdown, with working HTML examples (fetched from the docs site) |
-| `validate_markup` | Checks HTML, JSX, Vue or script: unknown tags and 1.x names, attributes, values, slots, events, icon names; each problem with a fix |
+| `validate_markup` | Checks HTML, JSX, Vue, script or CSS: unknown tags and 1.x names, attributes, values, slots, events, icon names, `var(--punica-*)` names that are not tokens; each problem with a fix |
+| `get_tokens` | The `--punica-*` design tokens with their light and dark values, by group; `query` narrows them (`space`, `color`, `radius`) |
 | `get_guide` | The rules every element follows, or a guide page (theme, forms, frameworks, migration, accessibility, …) |
 
 Resources: `punica://guide` and `punica://component/<tag>`.
