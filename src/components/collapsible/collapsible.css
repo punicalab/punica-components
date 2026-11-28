@@ -6,6 +6,9 @@
 
 .content {
   display: grid;
+  /* One column as wide as the host: a nowrap line inside (a truncated row)
+     must not widen the column past it. */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: 0fr;
   visibility: hidden;
   transition: grid-template-rows var(--punica-collapsible-duration) var(--punica-ease),
@@ -20,6 +23,7 @@
 
 .clip {
   min-block-size: 0;
+  min-inline-size: 0;
   overflow: hidden;
 }
 

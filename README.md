@@ -71,6 +71,22 @@ For design tools and token pipelines the same tokens ship as Design Tokens
 both as two modes (Figma variables through Tokens Studio, Style Dictionary).
 Each token names its CSS property in `$extensions["com.punicalab.css"]`.
 
+### A page's own defaults
+
+An element's defaults are the library's: a button is filled, primary and
+medium. A page whose buttons are something else says so once, before it draws:
+
+```js
+import { configure } from '@punica/components';
+configure({ 'punica-button': { variant: 'outlined', size: 'small', color: 'neutral' } });
+```
+
+Every `<punica-button>` written with no attributes then takes those values the
+first time it connects; an attribute in the markup or a property set from
+script still wins, and `null` takes a default away. With the global script it
+is `Punica.configure(...)`. In such a page, write the bare tag and let the page
+decide: do not repeat its defaults on every element.
+
 ## Frameworks
 
 They are plain custom elements, so they work in any framework. React 19 sets

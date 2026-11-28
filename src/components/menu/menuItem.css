@@ -49,6 +49,14 @@
   flex: none;
 }
 
+/* Icons differ in width; a box of one width keeps every label of a menu on
+   one edge. Wider content (an avatar) still takes its own width. */
+::slotted([slot='start']) {
+  display: inline-flex;
+  justify-content: center;
+  min-inline-size: 1.25em;
+}
+
 ::slotted([slot='end']) {
   margin-inline-start: var(--punica-space-16);
   color: color-mix(in srgb, var(--punica-color-text) 75%, transparent);

@@ -68,7 +68,10 @@ export class PunicaSplit extends PunicaElement {
     divider.addEventListener('pointerdown', (event) => {
       if (this.disabled || event.button !== 0) return;
       event.preventDefault();
-      divider.focus();
+      // Focused so the arrow keys work after a drag, but not as a keyboard
+      // focus: a plain focus() counts as :focus-visible in Chromium, and every
+      // drag left the focus ring and the active line on the divider.
+      divider.focus({ focusVisible: false });
       try {
         divider.setPointerCapture(event.pointerId);
       } catch {

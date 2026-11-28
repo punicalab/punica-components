@@ -59,6 +59,17 @@ const text = (el) => el?.labelText;
 describe('punica-menu', () => {
   afterEach(cleanup);
 
+  it('lines up the labels of items whose start icons differ in width', async () => {
+    const el = await fixture(`<div>
+      <punica-menu-item><span slot="start" style="display:inline-block;inline-size:6px">a</span>Narrow</punica-menu-item>
+      <punica-menu-item><span slot="start" style="display:inline-block;inline-size:12px">b</span>Wide</punica-menu-item>
+    </div>`);
+    await settle(el);
+    const labelLeft = (item) => item.shadowRoot.querySelector('.label').getBoundingClientRect().left;
+    const [a, b] = el.querySelectorAll('punica-menu-item');
+    expect(Math.round(labelLeft(a))).toBe(Math.round(labelLeft(b)));
+  });
+
   it('opens a role=menu panel in the top layer and names it from the trigger', async () => {
     const el = await fixture(html);
     const trigger = el.querySelector('[slot=trigger]');

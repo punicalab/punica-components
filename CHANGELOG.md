@@ -1,5 +1,17 @@
 # @punica/components
 
+## 2.8.0
+
+### Minor Changes
+
+- A page can set its own defaults: `configure({ 'punica-button': { variant: 'outlined', size: 'small', color: 'neutral' } })` gives every element of that tag written with no attributes those values, the first time it connects; markup and script still win, and `null` takes a default away. `punica-icon-button` has `size="xsmall"` (24px, the new `--punica-size-xs` token), for a row of a dense list. `punica-text` has `mono`: the fixed-width face on any variant, with none of `code`'s box. `punica-button` has `variant="plain"`: it paints nothing of its own, takes the colour, face and layout of the element around it, and stays a button, for a row or a tile a page draws with its own class. `punica-input` has `mono` too. A child of `punica-stack` that carries `grow` takes the space the others leave. `punica-textarea` has `mono`; `punica-text` has `italic` and `tabular` (figures of one width). `punica-dialog` has `size="xlarge"` (1120px); `punica-chip` has `mono`; `punica-tabs` has `size="small"` for a dense strip; `punica-input` has `search`, a magnifier before the text.
+
+### Patch Changes
+
+- `punica-collapsible` keeps its content inside its own width: a truncated, nowrap line in an open collapsible no longer widens the column past the host.
+- `punica-menu-item` gives its `start` content a box of at least 1.25em, centred, so the labels of a menu line up when its icons differ in width.
+- `punica-split` focuses its divider on a drag with `focusVisible: false`, so a drag no longer leaves the keyboard focus ring and the active line on the divider; the arrow keys still work after it.
+
 ## 2.7.0
 
 ### Minor Changes

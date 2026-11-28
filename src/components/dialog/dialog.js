@@ -19,7 +19,7 @@ import styles from './dialog.css';
  * @attr {string} label - Accessible name; the header's text by default.
  * @attr {boolean} open - The dialog is showing.
  * @attr {boolean} modeless - Opens with `show()`: no backdrop, the page stays usable.
- * @attr {'small' | 'medium' | 'large'} size - Inline size, `medium` by default.
+ * @attr {'small' | 'medium' | 'large' | 'xlarge'} size - Inline size, `medium` by default. `xlarge` is for a figure or a wide table; on a narrow page every size is capped to the page.
  * @attr {boolean} no-light-dismiss - A click on the backdrop does not close it.
  * @attr {boolean} no-close-button - Hides the close button.
  * @attr {string} label-close - Accessible name of the close button, `Close` by default.

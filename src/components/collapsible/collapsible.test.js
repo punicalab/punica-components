@@ -24,6 +24,14 @@ describe('punica-collapsible', () => {
     expect(el.id).not.toBe('');
   });
 
+  it('keeps a nowrap line inside its own width', async () => {
+    const el = await fixture(
+      `<punica-collapsible open style="inline-size:200px"><button slot="trigger">More</button><div style="white-space:nowrap;overflow:hidden">${'x'.repeat(200)}</div></punica-collapsible>`
+    );
+    await settle(el);
+    expect(Math.round(el.querySelector('div').getBoundingClientRect().width)).toBe(200);
+  });
+
   it('keeps an id the author gave', async () => {
     const el = await fixture(html.replace('<punica-collapsible', '<punica-collapsible id="ship"'));
     expect(el.querySelector('button').getAttribute('aria-controls')).toBe('ship');

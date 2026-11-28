@@ -37,6 +37,10 @@
   --_accent-strong: var(--punica-color-success-dark);
 }
 
+:host([size='xsmall']) {
+  --punica-icon-button-size: var(--punica-size-xs);
+  --punica-icon-button-icon-size: var(--punica-font-size-sm);
+}
 :host([size='small']) {
   --punica-icon-button-size: var(--punica-size-sm);
   --punica-icon-button-icon-size: var(--punica-font-size);

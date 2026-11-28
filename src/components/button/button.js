@@ -52,7 +52,7 @@ function defaultButton(form) {
  *
  * @element punica-button
  *
- * @attr {'filled' | 'outlined' | 'text'} variant - Visual weight, `filled` by default.
+ * @attr {'filled' | 'outlined' | 'text' | 'plain'} variant - Visual weight, `filled` by default. `plain` paints nothing of its own: the element's class draws the box, the content stays a centred row, and it stays a button.
  * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Accent, `primary` by default.
  * @attr {'small' | 'medium' | 'large'} size - Control height, `medium` by default.
  * @attr {'button' | 'submit' | 'reset'} type - What a click does to the owning form, `button` by default. The first submit button of a form is its default button: Enter in a native field of one line clicks it.

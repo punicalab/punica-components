@@ -33,6 +33,9 @@ function lines(value) {
  * @attr {string} truncate - Lines to show before an ellipsis, 1 to 99; the bare attribute is one line.
  * @attr {'start' | 'center' | 'end' | 'justify'} align - Text alignment; makes the element a block.
  * @attr {boolean} block - Lays out as a block, a paragraph.
+ * @attr {boolean} italic - Sets the text in italics: an aside, a placeholder line.
+ * @attr {boolean} tabular - Gives every figure the same width, so numbers line up in a column.
+ * @attr {boolean} mono - Draws the text in the fixed-width face, with none of `code`'s box: an identifier, a path, a value in a row.
  *
  * @slot - The text.
  *
@@ -49,7 +52,10 @@ export class PunicaText extends PunicaElement {
     color: {},
     truncate: {},
     align: {},
-    block: { type: Boolean }
+    block: { type: Boolean },
+    mono: { type: Boolean },
+    italic: { type: Boolean },
+    tabular: { type: Boolean }
   };
 
   static styles = styles;

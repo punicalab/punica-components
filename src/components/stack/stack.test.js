@@ -7,6 +7,15 @@ contract('punica-stack', { html: '<punica-stack gap="16"><p>One</p><p>Two</p></p
 describe('punica-stack', () => {
   afterEach(cleanup);
 
+  it('gives a child marked grow the space the others leave', async () => {
+    const el = await fixture(
+      '<punica-stack direction="horizontal" style="inline-size:300px"><span grow>a</span><span style="inline-size:60px">b</span></punica-stack>'
+    );
+    const [grown, fixed] = el.children;
+    expect(Math.round(fixed.getBoundingClientRect().width)).toBe(60);
+    expect(Math.round(grown.getBoundingClientRect().width)).toBe(300 - 60 - 8);
+  });
+
   it('stacks vertically with an 8px gap by default', async () => {
     const el = await fixture('<punica-stack><div>a</div><div>b</div></punica-stack>');
     const cs = getComputedStyle(el);

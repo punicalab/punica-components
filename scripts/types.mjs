@@ -152,6 +152,16 @@ for (const fn of functions) {
 }
 
 
+// `configure` is the one function of the core (core/element.js) a page calls;
+// the manifest reads component modules only, so it is declared here.
+index +=
+  doc(
+    "Sets a page's own defaults for elements, by tag: the values an element takes when its markup says nothing. `configure({ 'punica-button': { variant: 'outlined', size: 'small' } })`. Each value is a declared property of the element, written the first time the element connects unless the markup or a script already set it; call it before the elements are created. A later call for the same tag merges into the earlier one, and `null` takes a default away.",
+    ''
+  ) +
+  'export declare function configure(defaults: { [K in keyof HTMLElementTagNameMap]?: { [P in keyof HTMLElementTagNameMap[K]]?: HTMLElementTagNameMap[K][P] | null } } & Record<string, Record<string, unknown>>): void;\n\n';
+
+
 for (const el of elements) {
   const name = el.name;
   const attrs = el.attributes || [];

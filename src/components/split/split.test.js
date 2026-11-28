@@ -123,6 +123,20 @@ describe('punica-split', () => {
     expect(el.position).toBe(20);
   });
 
+  it('takes focus on a drag without drawing a keyboard focus ring', async () => {
+    const el = await fixture(html());
+    const d = divider(el);
+    const calls = [];
+    const focus = d.focus.bind(d);
+    d.focus = (options) => {
+      calls.push(options);
+      focus(options);
+    };
+    pointer(d, 'pointerdown', el.getBoundingClientRect().left + 200);
+    expect(calls).toEqual([{ focusVisible: false }]);
+    expect(el.shadowRoot.activeElement).toBe(d);
+  });
+
   it('measures a drag from the inline start in RTL', async () => {
     const wrap = await fixture(`<div dir="rtl">${html()}</div>`);
     const el = wrap.querySelector('punica-split');

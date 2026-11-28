@@ -26,7 +26,7 @@ function instanceStyle(root) {
  * @attr {boolean} wrap - Children wrap onto further lines.
  * @attr {boolean} divider - Draws a line between children.
  *
- * @slot - The children.
+ * @slot - The children. One carrying the attribute `grow` takes the space the others leave on the main axis.
  *
  * @cssprop --punica-stack-gap - Gap while `gap` is not set.
  * @cssprop --punica-stack-divider-color - Colour of the lines between children.

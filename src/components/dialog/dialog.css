@@ -15,6 +15,9 @@
 :host([size='large']) {
   --punica-dialog-width: 720px;
 }
+:host([size='xlarge']) {
+  --punica-dialog-width: 1120px;
+}
 
 dialog {
   inline-size: var(--punica-dialog-width);

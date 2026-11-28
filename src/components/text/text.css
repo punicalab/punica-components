@@ -35,6 +35,21 @@
   font-family: var(--punica-font-family-mono);
 }
 
+/* An aside, a placeholder line, a quoted term. */
+:host([italic]) {
+  font-style: italic;
+}
+
+/* Figures that line up in a column: times, counts, sizes. */
+:host([tabular]) {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The fixed-width face on any variant: an identifier, a path, a value. */
+:host([mono]) {
+  font-family: var(--punica-font-family-mono);
+}
+
 :host([size='small']) {
   --_size: var(--punica-font-size-sm);
 }

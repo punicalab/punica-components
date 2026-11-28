@@ -93,3 +93,9 @@
     background: Highlight;
   }
 }
+
+/* A dense strip: a sidebar's or a panel's. */
+:host([size='small']) ::slotted(punica-tab) {
+  --punica-tab-padding: var(--punica-space-4) var(--punica-space-10);
+  font-size: var(--punica-font-size-sm);
+}

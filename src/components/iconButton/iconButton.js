@@ -11,7 +11,7 @@ import styles from './iconButton.css';
  * @attr {string} label - Accessible name. Required.
  * @attr {'filled' | 'outlined' | 'text'} variant - Visual weight, `text` by default.
  * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Accent, `neutral` by default.
- * @attr {'small' | 'medium' | 'large'} size - Control size, `medium` by default.
+ * @attr {'xsmall' | 'small' | 'medium' | 'large'} size - Control size, `medium` by default. `xsmall` is for a row of a dense list or a toolbar inside one.
  * @attr {'button' | 'submit' | 'reset'} type - What a click does to the owning form, `button` by default.
  * @attr {boolean} disabled - Takes no clicks and no focus.
  * @attr {boolean} required - Part of the form control contract; this control always has a value, so it never blocks a form.

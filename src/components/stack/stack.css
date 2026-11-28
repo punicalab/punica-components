@@ -73,3 +73,11 @@
 :host([align]) {
   text-align: inherit;
 }
+
+/* A child marked `grow` takes the space the others leave on the main axis: a
+   field beside its buttons, a title beside its actions. */
+::slotted([grow]) {
+  flex: 1 1 0;
+  min-inline-size: 0;
+  min-block-size: 0;
+}

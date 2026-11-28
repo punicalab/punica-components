@@ -10,6 +10,7 @@ import styles from './chip.css';
  *
  * @element punica-chip
  *
+ * @attr {boolean} mono - Draws the label in the fixed-width face: an id, a key, a version.
  * @attr {'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'neutral'} color - Accent, `primary` by default.
  * @attr {'filled' | 'soft' | 'outlined'} variant - Visual weight, `filled` by default; `soft` is a tint of the colour under its shade.
  * @attr {'small' | 'medium'} size - Height, `medium` by default.
@@ -44,7 +45,8 @@ export class PunicaChip extends PunicaElement {
     removable: { type: Boolean },
     selectable: { type: Boolean },
     selected: { type: Boolean },
-    disabled: { type: Boolean }
+    disabled: { type: Boolean },
+    mono: { type: Boolean }
   };
 
   static styles = styles;

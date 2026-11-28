@@ -47,6 +47,8 @@ const flagsOf = (validity) => {
  * @attr {string} label-clear - Name of the clear button, `Clear` by default.
  * @attr {'small' | 'medium' | 'large'} size - Control height, `medium` by default.
  * @attr {boolean} full-width - Fills its container's inline size.
+ * @attr {boolean} search - Shows a magnifier before the text: a field that narrows a list.
+ * @attr {boolean} mono - Draws the value in the fixed-width face: an identifier, a path, a key.
  *
  * @slot start - Content before the text, an icon.
  * @slot end - Content after the text.
@@ -93,13 +95,16 @@ export class PunicaInput extends FormControl(PunicaElement) {
     clearable: { type: Boolean },
     labelClear: { default: 'Clear' },
     size: {},
-    fullWidth: { type: Boolean }
+    fullWidth: { type: Boolean },
+    mono: { type: Boolean },
+    search: { type: Boolean }
   };
 
   static styles = styles;
   static shadowOptions = { delegatesFocus: true };
   static template = `
     <div part="base" class="base">
+      <span part="search-icon" class="search-icon" aria-hidden="true">${icons.search}</span>
       <slot name="start"></slot>
       <input part="input" />
       <button part="clear" class="clear" type="button" tabindex="-1" hidden>${icons.close}</button>

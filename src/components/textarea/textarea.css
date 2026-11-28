@@ -94,3 +94,8 @@ textarea::placeholder {
     opacity: 1;
   }
 }
+
+/* The fixed-width face: code, JSON, a key. */
+:host([mono]) textarea {
+  font-family: var(--punica-font-family-mono);
+}

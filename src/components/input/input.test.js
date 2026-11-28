@@ -12,6 +12,20 @@ const entries = (form) => [...new FormData(form)];
 describe('punica-input', () => {
   afterEach(cleanup);
 
+  it('shows a magnifier only with search', async () => {
+    const el = await fixture('<punica-input></punica-input>');
+    const icon = el.shadowRoot.querySelector('[part="search-icon"]');
+    expect(getComputedStyle(icon).display).toBe('none');
+    el.search = true;
+    await settle();
+    expect(getComputedStyle(icon).display).not.toBe('none');
+  });
+
+  it('draws its value in the fixed-width face with mono', async () => {
+    const el = await fixture('<punica-input mono value="sk-1234"></punica-input>');
+    expect(getComputedStyle(el.shadowRoot.querySelector('input')).fontFamily).toMatch(/mono/i);
+  });
+
   it('is named by an aria-label on the element, label first', async () => {
     const el = await fixture(
       '<punica-input aria-label="Hook token"></punica-input>'

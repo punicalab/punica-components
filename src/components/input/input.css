@@ -123,3 +123,24 @@ input[type='search']::-webkit-search-cancel-button {
     opacity: 1;
   }
 }
+
+/* The fixed-width face: an identifier, a path, a key. */
+:host([mono]) input {
+  font-family: var(--punica-font-family-mono);
+}
+
+/* search: a magnifier before the text, for a field that narrows a list. */
+.search-icon {
+  display: none;
+  flex: none;
+  inline-size: 1em;
+  block-size: 1em;
+  color: var(--punica-color-text-muted);
+}
+.search-icon svg {
+  inline-size: 100%;
+  block-size: 100%;
+}
+:host([search]) .search-icon {
+  display: inline-flex;
+}

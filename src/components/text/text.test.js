@@ -19,6 +19,22 @@ describe('punica-text', () => {
     expect(getComputedStyle(el).display).toBe('block');
   });
 
+  it('draws the fixed-width face with mono, and none of code\'s box', async () => {
+    const el = await fixture('<punica-text mono>extension-database</punica-text>');
+    const cs = getComputedStyle(el);
+    expect(cs.fontFamily).toMatch(/mono/i);
+    expect(cs.paddingInlineStart).toBe('0px');
+    expect(cs.backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    expect(cs.fontSize).toBe('16px');
+  });
+
+  it('sets italics and tabular figures when asked', async () => {
+    const el = await fixture('<punica-text italic tabular>12:04</punica-text>');
+    const cs = getComputedStyle(el);
+    expect(cs.fontStyle).toBe('italic');
+    expect(cs.fontVariantNumeric).toBe('tabular-nums');
+  });
+
   it('reads variant, size, weight, color and align', async () => {
     const el = await fixture('<punica-text variant="overline" weight="bold" color="error" align="end">x</punica-text>');
     let cs = getComputedStyle(el);

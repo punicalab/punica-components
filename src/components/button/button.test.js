@@ -2,11 +2,71 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { contract, fixture, cleanup, settle } from '../../../test/contract.js';
 import './button.js';
+import { configure } from '../../core/element.js';
 
 contract('punica-button', { html: '<punica-button>Save</punica-button>' });
 
 describe('punica-button', () => {
   afterEach(cleanup);
+
+  it('paints nothing of its own when plain, and keeps its content a centred row', async () => {
+    const el = await fixture(
+      '<punica-button variant="plain" style="display:flex; gap:12px; color:rgb(1, 2, 3); font-size:11px"><i>a</i><b>b</b></punica-button>'
+    );
+    const base = el.shadowRoot.querySelector('button');
+    const cs = getComputedStyle(base);
+    expect(cs.backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    expect(cs.color).toBe('rgb(1, 2, 3)');
+    expect(cs.fontSize).toBe('11px');
+    expect(cs.minBlockSize).toBe('0px');
+    expect(cs.paddingInlineStart).toBe('0px');
+    const label = getComputedStyle(el.shadowRoot.querySelector('.label'));
+    expect(label.display).toMatch(/flex/);
+    expect(label.alignItems).toBe('center');
+    expect(label.columnGap).toBe(cs.columnGap);
+    expect(el.shadowRoot.activeElement).toBeNull();
+    el.focus();
+    expect(el.matches(':focus')).toBe(true);
+  });
+
+  describe('configure', () => {
+    afterEach(() => configure({ 'punica-button': { variant: null, size: null, color: null } }));
+
+    it('gives a button written with no attributes the page\'s defaults', async () => {
+      configure({ 'punica-button': { variant: 'outlined', size: 'small', color: 'neutral' } });
+      const el = await fixture('<punica-button>Save</punica-button>');
+      expect(el.getAttribute('variant')).toBe('outlined');
+      expect(el.getAttribute('size')).toBe('small');
+      expect(el.color).toBe('neutral');
+    });
+
+    it('leaves what the markup or a script already said', async () => {
+      configure({ 'punica-button': { variant: 'outlined', size: 'small' } });
+      const marked = await fixture('<punica-button variant="filled">Save</punica-button>');
+      expect(marked.getAttribute('variant')).toBe('filled');
+      expect(marked.getAttribute('size')).toBe('small');
+      const made = document.createElement('punica-button');
+      made.variant = 'text';
+      document.body.appendChild(made);
+      await settle();
+      expect(made.getAttribute('variant')).toBe('text');
+      made.remove();
+    });
+
+    it('is the library\'s own button again once the defaults are taken away', async () => {
+      configure({ 'punica-button': { variant: 'outlined' } });
+      configure({ 'punica-button': { variant: null } });
+      const el = await fixture('<punica-button>Save</punica-button>');
+      expect(el.hasAttribute('variant')).toBe(false);
+    });
+
+    it('ignores a name the element does not declare', async () => {
+      configure({ 'punica-button': { nonsense: 'x', size: 'large' } });
+      const el = await fixture('<punica-button>Save</punica-button>');
+      expect(el.hasAttribute('nonsense')).toBe(false);
+      expect(el.getAttribute('size')).toBe('large');
+    });
+  });
 
   it('is reached by Tab and activated by Enter and Space', async () => {
     const el = await fixture('<punica-button>Save</punica-button>');

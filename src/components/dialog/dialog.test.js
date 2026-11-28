@@ -59,6 +59,11 @@ for (const tag of [
 describe('punica-dialog', () => {
   afterEach(cleanup);
 
+  it('is 1120px wide at xlarge', async () => {
+    const el = await fixture('<punica-dialog size="xlarge" label="Guide"><punica-dialog-content>x</punica-dialog-content></punica-dialog>');
+    expect(getComputedStyle(el).getPropertyValue('--punica-dialog-width').trim()).toBe('1120px');
+  });
+
   it('opens a modal native dialog named by its header', async () => {
     const el = await fixture(html);
     const opened = once(el, 'punica-open');

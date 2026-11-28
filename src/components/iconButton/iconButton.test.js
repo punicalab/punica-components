@@ -10,6 +10,16 @@ contract('punica-icon-button', { html });
 describe('punica-icon-button', () => {
   afterEach(cleanup);
 
+  it('is 24px at xsmall, under small', async () => {
+    const el = await fixture('<punica-icon-button size="xsmall" label="More">+</punica-icon-button>');
+    const base = el.shadowRoot.querySelector('[part="base"]');
+    expect(getComputedStyle(base).inlineSize).toBe('24px');
+    expect(getComputedStyle(base).blockSize).toBe('24px');
+    el.size = 'small';
+    await settle();
+    expect(getComputedStyle(base).inlineSize).toBe('28px');
+  });
+
   it('takes its accessible name from label on a native button', async () => {
     const el = await fixture(html);
     const inner = el.shadowRoot.querySelector('button');

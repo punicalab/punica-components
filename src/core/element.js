@@ -78,6 +78,37 @@ export function define(tag, ctor) {
   if (!customElements.get(tag)) customElements.define(tag, ctor);
 }
 
+/** @type {Map<string, Record<string, unknown>>} */
+const configured = new Map();
+
+/**
+ * Sets a page's own defaults for elements, by tag: the values an element takes
+ * when its markup says nothing.
+ *
+ *     configure({ 'punica-button': { variant: 'outlined', size: 'small', color: 'neutral' } });
+ *
+ * A product whose buttons are small and outlined says so once here, and every
+ * `<punica-button>` written with no attributes is one. Each value is a
+ * declared property of the element, written as the property (and so reflected
+ * to its attribute) the first time the element connects, unless the markup or
+ * a script already set it. Call it before the elements are created: one that
+ * is already connected keeps what it has. A later call for the same tag merges
+ * into the earlier one; `null` for a property takes its default away.
+ *
+ * @param {Record<string, Record<string, unknown>>} defaults by tag name
+ */
+export function configure(defaults) {
+  for (const [tag, values] of Object.entries(defaults ?? {})) {
+    const merged = { ...configured.get(tag) };
+    for (const [name, value] of Object.entries(values ?? {})) {
+      if (value == null) delete merged[name];
+      else merged[name] = value;
+    }
+    if (Object.keys(merged).length) configured.set(tag, merged);
+    else configured.delete(tag);
+  }
+}
+
 /** @param {string} name camelCase → kebab-case */
 const kebab = (name) => name.replace(/[A-Z]/g, (c) => '-' + c.toLowerCase());
 
@@ -311,6 +342,19 @@ export class PunicaElement extends Base {
         if (Object.hasOwn(this, name)) {
           const value = this[name];
           delete this[name];
+          this[name] = value;
+        }
+      }
+    }
+    if (!this.#updated) {
+      // The page's own defaults (`configure`), for what nothing has set yet.
+      const defaults = configured.get(this.localName);
+      if (defaults) {
+        for (const [name, value] of Object.entries(defaults)) {
+          const def = ctor._props.get(name);
+          if (!def) continue;
+          if (def.attribute && this.hasAttribute(def.attribute)) continue;
+          if (!Object.is(this[name], def.default)) continue;
           this[name] = value;
         }
       }

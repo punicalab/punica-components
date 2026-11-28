@@ -37,6 +37,7 @@ const flagsOf = (validity) => {
  * @attr {number} maxlength - Most characters allowed.
  * @attr {string} autocomplete - Passed to the native textarea.
  * @attr {string} inputmode - Virtual keyboard hint, passed to the native textarea.
+ * @attr {boolean} mono - Draws the text in the fixed-width face: code, JSON, a key.
  * @attr {boolean} full-width - Fills its container's inline size.
  *
  * @fires {{ value: string }} punica-input - The value changed while the user is editing; `detail: { value }`.
@@ -73,7 +74,8 @@ export class PunicaTextarea extends FormControl(PunicaElement) {
     maxlength: { type: Number },
     autocomplete: {},
     inputmode: {},
-    fullWidth: { type: Boolean }
+    fullWidth: { type: Boolean },
+    mono: { type: Boolean }
   };
 
   static styles = styles;

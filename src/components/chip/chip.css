@@ -175,3 +175,8 @@ button.base:focus-visible,
     opacity: 1;
   }
 }
+
+/* The fixed-width face: an id, a key, a version. */
+:host([mono]) .label {
+  font-family: var(--punica-font-family-mono);
+}

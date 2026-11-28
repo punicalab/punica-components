@@ -98,6 +98,33 @@ button:hover {
   background: var(--_accent-tint);
 }
 
+/* plain: a button that paints nothing of its own. Its box, colour and face
+   are the page's (a row of a list, a tile, an icon in a bar); what it keeps is
+   being a button: focus, keys, the form, `disabled`, `loading`. Its content
+   stays a centred row with the button's gap, the label included, so an icon
+   and a word sit as they do in any button; a page that wants another layout
+   says it on `::part(base)` and `::part(label)`. */
+:host([variant='plain']) {
+  --punica-button-height: 0px;
+  --punica-button-padding: 0px;
+}
+:host([variant='plain']) button,
+:host([variant='plain']) button:hover {
+  border-color: transparent;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  justify-content: inherit;
+  white-space: inherit;
+}
+:host([variant='plain']) .label {
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+  min-inline-size: 0;
+}
+
 button:focus-visible {
   outline: var(--punica-focus-ring);
   outline-offset: var(--punica-focus-ring-offset);

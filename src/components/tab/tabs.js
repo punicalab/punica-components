@@ -11,6 +11,7 @@ import styles from './tabs.css';
  *
  * @element punica-tabs
  *
+ * @attr {'small' | 'medium'} size - Tab height and padding, `medium` by default; `small` for a strip in a sidebar or over a panel.
  * @attr {string} value - The `value` of the selected tab; the first enabled tab when absent.
  * @attr {'horizontal' | 'vertical'} orientation - Direction of the tab list, `horizontal` by default.
  * @attr {'auto' | 'manual'} activation - `auto` selects a tab when an arrow key focuses it, `manual` waits for Enter or Space.
@@ -39,7 +40,8 @@ export class PunicaTabs extends PunicaElement {
     activation: { default: 'auto' },
     label: {},
     fullWidth: { type: Boolean },
-    disabled: { type: Boolean }
+    disabled: { type: Boolean },
+    size: {}
   };
 
   static styles = styles;

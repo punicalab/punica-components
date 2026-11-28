@@ -11,6 +11,11 @@ const remove = (el) => el.shadowRoot.querySelector('.remove');
 describe('punica-chip', () => {
   afterEach(cleanup);
 
+  it('draws its label in the fixed-width face with mono', async () => {
+    const el = await fixture('<punica-chip mono>v1.2.0</punica-chip>');
+    expect(getComputedStyle(el.shadowRoot.querySelector('.label')).fontFamily).toMatch(/mono/i);
+  });
+
   it('is plain text by default, with no button and nothing in the tab order', async () => {
     const el = await fixture('<punica-chip>Design</punica-chip>');
     expect(base(el).localName).toBe('span');
