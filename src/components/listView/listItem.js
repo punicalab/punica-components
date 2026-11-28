@@ -64,8 +64,10 @@ export class PunicaListItem extends PunicaElement {
     super();
     this.internals.role = 'listitem';
     this.shadowRoot.addEventListener('click', (event) => {
-      const target = /** @type {Element} */ (event.target);
-      if (!this.interactive || !target.closest('.base')) return;
+      // A click on slotted content (the row's own text) reaches this listener
+      // with that light-DOM node as its target, whose ancestors never include
+      // the shadow `.base`; the event's path does.
+      if (!this.interactive || !event.composedPath().includes(this.#base)) return;
       if (this.disabled) {
         event.preventDefault();
         return;

@@ -1,6 +1,6 @@
 {
   "name": "@punica/components-mcp",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "MCP server for @punica/components: find elements, read their API and examples, validate markup.",
   "keywords": [
     "mcp",

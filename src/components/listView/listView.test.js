@@ -82,6 +82,18 @@ describe('punica-list', () => {
     expect(detail.item).toBe(button);
   });
 
+  it('fires punica-select when the click lands on the row\'s own slotted content', async () => {
+    const el = await fixture(html());
+    const [, button] = itemsOf(el);
+    const label = document.createElement('span');
+    label.textContent = 'Wi-Fi';
+    button.replaceChildren(label);
+    const event = once(el, 'punica-select');
+    label.click();
+    const { detail } = await event;
+    expect(detail.item).toBe(button);
+  });
+
   it('fires nothing for a plain or a disabled row', async () => {
     const el = await fixture(html());
     const [plain, , , disabled] = itemsOf(el);

@@ -1,5 +1,11 @@
 # @punica/components
 
+## 2.8.1
+
+### Patch Changes
+
+- An interactive `punica-list-item` fires `punica-select` when the click lands on its own content, such as its `punica-text` label; until now only a click on the row's padding did, because the target of a click on slotted content has no shadow `.base` among its ancestors.
+
 ## 2.8.0
 
 ### Minor Changes
